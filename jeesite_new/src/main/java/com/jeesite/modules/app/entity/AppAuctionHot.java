@@ -6,7 +6,6 @@ package com.jeesite.modules.app.entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotBlank;
 
-import com.jeesite.common.shiro.u.I;
 import org.hibernate.validator.constraints.Length;
 
 import com.jeesite.common.entity.DataEntity;

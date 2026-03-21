@@ -1,5 +1,4 @@
-FROM eclipse-temurin:8-jre-alpine
-
+FROM eclipse-temurin:8-jre
 LABEL maintainer="amiba"
 
 ENV TZ=Asia/Shanghai

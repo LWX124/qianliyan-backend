@@ -26,3 +26,16 @@ replay_pid*
 
 # SVN
 .svn/
+
+# Build output
+**/target/
+
+# Cloned dependencies
+jeesite4-src/
+
+# IDE
+.idea/
+*.iml
+.project
+.classpath
+.settings/

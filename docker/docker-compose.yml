@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: amiba-mysql
     restart: always
     ports:
@@ -13,7 +13,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
     networks:
       - amiba-net
 
@@ -48,7 +48,7 @@ services:
       - "10911:10911"
     depends_on:
       - rocketmq-namesrv
-    command: sh mqbroker -n rocketmq-namesrv:9876 -c /opt/rocketmq-4.9.4/conf/broker.conf
+    command: sh mqbroker -n rocketmq-namesrv:9876 -c /home/rocketmq/rocketmq-4.9.4/conf/broker.conf
     environment:
       JAVA_OPT_EXT: "-Xms256m -Xmx512m"
     networks:
@@ -88,6 +88,7 @@ services:
       - redis
     environment:
       SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PASSWORD: ""
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cheji?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
@@ -148,6 +149,7 @@ services:
       - rocketmq-namesrv
     environment:
       SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PASSWORD: ""
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cheji?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
@@ -169,11 +171,16 @@ services:
       - mysql
       - redis
       - rocketmq-namesrv
+    volumes:
+      - ./jeesite-docker.yml:/app/jeesite-docker.yml
     environment:
-      SPRING_REDIS_HOST: redis
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/jeesite?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root123
+      JAVA_OPTS: >-
+        -Xms256m -Xmx512m
+        -Djdbc.url=jdbc:mysql://mysql:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+        -Djdbc.username=root
+        -Djdbc.password=root123
+        -Dspring.redis.host=redis
+        -Dspring.redis.password=
       ROCKETMQ_NAMESRV_ADDR: rocketmq-namesrv:9876
     networks:
       - amiba-net

@@ -6,7 +6,7 @@ BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DOCKER_DIR="$BASE_DIR/docker"
 JAR_DIR="$DOCKER_DIR/jars"
 
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home"
+export JAVA_HOME="${JAVA_HOME:-/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home}"
 export PATH="$JAVA_HOME/bin:/opt/homebrew/bin:$PATH"
 
 RED='\033[0;31m'
