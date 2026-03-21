@@ -1,0 +1,70 @@
+<% layout('/layouts/default.html', {title: '用户视频统计个数管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('用户视频统计个数管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appUserBehavior:edit')){ %>
+					<a href="${ctx}/app/appUserBehavior/form" class="btn btn-default btnTool" title="${text('新增用户视频统计个数')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appUserBehavior}" action="${ctx}/app/appUserBehavior/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("用户名称")}', name:'userName', index:'a.userName', width:150, align:"left"},
+		{header:'${text("用户来源")}', name:'userCome', index:'a.userCome', width:150, align:"left"},
+		{header:'${text("轻微")}', name:'slight', index:'a.slight', width:150, align:"center"},
+		{header:'${text("地上拍")}', name:'onGround', index:'a.on_ground', width:150, align:"center"},
+		{header:'${text("车边拍")}', name:'nearCar', index:'a.near_car', width:150, align:"center"},
+		{header:'${text("重复")}', name:'repeat', index:'a.repeat', width:150, align:"center"},
+		{header:'${text("通过个数")}', name:'passNumber', index:'a.pass_number', width:150, align:"center"},
+		{header:'${text("黑名单")}', name:'balck', index:'a.balck', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appUserBehavior:edit')){ %>
+					if(row.balck == 0){
+						actions.push('<a href="${ctx}/app/appUser/black?id='+row.id+'" class="btnList" title="${text("该用户添加到黑名单")}" data-confirm="${text("确认添加到黑名单中吗？")}"><i class="icon-user-unfollow"></i></a>&nbsp;')
+					}else{
+						// actions.push('<a href="${ctx}/app/appAccidentRecord/black?id='+row.id+'&type='+row.type+'" class="btnList" title="${text("移出黑名单")}" data-confirm="${text("确认移出到黑名单中吗？")}"><i class="icon-energy"></i></a>&nbsp;')
+					}
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		//获取所有id
+		var idlist = $('#dataGrid').dataGrid('getDataIDs');
+		var dataLisst = $('#dataGrid').dataGrid('getRowData');
+		for(var i =0;i<dataLisst.length;i++){
+			var rowbalck = dataLisst[i].balck;
+			if (rowbalck=="是"){
+				$("#"+idlist[i]+ " td").css("background-color","pink");
+			}
+		}
+		
+	}
+});
+</script>

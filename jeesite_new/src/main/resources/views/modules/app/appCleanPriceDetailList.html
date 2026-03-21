@@ -1,0 +1,135 @@
+<% layout('/layouts/default.html', {title: '商户清洗价格明细表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('商户清洗价格明细表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appCleanPriceDetail:edit')){ %>
+					<a href="${ctx}/app/appCleanPriceDetail/form" class="btn btn-default btnTool" title="${text('新增商户清洗价格明细表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appCleanPriceDetail}" action="${ctx}/app/appCleanPriceDetail/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('商户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userBId" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('清洗类型5种')}：</label>
+					<div class="control-inline">
+						<#form:input path="cleanType" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车型8种')}：</label>
+					<div class="control-inline">
+						<#form:input path="carType" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('原价')}：</label>
+					<div class="control-inline">
+						<#form:input path="originalPrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('优惠价')}：</label>
+					<div class="control-inline">
+						<#form:input path="preferentialPrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('到手价')}：</label>
+					<div class="control-inline">
+						<#form:input path="thriePrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('审核是否通过')}：</label>
+					<div class="control-inline">
+						<#form:input path="state" maxlength="1" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('创建时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="createTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('修改时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="updateTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('是否合约项目')}：</label>
+					<div class="control-inline">
+						<#form:input path="contractProject" maxlength="1" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('剩余次数')}：</label>
+					<div class="control-inline">
+						<#form:input path="residueDegree" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('商品解释')}：</label>
+					<div class="control-inline">
+						<#form:input path="note" maxlength="50" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("商户id")}', name:'userBId', index:'a.user_b_id', width:100, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appCleanPriceDetail/form?id='+row.id+'" class="btnList" data-title="${text("编辑商户清洗价格明细表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("商户名称")}', name:'merchantsName', index:'b.merchant_name', width:200, align:"center"},
+		{header:'${text("清洗类型5种")}', name:'cleanType', index:'a.clean_type', width:150, align:"center"},
+		{header:'${text("车型4种")}', name:'carType', index:'a.car_type', width:150, align:"center"},
+		{header:'${text("原价")}', name:'originalPrice', index:'a.original_price', width:150, align:"left"},
+		{header:'${text("优惠价")}', name:'preferentialPrice', index:'a.preferential_price', width:150, align:"left"},
+		{header:'${text("到手价")}', name:'thriePrice', index:'a.thrie_price', width:150, align:"left"},
+		{header:'${text("审核是否通过")}', name:'state', index:'a.state', width:150, align:"center"},
+		{header:'${text("创建时间")}', name:'createTime', index:'a.create_time', width:180, align:"center"},
+		{header:'${text("修改时间")}', name:'updateTime', index:'a.update_time', width:180, align:"center"},
+		{header:'${text("是否合约项目")}', name:'contractProject', index:'a.contract_project', width:150, align:"left"},
+		{header:'${text("剩余次数")}', name:'residueDegree', index:'a.residue_degree', width:150, align:"left"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appCleanPriceDetail:edit')){ %>
+				actions.push('<a href="${ctx}/app/appCleanPriceDetail/form?id='+row.id+'" class="btnList" title="${text("编辑商户清洗价格明细表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

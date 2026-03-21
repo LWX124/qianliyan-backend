@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppUserDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppUser">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<select id="findUserById" resultType="AppUser">
+		SELECT * FROM app_user WHERE id = #{userId} FOR UPDATE;
+	</select>
+
+
+	<select id="selectFotUpdate" parameterType="int" resultType="AppUser">
+		select * from app_user t1
+        where t1.id=#{userId} for update
+	</select>
+
+	<select id="select4PlusAll" resultType="map">
+		select * from app_user t1
+		left join app_user_plus t2 on t1.id=t2.user_id
+		where t2.id is null
+	</select>
+
+	<!--void updateBlackName();-->
+	<update id="updateBlackName">
+		update app_user set balck=1 where username IN
+	(
+		SELECT a.username FROM
+			(
+				SELECT t3.username username from app_b_user t2 LEFT JOIN app_user t3 on t2.username=t3.username where t3.balck!=1
+			)a
+	)
+	</update>
+
+
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.VideoCommontsThumbsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.VideoCommontsThumbsEntity">
+        <id column="id" property="id" />
+        <result column="video_commonts_id" property="videoCommontsId" />
+        <result column="user_id" property="userId" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, video_commonts_id AS videoCommontsId, user_id AS userId, status, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+
+    <select id="findByUserIdAndComId" resultType="VideoCommontsThumbsEntity">
+        SELECT
+        id id,
+        video_commonts_id videoCommontsId,
+        user_id userId,
+        status status,
+        create_time createTime
+        FROM app_video_commonts_thumbs
+        WHERE video_commonts_id = #{videoCommontsId}
+        and user_id =#{userId}
+    </select>
+
+    <select id="findByVideoIdAndStatus" resultType="Integer">
+        SELECT COUNT(user_id) FROM app_video_commonts_thumbs WHERE video_commonts_id = #{videoCommontsId} and `status` =1
+    </select>
+
+    <!--Long findCommentThumbsCount(String treeCode);-->
+    <select id="findCommentThumbsCount" resultType="Long">
+         SELECT COUNT(*) FROM app_video_commonts_thumbs WHERE video_commonts_id = #{treeCode} and `status` =1
+    </select>
+
+    <!--VideoCommontsThumbsEntity findIsThumbs(@Param("userId")Integer userId,@Param("treeCode") String treeCode);-->
+    <select id="findIsThumbs" resultType="VideoCommontsThumbsEntity">
+       SELECT  id id,
+        video_commonts_id videoCommontsId,
+        user_id userId,
+        status status,
+        create_time createTime FROM app_video_commonts_thumbs WHERE user_id = #{userId} and video_commonts_id = #{treeCode} and status = 1
+    </select>
+
+</mapper>

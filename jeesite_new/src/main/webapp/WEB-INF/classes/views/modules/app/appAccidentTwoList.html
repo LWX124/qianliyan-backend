@@ -1,0 +1,467 @@
+<% layout('/layouts/default.html', {title: 'app上报事故信息表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+    <div class="box box-main">
+        <div class="box-header">
+            <audio src="https://chejiqiche.com/video/notice/notice.mp3" controls loop preload="none" id="alarm" hidden></audio>
+
+            <div class="box-title">
+                <i class="fa fa-list-alt"></i> ${text('app上报事故信息表管理')}
+                <i class="fa "></i><font style="color: blue">${text('(今日数据：)')}</font>
+                <i class="fa "></i> ${text('红包个数+金额：')}<font style="color: red">${appAccidentRecord.redEnvelopes}${text('个+')}${appAccidentRecord.envelopeAmount}${text('元')}</font>
+                <!--				<i class="fa "></i> ${text('plus红包个数+金额：')}<font style="color: red">${appAccidentRecord.plusEnevlopeCount}${text('个+')}${appAccidentRecord.plusEnevlopeAmount}${text('元')}</font>-->
+                <i class="fa "></i>${text('事故：')}<font style="color: red">${appAccidentRecord.todayAccident}</font>
+                <i class="fa "></i> ${text('小程序上传：')}<font style="color: red">${appAccidentRecord.todayWxup}</font>
+                <i class="fa "></i>${text('app上传：')}<font style="color: red">${appAccidentRecord.todayAppup}</font>
+                <i class="fa "></i> ${text('推送个数：')}<font style="color: red">${appAccidentRecord.passAccident}</font>
+                <i class="fa "></i> ${text('黑名单：')}<font style="color: red">${appAccidentRecord.blackNumber}</font>
+                <i class="fa "></i> ${text('认证人数：')}<font style="color: red">${appAccidentRecord.greenNumber}</font>
+
+            </div>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+                <% if(hasPermi('app:appAccidentRecord:edit')){ %>
+                <a href="#" onclick="popupWindow()"  title="${text('派单')}"><i class="fa fa-plus"></i> ${text('派单')}</a>
+                <% } %>
+                <button type="button" onclick="stop()" class="btn bt n-default btn-sm">${text('停止通知')}</button>
+                <button type="button" onclick="autoFresh()" id="auto_fresh" class="btn btn-default btn-sm">${text('开启自动刷新')}</button>
+
+            </div>
+        </div>
+        <div class="box-body">
+            <#form:form id="searchForm" model="${appAccidentRecord}" action="${ctx}/app/appAccidentRecord/listDataTwo" method="post" class="form-inline hide"
+            data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+            <div class="form-group">
+                <label class="control-label">${text('状态')}：</label>
+                <div class="control-inline width-120">
+                    <#form:select path="statuse" dictType="app_accident_message" blankOption="true" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">${text('上报时间')}：</label>
+                <div class="control-inline">
+                    <#form:input path="createTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+                    dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" id="query_submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+                <button type="reset" id="reload_btn" class="btn btn-default btn-sm">${text('重置')}</button>
+            </div>
+        </#form:form>
+        <table id="dataGrid" style="table-layout:fixed"></table>
+        <div id="dataGridPage"></div>
+    </div>
+</div>
+</div>
+<% } %>
+<script>
+    // 初始化DataGrid对象
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            {header:'${text("事故时间")}', name:'createTime', index:'a.create_time', width:120, align:"center",frozen:true, formatter: function(val, obj, row, act){
+                    return '<a onclick="palyvideo(\''+row.video+'\')">'+(val||row.createTime)+'</a>'
+                }},
+            {header:'${text("上报用户")}', name:'userId', index:'a.user_id', width:70, align:"center", formatter: function(val, obj, row, act){
+                    if(row.userId!=null){
+                        if(row.userId.search("%") != -1 ){
+                            var str=decodeURIComponent(row.userId)
+                            return str
+                        }else{
+                            return  row.userId
+                        }
+                    }
+                }},
+            {header:'${text("上报电话")}', name:'phone', index:'a.phone', width:110, align:"left"},
+            {header:'${text("事故地点")}', name:'address', index:'a.address', width:200, align:"left", formatter: function(val, obj, row, act){
+                    if(row.address!=null){
+                        if(row.address.search("%") != -1 ){
+                            var str=decodeURIComponent(row.address)
+                            return str
+                        }else{
+                            return  row.address
+                        }
+                    }
+                }},
+            {header:'${text("审核时间")}', name:'checkTime', index:'a.checkTime', width:120, align:"left"},
+
+            {header:'${text("损失车辆")}', name:'lossVehicle', index:'a.lossVehicle', width:80, align:"left"},
+
+            {header:'${text("损失等级")}', name:'lossLevel', index:'a.lossLevel', width:80, align:"left"},
+
+
+            {header:'${text("服务人员")}', name:'pushMerchants', index:'a.pushMerchants', width:120, align:"left"},
+            {header:'${text("状态")}', name:'statuse', index:'a.statuse', width:90, align:"center", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('app_accident_message')}, val, '${text("未知")}', true);
+                }},
+
+            {header:'${text("签到时间")}', name:'updateTime', index:'a.updateTime', width:120, align:"left"},
+
+            {header:'${text("签到照片")}', name:'checkImg', index:'a.checkImg', width:120, align:"center",formatter: function(val, obj, row, act){
+                    if (row.checkImg!=null){
+                        var url = row.checkImg;
+                        var arr = url.split(",");
+                        var imgs="";
+                        for(var i=0; i<arr.length; i++){
+                            var imgs = imgs+'<img src="'+arr[i]+'"style="margin-left:8px;" width="30px" height="30px">';
+                        }
+                        return imgs;
+                    }else {
+                        return "暂无"
+                    }
+                }},
+
+            {header:'${text("车损照片")}', name:'carImg', index:'a.carImg', width:120, align:"center",formatter: function(val, obj, row, act){
+                    if (row.carImg!=null) {
+                        var url = row.carImg;
+                        var arr = url.split(",");
+                        var imgs = "";
+                        for (var i = 0; i < arr.length; i++) {
+                            var imgs = imgs + '<img src="' + arr[i] + '"style="margin-left:8px;" width="30px" height="30px">';
+                        }
+                        return imgs;
+                    }else {
+                        return "暂无"
+                    }
+                }},
+
+            {header:'${text("是否录音")}', name:'isVoice', index:'a.isVoice', width:80, align:"left"},
+
+            {header:'${text("风险系数")}', name:'riskFactor', index:'a.riskFactor', width:70, align:"left"},
+
+            // {header:'${text("审核原因")}', name:'reason', index:'a.reason', width:80, align:"left"},
+            {header:'${text("视频类型")}', name:'type', index:'a.type', width:80, align:"center", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('app_video_type')}, val, '${text("未知")}', true);
+                }},
+
+            //车辆 等级
+            // {header:'${text("视频url")}', name:'video', index:'a.video', width:80, align:"center"
+
+
+            //
+            // {header:'${text("金额")}', name:'amount', index:'a.amount', width:80, align:"center"},
+            //
+            // {header:'${text("是否接单")}', name:'isOrder', index:'a.isOrder', width:40, align:"left"},
+            // {header:'${text("修改时间")}', name:'updateTime', index:'a.updateTime', width:40, align:"left"},
+
+            // {header:'${text("轻微")}', name:'slight', index:'a.slight', width:40, align:"center"},
+            // {header:'${text("地拍")}', name:'onGround', index:'a.onGround', width:40, align:"center"},
+            // {header:'${text("车拍")}', name:'nearCar', index:'a.nearCar', width:40, align:"center"},
+            // {header:'${text("重复")}', name:'repeat', index:'a.repeat', width:40, align:"center"},
+            // {header:'${text("通过")}', name:'passNumber', index:'a.passNumber', width:40, align:"center"},
+
+            {header:'${text("黑名单")}', name:'balck', index:'a.balck', width:50, align:"center", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('app_black_green')}, val, '${text("未知")}', true);
+                }},
+
+
+            {header:'${text("操作")}', name:'actions', width:130, sortable:false, title:false, formatter: function(val, obj, row, act){
+                    var actions = [];
+                <% if(hasPermi('app:appAccidentRecord:edit')){ %>
+                        if(row.type==1||row.type==3){
+                            actions.push('<a href="${ctx}/app/appAccidentRecord/form?id='+row.id+'&type='+row.type+'&video='+row.video+'" class="btnList" title="${text("审核")}">审核</a>&nbsp;');
+                        }else {
+                            //actions.push('<a href="${ctx}/app/appAccidentRecord/form?id='+row.id+'&type='+row.type+'" class="btnList" title="${text("编辑")}">编辑</a>&nbsp;')
+                            actions.push('<a href="#" onclick="paidansos(\''+row.id+'\')" title="${text("派单")}"><i class="fa icon-layers"></i></a>&nbsp;')
+                            actions.push('<a href="${ctx}/app/appSendOutSheet/form?id='+row.id+'" class="btnList" title="${text("编辑web派单记录表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+                        }
+
+                        if (row.type != 4) {
+                            if (row.isaddvideo == 0 || row.isaddvideo == null) {
+                                if (row.type == 3) {
+                                    actions.push('<a href="${ctx}/app/bizAccident/addAppform?id=' + row.id + '" class="btnList" title="${text("是否展示到app")}" data-confirm="${text("确认要添加到app视频中吗？")}"><i class="icon-login"></i></a>&nbsp;')
+                                } else {
+                                    actions.push('<a href="${ctx}/app/appAccidentRecord/showApp?id=' + row.id + '" class="btnList" title="${text("是否展示到app")}" data-confirm="${text("确认要添加到app视频中吗？")}"><i class="icon-login"></i></a>&nbsp;')
+                                }
+                            } else {
+                                if (row.type == 3) {
+                                    actions.push('<a href="${ctx}/app/bizAccident/addAppform?id=' + row.id + '" class="btnList" title="${text("不在app中展示")}" data-confirm="${text("确认取消在app中展示吗？")}"><i class="icon-ban"></i></a>&nbsp;')
+                                } else {
+                                    actions.push('<a href="${ctx}/app/appAccidentRecord/showApp?id=' + row.id + '" class="btnList" title="${text("不在app中展示")}" data-confirm="${text("确认取消在app中展示吗？")}"><i class="icon-ban"></i></a>&nbsp;')
+                                }
+                            }
+                        }
+                        if(row.balck == 0){
+                            actions.push('<a href="${ctx}/app/appAccidentRecord/black?id='+row.id+'&type='+row.type+'" class="btnList" title="${text("该用户添加到黑名单")}" data-confirm="${text("确认添加到黑名单中吗？")}"><i class="icon-user-unfollow"></i></a>&nbsp;')
+                            actions.push('<a href="${ctx}/app/appAccidentRecord/green?id='+row.id+'&type='+row.type+'" class="btnList" title="${text("该用户添加到认证")}" data-confirm="${text("确认添加到认证中吗？")}"><i class="icon-energy"></i></a>&nbsp;')
+                        }else if(row.balck == 2){
+                            // actions.push('<a href="${ctx}/app/appAccidentRecord/black?id='+row.id+'&type='+row.type+'" class="btnList" title="${text("移出黑名单")}" data-confirm="${text("确认移出到黑名单中吗？")}"><i class="icon-energy"></i></a>&nbsp;')
+                            actions.push('<a href="${ctx}/app/appAccidentRecord/green?id='+row.id+'&type='+row.type+'" class="btnList" title="${text("该用户移除认证")}" data-confirm="${text("确认移除认证中吗？")}"><i class="icon-action-undo"></i></a>&nbsp;')
+
+                        }
+                        if(row.phone == '13730875880'){
+                            actions.push('<a href="#" onclick="paidansos(\''+row.id+'\')" title="${text("上传图片")}"><i class="fa icon-layers"></i></a>&nbsp;')
+                        }
+
+                    <% } %>
+
+                    return actions.join('');
+                }}
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function(data){
+
+
+            $('#dataGrid').dataGrid('hideCol', 'isOrder'); //隐藏列
+            $('#dataGrid').dataGrid('hideCol', 'updateTime'); //隐藏列
+            $('#dataGrid').dataGrid('hideCol', 'balck'); //隐藏列
+
+
+            //获取所有id
+            var idlist = $('#dataGrid').dataGrid('getDataIDs');
+            var dataLisst = $('#dataGrid').dataGrid('getRowData');
+            for(var i =0;i<dataLisst.length;i++){
+                var rowbalck = dataLisst[i].balck;
+                if (rowbalck=="是"){
+                    $("#"+idlist[i]+ " td").css("background-color","pink");
+                }else if (rowbalck=="绿"){
+                    $("#"+idlist[i]+ " td").css("background-color","palegreen");
+                }
+
+                //判断时间小于十五分钟大于三分钟
+                /*派单3分钟没有人接单改变颜色重新提示派单
+                派单之后修改 update_time,is_order,
+                        update_time 超过两分钟并且 is_order =2 就改变颜色*/
+                //是否接单
+                var order = dataLisst[i].isOrder;
+                var updateTime = dataLisst[i].updateTime;//updateTime 不为空的时候才进入
+                if (updateTime != '' && order == 2){
+
+                    var d1 = updateTime.replace(/\-/g, "/");
+                    var upTime = new Date(d1);
+                    var nowDate = new Date();
+                    //当前时间大于修改时间
+                    var number = parseInt(nowDate - upTime) / 1000 / 60;   //两个时间相差的分钟数
+                    number = Math.ceil(number);   //四舍五入拿到时间
+                    if (15>number&&number>3){
+                        console.log("进入判断")
+                        $("#"+idlist[i]+ " td").css("background-color","lightblue");
+                    }
+                }
+            }
+        }
+    });
+
+    function pushMerchants(id,type){
+        alert(id)
+        alert(type)
+    }
+
+
+    function popupWindow() {
+        layer.open({
+            type: 2,
+            title: '派单',
+            shadeClose: true,
+            shade: 0.8,
+
+            area: ['900px', '90%'],
+            content: '${ctx}/app/appSendOutSheet/sendSinglePage',    //iframe的url
+            //content: '${ctx}/app/forward/test?accId='+accId+'&type='+type+'' //ifram
+            end: function () { //最后执行reload
+                location.reload();
+            }
+        });
+
+    }
+
+
+    function paidansos(sendId){
+        // 提交地址相关操作
+        //获取经纬度
+        //("lat"+lat+"----"+"lng"+lng)
+        //弹出iframe框
+        layer.open({
+            type: 2,
+            title: '上传图片',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['900px', '90%'],
+            content: '${ctx}/app/appSendOutSheet/claimAdjusters?sendId='+sendId+''     //iframe的url
+
+            //            content: '${ctx}/app/appSendOutSheet/claimAdjusters?lat='+lat+'&lng='+lng+'&address='+pid+''     //iframe的url
+
+            //content: '${ctx}/app/forward/test?accId='+accId+'&type='+type+'' //ifram
+        });
+    }
+
+
+    function palyvideo(video) {
+        layer.open({
+            type: 1,
+            title: false,
+            area: ['630px', '360px'],
+            shade: 0.8,
+            closeBtn: 0,
+            shadeClose: true,
+            content: '<video width="630px" height="355px" controls><source src="'+video+'" type="video/mp4"></video>'
+        });
+        layer.msg('点击任意处关闭');
+    }
+
+    function play() {
+        document.getElementById("alarm").play();
+    }
+
+    function stop() {
+        document.getElementById("alarm").pause();
+    }
+
+    var auto_fresh_flag=2;
+
+    function autoFresh() {
+        var text = $("#auto_fresh").html();
+        if (text=='开启自动刷新') {
+            $("#auto_fresh").html('停止自动刷新');
+            auto_fresh_flag=1
+        }else {
+            $("#auto_fresh").html('开启自动刷新');
+            auto_fresh_flag=2
+        }
+
+    }
+
+
+</script>
+
+
+<script src="//cdn.jsdelivr.net/sockjs/1.0.0/sockjs.min.js"></script>
+<script type="text/javascript">
+
+    var u=sessionStorage.getItem("userId");
+    var userID;
+    if(u){
+        userID=u;
+    }else{
+        userID=Math.random()                        // 生成随机数字, eg: 0.123456
+            .toString(36)           // 转化成36进制 : "0.4fzyo82mvyr"
+            .slice(-8);
+        sessionStorage.setItem("userId",userID);
+    }
+    console.log("userID==="+userID);
+    // var host = window.location.host;
+    // var wsUrl = "ws://"+host+"/jeesite/myHandler/ID="+userID;//测试环境
+    var wsUrl = "wss://chejiqiche.com/jeesite/myHandler/ID="+userID;//生产环境
+    // var wsUrl = "ws://127.0.0.1:9001/js/myHandler/ID="+userID//本机环境
+    $(function() {
+        var lockReconnect = false;//避免重复连接
+        var ws = null; //WebSocket的引用
+        // var wsUrl = "ws://127.0.0.1:9001/js/myHandler/ID="+userID; //这个要与后端提供的相同
+        //创建WebSocket连接,如果不确定浏览器是否支持，可以使用socket.js做连接
+        function createWebSocket(url){
+            try {
+                if ('WebSocket' in window) {
+                    ws = new WebSocket(wsUrl);
+                } else {
+                    ws = new SockJS("http://" + url + "/sockjs/socketServer");
+                }
+                initEventHandle();
+            } catch (e) {
+                reconnect(wsUrl);
+            }
+        }
+
+        function reconnect(url) {
+            if(lockReconnect) return;
+            lockReconnect = true;
+            //没连接上会一直重连，设置延迟避免请求过多
+            setTimeout(function () {
+                createWebSocket(wsUrl);
+                console.log("正在重连，当前时间"+new Date())
+                lockReconnect = false;
+            }, 5000); //这里设置重连间隔(ms)
+        }
+
+        /*********************初始化开始**********************/
+        function initEventHandle() {
+            // 连接成功建立后响应
+            ws.onopen = function() {
+                console.log("成功连接到" + wsUrl);
+                //心跳检测重置
+                heartCheck.reset().start();
+            }
+            // 收到服务器消息后响应
+            ws.onmessage = function(e) {
+                //如果获取到消息，心跳检测重置
+                //拿到任何消息都说明当前连接是正常的
+                heartCheck.reset().start();
+                console.log("接收消息："+e.data)
+                //Json转换成Object
+                // var msg = eval('(' + e.data + ')');
+
+                if(e.data == "HeartBeat"){
+                    //忽略心跳的信息，因为只要有消息进来，断线重连就会重置不会触发
+                    console.log("##接收服务端返回的心跳包");
+                }else if(e.data == "1"){
+                    //处理消息的业务逻辑
+                    play();
+                    if(auto_fresh_flag==1){
+                        $("#query_submit").click()
+                    }
+                }
+            }
+
+            // 连接关闭后响应
+            ws.onclose = function() {
+                console.log("关闭连接");
+                reconnect(wsUrl);//重连
+            }
+            ws.onerror = function () {
+                reconnect(wsUrl);//重连
+            };
+        }
+        /***************初始化结束***********************/
+            //心跳检测
+        var heartCheck = {
+                timeout: 15000,//毫秒
+                timeoutObj: null,
+                serverTimeoutObj: null,
+                reset: function(){
+                    clearTimeout(this.timeoutObj);
+                    clearTimeout(this.serverTimeoutObj);
+                    return this;
+                },
+                start: function(){
+                    var self = this;
+                    this.timeoutObj = setTimeout(function(){
+                        //这里发送一个心跳，后端收到后，返回一个心跳消息，
+                        //onmessage拿到返回的心跳就说明连接正常
+                        var postValue={};
+                        postValue.id=userID;
+                        postValue.message="HeartBeat";
+                        ws.send(JSON.stringify(postValue));
+                        console.log("HeartBeat");
+                        self.serverTimeoutObj = setTimeout(function(){//如果超过一定时间还没重置，说明后端主动断开了
+                            ws.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+                        }, self.timeout)
+                    }, this.timeout)
+                }
+            }
+
+        // 发送字符串消息
+
+        $("#sendBtn").click(function() {
+            if (ws.readyState ==1) {
+                //自定义消息串，让后端接收
+                ws.send("xxxxxx");
+            }else{
+                alert("当前连接超时，请刷新重试!");
+            }
+            return false;
+        });
+
+        // 强制退出
+        window.onunload = function() {
+            ws.close();
+        }
+        createWebSocket(wsUrl);/**启动连接**/
+    });
+
+    window.addEventListener("storage",function (e) {
+        $("#query_submit").click();
+    })
+
+
+
+
+</script>

@@ -1,0 +1,68 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="关键字" placeholder="车牌号/车架号/客户姓名/手机号" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#NameCon id="orderno" name="订单号" />
+                            </div>
+                            <div class="col-sm-3">
+                                <#TimeCon id="createStartTime" name="上报日期区间" isTime="false"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#SelectCon id="orderStatus" name="订单状态" >
+                                <option value="">全部</option>
+                                <option value="-1">未接车</option>
+                                <option value="1">服务中</option>
+                                <option value="2">已交车</option>
+                                <option value="3">结算完成</option>
+                                <option value="6">未到店</option>
+                                </#SelectCon>
+                            </div>
+                            <div class="col-sm-2">
+                                <#button name="搜索" icon="fa-search" clickFun="PartnerOpenClaim.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="PartnerOpenClaimTableToolbar" role="group">
+                            @if(shiro.hasPermission("/openClaim/partner/accept")){
+                            <#button name="接车确认" icon="fa-automobile" clickFun="PartnerOpenClaim.openAcceptOpenClaim()"/>
+                            @}
+                            @if(shiro.hasPermission("/openClaim/partner/addFixloss")){
+                            <#button name="录入定损金额" icon="fa-cc-mastercard" clickFun="PartnerOpenClaim.openAddOpenClaimFixLoss()"/>
+                            @}
+                            @if(shiro.hasPermission("/openClaim/partner/placed")){
+                            <#button name="交车确认" icon="fa-recycle" clickFun="PartnerOpenClaim.openPlacedOpenClaim()"/>
+                            @}
+                            @if(shiro.hasPermission("/openClaim/partner/payed")){
+                            <#button name="结算确认" icon="fa-credit-card" clickFun="PartnerOpenClaim.openPayedOpenClaim()"/>
+                            @}
+                            <#button name="导出" icon="fa-cloud-download" clickFun="PartnerOpenClaim.export()"/>
+                            <!--<#button name="异常反馈" icon="fa fa-warning" clickFun="PartnerOpenClaim.reportEx()"/>-->
+                            <#button name="停止通知播报" icon="fa-bell-slash-o" clickFun="PartnerOpenClaim.stop()" space="true"/>
+                            <#input id="fixLossSumDiv" name="定损合计" readonly="readonly" style="margin-left: -110px;border: none;text-align: left;background-color: #fffdfd;color: red;" />
+
+                        </div>
+                        <#table id="PartnerOpenClaimTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/openClaim/partnerOpenClaim.js"></script>
+<script>
+    laydate.render({
+        elem: '#createStartTime',
+        range: '~'
+    });
+</script>
+@}

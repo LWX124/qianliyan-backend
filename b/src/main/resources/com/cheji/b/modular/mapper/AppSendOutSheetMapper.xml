@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppSendOutSheetMapper">
+
+<!--    &lt;!&ndash; 开启二级缓存 &ndash;&gt;-->
+<!--    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+<!--    List<String> findUrlbyid(Integer id);-->
+    <select id="findUrlbyid" resultType="String">
+        SELECT url FROM app_send_url WHERE send_id  = #{id} and `type` = 2
+    </select>
+
+    <select id="findIndex1Img" resultType="String">
+
+        SELECT url FROM app_send_url as a
+                            LEFT JOIN app_send_out_sheet as b on b.id = a.send_id
+        WHERE a.type = 1 AND a.`index` = 1 AND b.id  = #{id} AND a.source = 2
+
+    </select>
+
+    <!--    List<CheckImgList> selectSenceImg(Long id);-->
+    <select id="selectSenceImg" resultType="CheckImgList">
+        SELECT url,`index` type FROM app_send_url WHERE type = 2 and source = 2  AND send_id = #{id}
+    </select>
+
+    <!--    List<Integer> findBrandMerIdList(Integer brandId);-->
+    <select id="findBrandMerIdList" resultType="Integer">
+        SELECT user_b_id FROM app_merchants_brand WHERE brand_id = #{brandId}
+    </select>
+</mapper>

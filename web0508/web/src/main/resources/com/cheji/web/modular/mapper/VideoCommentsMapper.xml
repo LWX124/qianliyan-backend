@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.VideoCommentsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.VideoCommentsEntity">
+        <id column="tree_code" property="treeCode" />
+        <result column="tree_name" property="treeName" />
+        <result column="parent_code" property="parentCode" />
+        <result column="parent_codes" property="parentCodes" />
+        <result column="tree_sort" property="treeSort" />
+        <result column="tree_sorts" property="treeSorts" />
+        <result column="tree_leaf" property="treeLeaf" />
+        <result column="tree_level" property="treeLevel" />
+        <result column="tree_names" property="treeNames" />
+        <result column="status" property="status" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="count" property="count" />
+        <result column="video_id" property="videoId" />
+        <result column="user_id" property="userId" />
+        <result column="thumbs_up" property="thumbsUp" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        tree_code AS treeCode, tree_name AS treeName, parent_code AS parentCode, parent_codes AS parentCodes, tree_sort AS treeSort, tree_sorts AS treeSorts, tree_leaf AS treeLeaf, tree_level AS treeLevel, tree_names AS treeNames, status, create_date AS createDate, update_date AS updateDate, count, video_id AS videoId, user_id AS userId, thumbs_up AS thumbsUp
+    </sql>
+
+
+    <select id="findTreeLeaf" resultType="VideoCommentsEntity">
+        SELECT
+        tree_code treeCode,
+        tree_name treeName,
+        parent_code parentCode,
+        parent_codes parentCodes,
+        tree_sort treeSort,
+        tree_sorts treeSorts,
+        tree_leaf treeLeaf,
+        tree_level treeLevel,
+        tree_names treeNames,
+        status status,
+        create_date createDate,
+        update_date updateDate,
+        video_id videoId,
+        user_id userId,
+        thumbs_up thumbsUp
+        FROM app_video_comments WHERE parent_code = #{parentCode}
+    </select>
+
+
+    <select id="findParent" resultType="VideoCommentsEntity">
+        SELECT
+        tree_code treeCode,
+        tree_name treeName,
+        parent_code parentCode,
+        parent_codes parentCodes,
+        tree_sort treeSort,
+        tree_sorts treeSorts,
+        tree_leaf treeLeaf,
+        tree_level treeLevel,
+        tree_names treeNames,
+        status status,
+        create_date createDate,
+        update_date updateDate,
+        video_id videoId,
+        user_id userId,
+        thumbs_up thumbsUp
+        FROM app_video_comments WHERE tree_code = #{parentCode}
+    </select>
+
+    <select id="getLastParentCode" resultType="VideoCommentsEntity">
+       SELECT
+       tree_code treeCode,
+       tree_name treeName,
+       parent_code parentCode,
+       parent_codes parentCodes,
+       tree_sort treeSort,
+       tree_sorts treeSorts,
+       tree_leaf treeLeaf,
+       tree_level treeLevel,
+       tree_names treeNames,
+       status status,
+       create_date createDate,
+       update_date updateDate,
+       video_id videoId,
+       user_id userId,
+       thumbs_up thumbsUp
+       FROM app_video_comments WHERE parent_code = 0 ORDER BY tree_code desc LIMIT 0,1
+    </select>
+
+
+    <!--Long findVideoCommentCount(Long videoId,Integer type);-->
+
+    <select id="findVideoCommentCount" resultType="Long">
+        SELECT COUNT(*) FROM app_video_comments WHERE video_id = #{videoId} AND status = 0 AND type = #{type}
+    </select>
+
+   <!-- List<VideoCommentsEntity> findOneComments(Integer videoId, Integer pages);-->
+    <select id="findOneComments" resultType="VideoCommentsEntity">
+       SELECT
+       a.tree_code treeCode,
+       a.tree_name treeName,
+       a.parent_code parentCode,
+       a.parent_codes parentCodes,
+       a.tree_sort treeSort,
+       a.tree_sorts treeSorts,
+       a.tree_leaf treeLeaf,
+       a.tree_level treeLevel,
+       a.tree_names treeNames,
+       a.status status,
+       a.count,
+       a.create_date createDate,
+       a.update_date updateDate,
+       a.video_id videoId,
+       a.user_id userId,
+       a.thumbs_up thumbsUp,
+	   b.`name` `name`,
+       b.avatar avatar
+       FROM app_video_comments AS a
+	  LEFT JOIN app_user AS b ON a.user_id = b.id
+      WHERE parent_code = 0 AND video_id = #{videoId} AND type = #{type}
+	  ORDER BY tree_code LIMIT #{pages},5
+    </select>
+
+    <!--Integer getLastPaTreeCode();-->
+    <select id="getLastPaTreeCode" resultType="Integer">
+       SELECT
+       MAX(CAST(tree_code as SIGNED INTEGER)) treeCode
+       FROM app_video_comments WHERE parent_code = 0
+    </select>
+
+    <!--Integer findUnderSecondComment(String treeCode);-->
+    <select id="findUnderSecondComment" resultType="Integer">
+         SELECT COUNT(1) FROM app_video_comments WHERE parent_id = #{treeCode};
+    </select>
+
+
+    <!--List<VideoCommentsEntity> findSecondComment(@Param("treeCode")String treeCode, @Param("pages")Integer pages);-->
+    <select id="findSecondComment" resultType="VideoCommentsEntity">
+        SELECT
+       a.tree_code treeCode,
+       a.tree_name treeName,
+       a.parent_code parentCode,
+       a.parent_codes parentCodes,
+       a.tree_sort treeSort,
+       a.tree_sorts treeSorts,
+       a.tree_leaf treeLeaf,
+       a.tree_level treeLevel,
+       a.tree_names treeNames,
+       a.status status,
+       a.count,
+       a.create_date createDate,
+       a.update_date updateDate,
+       a.video_id videoId,
+       a.user_id userId,
+       a.thumbs_up thumbsUp,
+       a.parent_id parentId,
+	   b.`name` `name`,
+       b.avatar avatar
+       FROM app_video_comments AS a
+	  LEFT JOIN app_user AS b ON a.user_id = b.id
+      WHERE a.parent_id = #{treeCode} AND type = #{type}
+	  ORDER BY tree_code LIMIT #{pages},5
+    </select>
+</mapper>

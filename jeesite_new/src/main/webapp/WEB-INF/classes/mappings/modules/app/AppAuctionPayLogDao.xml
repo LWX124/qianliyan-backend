@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppAuctionPayLogDao">
+	
+	<select id="queryByUserId" resultType="AppAuctionPayLog">
+		SELECT t1.*
+		FROM app_auction_pay_log t1
+		where t1.type=1
+            and t1.status=2
+		    and t1.user_id=#{userId}
+			and t1.back_status is null
+	</select>
+	
+</mapper>

@@ -1,0 +1,54 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>支付宝营销红包活动管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#TimeCon id="startTime" name="活动有效开始日期" isTime="false"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#TimeCon id="endTime" name="活动有效结束日期" isTime="false"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#SelectCon id="campStatus" name="活动状态" >
+                                <option value="ALL">全部</option>
+                                <option value="CREATED">已创建未打款</option>
+                                <option value="PAID">已打款</option>
+                                <option value="READY">已开始</option>
+                                <option value="PAUSE">已暂停</option>
+                                <option value="CLOSED">已结束</option>
+                                <option value="SETTLE">已清算</option>
+                                </#SelectCon>
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="AlipayActivity.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="AlipayActivityTableToolbar" role="group">
+                            @if(shiro.hasPermission("/alipayActivity/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="AlipayActivity.openAddAlipayActivity()"/>
+                            @}
+                        </div>
+                        <#table id="AlipayActivityTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/alipayActivity/alipayActivity.js"></script>
+<script>
+    laydate.render({
+        elem: '#startTime'
+    });
+    laydate.render({
+        elem: '#endTime'
+    });
+</script>
+@}

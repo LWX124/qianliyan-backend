@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎访问amibahw.tech</title>
+    <style>
+        /* 重置默认样式 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            overflow: hidden; /* 防止滚动条 */
+        }
+
+        /* 容器样式 */
+        .container {
+            background-image: url('https://amiba.tech/123.jpg'); /* 使用汽车图片作为背景 */
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* 使子元素可以绝对定位 */
+        }
+
+        /* 标题样式 */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 增加文字阴影，提高可读性 */
+        }
+
+        /* 底部备案号样式 */
+        .footer {
+            position: absolute; /* 绝对定位 */
+            bottom: 20px; /* 距离底部20px */
+            left: 0; /* 从左边缘开始 */
+            width: 100%; /* 宽度占满整个页面 */
+            text-align: center; /* 文字居中 */
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 增加文字阴影，提高可读性 */
+        }
+
+        /* 备案号链接样式 */
+        .footer a {
+            color: inherit; /* 继承父元素颜色 */
+            text-decoration: none; /* 去掉下划线 */
+        }
+
+        .footer a:hover {
+            text-decoration: underline; /* 鼠标悬停时显示下划线 */
+        }
+
+        /* 如果图片加载失败，显示备用背景色 */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色遮罩 */
+            z-index: 1;
+        }
+
+        /* 确保文字在遮罩上方 */
+        h1, .footer {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>欢迎访问amiba.tech</h1>
+    <h1>联系我们:17302869474</h1>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="footer">
+        <a href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2025125680号-1</a>
+    </div>
+</div>
+
+<!-- 调试信息 -->
+<script>
+    console.log("页面加载完成！");
+    const container = document.querySelector('.container');
+    if (container) {
+        console.log("容器元素存在！");
+    } else {
+        console.error("容器元素未找到！");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppAuctionBailRefundLogDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppAuctionBailRefundLog">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="findRefundUser" resultType="AppAuctionBailRefundLog">
+		SELECT r.id,r.out_trade_no as outTradeNo,
+		       r.out_refund_no as outRefundNo,
+		       r.amount,
+		       r.state,
+		       r.user_id as userId,
+		       r.prepay_id as prepayId,
+		       r.notify_time as notifyTime,
+		       r.create_time as createTime,
+		       r.car_id as carId,
+		       r.explain ,
+		       r.refund_id as refundId,
+		       r.back_status as backStatus
+		FROM app_auction_bail_refund_log r
+		left join app_auction u on u.id = r.car_id
+		left join app_auction_order o on r.car_id = o.car_id
+		and r.user_id = o.user_id
+		<where>
+			(r.state = 0 or r.state = 2) and u.car_state > 7
+		</where>
+	</select>
+	
+</mapper>

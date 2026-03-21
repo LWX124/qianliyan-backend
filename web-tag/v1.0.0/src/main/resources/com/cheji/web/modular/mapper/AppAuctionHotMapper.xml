@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionHotMapper">
+
+    <select id="findHot" resultType="AppAuctionHotEntity">
+
+        SELECT a.id, a.hits, a.car_id, a.is_enabled, a.city FROM app_auction_hot a
+                LEFT JOIN app_auction c on a.car_id = c.id
+                left join app_auction_up t3 on t3.car_id=c.id
+        where c.car_state in (3,7) and a.is_enabled = 0
+          and c.up_state=1
+        and t3.begin_time &lt; now()
+        and t3.end_time > now()
+        <if test="city != null and city != ''">
+            AND a.city like concat('%',#{city},'%')
+        </if>
+        order by a.hits desc limit 0,40
+
+    </select>
+
+
+    <select id="findHotCount" resultType="Integer">
+        SELECT count(1) FROM app_auction_hot a
+        LEFT JOIN app_auction c on a.car_id = c.id
+        left join app_auction_up t3 on t3.car_id=c.id
+        where c.car_state in (3,7) and a.is_enabled = 0
+        and c.up_state=1
+        and t3.begin_time &lt; now()
+        and t3.end_time > now()
+        <if test="city != null and city != ''">
+            AND a.city like concat('%',#{city},'%')
+        </if>
+
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.BizAccidentDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="BizAccident">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<!--List<BizAccident> selectNoDel();-->
+	<select id="selectNoDel" resultType="BizAccident">
+		SELECT * FROM biz_accident WHERE delgeo = 0
+	</select>
+
+	<!--List<BizAccident> selectRepart(String accId, String type);-->
+	<select id="selectRepart" resultType="BizAccident">
+		SELECT a.* FROM app_repeat_accident AS a
+			LEFT JOIN biz_accident as b ON a.accident_id = b.id
+			WHERE a.accident_id = #{accId} AND a.accident_source =#{type}
+	</select>
+
+<!--	String findIsFaId(String openid);-->
+	<select id="findIsFaId" resultType="String">
+		SELECT extensionAccount FROM biz_wx_user WHERE openid= #{openid}
+	</select>
+
+<!--	void insertNewBiz(BizAccident newBizacc);-->
+	<insert id="insertNewBiz">
+		insert into biz_accident (openid,video,lng,lat,checkid,status,address,delgeo,createtime,checktime,pay_red)
+		value (#{openid},#{video},#{lng},#{lat},#{checkid},#{status},#{address},#{delgeo},#{createtime},#{checktime},#{payRed})
+	</insert>
+
+<!--	BizAccident findOnePay(String faOpenId, String video);-->
+	<select id="findOnePay" resultType="BizAccident">
+		SELECT * FROM biz_accident WHERE openid = #{faOpenId} AND video = #{video}
+	</select>
+
+
+</mapper>

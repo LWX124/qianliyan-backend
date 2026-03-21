@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.jeesite:beetl:2.9-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/jeesite/beetl/2.9-SNAPSHOT/beetl-2.9-20190322.062459-2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/jeesite/beetl/2.9-SNAPSHOT/beetl-2.9-20190322.062459-2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/jeesite/beetl/2.9-SNAPSHOT/beetl-2.9-20190322.062459-2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

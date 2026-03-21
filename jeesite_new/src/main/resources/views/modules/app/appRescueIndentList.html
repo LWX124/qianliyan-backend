@@ -1,0 +1,164 @@
+<% layout('/layouts/default.html', {title: '救援表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('救援表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appRescueIndent:edit')){ %>
+					<a href="${ctx}/app/appRescueIndent/form" class="btn btn-default btnTool" title="${text('新增救援表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appRescueIndent}" action="${ctx}/app/appRescueIndent/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('救援编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="rescueNumber" maxlength="50" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('用户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userId" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('商户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userBId" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('救援位置')}：</label>
+					<div class="control-inline">
+						<#form:input path="currentPosition" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车牌号')}：</label>
+					<div class="control-inline">
+						<#form:input path="licensePlate" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('救援联系人')}：</label>
+					<div class="control-inline">
+						<#form:input path="rescueName" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('手机号码')}：</label>
+					<div class="control-inline">
+						<#form:input path="phoneNumber" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('距离')}：</label>
+					<div class="control-inline">
+						<#form:input path="distance" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" title="">
+						<span class="required hide">*</span> ${text('救援类型')}：<i class="fa icon-question hide"></i></label>
+					<div class="col-sm-5">
+						<#form:select path="type" dictType="rescue_type" blankOption="true" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('支付价格')}：</label>
+					<div class="control-inline">
+						<#form:input path="price" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('订单状态')}：</label>
+					<div class="control-inline">
+						<#form:select path="state" dictType="rescue_indent_status" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('支付状态')}：</label>
+					<div class="control-inline">
+						<#form:select path="payState" dictType="rescue_indent_pay_status" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('备注')}：</label>
+					<div class="control-inline">
+						<#form:input path="remark" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('退款状态')}：</label>
+					<div class="control-inline">
+						<#form:select path="backState" dictType="rescue_indent_back_status" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("救援编号")}', name:'rescueNumber', index:'a.rescue_number', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appRescueIndent/form?id='+row.id+'" class="btnList" data-title="${text("编辑救援表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("用户")}', name:'name', index:'b.name', width:150, align:"center"},
+		{header:'${text("商户")}', name:'name2', index:'c.name2', width:150, align:"center"},
+		{header:'${text("救援位置")}', name:'currentPosition', index:'a.current_position', width:150, align:"left"},
+		{header:'${text("车牌号")}', name:'licensePlate', index:'a.license_plate', width:150, align:"left"},
+		{header:'${text("救援联系人")}', name:'rescueName', index:'a.rescue_name', width:150, align:"left"},
+		{header:'${text("手机号码")}', name:'phoneNumber', index:'a.phone_number', width:150, align:"left"},
+		{header:'${text("距离")}', name:'distance', index:'a.distance', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("救援类型")}', name:'type', index:'a.type', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('rescue_type')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("支付价格")}', name:'price', index:'a.price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("订单状态")}', name:'state', index:'a.state', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('rescue_indent_status')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("支付状态")}', name:'payState', index:'a.pay_state', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('rescue_indent_pay_status')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("备注")}', name:'remark', index:'a.remark', width:150, align:"left"},
+		{header:'${text("创建时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("退款状态")}', name:'backState', index:'a.back_state', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('rescue_indent_back_status')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appRescueIndent:edit')){ %>
+				actions.push('<a href="${ctx}/app/appRescueIndent/form?id='+row.id+'" class="btnList" title="${text("编辑")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				if(row.payState==1){
+					actions.push('<a href="${ctx}/app/appRescueIndent/backMoney?ids='+row.id+'" class="btnList" title="${text("退款")}" data-confirm="${text("确认退款？")}"><i class="icon-location-pin"></i></a>&nbsp;')
+				}
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+
+	}
+});
+</script>

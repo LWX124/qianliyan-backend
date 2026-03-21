@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppUserAccountRecordMapper">
+
+
+<!--    BigDecimal findAllPushReward(Integer id);-->
+    <select id="findAllPushReward" resultType="BigDecimal">
+        SELECT IFNULL(SUM(momey),0) FROM app_user_account_record WHERE user_id = #{id} AND type = 19
+    </select>
+
+
+<!--    List<String> findAccidMessBill(Integer id);-->
+    <select id="findAccidMessBill" resultType="String">
+        SELECT  business_id FROM app_user_account_record WHERE user_id = #{id} AND type = 20  AND  add_flag = 2 AND  source =1  limit #{pagesize},20
+    </select>
+</mapper>

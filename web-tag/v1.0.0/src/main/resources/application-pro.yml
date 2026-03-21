@@ -1,0 +1,89 @@
+#开启swagger
+swagger:
+  enable: false
+
+
+management:
+  server:
+    port: 8102
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: 'health,prometheus,metrics'
+
+spring:
+  application:
+    name: cheji-web
+  datasource:
+    url: jdbc:mysql://10.103.241.31:3306/icars?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 86a69f24a2444a
+    hikari:
+      connection-timeout: 10000
+      validation-timeout: 3000
+      idle-timeout: 60000
+      login-timeout: 5
+      max-lifetime: 60000
+      maximum-pool-size: 20
+      minimum-idle: 20 # 和maximum-pool-size 配置相同保持最大效率
+      read-only: false
+  redis:
+    host: 10.106.99.211
+    port: 6379
+    ssl: false
+    database: 0
+    password: fbf6bb7f7cdc
+    timeout: 500
+    jedis:
+      pool:
+        max-active: 50
+        max-wait: 5000
+        max-idle: 50
+        min-idle: 0
+      timeout: 500
+
+
+mybatis-plus:
+  type-aliases-package: com.cheji.web.modular.domain,com.cheji.web.modular.query,com.cheji.web.modular.cwork
+  configuration:
+    map-underscore-to-camel-case: true
+
+#wx:
+#  appid: wxfd263ff6e281f881
+#  appsecret: xxx
+
+logging:
+
+
+wx:
+  appid: wxfd263ff6e281f881
+  appsecret: f7c2caabfd2eea05f18fe9545f61d6a9
+  pay:
+    appId: wxfd263ff6e281f881
+    mchId: 1487083832
+    mchKey: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+#    subAppId: #服务商模式下的子商户公众账号ID
+#    subMchId: #服务商模式下的子商户号
+#    keyPath: # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+  miniapp:
+    configs:
+      - appid: wxfbf28088488787ee
+        secret: 85890652cf6913e6d590952c4b89a224
+        token: #微信小程序消息服务器配置的token
+        aesKey: #微信小程序消息服务器配置的EncodingAESKey
+        msgDataFormat: JSON
+host: https://chejiqiche.com/
+
+# 默认单车保证金比例  比如：5  是指百分之5
+bail: 5

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppCleanIndetMapper">
+
+    <!--    List<AppCleanIndetEntity> findCleanIndent(@Param("id")Integer id,  @Param("pagesize")Integer pagesize, @Param("type")String type);-->
+    <!--    SELECT a.user_id userId,-->
+    <!--    CASE clean_type-->
+    <!--    WHEN 1 THEN	'普洗'-->
+    <!--    WHEN 2 THEN '精洗'-->
+    <!--    WHEN 3 THEN '自动'-->
+    <!--    WHEN 4 THEN '夜洗'-->
+    <!--    WHEN 5 THEN '免费'-->
+    <!--    ELSE '洗车'-->
+    <!--    END AS cleanName,-->
+    <!--    CASE car_type-->
+    <!--    WHEN 1 THEN '小型轿车'-->
+    <!--    WHEN 2 THEN '小型越野'-->
+    <!--    WHEN 3 THEN '大型越野'-->
+    <!--    WHEN 4 THEN '商务车'-->
+    <!--    ELSE '小型轿车'-->
+    <!--    END AS carName, clean_indent_number cleanIndentNumber,amount,indent_state indentState,b.url imgUrl,is_evaluation isEvaluation-->
+    <!--    FROM app_clean_indet as a-->
+    <!--    LEFT JOIN app_merchants_info_banner as b on a.user_b_id = b.user_b_id-->
+    <!--    WHERE a.user_b_id = #{id} AND  resource = 1 AND b.`index`= 1-->
+    <!--    <if test="type != null and type != ''">-->
+    <!--        AND a.indent_state = #{type}-->
+    <!--    </if>-->
+    <!--    order by a.create_time DESC-->
+    <!--    LIMIT #{pagesize},20-->
+    <select id="findCleanIndent" resultType="AppCleanIndetEntity">
+
+
+        SELECT t.* FROM (
+        SELECT a.user_id userId,a.user_b_id userBId,a.clean_type cleanType,
+        CASE clean_type
+        WHEN 1 THEN '普洗'
+        WHEN 2 THEN '精洗'
+        WHEN 3 THEN '自动'
+        WHEN 4 THEN '夜洗'
+        WHEN 5 THEN '免费'
+        ELSE '洗车'
+        END AS cleanName,
+        CASE car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName, clean_indent_number cleanIndentNumber,amount*0.9 amount,indent_state indentState,b.url imgUrl,is_evaluation
+        isEvaluation,a.create_time createTime,a.resource,CONCAT('') rescueName,
+        CONCAT('') currentPosition
+        FROM app_clean_indet as a
+        LEFT JOIN app_merchants_info_banner as b on a.user_b_id = b.user_b_id
+        WHERE a.user_b_id = #{id} AND a.resource = 1 AND b.`index`= 1 AND a.indent_state &lt;&gt; 1
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 3">
+                    AND (a.indent_state = #{type} or a.indent_state = 6)
+                </when>
+                <otherwise>
+                    AND a.indent_state = #{type}
+                </otherwise>
+            </choose>
+        </if>
+        union all
+        SELECT a.user_id userId,a.user_b_id userBId,a.clean_type cleanType,b.beauty_name cleanName,
+        CASE a.car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName,a.clean_indent_number cleanIndentNumber,amount*0.9 amount,a.indent_state indentState,c.url
+        imgUrl,is_evaluation isEvaluation,a.create_time createTime,a.resource,CONCAT('') rescueName,
+        CONCAT('') currentPosition
+        FROM app_clean_indet as a
+        LEFT JOIN app_beauty_type as b ON a.clean_type = b.beauty_type
+        LEFT JOIN app_merchants_info_banner as c on a.user_b_id = c.user_b_id
+        WHERE a.user_b_id = #{id} AND resource = 2 AND c.`index` = 1 AND a.indent_state &lt;&gt; 1
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 3">
+                    AND (a.indent_state = #{type} or a.indent_state = 6)
+                </when>
+                <otherwise>
+                    AND a.indent_state = #{type}
+                </otherwise>
+            </choose>
+        </if>
+        union all
+        SELECT a.user_id userId,a.user_b_id userBId,a.type cleanType,
+        CASE a.type
+        WHEN 1 THEN '搭电'
+        WHEN 2 THEN '拖车'
+        WHEN 3 THEN '送胎'
+        ELSE '救援'
+        END AS cleanName,CONCAT('不限车型') carName,a.rescue_number cleanIndentNumber,price*0.8 amount,a.state indentState,b.url imgUrl,
+        CONCAT(1) isEvaluation,a.create_time createTime,CONCAT(3) resource,rescue_name rescueName,
+        current_position currentPosition
+         FROM app_rescue_indent as a
+        LEFT JOIN app_rescue_img as b on a.type = b.type
+        WHERE a.user_b_id = #{id} AND a.state &lt;&gt; 1
+        <if test="type != null and type != ''">
+            AND a.state = #{type}
+        </if>
+
+        union all
+        SELECT a.user_id userId,a.user_b_id userBId,CONCAT('')cleanType,
+        CONCAT('喷漆')cleanName,brand_type carName,a.spray_paint_number cleanIndentNumber,
+        a.price*0.8 amount,a.state indentState,b.url url,a.is_evaluation isEvaluation,
+        a.create_time createTime,CONCAT(4) resource,CONCAT('') rescueName,pick_address currentPosition
+        FROM app_spray_paint_indent as a
+        LEFT JOIN app_spray_paint_img as b ON a.id = b.spray_paint_id
+        WHERE a.user_b_id = #{id} AND b.`index` = 1
+        <if test="type == 2">
+            AND a.state = 2
+        </if>
+        <if test="type == 3">
+            AND (a.state = 3 or a.state = 6)
+        </if>
+        <if test="type == 4">
+            AND a.state = 4
+        </if>
+
+        union all
+        SELECT a.user_id userId,a.user_b_id userBId,CONCAT('')cleanType,
+        CASE a.year_check_type
+        WHEN 1 THEN '免检代办'
+        WHEN 2 THEN '线上年检'
+        ELSE '年检'
+        END AS cleanName,CONCAT('不限车型') carName,a.year_check_number cleanIndentNumber,a.price*0.8 amount,a.state indentState,b.url imgUrl,
+        CONCAT(1) isEvaluation,a.create_time createTime,CONCAT(5) resource,CONCAT('') rescueName,pick_address currentPosition
+        FROM app_year_check_indent as a
+        LEFT JOIN app_merchants_info_banner as b ON a.user_b_id = b.user_b_id WHERE b.`index` = 1 AND a.user_b_id = #{id} AND a.state &lt;&gt; 1
+        <if test="type != null and type != ''">
+            AND a.state = #{type}
+        </if>
+
+        )t
+
+        order by createTime DESC
+        LIMIT #{pagesize},20
+    </select>
+
+<!--            LEFT JOIN app_year_check_img as b ON a.id = b.app_year_check_id WHERE b.`index` = 1 AND user_b_id = #{id} AND a.state &lt;&gt; 1
+-->
+
+
+    <select id="findCleanIndent3" resultType="AppCleanIndetEntity">
+        SELECT t.* FROM
+        (SELECT a.user_id userId,a.user_b_id userBId,a.clean_type cleanType,
+        CASE clean_type
+        WHEN 1 THEN	'普洗'
+        WHEN 2 THEN '精洗'
+        WHEN 3 THEN '自动'
+        WHEN 4 THEN '夜洗'
+        WHEN 5 THEN '免费'
+        ELSE '洗车'
+        END AS cleanName,
+        CASE car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName, clean_indent_number cleanIndentNumber,amount*0.9 amount,indent_state indentState,b.url imgUrl,is_evaluation isEvaluation,
+        a.create_time createTime,a.resource,CONCAT('') rescueName,
+        CONCAT('') currentPosition
+        FROM app_clean_indet as a
+        LEFT JOIN app_merchants_info_banner as b on a.user_b_id = b.user_b_id
+        WHERE a.user_b_id = #{id} AND  resource = 1 AND b.`index`= 1
+            AND (a.indent_state = 3 or a.indent_state = 6)
+         union all
+
+        SELECT a.user_id userId,a.user_b_id userBId,a.clean_type cleanType,b.beauty_name cleanName,
+        CASE a.car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName,a.clean_indent_number cleanIndentNumber,amount*0.9 amount,a.indent_state indentState,c.url imgUrl,is_evaluation isEvaluation,a.create_time createTime,a.resource,CONCAT('') rescueName,
+        CONCAT('') currentPosition
+        FROM app_clean_indet as a
+        LEFT JOIN app_beauty_type as b ON a.clean_type = b.beauty_type
+        LEFT JOIN app_merchants_info_banner as c on a.user_b_id = c.user_b_id
+        WHERE a.user_b_id = #{id} AND resource = 2 AND  c.`index` = 1
+             AND (a.indent_state = 3 or a.indent_state = 6)
+
+        union all
+		SELECT a.user_id userId,a.user_b_id userBId,a.type cleanType,
+		CASE a.type
+        WHEN 1 THEN '搭电'
+        WHEN 2 THEN '拖车'
+        WHEN 3 THEN '送胎'
+        ELSE '救援'
+        END AS cleanName,CONCAT('不限车型') carName,a.rescue_number cleanIndentNumber,price*0.8 amount,a.state indentState,b.url imgUrl,CONCAT(1) isEvaluation,a.create_time createTime,CONCAT(3) resource
+         ,rescue_name rescueName,
+        current_position currentPosition FROM app_rescue_indent as a
+	LEFT JOIN app_rescue_img as b on a.type = b.type
+		WHERE a.user_b_id = #{id} AND a.state = 6
+
+        union all
+        SELECT a.user_id userId,a.user_b_id userBId,CONCAT('')cleanType,
+        CONCAT('喷漆')cleanName,brand_type carName,a.spray_paint_number cleanIndentNumber,
+        a.price*0.8 amount,a.state indentState,b.url url,a.is_evaluation isEvaluation,
+        a.create_time createTime,CONCAT(4) resource,CONCAT('') rescueName,pick_address currentPosition
+        FROM app_spray_paint_indent as a
+        LEFT JOIN app_merchants_info_banner as b ON a.user_b_id = b.user_b_id
+        WHERE a.user_b_id = #{id} AND b.`index` = 1 AND (a.state = 3 or a.state = 6)
+
+        union all
+        SELECT a.user_id userId,a.user_b_id userBId,CONCAT('')cleanType,
+        CASE a.year_check_type
+        WHEN 1 THEN '免检代办'
+        WHEN 2 THEN '线上年检'
+        ELSE '年检'
+        END AS cleanName,CONCAT('不限车型') carName,a.year_check_number cleanIndentNumber,a.price*0.8 amount,a.state indentState,b.url imgUrl,
+        CONCAT(1) isEvaluation,a.create_time createTime,CONCAT(5) resource,CONCAT('') rescueName,pick_address currentPosition
+        FROM app_year_check_indent as a
+        LEFT JOIN app_merchants_info_banner as b ON a.user_b_id = b.user_b_id WHERE b.`index` = 1 AND a.user_b_id = #{id} AND a.state = 6
+
+
+             )t
+        order by createTime DESC
+        LIMIT #{pagesize},20
+    </select>
+
+<!--           LEFT JOIN app_year_check_img as b ON a.id = b.app_year_check_id WHERE b.`index` = 1 AND user_b_id = #{id} AND a.state = 6
+ -->
+
+    <!--    AppCleanIndetEntity findCleanIndentDetails(String cleanIndentNumber);-->
+    <select id="findCleanIndentDetails" resultType="AppCleanIndetEntity">
+        SELECT b.`name` username,b.username phoneTail,a.clean_indent_number cleanIndentNumber,a.indent_state indentState,amount,a.create_time createTime,
+				CASE a.clean_type
+        WHEN 1 THEN	'普洗'
+        WHEN 2 THEN '精洗'
+        WHEN 3 THEN '自动'
+        WHEN 4 THEN '夜洗'
+        WHEN 5 THEN '免费'
+        ELSE '洗车'
+        END AS cleanName,
+        CASE a.car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName ,c.url imgUrl,a.clean_type cleanType,a.car_type carType
+            FROM app_clean_indet as a
+                    LEFT JOIN app_user AS b ON a.user_id = b.id
+                    LEFT JOIN app_merchants_info_banner as c ON c.user_b_id = a.user_b_id
+                    WHERE clean_indent_number = #{cleanIndentNumber} AND c.`index` = 1
+    </select>
+
+
+<!--    AppCleanIndetEntity findBeautyDetails(String cleanIndentNumber);-->
+    <select id="findBeautyDetails" resultType="AppCleanIndetEntity">
+         SELECT b.`name` username,b.username phoneTail,a.clean_indent_number cleanIndentNumber,a.indent_state indentState,amount,a.create_time createTime,
+				 CASE a.car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName,
+        d.beauty_name cleanName ,c.url imgUrl,a.clean_type cleanType,a.car_type carType
+            FROM app_clean_indet as a
+                    LEFT JOIN app_user AS b ON a.user_id = b.id
+                    LEFT JOIN app_merchants_info_banner as c ON c.user_b_id = a.user_b_id
+                    LEFT JOIN app_beauty_type as d ON a.clean_type = d.beauty_type
+                    WHERE clean_indent_number = #{cleanIndentNumber} AND c.`index` = 1
+    </select>
+
+    <!--    String findCarImgPx(Integer carType);-->
+    <select id="findCarImgPx" resultType="String">
+        SELECT garment_clean FROM app_clean_img WHERE car_type = #{carType}
+    </select>
+
+    <!--    String findCarImgJx(Integer carType);-->
+    <select id="findCarImgJx" resultType="String">
+        SELECT fine_clean FROM app_clean_img WHERE car_type = #{carType}
+    </select>
+
+
+<!--    Integer findTodayCleanIndetn(Integer id);-->
+    <select id="findTodayCleanIndetn" resultType="Integer">
+        	SELECT SUM(con) count FROM(
+		SELECT COUNT(1) con FROM app_clean_indet WHERE user_b_id = #{id} AND (indent_state = 3 or indent_state = 6)  AND TO_DAYS(create_time) = TO_DAYS(NOW())
+union ALL
+		SELECT COUNT(1) con FROM app_rescue_indent WHERE user_b_id  = #{id} AND state = 6 AND TO_DAYS(create_time) = TO_DAYS(NOW())
+union ALL
+		SELECT COUNT(1) con FROM app_spray_paint_indent WHERE user_b_id = #{id} AND (state = 3 or state = 6) AND TO_DAYS(create_time) = TO_DAYS(NOW())
+union all
+        SELECT COUNT(1) con FROM app_year_check_indent WHERE user_b_id = #{id} AND (state = 3 or state = 6) AND TO_DAYS(create_time) = TO_DAYS(NOW())
+
+		)t
+
+    </select>
+
+
+<!--    String findBeautyImg(Integer cleanType);-->
+    <select id="findBeautyImg" resultType="String">
+        SELECT url FROM app_beauty_img WHERE beauty_type = #{cleanType}
+    </select>
+
+
+
+<!--    CenterDetailsDto selectCleanCenterMes(Integer userBId);-->
+    <select id="selectCleanCenterMes" resultType="CenterDetailsDto">
+        SELECT
+		SUM(if((user_b_id = #{userBId}  AND TO_DAYS(create_time) = TO_DAYS(NOW())),1,0)) todayIndent,
+		SUM(if(pay_state=1 AND resource = 1  AND user_b_id=  #{userBId},amount,0)) allEarnings,
+		SUM(if((user_b_id =  #{userBId} ),1,0)) allIndentCount,
+		SUM(if((user_b_id =  #{userBId}  AND indent_state =2 ),1,0)) newIntentCount,
+		SUM(if((user_b_id =  #{userBId}  AND indent_state =2 ),1,0)) inServiceCount,
+	    CONCAT(0) obligationCount,
+		SUM(if((user_b_id =  #{userBId}  AND is_evaluation =0 ),1,0)) toEvaluateCount,
+		SUM(if((user_b_id =  #{userBId}  AND indent_state =4 ),1,0)) cancelledCount
+ FROM app_clean_indet
+    </select>
+
+
+
+<!--    List<AppCleanIndetEntity> newCleanIndentList(@Param("id")Integer id,  @Param("pagesize")Integer pagesize, @Param("type")String type);-->
+    <select id="newCleanIndentList" resultType="AppCleanIndetEntity">
+
+        SELECT t.* FROM (
+        SELECT a.user_id userId,a.user_b_id userBId,a.clean_type cleanType,
+        CASE clean_type
+        WHEN 1 THEN '普洗'
+        WHEN 2 THEN '精洗'
+        WHEN 3 THEN '自动'
+        WHEN 4 THEN '夜洗'
+        WHEN 5 THEN '免费'
+        ELSE '洗车'
+        END AS cleanName,
+        CASE car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName, clean_indent_number cleanIndentNumber,amount*0.9 amount,indent_state indentState,b.url imgUrl,is_evaluation
+        isEvaluation,a.create_time createTime,a.resource,CONCAT('') rescueName,
+        CONCAT('') currentPosition
+        FROM app_clean_indet as a
+        LEFT JOIN app_merchants_info_banner as b on a.user_b_id = b.user_b_id
+        WHERE a.user_b_id = #{id} AND a.resource = 1 AND b.`index`= 1 AND a.indent_state &lt;&gt; 1
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 3">
+                    AND (a.indent_state = #{type} or a.indent_state = 6)
+                </when>
+                <otherwise>
+                    AND a.indent_state = #{type}
+                </otherwise>
+            </choose>
+        </if>
+        union all
+        SELECT a.user_id userId,a.user_b_id userBId,a.clean_type cleanType,b.beauty_name cleanName,
+        CASE a.car_type
+        WHEN 1 THEN '小型轿车'
+        WHEN 2 THEN '小型越野'
+        WHEN 3 THEN '大型越野'
+        WHEN 4 THEN '商务车'
+        ELSE '小型轿车'
+        END AS carName,a.clean_indent_number cleanIndentNumber,amount*0.9 amount,a.indent_state indentState,c.url
+        imgUrl,is_evaluation isEvaluation,a.create_time createTime,a.resource,CONCAT('') rescueName,
+        CONCAT('') currentPosition
+        FROM app_clean_indet as a
+        LEFT JOIN app_beauty_type as b ON a.clean_type = b.beauty_type
+        LEFT JOIN app_merchants_info_banner as c on a.user_b_id = c.user_b_id
+        WHERE a.user_b_id = #{id} AND resource = 2 AND c.`index` = 1 AND a.indent_state &lt;&gt; 1
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 3">
+                    AND (a.indent_state = #{type} or a.indent_state = 6)
+                </when>
+                <otherwise>
+                    AND a.indent_state = #{type}
+                </otherwise>
+            </choose>
+        </if>
+        )t
+
+        order by createTime DESC
+        LIMIT #{pagesize},20
+    </select>
+</mapper>
+
+

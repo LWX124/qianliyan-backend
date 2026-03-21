@@ -1,0 +1,107 @@
+<% layout('/layouts/default.html', {title: '支付记录 vip充值管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('支付记录 vip充值管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appAuctionPayLog}" action="${ctx}/app/appAuctionPayLog/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('用户账号')}：</label>
+					<div class="control-inline">
+						<#form:input path="appUser.username" class="form-control width-120"/>
+					</div>
+				</div>
+			<div class="form-group">
+				<label class="control-label">${text('用户等级')}：</label>
+				<div class="control-inline">
+					<#form:input path="appUser.vipLv" class="form-control width-120"/>
+				</div>
+			</div>
+				<div class="form-group">
+					<label class="control-label">${text('支付状态')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="status" dictType="vip_pay_status" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('用户ID')}：</label>
+					<div class="control-inline">
+						<#form:input path="userId" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('开通的VIP等级')}：</label>
+					<div class="control-inline">
+						<#form:input path="vipLv" maxlength="1" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('退款状态')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="backStatus" dictType="vip_refund_status" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("用户id")}', name:'userId', index:'a.user_id', width:150, align:"center"},
+		{header:'${text("账号")}', name:'appUser.username', index:'t2.username', width:150, align:"center"},
+		{header:'${text("实名认证姓名")}', name:'appAuctionMessageIdentify.idName', index:'t3.id_name', width:150, align:"center"},
+		{header:'${text("实名认证身份证")}', name:'appAuctionMessageIdentify.idNumber', index:'t3.id_number', width:150, align:"center"},
+		// {header:'${text("vip等级")}', name:'appUser.vipLv', index:'t2.vip_lv', width:150, align:"center"},
+		// {header:'${text("支付金额.单位")}', name:'amount', index:'a.amount', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+		// 		return '<a href="${ctx}/app/appAuctionPayLog/form?outTradeNo='+row.outTradeNo+'" class="btnList" data-title="${text("编辑支付记录 vip充值")}">'+(val||row.id)+'</a>';
+		// 	}},
+		{header:'${text("支付状态")}', name:'status', index:'a.status', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('vip_pay_status')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("预支付id")}', name:'prepayId', index:'a.prepay_id', width:150, align:"left"},
+		{header:'${text("订单生成时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		// {header:'${text("支付类型，1 微信 2支付宝")}', name:'type', index:'a.type', width:150, align:"center"},
+		{header:'${text("开通的等级")}', name:'vipLv', index:'a.vip_lv', width:150, align:"center"},
+		{header:'${text("原路退款退款单号")}', name:'backTradeNo', index:'a.back_trade_no', width:150, align:"left"},
+		{header:'${text("原路退款id")}', name:'refundId', index:'a.refund_id', width:150, align:"left"},
+		// {header:'${text("错误码")}', name:'errCode', index:'a.err_code', width:150, align:"left"},
+		// {header:'${text("错误码翻译")}', name:'errCodeDesc', index:'a.err_code_desc', width:150, align:"left"},
+		{header:'${text("返回信息")}', name:'returnMsg', index:'a.return_msg', width:150, align:"left"},
+		// {header:'${text("退款状态")}', name:'backStatus', index:'a.back_status', width:150, align:"center"},
+		{header:'${text("退款状态")}', name:'backStatus', index:'a.status', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('vip_refund_status')}, val, '${text("未退款")}', true);
+			}},
+		// {header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+		// 	var actions = [];
+		// 	// <% if(hasPermi('app:appAuctionPayLog:edit')){ %>
+		// 	// 	actions.push('<a href="${ctx}/app/appAuctionPayLog/form?outTradeNo='+row.outTradeNo+'" class="btnList" title="${text("编辑支付记录 vip充值")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+		// 	// 	actions.push('<a href="${ctx}/app/appAuctionPayLog/delete?outTradeNo='+row.outTradeNo+'" class="btnList" title="${text("删除支付记录 vip充值")}" data-confirm="${text("确认要删除该支付记录 vip充值吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+		// 	// <% } %>
+		// 	return actions.join('');
+		// }}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

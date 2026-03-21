@@ -1,0 +1,47 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>事故推送记录</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#TimeCon id="pushStartTime" name="推送开始时间" isTime="false"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#TimeCon id="pushEndTime" name="推送结束时间" isTime="false"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="PushRecordFS.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="PushRecordFSTableToolbar" role="group">
+                            <#button name="停止通知播报" icon="fa-bell-slash-o" clickFun="PushRecordFS.stop()"/>
+                        </div>
+                        <#table id="PushRecordFSTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- -->
+<div id="box" style="display: none">
+    <video id="video" controls preload="auto" width="400px" style="height:350px !important" >
+        <!-- <source src="" type="video/mp4">-->
+    </video>
+</div>
+<script src="${ctxPath}/static/modular/system/pushRecord/pushRecord4s.js"></script>
+@}
+<script>
+    laydate.render({
+        elem: '#pushStartTime'
+    });
+    laydate.render({
+        elem: '#pushEndTime'
+    });
+</script>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>查看轨迹</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/common/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=4d81136d607c68fb6c906599c0bd1de1"></script>
+</head>
+<body>
+<input type="hidden" id="ids" value="${appSendOutSheet.id}">
+<div>    地图加载中，请稍后。。。。。。</div>
+<div id="container" class="map" tabindex="0"></div>
+</body>
+<script src="../../../static/common/layui/layui.js" charset="utf-8"></script>
+<script src="../../../static/common/js/jquery-1.11.1.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+<script>
+
+    var marker, lineArr = []; var position = [], center = [];
+    var map;
+    const createMap = () => {
+        return new AMap.Map("container", {
+            resizeEnable: true,
+            center: center,
+            zoom: 17
+        });
+    }
+    const createMarker = () => {
+        return new AMap.Marker({
+            map: map,
+            position: position,
+            icon: "https://webapi.amap.com/images/car.png",   //轨迹地图上出现车的图标(运行时有车在上面移动)
+            offset: new AMap.Pixel(-26, -13),
+            autoRotation: true,
+            angle: -90,
+        });
+    }
+    const createPolyline = () => {
+        // 绘制轨迹
+        return new AMap.Polyline({
+            map: map,
+            path: lineArr,
+            showDir: true,
+            strokeColor: "#28F",  //线颜色
+            // strokeOpacity: 1,     //线透明度
+            strokeWeight: 6,      //线宽
+            // strokeStyle: "solid"  //线样式
+        });
+    }
+
+    var passedPolyline = new AMap.Polyline({
+        map: map,
+        // path: lineArr,
+        strokeColor: "#AF5",  //线颜色
+        // strokeOpacity: 1,     //线透明度
+        strokeWeight: 6,      //线宽
+        // strokeStyle: "solid"  //线样式
+    });
+
+    $(function () {
+        var sid = $("#ids").val();
+        //这里我是每次都去取数据及处理好数据再返回来
+        $.ajax({
+            type: "GET",
+            url: "${ctx}/app/appSendOutSheet/findSendOutTrack?sid="+sid+"", //用与处理ajax的地址及函数
+            async: true,
+            success: function (result) {
+                //处理数据
+                console.log(result);
+                var shuju = result.data.map(item => {
+                    return item.location.split(',').map((item) => {
+                        return Number(item)
+                    })
+                })
+                lineArr = shuju;
+                position = shuju[0]
+                center = shuju[0]
+                map = createMap();
+                map.setFitView();
+                marker = createMarker();
+                marker.on('moving', function (e) {
+                    passedPolyline.setPath(e.passedPath);
+                });
+                //开始绘制地图及轨迹
+                createPolyline();
+
+                //开始动画
+                marker.moveAlong(lineArr, 500); //轨迹点,移动速度KM/小时
+            }
+        });
+    });
+
+
+
+
+</script>
+</html>

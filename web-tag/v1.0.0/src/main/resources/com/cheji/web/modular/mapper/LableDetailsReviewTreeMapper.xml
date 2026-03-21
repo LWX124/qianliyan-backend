@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.LableDetailsReviewTreeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.LableDetailsReviewTreeEntity">
+        <id column="lable_code" property="lableCode" />
+        <result column="lable_name" property="lableName" />
+        <result column="parent_code" property="parentCode" />
+        <result column="parent_codes" property="parentCodes" />
+        <result column="tree_sort" property="treeSort" />
+        <result column="tree_sorts" property="treeSorts" />
+        <result column="tree_leaf" property="treeLeaf" />
+        <result column="tree_level" property="treeLevel" />
+        <result column="tree_names" property="treeNames" />
+        <result column="status" property="status" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="lable_id" property="lableId" />
+        <result column="lable_details_id" property="lableDetailsId" />
+        <result column="rebates" property="rebates" />
+        <result column="merchants_code" property="merchantsCode" />
+        <result column="show" property="show" />
+        <result column="reson" property="reson" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        lable_code AS lableCode, lable_name AS lableName, parent_code AS parentCode, parent_codes AS parentCodes, tree_sort AS treeSort, tree_sorts AS treeSorts, tree_leaf AS treeLeaf, tree_level AS treeLevel, tree_names AS treeNames, status, create_date AS createDate, update_date AS updateDate, lable_id AS lableId, lable_details_id AS lableDetailsId, rebates, merchants_code AS merchantsCode, show, reson, state
+    </sql>
+
+   <!-- List<MerchantsLableEntity> findSerAndRebById(String merchantsCode);-->
+    <select id="findSerAndRebById" resultType="MerchantsLableEntity">
+        SELECT a.lable_code id,b.label lableName,b.url url
+        FROM app_lable_details_review_tree as a
+        LEFT JOIN app_lable AS b ON a.lable_id = b.id
+        WHERE user_b_id = #{merchantsCode} and tree_level= 1 AND a.state = 1  AND b.id &lt;&gt; 12 AND b.state = 1 AND clean_type is null or trim(clean_type)=''
+
+    </select>
+
+    <!--BigDecimal findrebates(Long id);-->
+    <select id="findrebates" resultType="BigDecimal">
+    SELECT   MAX(rebates) rebates FROM app_lable_details_review_tree WHERE parent_code = #{id}
+    </select>
+
+    <!--List<MerchantsLableEntity> findallRebates(Long id);-->
+    <select id="findallRebates" resultType="MerchantsLableEntity">
+        SELECT rebates FROM app_lable_details_review_tree WHERE parent_code = #{id}
+    </select>
+
+    <!--BigDecimal findHigeRebates(Long id);-->
+    <select id="findHigeRebates" resultType="BigDecimal">
+
+        SELECT MAX(charter_shop) FROM app_business_confirm WHERE user_b_id = #{id}
+
+    </select>
+
+
+    <!--List<LableEntity> findLableName(String merchantsCode);-->
+    <select id="findLableName" resultType="LableEntity">
+        SELECT lable_name label FROM app_lable_details_review_tree
+        WHERE user_b_id = #{merchantsCode} AND tree_level = 1 AND state = 1 AND clean_type is null or trim(clean_type)= ''
+    </select>
+</mapper>

@@ -1,0 +1,115 @@
+<% layout('/layouts/default.html', {title: '标签和明细表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('标签和明细表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<a href="#" class="btn btn-default" id="btnRefreshTree" title="${text('刷新')}"><i class="fa fa-refresh"></i> ${text('刷新')}</a>
+				<a href="#" class="btn btn-default" id="btnExpandTreeNode" title="${text('展开一级')}"><i class="fa fa-angle-double-down"></i> ${text('展开')}</a>
+				<a href="#" class="btn btn-default" id="btnCollapseTreeNode" title="${text('折叠全部')}"><i class="fa fa-angle-double-up"></i> ${text('折叠')}</a>
+				<% if(hasPermi('app:appLableDetailsReviewTree:edit')){ %>
+					<a href="${ctx}/app/appLableDetailsReviewTree/form" class="btn btn-default btnTool" title="${text('新增标签和明细表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appLableDetailsReviewTree}" action="${ctx}/app/appLableDetailsReviewTree/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('节点名称')}：</label>
+					<div class="control-inline">
+						<#form:input path="lableName" maxlength="64" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('状态')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="status" dictType="sys_search_status" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("节点名称")}', name:'lableName', index:'a.lable_name', width:250, align:"left", frozen:true},
+		{header:'${text("返点比例")}', name:'rebates', index:'a.rebates', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("优惠价")}', name:'originalPrice', index:'a.original_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("原价")}', name:'preferentialPrice', index:'a.preferential_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("到手价")}', name:'thriePrice', index:'a.thrie_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("审核状态")}', name:'state', index:'a.state', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('app_lable_details')}, val, '${text("")}', true);
+		}},
+		{header:'${text("审核未通过原因")}', name:'reson', index:'a.reson', width:150, align:"left"},
+        {header:'${text("申请时间")}', name:'createDate', index:'a.create_date', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appLableDetailsReviewTree:edit')){ %>
+				if(row.show==1){
+                    actions.push('<a href="${ctx}/app/appLableDetailsReviewTree/pass?lableCode='+row.lableCode+'" class="btnList" title="${text("审核通过")}" data-confirm="${text("确认审核通过？")}"><i class="icon-like"></i></a>&nbsp;')
+                    actions.push('<a href="#" title="${text("审核不通过")}" onclick="test(\'' + row.lableCode + '\')"  data-confirm="${text("确认审核通过？")}"><i class="icon-dislike"></i></a>&nbsp;')
+
+                }
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	treeGrid: true,			// 启用树结构表格
+	defaultExpandLevel: 0,	// 默认展开的层次
+	expandNodeClearPostData: 'lableName,state,', // 展开节点清理请求参数数据（一般设置查询条件的字段属性，否则在查询后，不能展开子节点数据）	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+function test(rowCode) {
+    layer.prompt({
+        formType: 0,
+        value: '',
+        title: '审核不通过原因'
+    }, function (value, index, elem) {
+
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/app/appLableDetailsReviewTree/failure",
+            data: {
+                code: rowCode,
+                reason:value
+            },
+            dataType: "json",
+            success: function (data) {
+                window.location.reload();
+                return false;
+                // if (data.res == 1) {
+                //     layer.msg("面单号提交成功")
+                //     $("#orderTable").dataTable().fnDraw(true);
+                // } else {
+                //     alert(data.resMsg);
+                // }
+            }
+        });
+    });
+}
+
+
+</script>

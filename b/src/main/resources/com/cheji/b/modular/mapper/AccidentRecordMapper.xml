@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AccidentRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.AccidentRecord">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="video" property="video" />
+        <result column="lng" property="lng" />
+        <result column="lat" property="lat" />
+        <result column="checkid" property="checkid" />
+        <result column="statuse" property="statuse" />
+        <result column="reason" property="reason" />
+        <result column="address" property="address" />
+        <result column="realness" property="realness" />
+        <result column="type" property="type" />
+        <result column="introduce" property="introduce" />
+        <result column="isaddvideo" property="isaddvideo" />
+        <result column="video_id" property="videoId" />
+        <result column="create_time" property="createTime" />
+        <result column="check_time" property="checkTime" />
+        <result column="version" property="version" />
+        <result column="car_count" property="carCount" />
+        <result column="real_address" property="realAddress" />
+        <result column="real_img" property="realImg" />
+        <result column="acc_img" property="accImg" />
+        <result column="lat2" property="lat2" />
+        <result column="lng2" property="lng2" />
+        <result column="top_Falg" property="topFalg" />
+        <result column="real_arr_time" property="realArrTime" />
+        <result column="thumbnail_flag" property="thumbnailFlag" />
+        <result column="thumbnail_url" property="thumbnailUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id AS userId, video, lng, lat, checkid, statuse, reason, address, realness, type, introduce, isaddvideo, video_id AS videoId, create_time AS createTime, check_time AS checkTime, version, car_count AS carCount, real_address AS realAddress, real_img AS realImg, acc_img AS accImg, lat2, lng2, top_Falg AS topFalg, real_arr_time AS realArrTime, thumbnail_flag AS thumbnailFlag, thumbnail_url AS thumbnailUrl
+    </sql>
+
+<!--    ListDetailsDto findAccidentDetails(String accid);-->
+    <select id="findAccidentDetails" resultType="ListDetailsDto">
+         SELECT
+          a.id accid,
+          video video,
+          b.`name` name,
+		  b.phone_number phoneNumber,
+		  realness,
+          lng lng,
+          lat lat,
+          address address,
+          create_time time
+          FROM app_accident_record as a
+           LEFT JOIN app_user as b ON a.user_id = b.id
+             WHERE a.id = #{accid}
+    </select>
+
+    <select id="findAccidentDetail" resultType="ListDetailsDto">
+         SELECT
+          a.id accid,
+          video video,
+          lng lng,
+          lat lat,
+          address address
+          FROM app_accident_record as a
+             WHERE a.id = #{accid}
+          union all
+         SELECT
+             b.id accid,
+             video video,
+             lng lng,
+             lat lat,
+             address address
+         FROM biz_accident as b
+         WHERE b.id = #{accid}
+
+    </select>
+
+
+</mapper>

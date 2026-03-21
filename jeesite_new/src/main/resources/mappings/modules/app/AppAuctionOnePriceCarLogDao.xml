@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppAuctionOnePriceCarLogDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppAuctionOnePriceCarLog">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<select id="queryOnePriceRefund" resultType="AppAuctionOnePriceCarLog">
+		SELECT *
+		FROM app_auction_one_price_car_log t1
+		left join app_auction t2 on t1.car_id=t2.id
+		where t1.status=2
+		  and  ( t1.refund_status=1 or t1.refund_status=4)
+		and t1.amount!=0
+		and t2.car_state=12
+	</select>
+
+</mapper>

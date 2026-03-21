@@ -1,0 +1,85 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <#NameCon id="name" name="客户姓名" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#NameCon id="phone" name="客户电话" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#NameCon id="claimer" name="理赔顾问账号" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#SelectCon id="status" name="理赔状态" >
+                                <option value="">全部</option>
+                                <option value="0">已下单</option>
+                                <option value="1">理赔中</option>
+                                <option value="2">理赔完成</option>
+                                <option value="3">作废</option>
+                                </#SelectCon>
+                            </div>
+                            <div class="col-sm-2">
+                                <#SelectCon id="type" name="订单类型" >
+                                <option value="">全部</option>
+                                <option value="0">事故代办</option>
+                                <option value="1">物损赔付</option>
+                                <option value="2">人伤垫付</option>
+                                <option value="3">交单理赔</option>
+                                <option value="4">法律服务</option>
+                                <option value="5">代步车</option>
+                                <option value="6">事故咨询</option>
+                                <option value="7">现场理赔</option>
+                                <option value="8">保养</option>
+                                <option value="9">油漆</option>
+                                <option value="10">钣金</option>
+                                <option value="11">维修</option>
+                                </#SelectCon>
+                             </div>
+                             <div class="col-sm-2">
+                                <#TimeCon id="createStartTime" name="下单日期区间" isTime="false"/>
+                             </div>
+                             <div class="col-sm-1">
+                                <#button name="搜索" icon="fa-search" clickFun="BizClaim.search()"/>
+                             </div>
+                        </div>
+                        <div class="hidden-xs" id="BizClaimTableToolbar" role="group">
+
+                            @if(shiro.hasPermission("/bizClaim/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="BizClaim.openAddBizClaim()"/>
+                            @}
+                            @if(shiro.hasPermission("/bizClaim/update")){
+                                <#button name="修改" icon="fa-edit" clickFun="BizClaim.openBizClaimDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/bizClaim/delete")){
+                                <#button name="删除" icon="fa-remove" clickFun="BizClaim.delete()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/bizClaim/pushClaims")){
+                            <#button name="推送理赔顾问" icon="fa-share-square-o" clickFun="BizClaim.pushClaims()" space="true"/>
+                            @}
+                            <#button name="停止通知播报" icon="fa-bell-slash-o" clickFun="BizClaim.stop()" space="true"/>
+                        </div>
+                        <#table id="BizClaimTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizClaim/bizClaim.js"></script>
+
+<script>
+    laydate.render({
+        elem: '#createStartTime',
+        range: '~'
+    });
+</script>
+@}

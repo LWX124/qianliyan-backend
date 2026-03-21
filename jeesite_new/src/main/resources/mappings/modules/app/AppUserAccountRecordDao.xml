@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppUserAccountRecordDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppUserAccountRecord">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<insert id="insertCus">
+		insert into app_user_account_record (momey,user_id,`type`,create_time,add_flag,source,business_id)
+		value (#{momey},#{userId},#{type},#{createTime},#{addFlag},#{source},#{businessId})
+	</insert>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppWxCashOutRecordEntityMapper">
+
+
+    <select id="findMonthAndAmountByuserId" resultType="ChangeBill">
+        SELECT DATE_FORMAT(create_time,'%Y-%m') AS thisMonth,SUM(amount) spend FROM app_wx_cash_out_record
+        WHERE user_id = #{userId}
+        GROUP BY thisMonth;
+    </select>
+
+    <select id="findMonthAndAmountByuserIdAndDate" resultType="ChangeBill">
+        SELECT DATE_FORMAT(create_time,'%Y-%m') AS thisMonth,SUM(amount) spend FROM app_wx_cash_out_record
+        WHERE user_id = #{userId} AND DATE_FORMAT(create_time,'%Y%m') = #{date}
+        GROUP BY thisMonth;
+    </select>
+
+    <select id="selectCountByUserId" resultType="Integer">
+        select count(1) from app_wx_cash_out_record t1
+        where t1.user_id=#{userId}
+        and (t1.status=1 or t1.status=3)
+        and t1.sources=4
+    </select>
+
+
+    <select id="findDetailsByPartnerTradeNo" resultType="WithdDetails">
+    SELECT
+    amount,
+    fee,
+    create_time createTime,
+    success_time successTime,
+    bank_number bankTail,
+    bank_code bankName,
+    partner_trade_no partnerTradeNo
+    FROM app_wx_cash_out_record WHERE partner_trade_no = #{id}
+    </select>
+
+<!--    List<Integer> findAgoWxCashOut(Integer id);-->
+    <select id="findAgoWxCashOut" resultType="Integer">
+        SELECT id FROM app_wx_cash_out_record WHERE user_id = #{id} AND create_time>=DATE_SUB(NOW(),INTERVAL 1 MINUTE)
+    </select>
+
+
+</mapper>

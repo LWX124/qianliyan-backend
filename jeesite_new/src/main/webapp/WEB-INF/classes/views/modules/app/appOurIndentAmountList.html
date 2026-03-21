@@ -1,0 +1,121 @@
+<% layout('/layouts/default.html', {title: '订单抽成记录表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('订单抽成记录表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appOurIndentAmount:edit')){ %>
+					<a href="${ctx}/app/appOurIndentAmount/form" class="btn btn-default btnTool" title="${text('新增订单抽成记录表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appOurIndentAmount}" action="${ctx}/app/appOurIndentAmount/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('订单id')}：</label>
+					<div class="control-inline">
+						<#form:input path="indentId" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('商户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userBId" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('C用户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userId" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('比例')}：</label>
+					<div class="control-inline">
+						<#form:input path="rebates" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('结算给用户金额')}：</label>
+					<div class="control-inline">
+						<#form:input path="fixlossUser" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('金额')}：</label>
+					<div class="control-inline">
+						<#form:input path="amount" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('订单号')}：</label>
+					<div class="control-inline">
+						<#form:input path="orderNumber" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('create_time')}：</label>
+					<div class="control-inline">
+						<#form:input path="createTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('update_time')}：</label>
+					<div class="control-inline">
+						<#form:input path="updateTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("订单id")}', name:'indentId', index:'a.indent_id', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appOurIndentAmount/form?id='+row.id+'" class="btnList" data-title="${text("编辑订单抽成记录表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("商户id")}', name:'userBId', index:'a.user_b_id', width:150, align:"center"},
+		{header:'${text("C用户id")}', name:'userId', index:'a.user_id', width:150, align:"center"},
+		{header:'${text("比例")}', name:'rebates', index:'a.rebates', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("结算给用户金额")}', name:'fixlossUser', index:'a.fixloss_user', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("金额")}', name:'amount', index:'a.amount', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("订单号")}', name:'orderNumber', index:'a.order_number', width:150, align:"left"},
+		{header:'${text("create_time")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("update_time")}', name:'updateTime', index:'a.update_time', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appOurIndentAmount:edit')){ %>
+				actions.push('<a href="${ctx}/app/appOurIndentAmount/form?id='+row.id+'" class="btnList" title="${text("编辑订单抽成记录表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/app/appOurIndentAmount/delete?id='+row.id+'" class="btnList" title="${text("删除订单抽成记录表")}" data-confirm="${text("确认要删除该订单抽成记录表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

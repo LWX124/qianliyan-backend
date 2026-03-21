@@ -1,0 +1,37 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="" underline="true"/>
+                            <#input id="orderno" name="订单号" underline="true"/>
+                            <#input id="openid" name="微信用户id" underline="true"/>
+                            <#input id="packageid" name="套餐id" underline="true"/>
+                            <#input id="phone" name="用户电话" underline="true"/>
+                            <#input id="price" name="价格"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="orderStatus" name="订单状态" underline="true"/>
+                            <#input id="lng" name="经度" underline="true"/>
+                            <#input id="lat" name="纬度" underline="true"/>
+                            <#input id="address" name="地址" underline="true"/>
+                            <#input id="modifyTime" name="修改时间" underline="true"/>
+                            <#input id="createTime" name="创建时间" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BizMaintainPackageOrderInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BizMaintainPackageOrderInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizMaintainPackageOrder/bizMaintainPackageOrder_info.js"></script>
+@}

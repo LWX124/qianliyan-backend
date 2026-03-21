@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppOrderRollBackDao">
+
+	<!-- 查询数据
+	<select id="findList" resultType="AppOrderRollBack">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<select id="selectUnOpsList" resultType="AppOrderRollBack">
+		select t1.id as id,t1.create_time as createTime,t1.order_id as orderId,
+		 t1.type as type , t1.pay_flag as payFlag, t1.ops_flag as opsFlag from app_order_roll_back t1
+		where t1.pay_flag=1
+		and t1.ops_flag=1
+		<![CDATA[
+		and date_add(t1.create_time,interval 30 minute)<now();
+		]]>
+	</select>
+</mapper>

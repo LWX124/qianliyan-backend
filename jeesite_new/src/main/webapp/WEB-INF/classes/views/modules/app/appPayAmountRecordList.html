@@ -1,0 +1,54 @@
+<% layout('/layouts/default.html', {title: '红包金额记录表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('红包金额记录表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appPayAmountRecord:edit')){ %>
+					<a href="${ctx}/app/appPayAmountRecord/form" class="btn btn-default btnTool" title="${text('新增红包金额记录表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appPayAmountRecord}" action="${ctx}/app/appPayAmountRecord/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('支付金额')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="payAmount" dictType="app_pay_record" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("事故id")}', name:'accid', index:'a.accid', width:150, align:"left", frozen:true},
+		{header:'${text("用户姓名")}', name:'name', index:'b.name', width:150, align:"center"},
+        {header:'${text("支付金额")}', name:'payAmount', index:'a.pay_amount', width:150, align:"center"},
+        {header:'${text("红包来源")}', name:'type', index:'a.type', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('app_payAmount_come')}, val, '${text("未知")}', true);
+		}},
+        {header:'${text("支付时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"}
+
+    ],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+
+	}
+});
+</script>

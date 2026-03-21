@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.UserBankMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.UserBankEntity">
+        <id column="id" property="id" />
+        <result column="bank_id" property="bankId" />
+        <result column="user_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <result column="status" property="status" />
+        <result column="code" property="code" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bank_id AS bankId, user_id AS userId, create_time AS createTime, status, code
+    </sql>
+
+    <select id="findBankAndTail" resultType="BankCard">
+        SELECT
+        b.bank_code id,
+        a.`code` code,
+        b.bank_name bankName,
+        c.phone_number tail
+          FROM app_user_bank AS a
+           LEFT JOIN app_wx_bank AS b ON a.bank_id = b.id
+           LEFT JOIN	app_user as c ON a.user_id = c.id
+           WHERE a.user_id = #{id};
+    </select>
+
+
+</mapper>

@@ -1,0 +1,47 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="条件" placeholder="支付人姓名/手机号/openid"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#NameCon id="outTradeNo" name="支付订单号" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#SelectCon id="status" name="订单状态" >
+                                <option value="">全部</option>
+                                <option value="0">未支付</option>
+                                <option value="1">支付成功</option>
+                                <option value="2">支付失败</option>
+                                </#SelectCon>
+                            </div>
+                            <div class="col-sm-3">
+                                <#TimeCon id="createStartTime" name="生成日期区间" isTime="false"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#button name="搜索" icon="fa-search" clickFun="BizWxpayOrder.search()"/>
+                            </div>
+                        </div>
+                        <#table id="BizWxpayOrderTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizWxpayOrder/bizWxpayOrder.js"></script>
+<script>
+    laydate.render({
+        elem: '#createStartTime',
+        range: '~'
+    });
+</script>
+@}

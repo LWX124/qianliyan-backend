@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.MerchantsInfoBannerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.MerchantsInfoBannerEntity">
+        <id column="id" property="id" />
+        <result column="url" property="url" />
+        <result column="index" property="index" />
+        <result column="merchants_id" property="merchantsId" />
+        <result column="creat_time" property="creatTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, url, index, merchants_id AS merchantsId, creat_time AS creatTime, update_time AS updateTime
+    </sql>
+
+    <select id="getBannerById" resultType="MerchantsInfoBannerEntity">
+      SELECT
+      url url,
+      user_b_id userBId
+      FROM app_merchants_info_banner WHERE user_b_id = #{merchantsId} ORDER BY 'index'
+    </select>
+</mapper>

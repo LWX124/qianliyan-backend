@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信授权</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #authBtn {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #07c160;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<button id="authBtn" style="display: none;">微信登录</button>
+
+<script>
+    // 配置参数
+    const config = {
+        appId: 'wx4f9e7cdc772e9379',
+        redirectUri: encodeURIComponent(window.location.href), // 当前页面URL
+        scope: 'snsapi_userinfo' // 授权类型（snsapi_base静默授权/snsapi_userinfo手动授权）
+    };
+
+    // 获取URL参数
+    function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    }
+
+    // 跳转微信授权页面
+    function wechatAuth() {
+        const authUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appId}&redirect_uri=${config.redirectUri}&response_type=code&scope=${config.scope}&state=STATE#wechat_redirect`;
+        window.location.href = authUrl;
+    }
+
+    // 发送code到后端
+    function sendCodeToServer(code) {
+        fetch('https://amiba.tech/wx-admin/api/v1/wx/getGzhTokenAndOpenId', {  // 替换为你的后端接口
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code: code })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('响应数据:', data);
+                if (data.errorCode===0){
+                    //说明是成功了
+                    // 这里处理授权成功后的逻辑，例如跳转到首页
+                    window.location.href = 'https://amiba.tech/back.html';
+                }else if (data.errorCode===50040){
+                    alert("已经绑定过数据，无需重复绑定")
+                }else {
+                    alert("绑定有误，请联系客服")
+                }
+            })
+            .catch(error => {
+                alert("绑定有误，请联系客服")
+            });
+    }
+
+    // 初始化
+    function init() {
+        const code = getQueryParam('code');
+        const authBtn = document.getElementById('authBtn');
+
+        if (code) {
+            // 有code参数，发送到服务器
+            sendCodeToServer(code);
+        } else {
+            // 没有code参数，显示授权按钮
+            authBtn.style.display = 'block';
+            authBtn.addEventListener('click', wechatAuth);
+        }
+    }
+
+    // 页面加载完成后执行
+    window.onload = init;
+</script>
+</body>
+</html>

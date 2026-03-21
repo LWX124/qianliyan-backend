@@ -1,0 +1,32 @@
+package com.stylefeng.guns.netty;
+
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.stream.ChunkedWriteHandler;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+/**
+ * @author kosan
+ * @description
+ * @date 2018-03-26 14:39
+ */
+@Component
+public class WebSocketChildChannelHandler  extends ChannelInitializer<SocketChannel>{
+    @Resource(name = "webSocketServerHandler")
+    private ChannelHandler webSocketServerHandler = new WebSocketServerHandler();
+
+
+    @Override
+    protected void initChannel(SocketChannel ch) throws Exception {
+        // TODO Auto-generated method stub
+        ch.pipeline().addLast("http-codec", new HttpServerCodec());
+        ch.pipeline().addLast("aggregator", new HttpObjectAggregator(65536));
+        ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
+        ch.pipeline().addLast("handler",webSocketServerHandler);
+    }
+}

@@ -1,0 +1,53 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>支付宝支付管理管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <#NameCon id="alipayAccount" name="支付宝账号" placeholder="支付宝账号"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#TimeCon id="startTime" name="支付开始日期" isTime="false"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#TimeCon id="endTime" name="支付结束日期" isTime="false"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <#SelectCon id="payStatus" name="支付状态" >
+                                <option value="">全部</option>
+                                <option value="0">支付成功</option>
+                                <option value="1">支付失败</option>
+                                </#SelectCon>
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="BizAlipayBill.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="BizAlipayBillTableToolbar" role="group">
+                            @if(shiro.hasPermission("/bizAlipayBill/rePay")){
+                                <#button name="支付" icon="fa-cc-visa" clickFun="BizAlipayBill.rePay()"/>
+                            @}
+                        </div>
+                        <#table id="BizAlipayBillTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizAlipayBill/bizAlipayBill.js"></script>
+<script>
+    laydate.render({
+        elem: '#startTime'
+    });
+    laydate.render({
+        elem: '#endTime'
+    });
+</script>
+@}

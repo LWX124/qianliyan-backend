@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppMerchantsInfoBannerDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppMerchantsInfoBanner">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="findImgByMerchantsId" resultType="AppMerchantsInfoBanner">
+		SELECT url FROM app_merchants_info_banner AS a WHERE user_b_id = #{id,jdbcType=BIGINT}
+	</select>
+	<!--SELECT * FROM app_merchants_info_banner as a
+	JOIN app_merchants as b ON a.merchants_id=b.id
+	WHERE b.id = #{id,jdbcType=BIGINT}
+	ORDER BY a.index ASC-->
+
+
+	<!--SELECT * FROM app_merchants_info_banner as a
+			JOIN app_merchants as b ON a.merchants_id=b.id
+			WHERE b.id = #{id,jdbcType=BIGINT}
+			ORDER BY a.index ASC-->
+<!--	AppMerchantsInfoBanner findIndex1Banner(String id);-->
+	<select id="findIndex1Banner" resultType="AppMerchantsInfoBanner">
+		SELECT * FROM app_merchants_info_banner WHERE user_b_id = #{id} AND `index` = 1
+	</select>
+
+
+<!--	List<AppMerchantsInfoBanner> findAllList(String id);-->
+	<select id="findAllList" resultType="AppMerchantsInfoBanner">
+		SELECT * FROM app_merchants_info_banner WHERE user_b_id = #{id}
+	</select>
+
+<!--	void insertNew(AppMerchantsInfoBanner infoBanner);-->
+	<insert id="insertNew">
+		insert into app_merchants_info_banner (url,`index`,user_b_id,creat_time,update_time)
+			value (#{url},#{index},#{userBId},#{creatTime},#{updateTime})
+	</insert><!--
+	insert into app_user_account_record (momey,user_id,`type`,create_time,add_flag,source,business_id)
+	value (#{momey},#{userId},#{type},#{createTime},#{addFlag},#{source},#{businessId})-->
+
+</mapper>

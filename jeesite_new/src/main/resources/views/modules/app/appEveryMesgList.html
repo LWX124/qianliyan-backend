@@ -1,0 +1,61 @@
+<% layout('/layouts/default.html', {title: '每日数据查询', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('每日数据查询')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appEveryMesg}" action="${ctx}/app/appEveryMesg/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('当天时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="todayTime" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("红包个数")}', name:'redEnvelopes', index:'a.red_envelopes', width:150, align:"left"},
+		{header:'${text("红包金额")}', name:'envelopeAmount', index:'a.envelope_amount', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+        {header:'${text("plus会员提成金额")}', name:'plusEnevlopeAmount', index:'a.plus_enevlope_amount', width:150, align:"right", formatter: function(val, obj, row, act){
+                return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+            }},
+        {header:'${text("plus会员提成个数")}', name:'plusEnevlopeCount', index:'a.plus_enevlope_count', width:150, align:"left"},
+		{header:'${text("事故个数")}', name:'todayAccident', index:'a.today_accident', width:150, align:"left"},
+		{header:'${text("小程序上传个数")}', name:'todayWxup', index:'a.today_wxup', width:150, align:"left"},
+		{header:'${text("app上传")}', name:'todayAppup', index:'a.today_appup', width:150, align:"left"},
+		{header:'${text("通过事故个数")}', name:'passAccident', index:'a.pass_accident', width:150, align:"left"},
+		{header:'${text("当天时间")}', name:'todayTime', index:'a.today_time', width:150, align:"left"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			actions.push('<a href="${ctx}/app/appEveryMesg/form?id='+row.id+'" class="btnList" title="${text("查看每日数据")}"><i class="fa fa-file-text-o"></i></a>&nbsp;');
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

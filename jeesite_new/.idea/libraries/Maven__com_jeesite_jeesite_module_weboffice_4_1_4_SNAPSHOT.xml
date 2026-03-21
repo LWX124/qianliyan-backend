@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.jeesite:jeesite-module-weboffice:4.1.4-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/jeesite/jeesite-module-weboffice/4.1.4-SNAPSHOT/jeesite-module-weboffice-4.1.4-20190423.130026-2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/jeesite/jeesite-module-weboffice/4.1.4-SNAPSHOT/jeesite-module-weboffice-4.1.4-20190423.130026-2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/jeesite/jeesite-module-weboffice/4.1.4-SNAPSHOT/jeesite-module-weboffice-4.1.4-20190423.130026-2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

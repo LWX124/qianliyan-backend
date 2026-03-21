@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizWxpayBillMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizWxpayBill">
+        <id column="id" property="id" />
+        <result column="accid" property="accid" />
+        <result column="status" property="status" />
+        <result column="pay_time" property="payTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, accid, status, pay_time, create_time
+    </sql>
+    <sql id="Combine_Column_List">
+        a.id, a.accid, a.status, a.pay_time as payTime, a.create_time as createTime, b.openid, b.partner_trade_no as partnerTradeNo, b.payment_no as paymentNo, b.err_code_des as errCodeDes, b.err_code as errCode, b.result_code as resultCode, b.return_msg as returnMsg, b.amount, b.return_code as returnCode, d.phone
+    </sql>
+
+    <sql id="RePay_Column_List">
+        a.id, a.accid, a.status, a.pay_time as payTime, a.create_time as createTime, b.openid, b.amount
+    </sql>
+
+    <select id="selectListForPage" resultType="map">
+        select
+        <include refid="Combine_Column_List" />
+        from biz_wxpay_bill a left join biz_wx_pay_record b on a.id = b.bill_id inner join biz_wx_user d on b.openid = d.openid
+        <where>
+            <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+                and (a.pay_time between CONCAT(#{startTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+            </if>
+            <if test="payStatus != null">
+                and a.status = #{payStatus}
+            </if>
+            <if test="openid != null and openid != ''">
+                and (b.openid = #{openid} or d.phone = #{openid})
+            </if>
+        </where>
+        ORDER BY a.create_time desc
+    </select>
+
+    <select id="selectFansListForPage" resultType="map">
+        select
+        a.wxname,a.headImg,d.amount,d.payment_time
+        from biz_wx_user a inner join biz_wx_pay_record d on a.openid = d.openid inner join biz_wxpay_bill c on d.bill_id = c.id
+        <where>
+        a.extensionAccount = #{openid}
+        <![CDATA[ and c.accid > 0 ]]>
+        <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+            and (c.pay_time between CONCAT(#{startTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        and
+        d.result_code = 'SUCCESS'
+        </where>
+        ORDER BY d.payment_time desc
+
+    </select>
+
+
+    <select id="selectListForRePay" resultType="com.stylefeng.guns.modular.system.model.BizWxpayBill">
+        select
+        <include refid="RePay_Column_List" />
+        from biz_wxpay_bill a inner join biz_wx_pay_record b on a.id = b.bill_id
+        WHERE
+        a.status = #{status}
+    </select>
+
+    <select id="selectForRePay" resultType="com.stylefeng.guns.modular.system.model.BizWxpayBill">
+        select
+        <include refid="RePay_Column_List" />
+        from biz_wxpay_bill a inner join biz_wx_pay_record b on a.id = b.bill_id
+        WHERE
+        a.accid = #{accid}
+        and
+        a.status = 1
+    </select>
+
+    <select id="selectListForPageByOpenid" resultType="map">
+        select
+        <include refid="RePay_Column_List" />
+        from biz_accident d inner join biz_wxpay_bill  a on d.id = a.accid and a.status = 0 inner join biz_wx_pay_record b on a.id = b.bill_id
+        WHERE
+        d.openid = #{openid}
+        ORDER BY a.pay_time desc
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="bizWxpayBill.id" keyColumn="id"  parameterType="com.stylefeng.guns.modular.system.model.BizWxpayBill" >
+		insert into biz_wxpay_bill(accid, status, pay_time, create_time)
+		values
+		(#{bizWxpayBill.accid},#{bizWxpayBill.status},#{bizWxpayBill.payTime},#{bizWxpayBill.createTime})
+	</insert>
+
+
+
+    <select id="getWxUnifiedOrderNo" resultType="java.lang.String">
+        SELECT get_wx_out_trade_no() FROM dual
+    </select>
+</mapper>

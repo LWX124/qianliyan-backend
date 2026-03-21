@@ -1,0 +1,146 @@
+.share-wrapper {
+  height: 100%;
+}
+.share-wrapper .download-btn {
+  color: #fff;
+  height: 30px;
+  border-radius: 30px;
+  font-size: 0.3rem;
+  padding: 0px 20px;
+  background-image: linear-gradient(to right, #FE875B, #FF544B);
+}
+.share-wrapper .download-tip {
+  position: relative;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.5);
+}
+.share-wrapper .download-tip .left {
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+.share-wrapper .download-tip .left i {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 20px;
+  background-image: url(../images/share_logo_icon.png);
+  background-size: contain;
+}
+.share-wrapper .download-tip .left div:last-child p:first-child {
+  font-size: 14px;
+}
+.share-wrapper .download-tip .left div:last-child p:last-child {
+  margin-top: 5px;
+}
+.share-wrapper .video-wrapper {
+  top: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #333;
+}
+.share-wrapper .video-wrapper .control {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  top: 50%;
+  left: 50%;
+  margin-top: -1rem;
+  margin-left: -1rem;
+}
+.share-wrapper .video-wrapper .pause-icon {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-image: url(../images/pause-icon.png);
+}
+.share-wrapper .actions {
+  color: #fff;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: calc(-0.7rem * 4 / 2);
+}
+.share-wrapper .actions .action-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.share-wrapper .actions .item {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.share-wrapper .actions .item .icon {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  background-size: contain;
+}
+.share-wrapper .actions .item .icon + p {
+  margin-top: 5px;
+}
+.share-wrapper .actions .item:nth-child(1) .icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px solid #fff;
+  border-radius: 50%;
+}
+.share-wrapper .actions .item:nth-child(2) .icon {
+  background-image: url(../images/share_zan.png);
+}
+.share-wrapper .actions .item:nth-child(2) .icon.active {
+  background-image: url(../images/share_zan_click.png);
+}
+.share-wrapper .actions .item:nth-child(3) .icon {
+  background-image: url(../images/share_comments.png);
+}
+.share-wrapper .actions .item:nth-child(4) .icon {
+  background-image: url(../images/share_share.png);
+}
+.share-wrapper .info {
+  color: #fff;
+  width: 80%;
+  position: absolute;
+  bottom: 20px;
+  padding: 20px;
+}
+.share-wrapper .info .red-envelop {
+  text-align: center;
+  width: 40%;
+}
+.share-wrapper .info .red-envelop i {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-size: contain;
+}
+.share-wrapper .info p:nth-child(2) {
+  color: #fff;
+  font-size: 0.5rem;
+  margin-top: 10px;
+}
+.share-wrapper .info p:nth-child(3) {
+  color: #fff;
+  margin-top: 10px;
+  line-height: 0.6rem;
+  font-size: 0.4rem;
+}
+.share-wrapper .info p:nth-child(4) {
+  color: #ccc;
+  margin-top: 10px;
+  font-size: 0.35rem;
+}
+.share-wrapper .info p:nth-child(4) i {
+  display: inline-block;
+  width: 0.3rem;
+  height: 0.3rem;
+  background-size: contain;
+  background-image: url(../images/share_location_icon.png);
+}

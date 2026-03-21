@@ -1,0 +1,110 @@
+@layout("/common/_container.html"){
+<div class="row">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>事故上报管理</h5>
+			</div>
+			<div class="ibox-content">
+				<div class="row row-lg">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-sm-2">
+								<#NameCon id="openid" name="上报人员ID" placeholder="openid/上报人手机"/>
+							</div>
+							<div class="col-sm-2">
+								<#NameCon id="name" name="推送人" placeholder="推送人"/>
+							</div>
+							<div class="col-sm-2">
+								<#TimeCon id="createStartTime" name="上报日期区间" isTime="false"/>
+							</div>
+							<!--<div class="col-sm-2">-->
+								<!--<#TimeCon id="createEndTime" name="上报结束日期" isTime="false"/>-->
+							<!--</div>-->
+							<div class="col-sm-2">
+								<#TimeCon id="checkStartTime" name="审核日期区间" isTime="false"/>
+							</div>
+							<!--<div class="col-sm-2">-->
+								<!--<#TimeCon id="checkEndTime" name="审核结束日期" isTime="false"/>-->
+							<!--</div>-->
+							<div class="col-sm-2">
+								<#SelectCon id="checkStatus" name="审核状态" >
+								<option value="">全部</option>
+								<option value="2">审核通过</option>
+								<option value="3">审核未通过</option>
+								<option value="1">未审核</option>
+								</#SelectCon>
+							</div>
+							<div class="col-sm-2">
+								<#SelectCon id="pushStatus" name="推送状态" >
+								<option value="">全部</option>
+								<option value="0">未推送</option>
+								<option value="1">已推送</option>
+								</#SelectCon>
+							</div>
+							<div class="col-sm-2">
+								<#button name="搜索" icon="fa-search" clickFun="MgrAccd.search()"/>
+								<#button name="重置" icon="fa-trash" clickFun="MgrAccd.resetSearch()" space="true"/>
+							</div>
+						</div>
+
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="form-group">
+									<label class="col-sm-2 control-label" style="height: 34px;line-height: 34px;">红包合计</label>
+									<div class="col-sm-10">
+										<input class="form-control" id="redpackSumDiv" name="redpackSumDiv" type="text" readonly="readonly" style="margin-left: -213px;border: none;text-align: left;background-color: rgb(255, 255, 255);color: red;" value="">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="hidden-xs" id="mgrAccdTableToolbar" role="group">
+							@if(shiro.hasPermission("/accid/checkSuccess")){
+							<#button name="审核通过" icon="fa-check-circle" clickFun="MgrAccd.checkSuccessChoose()"/>
+							@}
+							@if(shiro.hasPermission("/accid/checkFail")){
+							<#button name="审核不通过" icon="fa-warning" clickFun="MgrAccd.checkFailReason()" space="true"/>
+							@}
+							@if(shiro.hasPermission("/accid/pushFourS")){
+							<#button name="推送4S" icon="fa-share-square-o" clickFun="MgrAccd.pushFourS()" space="true"/>
+							@}
+							@if(shiro.hasPermission("/accid/pushClaims")){
+							<#button name="推送理赔顾问" icon="fa-share-square-o" clickFun="MgrAccd.pushClaims()" space="true"/>
+							@}
+							<#button name="黑名单更改" icon="fa-user-times" clickFun="MgrAccd.addBlackList()" space="true"/>
+							<#button name="停止通知播报" icon="fa-bell-slash-o" clickFun="MgrAccd.stop()" space="true"/>
+						</div>
+						<#table id="managerAccdTable" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- -->
+<div id="box" style="display: none">
+	<video id="video" controls preload="auto" width="400px" style="height:350px !important" >
+		<!-- <source src="" type="video/mp4">-->
+	</video>
+</div>
+
+<div id="imgDiv" style="display: none">
+	<img id="imgTag" src=""  alt=""  />
+</div>
+
+<script src="${ctxPath}/static/modular/biz/accd/accid.js"></script>
+<script>
+    laydate.render({
+        elem: '#createStartTime',
+        range: '~'
+    });
+    laydate.render({
+        elem: '#checkStartTime',
+        range: '~'
+    });
+</script>
+
+
+
+@}

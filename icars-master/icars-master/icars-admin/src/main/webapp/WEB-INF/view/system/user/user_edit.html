@@ -1,0 +1,80 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<div class="form-horizontal" id="userInfoForm">
+
+			<input type="hidden" id="id" value="${user.id}">
+			<input type="hidden" id="sexValue" value="${user.sex}">
+			<input type="hidden" id="sfkfValue" value="${user.sfkf}">
+			<input type="hidden" id="black_flagValue" value="${user.black_flag}">
+
+			<div class="row">
+				<div class="col-sm-6 b-r">
+					<#input id="account" name="账户" underline="true" value="${user.account}"/>
+
+					<#select id="sex" name="性别" underline="true">
+						<option value="1">男</option>
+						<option value="2">女</option>
+					</#select>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">省市区</label>
+						<div class="col-sm-9">
+							<div id="distpicker" hideValue="${user.province}">
+
+								<input id="city-picker3" class="form-control" readonly type="text" value="" data-toggle="city-picker">
+							</div>
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<#select id="sfkf" name="是否扣费" underline="true">
+						<option value="Y">是</option>
+						<option value="N">否</option>
+					</#select>
+					<#select id="black_flag" name="是否加入黑名单" underline="true">
+						<option value="Y">是</option>
+						<option value="N">否</option>
+					</#select>
+				</div>
+				<div class="col-sm-6">
+					<div id="driverInfoContent">
+						<#input id="name" name="姓名" underline="true" value="${user.name}"/>
+
+						<#input id="birthday" name="出生日期" underline="true" type="text"
+						value="${user.birthday}"/>
+
+						<#input id="citySel" name="部门" underline="true" readonly="readonly" hidden="deptid" hiddenValue="${user.deptid}" value="${deptName}"
+						clickFun="UserInfoDlg.showDeptSelectTree(); return false;"
+						style="background-color: #ffffff !important;"/>
+
+						<#input id="phone" name="电话" value="${user.phone}"/>
+					</div>
+				</div>
+			</div>
+
+			<!-- 这是部门选择的下拉框 -->
+			<div id="menuContent" class="menuContent"
+				 style="display: none; position: absolute; z-index: 200;">
+				<ul id="treeDemo" class="ztree tree-box" style="width: 249px !important;"></ul>
+			</div>
+
+			<div class="row btn-group-m-t">
+				<div class="col-sm-12" style="text-align: center">
+					<#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="UserInfoDlg.editSubmit()"/>
+					<#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="UserInfoDlg.close()"/>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/system/user/user_info.js"></script>
+<script src="${ctxPath}/static/js/citypicker/city-picker.data.js"></script>
+<script src="${ctxPath}/static/js/citypicker/city-picker.js"></script>
+<script src="${ctxPath}/static/js/citypicker/main.js"></script>
+<script>
+    laydate.render({
+        elem: '#birthday'
+    });
+</script>
+@}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppCleanIndetDao">
+
+	<!-- 查询数据
+	<select id="findList" resultType="AppCleanIndet">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+
+	<select id="selectByOutTradeNo" parameterType="string" resultType="AppCleanIndet">
+		select * from app_clean_indet t
+		where t.merchants_pay_number=#{outTradeNo}
+	</select>
+
+	<update id="updateStatus4SevenDay">
+		update app_clean_indet t1 set t1.indent_state=5
+		where t1.indent_state=2
+		and t1.pay_state=1
+		<![CDATA[
+		and TO_DAYS(NOW())-TO_DAYS(t1.create_time)>7
+		]]>
+
+	</update>
+
+<!--	AppCleanIndet selectByIndentNum(String clearIndetId);-->
+	<select id="selectByIndentNum" resultType="AppCleanIndet">
+		SELECT * FROM app_clean_indet WHERE clean_indent_number = #{clearIndetId}
+	</select>
+</mapper>

@@ -1,0 +1,1531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d2bad9dd-e0b1-49e3-9cc4-f019b44b3bdc" name="Default Changelist" comment="Default Changelist">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_annotation_3_2_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_annotation_3_2_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_base_3_2_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_base_3_2_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_web_3_2_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cn_afterturn_easypoi_web_3_2_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cn_hutool_hutool_all_5_3_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cn_hutool_hutool_all_5_3_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_1_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_1_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_2_49.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_2_49.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_rocketmq_rocketmq_client_3_2_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_rocketmq_rocketmq_client_3_2_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_rocketmq_rocketmq_common_3_2_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_rocketmq_rocketmq_common_3_2_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_rocketmq_rocketmq_remoting_3_2_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_rocketmq_rocketmq_remoting_3_2_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_atomikos_util_4_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_atomikos_util_4_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_4_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_4_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_api_4_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_api_4_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_jdbc_4_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_jdbc_4_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_jms_4_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_jms_4_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_jta_4_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_atomikos_transactions_jta_4_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_belerweb_pinyin4j_2_5_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_belerweb_pinyin4j_2_5_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_72.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_72.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_bladejava_blade_patchca_1_1_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_bladejava_blade_patchca_1_1_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_3_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_3_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_13_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_13_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_13_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_13_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_13_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_13_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_jaxb_annotations_2_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_jaxb_annotations_2_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_woodstox_woodstox_core_5_0_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_woodstox_woodstox_core_5_0_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_ben_manes_caffeine_caffeine_2_6_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_ben_manes_caffeine_caffeine_2_6_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_qrcode_utils_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_qrcode_utils_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_weixin_java_common_4_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_weixin_java_common_4_0_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_weixin_java_mp_4_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_weixin_java_mp_4_0_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_weixin_java_pay_4_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_binarywang_weixin_java_pay_4_0_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jai_imageio_jai_imageio_core_1_3_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jai_imageio_jai_imageio_core_1_3_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_virtuald_curvesapi_1_03.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_virtuald_curvesapi_1_03.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_20_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_20_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_core_3_3_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_core_3_3_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_javase_3_3_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_javase_3_3_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_huaweicloud_esdk_obs_java_3_19_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_huaweicloud_esdk_obs_java_3_19_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_huaweicloud_sdk_huaweicloud_sdk_core_3_1_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_huaweicloud_sdk_huaweicloud_sdk_core_3_1_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_huaweicloud_sdk_huaweicloud_sdk_ocr_3_1_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_huaweicloud_sdk_huaweicloud_sdk_ocr_3_1_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jamesmurty_utils_java_xmlbuilder_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jamesmurty_utils_java_xmlbuilder_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_beetl_2_9_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_beetl_2_9_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_common_4_1_4_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_common_4_1_4_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_framework_4_1_4_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_framework_4_1_4_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_module_core_4_1_4_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_module_core_4_1_4_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_module_swagger_4_1_4_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_module_swagger_4_1_4_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_module_weboffice_4_1_4_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jeesite_jeesite_module_weboffice_4_1_4_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_mchange_mchange_commons_java_0_2_11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mchange_mchange_commons_java_0_2_11.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_oracle_ojdbc6_11_2_0_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_oracle_ojdbc6_11_2_0_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okhttp3_okhttp_3_14_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okhttp3_okhttp_3_14_9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okio_okio_1_14_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okio_okio_1_14_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_javax_mail_1_6_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_javax_mail_1_6_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_xstream_xstream_1_4_14.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_xstream_xstream_1_4_14.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_common_common_image_3_4_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_common_common_image_3_4_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_common_common_io_3_4_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_common_common_io_3_4_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_common_common_lang_3_4_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_common_common_lang_3_4_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_imageio_imageio_core_3_4_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_imageio_imageio_core_3_4_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_imageio_imageio_jpeg_3_4_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_imageio_imageio_jpeg_3_4_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_imageio_imageio_metadata_3_4_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_twelvemonkeys_imageio_imageio_metadata_3_4_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_beanutils_commons_beanutils_1_8_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_beanutils_commons_beanutils_1_8_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_11.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_2_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_2_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_httpclient_commons_httpclient_3_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_httpclient_commons_httpclient_3_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__de_ruedigermoeller_fst_2_57.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__de_ruedigermoeller_fst_2_57.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__eu_bitwalker_UserAgentUtils_1_21.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__eu_bitwalker_UserAgentUtils_1_21.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_all_4_1_29_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_all_4_1_29_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_core_2_9_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_core_2_9_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_schema_2_9_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_schema_2_9_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spi_2_9_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spi_2_9_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spring_web_2_9_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spring_web_2_9_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger2_2_9_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger2_2_9_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_common_2_9_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_common_2_9_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_ui_2_9_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_ui_2_9_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_annotations_1_5_20.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_annotations_1_5_20.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_models_1_5_20.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_models_1_5_20.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_activation_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_activation_1_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_annotation_javax_annotation_api_1_3_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_annotation_javax_annotation_api_1_3_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_transaction_javax_transaction_api_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_transaction_javax_transaction_api_1_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_2_0_1_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_2_0_1_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jaxen_jaxen_1_1_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jaxen_jaxen_1_1_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jline_jline_2_14_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jline_jline_2_14_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_9_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_9_9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_47.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_47.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_7_11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_7_11.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_7_11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_7_11.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_coobird_thumbnailator_0_4_8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_coobird_thumbnailator_0_4_8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_oschina_j2cache_j2cache_core_2_7_0_release.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_oschina_j2cache_j2cache_core_2_7_0_release.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_ezmorph_ezmorph_1_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_ezmorph_ezmorph_1_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jmimemagic_jmimemagic_0_1_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_jmimemagic_jmimemagic_0_1_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_json_lib_json_lib_jdk15_2_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_json_lib_json_lib_jdk15_2_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_jtds_jtds_1_3_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_jtds_jtds_1_3_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_antlr_antlr4_runtime_4_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_antlr_antlr4_runtime_4_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ant_ant_1_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ant_ant_1_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ant_ant_launcher_1_9_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ant_ant_launcher_1_9_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_email_1_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_email_1_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_5_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_5_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_text_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_text_1_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_5_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_5_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_10_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_10_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_10_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_10_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_3_14.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_3_14.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_14.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_14.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_14.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_14.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_scratchpad_3_14.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_scratchpad_3_14.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_cache_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_cache_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_cas_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_cas_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_config_core_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_config_core_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_config_ogdl_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_config_ogdl_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_core_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_core_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_crypto_cipher_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_crypto_cipher_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_crypto_core_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_crypto_core_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_crypto_hash_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_crypto_hash_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_event_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_event_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_lang_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_lang_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_spring_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_spring_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_web_1_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_shiro_shiro_web_1_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_8_5_34.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_8_5_34.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_8_5_34.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_8_5_34.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_8_5_34.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_8_5_34.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_6_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_6_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjrt_1_8_13.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjrt_1_8_13.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_13.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_13.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_9_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_9_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcpkix_jdk15on_1_65.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcpkix_jdk15on_1_65.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcprov_jdk15on_1_65.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcprov_jdk15on_1_65.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_3_1_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_3_1_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_dom4j_dom4j_2_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_dom4j_dom4j_2_1_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_validator_hibernate_validator_6_0_13_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_validator_hibernate_validator_6_0_13_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jasig_cas_client_cas_client_core_3_2_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jasig_cas_client_cas_client_core_3_2_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_21_0_GA.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_21_0_GA.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_2_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_2_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jodd_jodd_core_5_2_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jodd_jodd_core_5_2_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jodd_jodd_http_5_2_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jodd_jodd_http_5_2_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jodd_jodd_util_6_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jodd_jodd_util_6_0_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_json_json_20180130.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json_json_20180130.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_11_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jsoup_jsoup_1_11_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mapstruct_mapstruct_1_2_0_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mapstruct_mapstruct_1_2_0_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_2_15_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_2_15_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_4_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_4_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openeuler_bgmprovider_1_0_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openeuler_bgmprovider_1_0_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openeuler_jca_1_0_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openeuler_jca_1_0_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openeuler_jsse_1_0_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openeuler_jsse_1_0_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_2_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_2_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_16_22.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_16_22.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_quartz_scheduler_quartz_2_3_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_quartz_scheduler_quartz_2_3_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_25.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_25.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_log4j_over_slf4j_1_7_25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_log4j_over_slf4j_1_7_25.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_cache_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_cache_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_redis_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_redis_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jta_atomikos_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jta_atomikos_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_websocket_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_websocket_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_0_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_0_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_2_0_11_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_2_0_11_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_2_0_11_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_2_0_11_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_2_0_11_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_2_0_11_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_core_1_2_0_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_core_1_2_0_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_metadata_1_2_0_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_metadata_1_2_0_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_websocket_5_0_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_websocket_5_0_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_5_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__stax_stax_api_1_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__stax_stax_api_1_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cheji-jeesite.iml" beforeDir="false" afterPath="$PROJECT_DIR$/cheji-jeesite.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeesite_log/log_error.log" beforeDir="false" afterPath="$PROJECT_DIR$/jeesite_log/log_error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeesite_log/log_info.log" beforeDir="false" afterPath="$PROJECT_DIR$/jeesite_log/log_info.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jeesite_log/log_warn.log" beforeDir="false" afterPath="$PROJECT_DIR$/jeesite_log/log_warn.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config/application-pro.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config/application-pro.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config/application-test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/dao/AppAuctionBidLogDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/dao/AppAuctionBidLogDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/dao/AppAuctionImgDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/dao/AppAuctionImgDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuction.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionBailLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionBailLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionBidLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionBidLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionImg.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionImg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionOrder.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionOrder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionTransactionLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionTransactionLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionUp.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppAuctionUp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/entity/AppUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/handler/RedisKeyExpirationListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/handler/RedisKeyExpirationListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionBailRefundLogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionBailRefundLogService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionImgService.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionImgService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionOrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionUpService.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/AppAuctionUpService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/FileUploadServiceExtendImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/service/FileUploadServiceExtendImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppAuctionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppAuctionController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppAuctionUpController.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppAuctionUpController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppBusinessConfirmController.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppBusinessConfirmController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppUserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/app/web/AppUserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/constant2/RedisKeyUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/constant2/RedisKeyUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/job/AccidentJob.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/job/AccidentJob.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/job/AppAuctionJob.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/job/AppAuctionJob.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/job/WxBankCasOutJob.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/job/WxBankCasOutJob.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/util2/COrderNoUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/com/jeesite/modules/util2/COrderNoUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/config/application-pro.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/config/application-pro.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/config/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/config/application-test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/config/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/config/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionBailRefundLogDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionBailRefundLogDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionBidLogDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionBidLogDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionImgDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionImgDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionUpDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionUpDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionVipControlDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/mappings/modules/app/AppAuctionVipControlDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionOrderList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionOrderList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionUpForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionUpForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionUpList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appAuctionUpList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appUserForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appUserForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appUserList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/views/modules/app/appUserList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="JavaScript File" />
+        <option value="Class" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../maven/apache-maven-3.6.3-bin/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\maven\apache-maven-3.6.3-bin\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="1.8 (3)" />
+        <option name="lookForNested" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="1aKSwx2nd1SLwSZSfL9WQkaWotu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="更新" />
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="2" id="移除" />
+    <ConfirmationsSetting value="2" id="添加" />
+    <ConfirmationsSetting value="1" id="Remove" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0": "0",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1": "1",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2": "2",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3": "3",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4": "4",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0": "0",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1": "1",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2": "2",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3": "3",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4": "4",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3": "246",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4": "246",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/94922/Desktop/amiba/cheji/cheji2/jeesite",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "spring.configuration.checksum": "009305137c8b63af327d98f424bacdcb",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaWorkSpace\jeesite_new\src\main\resources\views\modules\app" />
+      <recent name="F:\cheji\java\jeesite-java\jeesite-cheji\src\main\resources\config" />
+      <recent name="E:\JAVA\JavaIDWorkSpace\Cheji_jeesite\src\main\resources\views\modules\app" />
+      <recent name="E:\JAVA\JavaIDWorkSpace\Cheji_jeesite\src\main\resources" />
+      <recent name="E:\JAVA\JavaIDWorkSpace\Cheji_jeesite\src\main\resources\static\common\jqueryui" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\JAVA\JavaIDWorkSpace\Cheji_jeesite\src\main\resources\views\themes\default\modules\sys" />
+      <recent name="E:\JAVA\JavaIDWorkSpace\Cheji_jeesite\src\main\resources\views\modules\app" />
+      <recent name="E:\JAVA\JavaIDWorkSpace\Cheji_jeesite\src\main\resources\static\common\layui" />
+      <recent name="E:\JAVA\JavaIDWorkSpace\Cheji_jeesite\src\main\resources\views\modules\aljsij" />
+      <recent name="H:\cheji\jeesite-java\jeesite-cheji\src\main\resources\static\common" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.jeesite.modules.app.service" />
+      <recent name="com.jeesite.modules.app.web" />
+      <recent name="com.jeesite.modules.constant2" />
+      <recent name="com.jeesite.modules.app.excep" />
+      <recent name="com.jeesite.modules.app.handler" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.Application (1)">
+    <configuration name="AppAuctionJob" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.jeesite.modules.job.AppAuctionJob" />
+      <module name="jeesite-web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jeesite.modules.job.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JPushService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.jeesite.modules.app.service.JPushService" />
+      <module name="jeesite-web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jeesite.modules.app.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MQConsumeMsgListenerProcessor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.jeesite.modules.listener.MQConsumeMsgListenerProcessor" />
+      <module name="jeesite-web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jeesite.modules.listener.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Application (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ACTIVE_PROFILES" />
+      <module name="cheji-jeesite" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jeesite.modules.Application" />
+      <option name="VM_PARAMETERS" value="-XX:+CreateMinidumpOnCrash" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../java/jdk8_181" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="jeesite-web" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jeesite.modules.Application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jeesite.modules.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="registry.cn-chengdu.aliyuncs.com/cheji/jeesite:v1.2.2" />
+          <option name="containerName" value="" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.AppAuctionJob" />
+      <item itemvalue="Application.MQConsumeMsgListenerProcessor" />
+      <item itemvalue="Application.JPushService" />
+      <item itemvalue="Docker.Dockerfile" />
+      <item itemvalue="Spring Boot.Application (1)" />
+      <item itemvalue="Spring Boot.Application" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="Spring Boot.Application" />
+        <item itemvalue="Application.AppAuctionJob" />
+        <item itemvalue="Application.JPushService" />
+        <item itemvalue="Application.MQConsumeMsgListenerProcessor" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\94922\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaWorkSpace\jeesite_new" />
+          <option name="myCopyRoot" value="D:\IdeaWorkSpace\jeesite_new" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaWorkSpace\jeesite_new" />
+          <option name="myCopyRoot" value="D:\IdeaWorkSpace\jeesite_new" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d2bad9dd-e0b1-49e3-9cc4-f019b44b3bdc" name="Default Changelist" comment="" />
+      <created>1564018884724</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1564018884724</updated>
+      <workItem from="1564018887091" duration="1024000" />
+      <workItem from="1564021344307" duration="20000" />
+      <workItem from="1564021569272" duration="12000" />
+      <workItem from="1564021700671" duration="60000" />
+      <workItem from="1564451532783" duration="3049000" />
+      <workItem from="1564487361668" duration="37000" />
+      <workItem from="1564968207098" duration="5909000" />
+      <workItem from="1565054081115" duration="1209000" />
+      <workItem from="1565106506269" duration="654000" />
+      <workItem from="1565161083181" duration="757000" />
+      <workItem from="1565164697308" duration="2759000" />
+      <workItem from="1565659091364" duration="2571000" />
+      <workItem from="1566179894606" duration="38000" />
+      <workItem from="1566267959767" duration="3741000" />
+      <workItem from="1566465603128" duration="1385000" />
+      <workItem from="1566528634796" duration="9162000" />
+      <workItem from="1566613482900" duration="246000" />
+      <workItem from="1566955248299" duration="7548000" />
+      <workItem from="1567042740834" duration="14197000" />
+      <workItem from="1567081769761" duration="100000" />
+      <workItem from="1567128053230" duration="19417000" />
+      <workItem from="1567230169761" duration="374000" />
+      <workItem from="1567388325548" duration="8819000" />
+      <workItem from="1567417191573" duration="2437000" />
+      <workItem from="1567432338764" duration="12000" />
+      <workItem from="1567475768522" duration="11538000" />
+      <workItem from="1567560871783" duration="17436000" />
+      <workItem from="1567602762035" duration="30000" />
+      <workItem from="1567646408601" duration="1828000" />
+      <workItem from="1567690037367" duration="19000" />
+      <workItem from="1567752275022" duration="4880000" />
+      <workItem from="1567819515144" duration="2613000" />
+      <workItem from="1567991497421" duration="8412000" />
+      <workItem from="1568079665918" duration="3687000" />
+      <workItem from="1568083372478" duration="11047000" />
+      <workItem from="1568164997245" duration="7587000" />
+      <workItem from="1568257997907" duration="15355000" />
+      <workItem from="1568295236521" duration="88000" />
+      <workItem from="1568338352116" duration="7616000" />
+      <workItem from="1568683132304" duration="3687000" />
+      <workItem from="1568711185138" duration="628000" />
+      <workItem from="1568769939475" duration="2571000" />
+      <workItem from="1568814955077" duration="22000" />
+      <workItem from="1568855653043" duration="1804000" />
+      <workItem from="1568942014986" duration="12532000" />
+      <workItem from="1568987103620" duration="93000" />
+      <workItem from="1569029273149" duration="3857000" />
+      <workItem from="1569038062397" duration="8500000" />
+      <workItem from="1569204032435" duration="11468000" />
+      <workItem from="1569304614078" duration="16984000" />
+      <workItem from="1569466414973" duration="705000" />
+      <workItem from="1569505188391" duration="492000" />
+      <workItem from="1569550871034" duration="6342000" />
+      <workItem from="1569633667286" duration="12679000" />
+      <workItem from="1569720518881" duration="12699000" />
+      <workItem from="1569767797715" duration="70000" />
+      <workItem from="1569812528971" duration="6577000" />
+      <workItem from="1570497758750" duration="5857000" />
+      <workItem from="1570585096453" duration="15220000" />
+      <workItem from="1570693752286" duration="3283000" />
+      <workItem from="1570763894167" duration="7923000" />
+      <workItem from="1570846925088" duration="8617000" />
+      <workItem from="1570936260001" duration="5039000" />
+      <workItem from="1571016080564" duration="16602000" />
+      <workItem from="1571103246504" duration="18687000" />
+      <workItem from="1571190443195" duration="2814000" />
+      <workItem from="1571275204692" duration="15279000" />
+      <workItem from="1571361375559" duration="5594000" />
+      <workItem from="1571447921444" duration="8039000" />
+      <workItem from="1571550244364" duration="10000" />
+      <workItem from="1571621112979" duration="16875000" />
+      <workItem from="1571707658540" duration="1942000" />
+      <workItem from="1571750362548" duration="754000" />
+      <workItem from="1571796078121" duration="9937000" />
+      <workItem from="1571842569578" duration="90000" />
+      <workItem from="1571903334441" duration="2886000" />
+      <workItem from="1571909642720" duration="3813000" />
+      <workItem from="1572054795737" duration="6877000" />
+      <workItem from="1572101826481" duration="282000" />
+      <workItem from="1572150260963" duration="497000" />
+      <workItem from="1572228427402" duration="4068000" />
+      <workItem from="1572270649788" duration="607000" />
+      <workItem from="1572314713015" duration="7992000" />
+      <workItem from="1572398031126" duration="8455000" />
+      <workItem from="1572486897638" duration="12796000" />
+      <workItem from="1572572116667" duration="18377000" />
+      <workItem from="1572661892418" duration="3164000" />
+      <workItem from="1573436436517" duration="6778000" />
+      <workItem from="1573525186986" duration="3747000" />
+      <workItem from="1573627399238" duration="4045000" />
+      <workItem from="1573703486691" duration="2439000" />
+      <workItem from="1573783472707" duration="1776000" />
+      <workItem from="1574042459404" duration="12455000" />
+      <workItem from="1574235761746" duration="1472000" />
+      <workItem from="1574305236613" duration="6079000" />
+      <workItem from="1574412347974" duration="1224000" />
+      <workItem from="1574731300253" duration="13121000" />
+      <workItem from="1574817087488" duration="1422000" />
+      <workItem from="1574911671312" duration="3809000" />
+      <workItem from="1574989529235" duration="6098000" />
+      <workItem from="1575092653746" duration="40000" />
+      <workItem from="1575277503638" duration="402000" />
+      <workItem from="1575277910864" duration="1563000" />
+      <workItem from="1575356251517" duration="47000" />
+      <workItem from="1575429920109" duration="4451000" />
+      <workItem from="1575615757198" duration="2395000" />
+      <workItem from="1575652632801" duration="317000" />
+      <workItem from="1575853697398" duration="13233000" />
+      <workItem from="1575941835160" duration="11049000" />
+      <workItem from="1575991758418" duration="69000" />
+      <workItem from="1576031136485" duration="8627000" />
+      <workItem from="1576112626508" duration="7916000" />
+      <workItem from="1576199741883" duration="2588000" />
+      <workItem from="1576464142162" duration="17779000" />
+      <workItem from="1576544607643" duration="10051000" />
+      <workItem from="1576631097121" duration="1245000" />
+      <workItem from="1576757618010" duration="601000" />
+      <workItem from="1577070966808" duration="14809000" />
+      <workItem from="1577150972497" duration="2213000" />
+      <workItem from="1577236326914" duration="3673000" />
+      <workItem from="1577288702051" duration="1197000" />
+      <workItem from="1577322878233" duration="6374000" />
+      <workItem from="1577408287598" duration="4628000" />
+      <workItem from="1577667674150" duration="10189000" />
+      <workItem from="1577755525925" duration="18347000" />
+      <workItem from="1578013343117" duration="16795000" />
+      <workItem from="1578389154267" duration="608000" />
+      <workItem from="1578446002805" duration="9244000" />
+      <workItem from="1578542084416" duration="9329000" />
+      <workItem from="1582696008643" duration="3278000" />
+      <workItem from="1583113410641" duration="16556000" />
+      <workItem from="1583197457492" duration="5061000" />
+      <workItem from="1583207295219" duration="4315000" />
+      <workItem from="1583224437073" duration="5113000" />
+      <workItem from="1583284600636" duration="9684000" />
+      <workItem from="1583371537937" duration="11089000" />
+      <workItem from="1583802769617" duration="9820000" />
+      <workItem from="1584415482027" duration="1239000" />
+      <workItem from="1584451088424" duration="22000" />
+      <workItem from="1584873276458" duration="122000" />
+      <workItem from="1585020420863" duration="2545000" />
+      <workItem from="1586233068869" duration="4618000" />
+      <workItem from="1586483040278" duration="7826000" />
+      <workItem from="1586740048281" duration="10277000" />
+      <workItem from="1586826204953" duration="5491000" />
+      <workItem from="1586912746167" duration="2219000" />
+      <workItem from="1586999229263" duration="1093000" />
+      <workItem from="1587085785652" duration="2619000" />
+      <workItem from="1587345171229" duration="1871000" />
+      <workItem from="1587431236806" duration="3734000" />
+      <workItem from="1587517413960" duration="594000" />
+      <workItem from="1587604081507" duration="6893000" />
+      <workItem from="1587690645272" duration="7266000" />
+      <workItem from="1587863758746" duration="12149000" />
+      <workItem from="1587949738314" duration="11718000" />
+      <workItem from="1588035850171" duration="1787000" />
+      <workItem from="1588121819727" duration="2903000" />
+      <workItem from="1588727755931" duration="1913000" />
+      <workItem from="1588813924163" duration="2390000" />
+      <workItem from="1588899879503" duration="4039000" />
+      <workItem from="1588988012147" duration="1191000" />
+      <workItem from="1589160787020" duration="1402000" />
+      <workItem from="1589245845296" duration="1995000" />
+      <workItem from="1589335750352" duration="2879000" />
+      <workItem from="1589418475072" duration="3378000" />
+      <workItem from="1589504855706" duration="1269000" />
+      <workItem from="1589764314416" duration="1746000" />
+      <workItem from="1589850147594" duration="648000" />
+      <workItem from="1589936731160" duration="2313000" />
+      <workItem from="1590023245996" duration="14910000" />
+      <workItem from="1590110583239" duration="2119000" />
+      <workItem from="1590368321122" duration="5742000" />
+      <workItem from="1590455407396" duration="4150000" />
+      <workItem from="1590541261024" duration="3703000" />
+      <workItem from="1590566287573" duration="4773000" />
+      <workItem from="1590631098944" duration="8384000" />
+      <workItem from="1590714588053" duration="1353000" />
+      <workItem from="1590973591245" duration="4864000" />
+      <workItem from="1591061445238" duration="10755000" />
+      <workItem from="1591146058521" duration="6947000" />
+      <workItem from="1591237310724" duration="708000" />
+      <workItem from="1591325238969" duration="15169000" />
+      <workItem from="1591578351958" duration="2725000" />
+      <workItem from="1591665337409" duration="1192000" />
+      <workItem from="1591751942186" duration="5719000" />
+      <workItem from="1591837467257" duration="1283000" />
+      <workItem from="1591924116194" duration="626000" />
+      <workItem from="1591946565458" duration="616000" />
+      <workItem from="1592182766564" duration="905000" />
+      <workItem from="1592269990734" duration="1275000" />
+      <workItem from="1592356838085" duration="641000" />
+      <workItem from="1592442483424" duration="599000" />
+      <workItem from="1592787655991" duration="4104000" />
+      <workItem from="1592874408889" duration="4200000" />
+      <workItem from="1592903107348" duration="2276000" />
+      <workItem from="1592961177914" duration="4387000" />
+      <workItem from="1593324075875" duration="1264000" />
+      <workItem from="1593392741695" duration="5899000" />
+      <workItem from="1593481757063" duration="6820000" />
+      <workItem from="1593569029681" duration="7895000" />
+      <workItem from="1593651574400" duration="19074000" />
+      <workItem from="1593998462272" duration="11120000" />
+      <workItem from="1594084851538" duration="6337000" />
+      <workItem from="1594170857037" duration="4756000" />
+      <workItem from="1594256536204" duration="10385000" />
+      <workItem from="1594343256519" duration="16458000" />
+      <workItem from="1594603061672" duration="17876000" />
+      <workItem from="1594688664982" duration="5671000" />
+      <workItem from="1594774653177" duration="12651000" />
+      <workItem from="1594861538940" duration="1198000" />
+      <workItem from="1594947790672" duration="1326000" />
+      <workItem from="1595206630396" duration="9387000" />
+      <workItem from="1595297625392" duration="643000" />
+      <workItem from="1595383470700" duration="631000" />
+      <workItem from="1595484905011" duration="1185000" />
+      <workItem from="1595553578760" duration="4810000" />
+      <workItem from="1595818253381" duration="598000" />
+      <workItem from="1595898101193" duration="3139000" />
+      <workItem from="1595984427357" duration="682000" />
+      <workItem from="1596416643010" duration="6845000" />
+      <workItem from="1596503125327" duration="10098000" />
+      <workItem from="1596589331816" duration="8377000" />
+      <workItem from="1596675460318" duration="17500000" />
+      <workItem from="1596767406055" duration="3790000" />
+      <workItem from="1597021475137" duration="15057000" />
+      <workItem from="1597114792262" duration="9672000" />
+      <workItem from="1597213157471" duration="1596000" />
+      <workItem from="1597282804111" duration="826000" />
+      <workItem from="1597369486017" duration="2359000" />
+      <workItem from="1597635133961" duration="6217000" />
+      <workItem from="1597714780783" duration="4180000" />
+      <workItem from="1597799334387" duration="11343000" />
+      <workItem from="1597890610845" duration="5632000" />
+      <workItem from="1597991693339" duration="4978000" />
+      <workItem from="1598093193073" duration="969000" />
+      <workItem from="1598231097942" duration="9209000" />
+      <workItem from="1598325861201" duration="3100000" />
+      <workItem from="1598413972563" duration="932000" />
+      <workItem from="1598490687018" duration="2954000" />
+      <workItem from="1598576931923" duration="1194000" />
+      <workItem from="1598837713603" duration="1794000" />
+      <workItem from="1598923458018" duration="6097000" />
+      <workItem from="1599009515094" duration="3672000" />
+      <workItem from="1599095530333" duration="1313000" />
+      <workItem from="1599113374495" duration="1340000" />
+      <workItem from="1599181755048" duration="735000" />
+      <workItem from="1599441725654" duration="10324000" />
+      <workItem from="1599461531169" duration="6667000" />
+      <workItem from="1600045064371" duration="7943000" />
+      <workItem from="1600133257790" duration="4636000" />
+      <workItem from="1600219336527" duration="5384000" />
+      <workItem from="1600305132775" duration="6707000" />
+      <workItem from="1600392217537" duration="814000" />
+      <workItem from="1600651157536" duration="9656000" />
+      <workItem from="1600757201600" duration="2392000" />
+      <workItem from="1600823615165" duration="4502000" />
+      <workItem from="1600909455102" duration="2760000" />
+      <workItem from="1601001054676" duration="4438000" />
+      <workItem from="1601174030219" duration="4647000" />
+      <workItem from="1601255259028" duration="2397000" />
+      <workItem from="1601348097342" duration="5571000" />
+      <workItem from="1601427862126" duration="2667000" />
+      <workItem from="1602207194734" duration="3492000" />
+      <workItem from="1602291362692" duration="4355000" />
+      <workItem from="1602465188174" duration="16814000" />
+      <workItem from="1602551208502" duration="17316000" />
+      <workItem from="1602638114994" duration="9018000" />
+      <workItem from="1602724071418" duration="5676000" />
+      <workItem from="1602732845697" duration="12574000" />
+      <workItem from="1602815329659" duration="1888000" />
+      <workItem from="1603069461168" duration="900000" />
+      <workItem from="1603156586169" duration="1198000" />
+      <workItem from="1603242471329" duration="4794000" />
+      <workItem from="1603329582929" duration="11591000" />
+      <workItem from="1603415658117" duration="8679000" />
+      <workItem from="1603674918434" duration="4797000" />
+      <workItem from="1603760581134" duration="3256000" />
+      <workItem from="1603846897418" duration="10458000" />
+      <workItem from="1603941210304" duration="10685000" />
+      <workItem from="1604020244483" duration="11789000" />
+      <workItem from="1604279634984" duration="8827000" />
+      <workItem from="1604372701248" duration="5456000" />
+      <workItem from="1604455914158" duration="1201000" />
+      <workItem from="1604538630666" duration="5464000" />
+      <workItem from="1604626003099" duration="1197000" />
+      <workItem from="1605063752603" duration="7932000" />
+      <workItem from="1605238303935" duration="2174000" />
+      <workItem from="1605490163985" duration="2483000" />
+      <workItem from="1605575025073" duration="7114000" />
+      <workItem from="1605661720722" duration="1365000" />
+      <workItem from="1605749597439" duration="1885000" />
+      <workItem from="1606180681453" duration="3002000" />
+      <workItem from="1606267073866" duration="3349000" />
+      <workItem from="1606353159225" duration="775000" />
+      <workItem from="1606439557360" duration="1096000" />
+      <workItem from="1606441555996" duration="5420000" />
+      <workItem from="1606698408297" duration="634000" />
+      <workItem from="1606784596264" duration="3900000" />
+      <workItem from="1606871689914" duration="2052000" />
+      <workItem from="1606964180413" duration="599000" />
+      <workItem from="1607044515647" duration="1240000" />
+      <workItem from="1607304475556" duration="1316000" />
+      <workItem from="1607391922212" duration="3687000" />
+      <workItem from="1607476163296" duration="1116000" />
+      <workItem from="1607562831482" duration="1385000" />
+      <workItem from="1607910136310" duration="1193000" />
+      <workItem from="1607994157182" duration="2997000" />
+      <workItem from="1608081597570" duration="4244000" />
+      <workItem from="1608167268570" duration="8703000" />
+      <workItem from="1608254388591" duration="2395000" />
+      <workItem from="1608514072543" duration="10583000" />
+      <workItem from="1608619523370" duration="1793000" />
+      <workItem from="1608694556971" duration="11130000" />
+      <workItem from="1608772419024" duration="7080000" />
+      <workItem from="1608878652329" duration="4023000" />
+      <workItem from="1609119115432" duration="4968000" />
+      <workItem from="1609144167597" duration="2132000" />
+      <workItem from="1609205796250" duration="9443000" />
+      <workItem from="1609291113801" duration="5150000" />
+      <workItem from="1609724608808" duration="5572000" />
+      <workItem from="1609901282557" duration="7052000" />
+      <workItem from="1609984680608" duration="2667000" />
+      <workItem from="1610068412766" duration="8014000" />
+      <workItem from="1610350819632" duration="1349000" />
+      <workItem from="1610414033627" duration="2723000" />
+      <workItem from="1610500181100" duration="8712000" />
+      <workItem from="1610587231669" duration="1200000" />
+      <workItem from="1610673117541" duration="5863000" />
+      <workItem from="1611213142424" duration="1242000" />
+      <workItem from="1611279402090" duration="930000" />
+      <workItem from="1611545401499" duration="2254000" />
+      <workItem from="1611557298973" duration="9091000" />
+      <workItem from="1611632746208" duration="864000" />
+      <workItem from="1611634109340" duration="3376000" />
+      <workItem from="1611711015503" duration="13540000" />
+      <workItem from="1611795628074" duration="4755000" />
+      <workItem from="1611882836823" duration="758000" />
+      <workItem from="1612141617660" duration="1193000" />
+      <workItem from="1612227502773" duration="7696000" />
+      <workItem from="1612314702703" duration="3440000" />
+      <workItem from="1612401573122" duration="2391000" />
+      <workItem from="1612488161413" duration="1189000" />
+      <workItem from="1612659871116" duration="972000" />
+      <workItem from="1612768927351" duration="622000" />
+      <workItem from="1613697173536" duration="6664000" />
+      <workItem from="1613958919306" duration="14296000" />
+      <workItem from="1614043614824" duration="10076000" />
+      <workItem from="1614128736923" duration="6999000" />
+      <workItem from="1614217218489" duration="8360000" />
+      <workItem from="1614301496095" duration="20734000" />
+      <workItem from="1614562291527" duration="19161000" />
+      <workItem from="1614653372646" duration="5890000" />
+      <workItem from="1614735837960" duration="5503000" />
+      <workItem from="1614821420160" duration="13138000" />
+      <workItem from="1614911950678" duration="12657000" />
+      <workItem from="1615169539200" duration="4772000" />
+      <workItem from="1615253560023" duration="13211000" />
+      <workItem from="1615339255146" duration="3274000" />
+      <workItem from="1615424559588" duration="4595000" />
+      <workItem from="1615510324698" duration="3043000" />
+      <workItem from="1615769962448" duration="3984000" />
+      <workItem from="1615856714660" duration="1848000" />
+      <workItem from="1615942306010" duration="2032000" />
+      <workItem from="1616030866436" duration="4496000" />
+      <workItem from="1616115967648" duration="1754000" />
+      <workItem from="1616126540076" duration="61000" />
+      <workItem from="1616375639691" duration="1851000" />
+      <workItem from="1616460936264" duration="988000" />
+      <workItem from="1616547750651" duration="633000" />
+      <workItem from="1616633806418" duration="1373000" />
+      <workItem from="1616654751364" duration="770000" />
+      <workItem from="1616720491310" duration="1212000" />
+      <workItem from="1616979836344" duration="6475000" />
+      <workItem from="1617085133839" duration="2103000" />
+      <workItem from="1617152347523" duration="5027000" />
+      <workItem from="1617238431409" duration="4206000" />
+      <workItem from="1617325253637" duration="7151000" />
+      <workItem from="1617677269569" duration="1939000" />
+      <workItem from="1617762616921" duration="3162000" />
+      <workItem from="1617843813778" duration="10377000" />
+      <workItem from="1617934894735" duration="2518000" />
+      <workItem from="1618294994754" duration="2321000" />
+      <workItem from="1618361930239" duration="7653000" />
+      <workItem from="1618475839954" duration="1360000" />
+      <workItem from="1618535119819" duration="10865000" />
+      <workItem from="1618793985217" duration="3970000" />
+      <workItem from="1618881738741" duration="3913000" />
+      <workItem from="1618966703280" duration="5712000" />
+      <workItem from="1619053743632" duration="2453000" />
+      <workItem from="1619139711279" duration="13173000" />
+      <workItem from="1619278976377" duration="1263000" />
+      <workItem from="1619312053959" duration="31375000" />
+      <workItem from="1619398110143" duration="18426000" />
+      <workItem from="1619485206430" duration="731000" />
+      <workItem from="1619571676159" duration="5352000" />
+      <workItem from="1619656648944" duration="3795000" />
+      <workItem from="1619763785006" duration="662000" />
+      <workItem from="1619767903169" duration="475000" />
+      <workItem from="1620269464000" duration="6060000" />
+      <workItem from="1620355012364" duration="629000" />
+      <workItem from="1620610182730" duration="1567000" />
+      <workItem from="1620694917922" duration="11233000" />
+      <workItem from="1620781500560" duration="19668000" />
+      <workItem from="1620868540038" duration="12070000" />
+      <workItem from="1620955671678" duration="13016000" />
+      <workItem from="1621213834640" duration="11279000" />
+      <workItem from="1621299887557" duration="4802000" />
+      <workItem from="1621385807724" duration="1281000" />
+      <workItem from="1621387634546" duration="1315000" />
+      <workItem from="1621471537593" duration="8005000" />
+      <workItem from="1621557609954" duration="13546000" />
+      <workItem from="1621611687233" duration="669000" />
+      <workItem from="1621816533747" duration="7222000" />
+      <workItem from="1621904477592" duration="6610000" />
+      <workItem from="1621991026065" duration="4571000" />
+      <workItem from="1622096197578" duration="3331000" />
+      <workItem from="1622164414172" duration="8274000" />
+      <workItem from="1622426205846" duration="10989000" />
+      <workItem from="1622508730396" duration="20159000" />
+      <workItem from="1622595375059" duration="371000" />
+      <workItem from="1622602285951" duration="1698000" />
+      <workItem from="1622614043448" duration="14394000" />
+      <workItem from="1622704115752" duration="2554000" />
+      <workItem from="1622769445687" duration="9776000" />
+      <workItem from="1623026093128" duration="10254000" />
+      <workItem from="1623113560458" duration="1475000" />
+      <workItem from="1623199778571" duration="8135000" />
+      <workItem from="1623290477331" duration="8323000" />
+      <workItem from="1623373572335" duration="19742000" />
+      <workItem from="1623403002819" duration="597000" />
+      <workItem from="1623807548170" duration="6852000" />
+      <workItem from="1623908321101" duration="4070000" />
+      <workItem from="1623980334602" duration="10069000" />
+      <workItem from="1624237118507" duration="2677000" />
+      <workItem from="1624322345017" duration="4619000" />
+      <workItem from="1624409158706" duration="2295000" />
+      <workItem from="1624496768986" duration="4164000" />
+      <workItem from="1624583495857" duration="5844000" />
+      <workItem from="1624869451710" duration="752000" />
+      <workItem from="1624959587805" duration="1057000" />
+      <workItem from="1625021341403" duration="1839000" />
+      <workItem from="1625451689079" duration="965000" />
+      <workItem from="1625533141828" duration="1905000" />
+      <workItem from="1625621427891" duration="1796000" />
+      <workItem from="1625707112838" duration="8858000" />
+      <workItem from="1625993034697" duration="1560000" />
+      <workItem from="1626050780907" duration="273000" />
+      <workItem from="1626138217739" duration="2879000" />
+      <workItem from="1626225406301" duration="3118000" />
+      <workItem from="1626311376699" duration="3751000" />
+      <workItem from="1626398694822" duration="3086000" />
+      <workItem from="1626658307617" duration="2727000" />
+      <workItem from="1626743756775" duration="1275000" />
+      <workItem from="1626830734052" duration="3555000" />
+      <workItem from="1626916006093" duration="10227000" />
+      <workItem from="1627002870397" duration="6206000" />
+      <workItem from="1627261452048" duration="2545000" />
+      <workItem from="1627349661531" duration="5998000" />
+      <workItem from="1627435169289" duration="3668000" />
+      <workItem from="1627626957543" duration="696000" />
+      <workItem from="1628581333664" duration="1816000" />
+      <workItem from="1628645073693" duration="637000" />
+      <workItem from="1628753323719" duration="8945000" />
+      <workItem from="1629077975910" duration="2314000" />
+      <workItem from="1629187050819" duration="627000" />
+      <workItem from="1629255662991" duration="642000" />
+      <workItem from="1629339863316" duration="10175000" />
+      <workItem from="1629421845573" duration="1951000" />
+      <workItem from="1629767391931" duration="5786000" />
+      <workItem from="1630288200980" duration="2844000" />
+      <workItem from="1630379315140" duration="1241000" />
+      <workItem from="1630459036837" duration="1193000" />
+      <workItem from="1630545635563" duration="1198000" />
+      <workItem from="1630631563143" duration="773000" />
+      <workItem from="1630891192930" duration="640000" />
+      <workItem from="1631153360748" duration="5684000" />
+      <workItem from="1631265579432" duration="724000" />
+      <workItem from="1631514571941" duration="11176000" />
+      <workItem from="1631588449745" duration="7553000" />
+      <workItem from="1631685807238" duration="5157000" />
+      <workItem from="1631775852027" duration="639000" />
+      <workItem from="1632362266411" duration="758000" />
+      <workItem from="1632706380519" duration="3740000" />
+      <workItem from="1632994028191" duration="1604000" />
+      <workItem from="1633916347639" duration="15015000" />
+      <workItem from="1634020176956" duration="1196000" />
+      <workItem from="1634263737948" duration="3577000" />
+      <workItem from="1634542160308" duration="1528000" />
+      <workItem from="1634716706410" duration="853000" />
+      <workItem from="1634804562250" duration="599000" />
+      <workItem from="1635236216003" duration="1667000" />
+      <workItem from="1635303034048" duration="761000" />
+      <workItem from="1635318351045" duration="596000" />
+      <workItem from="1635388217573" duration="1220000" />
+      <workItem from="1635470435396" duration="4107000" />
+      <workItem from="1635731507054" duration="1285000" />
+      <workItem from="1635818122985" duration="1220000" />
+      <workItem from="1635909239200" duration="2236000" />
+      <workItem from="1635994464741" duration="2416000" />
+      <workItem from="1636075932259" duration="2987000" />
+      <workItem from="1636340231468" duration="1228000" />
+      <workItem from="1636425795924" duration="596000" />
+      <workItem from="1636523288923" duration="1307000" />
+      <workItem from="1636599863891" duration="2275000" />
+      <workItem from="1636683743051" duration="1646000" />
+      <workItem from="1636943862591" duration="3422000" />
+      <workItem from="1637032975150" duration="591000" />
+      <workItem from="1637117085153" duration="2024000" />
+      <workItem from="1637197460668" duration="2636000" />
+      <workItem from="1637283492468" duration="2066000" />
+      <workItem from="1637542951783" duration="2453000" />
+      <workItem from="1637631034378" duration="848000" />
+      <workItem from="1637715648207" duration="3004000" />
+      <workItem from="1637889274233" duration="4777000" />
+      <workItem from="1638237668589" duration="594000" />
+      <workItem from="1638321588466" duration="2385000" />
+      <workItem from="1638407176731" duration="4397000" />
+      <workItem from="1638840612495" duration="1270000" />
+      <workItem from="1639103539072" duration="614000" />
+      <workItem from="1639388848712" duration="503000" />
+      <workItem from="1639536250202" duration="1192000" />
+      <workItem from="1640153230763" duration="60000" />
+      <workItem from="1641435326651" duration="1803000" />
+      <workItem from="1641520794249" duration="2681000" />
+      <workItem from="1641882356353" duration="1091000" />
+      <workItem from="1642129413864" duration="1431000" />
+      <workItem from="1645510559872" duration="1244000" />
+      <workItem from="1648437316320" duration="4524000" />
+      <workItem from="1648456203506" duration="915000" />
+      <workItem from="1648518811288" duration="2040000" />
+      <workItem from="1648606834852" duration="2936000" />
+      <workItem from="1648689159704" duration="3106000" />
+      <workItem from="1649725746846" duration="20925000" />
+      <workItem from="1649817689455" duration="5818000" />
+      <workItem from="1649903018531" duration="9651000" />
+      <workItem from="1649986223298" duration="2068000" />
+      <workItem from="1650090581717" duration="41000" />
+      <workItem from="1650090631849" duration="80000" />
+      <workItem from="1650090720683" duration="17000" />
+      <workItem from="1650090746252" duration="70000" />
+      <workItem from="1650091161539" duration="100000" />
+      <workItem from="1650098668109" duration="1082000" />
+      <workItem from="1650263754747" duration="1196000" />
+      <workItem from="1650850714033" duration="733000" />
+      <workItem from="1677900273161" duration="1377000" />
+      <workItem from="1677909062098" duration="6261000" />
+      <workItem from="1677978504180" duration="8147000" />
+      <workItem from="1678496689177" duration="1307000" />
+      <workItem from="1678583890752" duration="10667000" />
+      <workItem from="1679120834766" duration="1434000" />
+      <workItem from="1679205301092" duration="2293000" />
+      <workItem from="1679706973728" duration="13347000" />
+      <workItem from="1679796732502" duration="1296000" />
+      <workItem from="1679844671118" duration="644000" />
+      <workItem from="1680099678299" duration="7730000" />
+      <workItem from="1680397732660" duration="26048000" />
+      <workItem from="1680487924503" duration="1022000" />
+      <workItem from="1682131052836" duration="11835000" />
+      <workItem from="1682577487149" duration="309000" />
+      <workItem from="1684810106628" duration="596000" />
+      <workItem from="1684999451851" duration="737000" />
+      <workItem from="1685004765665" duration="346000" />
+      <workItem from="1685326485468" duration="20000000" />
+      <workItem from="1685667247643" duration="4230000" />
+      <workItem from="1686559360854" duration="7820000" />
+      <workItem from="1686628796670" duration="8938000" />
+      <workItem from="1686793127327" duration="1136000" />
+      <workItem from="1688286302009" duration="4581000" />
+      <workItem from="1689058921418" duration="807000" />
+      <workItem from="1739085944937" duration="861000" />
+      <workItem from="1739260279099" duration="2518000" />
+    </task>
+    <task id="LOCAL-00106" summary="Default Changelist">
+      <created>1586769371370</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1586769371370</updated>
+    </task>
+    <task id="LOCAL-00107" summary="Default Changelist">
+      <created>1586831978178</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1586831978178</updated>
+    </task>
+    <task id="LOCAL-00108" summary="Default Changelist">
+      <created>1587710847760</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1587710847760</updated>
+    </task>
+    <task id="LOCAL-00109" summary="Default Changelist">
+      <created>1589335966114</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1589335966115</updated>
+    </task>
+    <task id="LOCAL-00110" summary="Default Changelist">
+      <created>1590045175792</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1590045175792</updated>
+    </task>
+    <task id="LOCAL-00111" summary="Default Changelist">
+      <created>1590110682481</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1590110682481</updated>
+    </task>
+    <task id="LOCAL-00112" summary="Default Changelist">
+      <created>1590460619547</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1590460619549</updated>
+    </task>
+    <task id="LOCAL-00113" summary="Default Changelist">
+      <created>1590568866675</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1590568866675</updated>
+    </task>
+    <task id="LOCAL-00114" summary="Default Changelist">
+      <created>1591080836831</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1591080836832</updated>
+    </task>
+    <task id="LOCAL-00115" summary="Default Changelist">
+      <created>1591090400638</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1591090400638</updated>
+    </task>
+    <task id="LOCAL-00116" summary="Default Changelist">
+      <created>1591237424911</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1591237424911</updated>
+    </task>
+    <task id="LOCAL-00117" summary="Default Changelist">
+      <created>1591345515356</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1591345515357</updated>
+    </task>
+    <task id="LOCAL-00118" summary="Default Changelist">
+      <created>1592970659694</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1592970659694</updated>
+    </task>
+    <task id="LOCAL-00119" summary="Default Changelist">
+      <created>1594023856099</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1594023856100</updated>
+    </task>
+    <task id="LOCAL-00120" summary="Default Changelist">
+      <created>1594693590111</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1594693590111</updated>
+    </task>
+    <task id="LOCAL-00121" summary="Default Changelist">
+      <created>1597912926720</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1597912926720</updated>
+    </task>
+    <task id="LOCAL-00122" summary="Default Changelist">
+      <created>1597912964885</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1597912964885</updated>
+    </task>
+    <task id="LOCAL-00123" summary="Default Changelist">
+      <created>1604305548934</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1604305548934</updated>
+    </task>
+    <task id="LOCAL-00124" summary="Default Changelist">
+      <created>1604305679840</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1604305679840</updated>
+    </task>
+    <task id="LOCAL-00125" summary="Default Changelist">
+      <created>1611279567935</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1611279567935</updated>
+    </task>
+    <task id="LOCAL-00126" summary="Default Changelist">
+      <created>1611279602732</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1611279602732</updated>
+    </task>
+    <task id="LOCAL-00127" summary="Default Changelist">
+      <created>1611279697774</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1611279697774</updated>
+    </task>
+    <task id="LOCAL-00128" summary="Default Changelist">
+      <created>1617351383458</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1617351383459</updated>
+    </task>
+    <task id="LOCAL-00129" summary="Default Changelist">
+      <created>1618476493417</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1618476493418</updated>
+    </task>
+    <task id="LOCAL-00130" summary="Default Changelist">
+      <created>1619345108237</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1619345108239</updated>
+    </task>
+    <task id="LOCAL-00131" summary="Default Changelist">
+      <created>1619345201181</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1619345201181</updated>
+    </task>
+    <task id="LOCAL-00132" summary="Default Changelist">
+      <created>1619345226002</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1619345226002</updated>
+    </task>
+    <task id="LOCAL-00133" summary="Default Changelist">
+      <created>1621300729584</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1621300729584</updated>
+    </task>
+    <task id="LOCAL-00134" summary="Default Changelist">
+      <created>1621306454645</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1621306454645</updated>
+    </task>
+    <task id="LOCAL-00135" summary="Default Changelist">
+      <created>1624328864443</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1624328864444</updated>
+    </task>
+    <task id="LOCAL-00136" summary="Default Changelist">
+      <created>1624328900304</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1624328900304</updated>
+    </task>
+    <task id="LOCAL-00137" summary="Default Changelist">
+      <created>1641883065362</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1641883065362</updated>
+    </task>
+    <task id="LOCAL-00138" summary="Default Changelist">
+      <created>1641883406719</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1641883406720</updated>
+    </task>
+    <task id="LOCAL-00139" summary="Default Changelist">
+      <created>1641883443411</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1641883443412</updated>
+    </task>
+    <task id="LOCAL-00140" summary="修改配置文件">
+      <created>1677913755235</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1677913755235</updated>
+    </task>
+    <task id="LOCAL-00141" summary="修改上下架时间做限制">
+      <created>1678602586754</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1678602586755</updated>
+    </task>
+    <task id="LOCAL-00142" summary="开始时间不能小于结束时间">
+      <created>1678603599817</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1678603599817</updated>
+    </task>
+    <task id="LOCAL-00143" summary="修改页面">
+      <created>1678607471662</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1678607471662</updated>
+    </task>
+    <task id="LOCAL-00144" summary="修改开始时间限制">
+      <created>1678612479780</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1678612479780</updated>
+    </task>
+    <task id="LOCAL-00145" summary="Default Changelist">
+      <created>1679836006813</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1679836006814</updated>
+    </task>
+    <task id="LOCAL-00146" summary="1">
+      <created>1680332213969</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1680332213970</updated>
+    </task>
+    <task id="LOCAL-00147" summary="1">
+      <created>1680344587988</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1680344587988</updated>
+    </task>
+    <task id="LOCAL-00148" summary="1">
+      <created>1680344603465</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1680344603465</updated>
+    </task>
+    <task id="LOCAL-00149" summary="修改添加上架时间">
+      <created>1682149741920</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1682149741921</updated>
+    </task>
+    <task id="LOCAL-00150" summary="Default Changelist">
+      <created>1682149770577</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1682149770577</updated>
+    </task>
+    <task id="LOCAL-00151" summary="Default Changelist">
+      <created>1685000208005</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1685000208005</updated>
+    </task>
+    <task id="LOCAL-00152" summary="实现网页端替换图片的功能">
+      <created>1685411769146</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1685411769147</updated>
+    </task>
+    <task id="LOCAL-00153" summary="添加或者移除内部人员">
+      <created>1685677840584</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1685677840585</updated>
+    </task>
+    <task id="LOCAL-00154" summary="Default Changelist">
+      <created>1686639998364</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1686639998364</updated>
+    </task>
+    <option name="localTasksCounter" value="155" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="控制台 打印sql日志" />
+    <MESSAGE value="整理格式" />
+    <MESSAGE value="完善注释" />
+    <MESSAGE value="修改配置文件" />
+    <MESSAGE value="修改上下架时间做限制" />
+    <MESSAGE value="开始时间不能小于结束时间" />
+    <MESSAGE value="修改页面" />
+    <MESSAGE value="修改开始时间限制" />
+    <MESSAGE value="1" />
+    <MESSAGE value="修改添加上架时间" />
+    <MESSAGE value="实现网页端替换图片的功能" />
+    <MESSAGE value="添加或者移除内部人员" />
+    <MESSAGE value="Default Changelist" />
+    <option name="LAST_COMMIT_MESSAGE" value="Default Changelist" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/jeesite/modules/job/TestController.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/jeesite/modules/app/web/AppIndentController.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/jeesite/modules/app/handler/RedisKeyExpirationListener.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/jeesite/modules/app/service/AppAuctionBailRefundLogService.java</url>
+          <line>133</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="((com.jeesite.common.mybatis.mapper.query.QueryWhere)((LinkedHashMap.Entry)appIndent.sqlMap.entrySet().toArray()[2]).getValue()).entrySet().toArray()[0]" language="JAVA" custom="java.util.LinkedHashMap.Entry,com.jeesite.common.mybatis.mapper.query.QueryWhere" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

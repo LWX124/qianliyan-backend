@@ -1,0 +1,70 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="xcxMaintenanceForm">
+
+            <input type="hidden" id="id" value="">
+
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <#SelectCon id="type" name="类别" underline="true">
+                        <option value="1">保养</option>
+                        <option value="2">油漆</option>
+                        <option value="3">钣金</option>
+                    </#SelectCon>
+                </div>
+                <input type="hidden" id="typeHidden" value="${item.type}">
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">标题</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="title" name="title" type="text" value="${item.title}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">价格</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="price" name="price" type="text" value="${item.price}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">图片链接</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="imageUrl" name="imageUrl" type="text" value="${item.imageUrl}">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="contentVal" value="${item.content}">
+                <label class="col-sm-2 control-label">套餐内容</label>
+                <div class="col-sm-10">
+                    <div id="content" class="editorHeight">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="carTypeVale" value="${item.carType}">
+                <label class="col-sm-2 control-label">使用车型</label>
+                <div class="col-sm-10">
+                    <div id="carType" class="editorHeight">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row btn-group-m-t">
+        <div class="col-sm-10">
+            <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="XcxMaintenanceInfoDlg.addSubmit()"/>
+            <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="XcxMaintenanceInfoDlg.close()"/>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script src="${ctxPath}/static/modular/system/xcxMaintenance/xcxMaintenance_info.js"></script>
+@}
+

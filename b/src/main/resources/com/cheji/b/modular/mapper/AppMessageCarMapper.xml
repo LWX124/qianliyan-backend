@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppMessageCarMapper">
+
+
+<!--    List<Integer> findIsPush(String userBId, String userBId1);-->
+    <select id="findIsPush" resultType="Integer">
+
+        SELECT id FROM app_message_car WHERE user_b_id = #{userBId} AND mess_id = #{carMid}
+
+    </select>
+
+
+<!--    <List<String> selectScenePhotos(Long id,Integer source);-->
+    <select id="selectScenePhotos" resultType="String">
+        SELECT url FROM app_message_url WHERE message_id = #{id} AND type = 1 and  source = #{source}
+    </select>
+
+
+<!--    Integer findAgain(Integer userId);-->
+    <select id="findAgain" resultType="Integer">
+        SELECT DISTINCT COUNT(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id
+	LEFT JOIN app_message_car as c on c.mess_id = b.id
+WHERE a.user_id  = #{userId} AND c.vehicle_results = 3 AND a.checkid = '调度'
+
+    </select>
+
+
+<!--    Integer findAgree(Integer userId);-->
+    <select id="findAgree" resultType="Integer">
+ SELECT DISTINCT COUNT(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id
+	LEFT JOIN app_message_car as c on c.mess_id = b.id
+WHERE a.user_id  = #{userId} AND c.vehicle_results = 2 AND a.checkid = '调度'
+
+    </select>
+
+
+<!--    Integer findRefused(Integer userId);-->
+    <select id="findRefused" resultType="Integer">
+        SELECT DISTINCT COUNT(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id
+	LEFT JOIN app_message_car as c on c.mess_id = b.id
+WHERE a.user_id  = #{userId} AND c.vehicle_results = 4 AND a.checkid = '调度'
+
+    </select>
+
+
+<!--    Integer findFinish(Integer userId);-->
+    <select id="findFinish" resultType="Integer">
+        SELECT DISTINCT COUNT(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id
+	LEFT JOIN app_message_car as c on c.mess_id = b.id
+WHERE a.user_id  = #{userId} AND c.vehicle_results is not null AND a.checkid = '调度'
+    </select>
+
+
+    <select id="selectUrlPhotos" resultType="String">
+                SELECT url FROM app_message_url WHERE message_id = #{cid} AND type = #{type}
+    </select>
+
+</mapper>

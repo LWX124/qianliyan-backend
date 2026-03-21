@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppBeautyPriceDetailMapper">
+
+
+<!--    List<String> findUserByBeauty(@Param("beautyType")String beautyType, @Param("cityCode")Integer cityCode);-->
+    <select id="findUserByBeauty" resultType="String">
+        SELECT DISTINCT a.user_b_id FROM app_beauty_price_detail as a
+	        LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+	        LEFT JOIN app_b_user_config as c ON a.user_b_id = c.user_b_id
+		        WHERE beauty_type = #{beautyType} AND b.city = #{cityCode} AND c.business_type = 1 AND c.open_wash_time = 1
+    </select>
+
+<!--    AppBeautyPriceDetailEntity findBeautyDetails(@Param("userB") String userB, @Param("beautyType")String beautyType);-->
+    <select id="findBeautyDetails" resultType="AppBeautyPriceDetailEntity">
+        SELECT a.* FROM app_beauty_price_detail a
+          WHERE  user_b_id = #{userB}
+          AND beauty_type = #{beautyType}
+          AND preferential_price = (SELECT MIN(b.preferential_price)FROM app_beauty_price_detail b WHERE  b.user_b_id = #{userB} AND b.beauty_type = #{beautyType})
+    </select>
+
+<!--    List<AppBeautyPriceDetailEntity> findDetailsByUserId(@Param("userBId")String userBId, @Param("beautyType")String beautyType);-->
+    <select id="findDetailsByUserId" resultType="AppBeautyPriceDetailEntity">
+        SELECT a.*,b.beauty_name beautyName FROM app_beauty_price_detail as a
+	        LEFT JOIN app_beauty_type as b ON a.beauty_type = b.beauty_type
+	            WHERE user_b_id = #{userBId}
+
+    </select>
+
+</mapper>

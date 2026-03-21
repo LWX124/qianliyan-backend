@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.OpenClaimMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.OpenClaim">
+        <id column="id" property="id" />
+        <result column="openid" property="openid" />
+        <result column="orderno" property="orderno" />
+        <result column="phone" property="phone" />
+        <result column="name" property="name" />
+        <result column="cph" property="cph" />
+        <result column="qcpp" property="qcpp" />
+        <result column="status" property="status" />
+        <result column="desc" property="desc" />
+        <result column="deptid" property="deptid" />
+        <result column="lng" property="lng" />
+        <result column="lat" property="lat" />
+        <result column="rebate_for_emp" property="rebateForEmp" />
+        <result column="rebate_for_company" property="rebateForCompany" />
+        <result column="fixloss" property="fixloss" />
+        <result column="address" property="address" />
+        <result column="claimImg" property="claimImg" />
+        <result column="detailImg" property="detailImg" />
+        <result column="modifytime" property="modifytime" />
+        <result column="createtime" property="createtime" />
+        <result column="cjh" property="cjh" />
+        <result column="payBillNo" property="payBillNo" />
+        <result column="payBillNoForClaim" property="payBillNoForClaim" />
+        <result column="accType" property="accType" />
+        <result column="promise" property="promise" />
+        <result column="rescue" property="rescue" />
+        <result column="rescueFee" property="rescueFee" />
+        <result column="insurAccess" property="insurAccess" />
+        <result column="insurer" property="insurer" />
+        <result column="preFee" property="preFee" />
+        <result column="settleType" property="settleType" />
+        <result column="rescueFeeSettleType" property="rescueFeeSettleType" />
+        <result column="personHurts" property="personHurts" />
+        <result column="goodsHurts" property="goodsHurts" />
+        <result column="hasException" property="hasException" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, orderno, openid, phone, name, cph, qcpp, status, desc, deptid, lng, lat, fixloss, address, claimImg, modifytime, createtime,rescueFeeSettleType,personHurts,goodsHurts,rebate_for_emp as rebateForEmp,rebate_for_company as rebateForCompany
+        , cjh, payBillNo,payBillNoForClaim,accType,promise,rescue,rescueFee,insurAccess,detailImg,preFee,settleType,hasException
+    </sql>
+    <sql id="Base_Column_List2">
+        a.id, a.orderno, a.openid, a.phone, a.name, a.cph, a.qcpp, a.status, a.desc, a.deptid, a.lng, a.lat, a.fixloss,a.detailImg,a.preFee,a.rescueFeeSettleType,a.settleType,a.personHurts,a.goodsHurts,a.rebate_for_emp as rebateForEmp,a.rebate_for_company as rebateForCompany,
+        a.address, a.claimImg, a.modifytime, a.createtime, a.cjh, a.payBillNo,payBillNoForClaim,a.accType,a.promise,a.rescue,a.rescueFee,a.insurAccess,a.insurer,a.hasException, b.fullname, c.phone as claimerPhone,d.bankcard, d.bankUserName, d.bankName, d.bankSecondName, d.idcard, b.synopsis
+    </sql>
+    <sql id="Base_Column_List3">
+        a.id, a.orderno, a.openid, a.phone, a.name, a.cph, a.qcpp, a.status, a.desc, a.deptid, a.lng, a.lat, a.fixloss,a.detailImg,a.preFee,a.rescueFeeSettleType,a.settleType,a.personHurts,a.goodsHurts,a.rebate_for_emp as rebateForEmp,a.rebate_for_company as rebateForCompany,
+        a.address, a.claimImg, a.modifytime, a.createtime, a.cjh, a.payBillNo,payBillNoForClaim,a.accType,a.promise,a.rescue,a.rescueFee,a.insurAccess,a.insurer,a.hasException, b.fullname, c.phone as claimerPhone, b.synopsis
+    </sql>
+
+    <select id="getOpenClaimOrderNo" resultType="java.lang.String">
+        SELECT get_open_claim_order_num() FROM dual
+    </select>
+
+    <select id="selectByCondition" resultType="map">
+        select
+        <include refid="Base_Column_List2" />
+        from biz_open_claim a  left join sys_dept b on a.deptid = b.id   left join sys_user d on a.claimer = d.account left join biz_wx_user c on a.openid = c.openid
+        <where>
+            a.status != 5
+            <if test="condition != null and condition != ''">
+                and (a.phone like  CONCAT('%',#{condition},'%') or a.name like  CONCAT('%',#{condition},'%') or a.cph like  CONCAT('%',#{condition},'%') or a.cjh like  CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createtime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},' 23:59:59'))
+            </if>
+            <if test="openClaim.openid != null and openClaim.openid != ''">
+                and a.openid = #{openClaim.openid}
+            </if>
+            <if test="openClaim.claimer != null and openClaim.claimer != ''">
+                and a.claimer = #{openClaim.claimer}
+            </if>
+            <if test="openClaim.deptid != null and openClaim.deptid != ''">
+                and a.deptid = #{openClaim.deptid}
+            </if>
+            <if test="openClaim.orderno != null and openClaim.orderno != ''">
+                and a.orderno = #{openClaim.orderno}
+            </if>
+            <if test="openClaim.status != null ">
+                <!--<if test="openClaim.status == -1">-->
+                <!--and cph is not null-->
+                <!--</if>-->
+                and a.status = #{openClaim.status}
+            </if>
+            <if test="isComplete == 0">
+                and a.cph is null
+            </if>
+            <if test="isComplete == 1">
+                and a.cph is not null
+            </if>
+        </where>
+        ORDER BY a.createTime desc
+    </select>
+
+
+    <select id="selectByCondition2" resultType="map">
+        select
+        <include refid="Base_Column_List2" />
+        from biz_open_claim a  left join sys_dept b on a.deptid = b.id   left join sys_user d on a.claimer = d.account left join biz_wx_user c on a.openid = c.openid
+        <where>
+            a.status != 5
+            <if test="condition != null and condition != ''">
+                and (a.phone like  CONCAT('%',#{condition},'%') or a.name like  CONCAT('%',#{condition},'%') or a.cph like  CONCAT('%',#{condition},'%') or a.cjh like  CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createtime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},' 23:59:59'))
+            </if>
+            <if test="openClaim.openid != null and openClaim.openid != ''">
+                and a.openid = #{openClaim.openid}
+            </if>
+            <if test="openClaim.claimer != null and openClaim.claimer != ''">
+                and a.claimer = #{openClaim.claimer}
+            </if>
+            <if test="openClaim.deptid != null and openClaim.deptid != ''">
+                and a.deptid = #{openClaim.deptid}
+            </if>
+            <if test="openClaim.orderno != null and openClaim.orderno != ''">
+                and a.orderno = #{openClaim.orderno}
+            </if>
+            <if test="openClaim.status != null and (openClaim.status==0 or openClaim.status==1)">
+                <!--<if test="openClaim.status == -1">-->
+                <!--and cph is not null-->
+                <!--</if>-->
+                and a.status in ('1','0')
+            </if>
+            <if test="openClaim.status != null and openClaim.status!=0 and openClaim.status!=1">
+                <!--<if test="openClaim.status == -1">-->
+                <!--and cph is not null-->
+                <!--</if>-->
+                and a.status = #{openClaim.status}
+            </if>
+            <if test="isComplete == 0">
+                and a.cph is null
+            </if>
+            <if test="isComplete == 1">
+                and a.cph is not null
+            </if>
+        </where>
+        ORDER BY a.createTime desc
+    </select>
+
+
+
+    <select id="selectByConditionForRest" resultType="map">
+        select
+        <include refid="Base_Column_List3" />
+        from biz_open_claim a left join biz_wx_user c on a.openid = c.openid left join sys_dept b on a.deptid = b.id
+        <where>
+            a.status != 5
+            <if test="condition != null and condition != ''">
+                and (a.phone like  CONCAT('%',#{condition},'%') or a.name like  CONCAT('%',#{condition},'%') or a.cph like  CONCAT('%',#{condition},'%') or a.cjh like  CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createtime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},' 23:59:59'))
+            </if>
+            <if test="openClaim.openid != null and openClaim.openid != ''">
+                and a.openid = #{openClaim.openid}
+            </if>
+            <if test="openClaim.deptid != null and openClaim.deptid != ''">
+                and a.deptid = #{openClaim.deptid}
+            </if>
+            <if test="openClaim.orderno != null and openClaim.orderno != ''">
+                and a.orderno = #{openClaim.orderno}
+            </if>
+            <if test="openClaim.status != null">
+                and a.status = #{openClaim.status}
+            </if>
+            <if test="isComplete == 0">
+                and a.cph is null
+            </if>
+            <if test="isComplete == 1">
+                and a.cph is not null
+            </if>
+        </where>
+        ORDER BY a.createTime desc
+    </select>
+
+    <select id="selectByConditionForExport" resultType="map">
+        select
+        <include refid="Base_Column_List2" />
+        from biz_open_claim a left join biz_wx_user c on a.openid = c.openid left join sys_dept b on a.deptid = b.id left join sys_user d on c.phone = d.phone
+        <where>
+            <if test="condition != null and condition != ''">
+                and (a.phone like  CONCAT('%',#{condition},'%') or a.name like  CONCAT('%',#{condition},'%') or a.cph like  CONCAT('%',#{condition},'%') or a.cjh like  CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createtime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},' 23:59:59'))
+            </if>
+            <if test="openClaim.openid != null and openClaim.openid != ''">
+                and a.openid = #{openClaim.openid}
+            </if>
+            <if test="openClaim.deptid != null and openClaim.deptid != ''">
+                and a.deptid = #{openClaim.deptid}
+            </if>
+            <if test="openClaim.orderno != null and openClaim.orderno != ''">
+                and a.orderno = #{openClaim.orderno}
+            </if>
+            <if test="openClaim.status != null">
+                and a.status = #{openClaim.status}
+            </if>
+            <if test="isComplete == 0">
+                and a.cph is null
+            </if>
+            <if test="isComplete == 1">
+                and a.cph is not null
+            </if>
+        </where>
+        ORDER BY a.createTime desc
+    </select>
+
+    <select id="queryFixLossSumByCondition" resultType="java.math.BigDecimal">
+        select
+        sum(fixloss)
+        from biz_open_claim a left join biz_wx_user c on a.openid = c.openid left join sys_dept b on a.deptid = b.id
+        <where>
+            <if test="condition != null and condition != ''">
+                and (a.phone like  CONCAT('%',#{condition},'%') or a.name like  CONCAT('%',#{condition},'%') or a.cph like  CONCAT('%',#{condition},'%') or a.cjh like  CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createtime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},' 23:59:59'))
+            </if>
+            <if test="openClaim.openid != null and openClaim.openid != ''">
+                and a.openid = #{openClaim.openid}
+            </if>
+            <if test="openClaim.deptid != null and openClaim.deptid != ''">
+                and a.deptid = #{openClaim.deptid}
+            </if>
+            <if test="openClaim.orderno != null and openClaim.orderno != ''">
+                and a.orderno = #{openClaim.orderno}
+            </if>
+            <if test="openClaim.status != null">
+                and a.status = #{openClaim.status}
+            </if>
+            <if test="isComplete == 0">
+                and a.cph is null
+            </if>
+            <if test="isComplete == 1">
+                and a.cph is not null
+            </if>
+        </where>
+    </select>
+    <select id="selectCountByStatus" resultType="map">
+        SELECT count(1) AS CONUM,t.status AS STATUS from biz_open_claim t where t.deptid=#{deptid} group by t.status
+    </select>
+
+
+    <select id="getOpenClaimOrdersIncome" resultType="java.math.BigDecimal">
+        SELECT sum(rebate_for_emp) FROM biz_open_claim WHERE openid = #{openid}
+    </select>
+
+    <select id="getOpenClaimOrdersIncomeByAccount" resultType="java.math.BigDecimal">
+        SELECT sum(rebate_for_emp) FROM biz_open_claim WHERE claimer = #{account}
+    </select>
+
+
+
+
+
+    <select id="countByCondition" resultType="java.lang.Long">
+        select
+        count(1)
+        from biz_open_claim
+        <where>
+            status != 5
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (createtime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},' 23:59:59'))
+            </if>
+            <if test="openClaim.openid != null and openClaim.openid != ''">
+                and openid = #{openClaim.openid}
+            </if>
+            <if test="openClaim.deptid != null and openClaim.deptid != ''">
+                and deptid = #{openClaim.deptid}
+            </if>
+            <if test="openClaim.orderno != null and openClaim.orderno != ''">
+                and orderno = #{openClaim.orderno}
+            </if>
+            <if test="openClaim.status != null">
+                and status = #{openClaim.status}
+            </if>
+            <if test="openClaim.claimer != null">
+                and claimer = #{openClaim.claimer}
+            </if>
+
+            <if test="isComplete == 0">
+                and cph is null
+            </if>
+            <if test="isComplete == 1">
+                and cph is not null
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCountOpenOrder" resultType="int">
+        select count(1) from biz_open_claim t1 where to_days(t1.createTime) = to_days(now())
+        and t1.status = #{status}
+    </select>
+
+    <select id="selectCountMoney" resultType="string">
+          select  cast(
+        sum(t1.fixloss) AS DECIMAL (19, 2)
+        )  from biz_open_claim t1 where to_days(t1.createTime) = to_days(now())
+    </select>
+
+    <update id="updateStatusById">
+        update biz_open_claim t set t.status=#{status} where t.id=#{id}
+    </update>
+</mapper>

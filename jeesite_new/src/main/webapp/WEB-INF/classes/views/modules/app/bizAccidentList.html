@@ -1,0 +1,212 @@
+<% layout('/layouts/default.html', {title: '事故上报信息表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('事故上报信息表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:bizAccident:edit')){ %>
+					<a href="${ctx}/app/bizAccident/form" class="btn btn-default btnTool" title="${text('新增事故上报信息表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${bizAccident}" action="${ctx}/app/bizAccident/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('上报人id')}：</label>
+					<div class="control-inline">
+						<#form:input path="openid" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('视频url')}：</label>
+					<div class="control-inline">
+						<#form:input path="video" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('经度')}：</label>
+					<div class="control-inline">
+						<#form:input path="lng" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('纬度')}：</label>
+					<div class="control-inline">
+						<#form:input path="lat" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('审核人id')}：</label>
+					<div class="control-inline">
+						<#form:input path="checkid" maxlength="45" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('状态')}：</label>
+					<div class="control-inline">
+						<#form:input path="status" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('审核原因')}：</label>
+					<div class="control-inline">
+						<#form:input path="reason" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('上报地址名称')}：</label>
+					<div class="control-inline">
+						<#form:input path="address" maxlength="250" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('事故真实性')}：</label>
+					<div class="control-inline">
+						<#form:input path="realness" maxlength="1" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('是否添加到评论表')}：</label>
+					<div class="control-inline">
+						<#form:input path="isaddvideo" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('关联视频id')}：</label>
+					<div class="control-inline">
+						<#form:input path="videoId" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('上报时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="createtime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('审核时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="checktime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('保留字段')}：</label>
+					<div class="control-inline">
+						<#form:input path="version" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车总数')}：</label>
+					<div class="control-inline">
+						<#form:input path="carcount" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('上报地址')}：</label>
+					<div class="control-inline">
+						<#form:input path="realaddress" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('现场的照片')}：</label>
+					<div class="control-inline">
+						<#form:input path="realimg" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('事故照片')}：</label>
+					<div class="control-inline">
+						<#form:input path="accimg" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('事故真实纬度')}：</label>
+					<div class="control-inline">
+						<#form:input path="lat2" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('事故真实经度')}：</label>
+					<div class="control-inline">
+						<#form:input path="lng2" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('是否置顶')}：</label>
+					<div class="control-inline">
+						<#form:input path="topflag" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('到达时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="realarrtime" maxlength="5" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('缩略图；1')}：</label>
+					<div class="control-inline">
+						<#form:input path="thumbnailFlag" maxlength="1" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('缩略图地址')}：</label>
+					<div class="control-inline">
+						<#form:input path="thumbnailUrl" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("上报人id")}', name:'openid', index:'a.openid', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/bizAccident/form?id='+row.id+'" class="btnList" data-title="${text("编辑事故上报信息表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("视频url")}', name:'video', index:'a.video', width:150, align:"left"},
+		{header:'${text("经度")}', name:'lng', index:'a.lng', width:150, align:"left"},
+		{header:'${text("纬度")}', name:'lat', index:'a.lat', width:150, align:"left"},
+		{header:'${text("审核人id")}', name:'checkid', index:'a.checkid', width:150, align:"left"},
+		{header:'${text("状态")}', name:'status', index:'a.status', width:150, align:"center"},
+		{header:'${text("审核原因")}', name:'reason', index:'a.reason', width:150, align:"left"},
+		{header:'${text("上报地址名称")}', name:'address', index:'a.address', width:150, align:"left"},
+		{header:'${text("事故真实性")}', name:'realness', index:'a.realness', width:150, align:"center"},
+		{header:'${text("是否添加到评论表")}', name:'isaddvideo', index:'a.isaddvideo', width:150, align:"center"},
+		{header:'${text("关联视频id")}', name:'videoId', index:'a.video_id', width:150, align:"center"},
+		{header:'${text("上报时间")}', name:'createtime', index:'a.createtime', width:150, align:"center"},
+		{header:'${text("审核时间")}', name:'checktime', index:'a.checktime', width:150, align:"center"},
+		{header:'${text("上报地址")}', name:'realaddress', index:'a.realaddress', width:150, align:"left"},
+		{header:'${text("缩略图；1")}', name:'thumbnailFlag', index:'a.thumbnail_flag', width:150, align:"center"},
+		{header:'${text("缩略图地址")}', name:'thumbnailUrl', index:'a.thumbnail_url', width:150, align:"left"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:bizAccident:edit')){ %>
+				actions.push('<a href="${ctx}/app/bizAccident/form?id='+row.id+'" class="btnList" title="${text("编辑事故上报信息表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/app/bizAccident/delete?id='+row.id+'" class="btnList" title="${text("删除事故上报信息表")}" data-confirm="${text("确认要删除该事故上报信息表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

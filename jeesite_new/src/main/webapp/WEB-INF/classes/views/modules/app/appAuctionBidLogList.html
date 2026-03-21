@@ -1,0 +1,84 @@
+<% layout('/layouts/default.html', {title: '出价记录管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('出价记录管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appAuctionBidLog:edit')){ %>
+					<a href="${ctx}/app/appAuctionBidLog/form" class="btn btn-default btnTool" title="${text('新增出价记录')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appAuctionBidLog}" action="${ctx}/app/appAuctionBidLog/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('出价用户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userId" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('出价用户账号')}：</label>
+					<div class="control-inline">
+						<#form:input path="appUser.username" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('出价车辆id')}：</label>
+					<div class="control-inline">
+						<#form:input path="carId" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('出的价格')}：</label>
+					<div class="control-inline">
+						<#form:input path="bid" class="form-control width-120"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("出价用户id")}', name:'userId', index:'a.user_id', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appAuctionBidLog/form?id='+row.id+'" class="btnList" data-title="${text("编辑出价记录")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("出价人账号")}', name:'appUser.username', index:'i.username', width:150, align:"center"},
+		{header:'${text("车辆id")}', name:'carId', index:'a.car_id', width:150, align:"center"},
+		{header:'${text("车辆品牌")}', name:'appAuction.brand', index:'o.brand', width:150, align:"center"},
+		{header:'${text("出价时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("出价金额(单位元)")}', name:'bid', index:'a.bid', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+				return val;
+			}},
+		// {header:'${text("是否有效,0有效,1过时无效")}', name:'valid', index:'a.valid', width:150, align:"left"},
+		// {header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+		// 	var actions = [];
+		// 	<% if(hasPermi('app:appAuctionBidLog:edit')){ %>
+		// 		actions.push('<a href="${ctx}/app/appAuctionBidLog/form?id='+row.id+'" class="btnList" title="${text("编辑出价记录")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+		// 		actions.push('<a href="${ctx}/app/appAuctionBidLog/delete?id='+row.id+'" class="btnList" title="${text("删除出价记录")}" data-confirm="${text("确认要删除该出价记录吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+		// 	<% } %>
+		// 	return actions.join('');
+		// }}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

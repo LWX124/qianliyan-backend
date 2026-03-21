@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.MerchantsCommentsTreeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.MerchantsCommentsTreeEntity">
+        <id column="comments_code" property="commentsCode" />
+        <result column="comments_name" property="commentsName" />
+        <result column="parent_code" property="parentCode" />
+        <result column="parent_codes" property="parentCodes" />
+        <result column="tree_sort" property="treeSort" />
+        <result column="tree_sorts" property="treeSorts" />
+        <result column="tree_leaf" property="treeLeaf" />
+        <result column="tree_level" property="treeLevel" />
+        <result column="tree_names" property="treeNames" />
+        <result column="user_id" property="userId" />
+        <result column="merchants_id" property="merchantsId" />
+        <result column="content" property="content" />
+        <result column="state" property="state" />
+        <result column="service_score" property="serviceScore" />
+        <result column="efficiensy_score" property="efficiensyScore" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        comments_code AS commentsCode, comments_name AS commentsName, parent_code AS parentCode, parent_codes AS parentCodes, tree_sort AS treeSort, tree_sorts AS treeSorts, tree_leaf AS treeLeaf, tree_level AS treeLevel, tree_names AS treeNames, user_id AS userId, merchants_id AS merchantsId, content, state, service_score AS serviceScore, efficiensy_score AS efficiensyScore, create_date AS createDate, update_date AS updateDate
+    </sql>
+
+<!--    Integer genre-->
+    <select id="getComByMerId" resultType="MerchantsComment">
+        SELECT
+        a.comments_code commentCode,
+        b.id id,
+        b.name userName,
+        b.avatar url,
+        a.content counts,
+        round((service_score+efficiensy_score)/2,1) score,
+        a.create_date countTime
+        FROM app_merchants_comments_tree AS a
+	    LEFT JOIN app_user AS b ON a.user_id = b.id
+		WHERE a.user_b_id = #{merchantsId}
+		AND tree_level = 0
+        <if test="type != null and type != ''">
+            AND type = #{type}
+        </if>
+        <if test="genre == 2">
+            AND (a.efficiensy_score+a.service_score)/2 &gt;= 4
+        </if>
+        <if test="genre == 3">
+            AND (efficiensy_score+service_score)/2 &gt; 2 AND (efficiensy_score+service_score)/2 &lt; 4
+        </if>
+        <if test="genre == 4">
+            AND (efficiensy_score+service_score)/2 &lt;= 2
+        </if>
+        <if test="genre == 5">
+            AND have_img = 1
+        </if>
+		ORDER BY a.create_date DESC limit #{pagesize},20
+    </select>
+
+    <!--查询是否最末级评论-->
+    <select id="findTreeLeaf" resultType="MerchantsCommentsTreeEntity">
+        SELECT
+        comments_code commentsCode,
+        comments_code commentsName,
+        parent_code parentCode,
+        parent_codes parentCodes,
+        tree_sort treeSort,
+        tree_sorts treeSorts,
+        tree_leaf treeLeaf,
+        tree_level treeLevel,
+        tree_names treeNames,
+        state state,
+        create_date createDate,
+        update_date updateDate
+        FROM app_merchants_comments_tree WHERE parent_code = #{parentCode}
+    </select>
+
+
+    <!--拿到最后一个一级评论-->
+    <select id="getLastComByParentCode" resultType="MerchantsCommentsTreeEntity">
+        SELECT
+        comments_code commentsCode,
+        comments_code commentsName,
+        parent_code parentCode,
+        parent_codes parentCodes,
+        tree_sort treeSort,
+        tree_sorts treeSorts,
+        tree_leaf treeLeaf,
+        tree_level treeLevel,
+        tree_names treeNames,
+        state state,
+        create_date createDate,
+        update_date updateDate
+        FROM app_merchants_comments_tree
+         WHERE parent_code = 0 ORDER BY comments_code desc LIMIT 0,1
+    </select>
+
+
+
+   <!-- //查询父级评论
+    MerchantsCommentsTreeEntity findParentMessg(String parentCode);-->
+    <select id="findParentMessg" resultType="MerchantsCommentsTreeEntity">
+        SELECT
+        comments_code commentsCode,
+        comments_code commentsName,
+        parent_code parentCode,
+        parent_codes parentCodes,
+        tree_sort treeSort,
+        tree_sorts treeSorts,
+        tree_leaf treeLeaf,
+        tree_level treeLevel,
+        tree_names treeNames,
+        state state,
+        create_date createDate,
+        update_date updateDate
+        FROM app_merchants_comments_tree
+        WHERE comments_code = #{parentCode}
+    </select>
+
+
+    <select id="findListByUseridAndMer" resultType="MerchantsCommentsTreeEntity">
+        SELECT content FROM app_merchants_comments_tree WHERE user_id = #{id} AND user_b_id = #{merchantsCode}
+    </select>
+
+    <!--Integer getLastParentCode();-->
+    <select id="getLastParentCode" resultType="Integer">
+        SELECT
+       MAX(CAST(comments_code as SIGNED INTEGER)) commentsCode
+       FROM app_merchants_comments_tree WHERE parent_code = 0
+    </select>
+
+<!--    AllCommentDto selectAllComment(Integer userBId);   &lt;&gt;  -->
+    <select id="selectAllComment" resultType="AllCommentDto">
+
+        SELECT
+        SUM(if((user_b_id = #{userBId} AND parent_code = 0 AND type = 12),1,0)) allCount,
+        SUM(if(((efficiensy_score+service_score)/2 &gt;=4 AND parent_code = 0 AND type = 12 AND user_b_id = #{userBId}),1,0)) AS highPraiseCount,
+        SUM(if(((efficiensy_score+service_score)/2 &gt; 2 AND (efficiensy_score+service_score)/2 &lt; 4 AND parent_code = 0 AND type = 12 AND user_b_id = #{userBId}),1,0)) AS midBabCount,
+        SUM(if(((efficiensy_score+service_score)/2 &lt;=2 AND parent_code = 0 AND type = 12 AND user_b_id = #{userBId}),1,0)) AS badReviewCount,
+        SUM(if((have_img = 1 AND parent_code = 0 AND type = 12 AND user_b_id = #{userBId}),1,0)) AS haveImgCount
+        FROM app_merchants_comments_tree
+
+
+    </select>
+
+
+<!--        List<MerchantsCommentsTreeEntity> finfCommentNoId(@Param("brandId")String brandId, @Param("score")String score,@Param("pagesize")Integer pagesize);-->
+    <select id="finfCommentNoId" resultType="MerchantsCommentsTreeEntity">
+
+        SELECT
+        comments_code commentsCode,
+        a.user_id userId,
+        a.user_b_id userBId,
+        a.create_date createDate,
+        content content,
+        service_score serviceScore
+        FROM app_merchants_comments_tree as a
+        <if test="brandId != null and brandId != ''">
+            left join app_b_user as b ON b.id = a.user_b_id
+        </if>
+
+        WHERE parent_code = 0
+
+        <if test="brandId != null and brandId != ''">
+            AND b.type = 1 AND b.brand_id = #{brandId}
+        </if>
+
+        <if test="score != null and score != ''">
+            AND a.service_score = 5
+        </if>
+
+
+          ORDER BY a.create_date DESC limit #{pageSize},20
+
+
+    </select>
+
+</mapper>

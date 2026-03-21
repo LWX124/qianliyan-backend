@@ -1,0 +1,291 @@
+<% layout('/layouts/default.html', {title: '拍卖业务表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('拍卖业务表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appAuction:edit')){ %>
+					<a href="${ctx}/app/appAuction/form" class="btn btn-default btnTool" title="${text('新增拍卖业务表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appAuction}" action="${ctx}/app/appAuction/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('品牌型号')}：</label>
+					<div class="control-inline">
+						<#form:input path="brand" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车牌号')}：</label>
+					<div class="control-inline">
+						<#form:input path="plateNo" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('品牌描述')}：</label>
+					<div class="control-inline">
+						<#form:input path="brandDesc" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('排量')}：</label>
+					<div class="control-inline">
+						<#form:input path="displacement" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('传动类型')}：</label>
+					<div class="control-inline">
+						<#form:input path="transmission" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('燃油类型')}：</label>
+					<div class="control-inline">
+						<#form:input path="fuel" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('初次登记')}：</label>
+					<div class="control-inline">
+						<#form:input path="initalRegiste" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('交强险有效期')}：</label>
+					<div class="control-inline">
+						<#form:input path="compulsoryInsuranceVilidity" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('户籍地')}：</label>
+					<div class="control-inline">
+						<#form:input path="registeredResidence" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('停放地')}：</label>
+					<div class="control-inline">
+						<#form:input path="parkingPlace" maxlength="50" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('事故类型,1.水淹,2.火烧,3.碰撞')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="accidentType" dictType="sys_accident_type" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('是否有天窗')}：</label>
+					<div class="control-inline">
+						<#form:radio path="sunroof" dictType="sys_islouver" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车架号')}：</label>
+					<div class="control-inline">
+						<#form:input path="frameNo" maxlength="30" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('使用性质')}：</label>
+					<div class="control-inline">
+						<#form:input path="useNature" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车架号是否受')}：</label>
+					<div class="control-inline">
+						<#form:radio path="frameNoDamagedCondition" dictType="sys_frame_no_damaged_condition" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('发动机')}：</label>
+					<div class="control-inline">
+						<#form:input path="engine" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车辆所有人')}：</label>
+					<div class="control-inline">
+						<#form:input path="carOwner" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('行驶里程')}：</label>
+					<div class="control-inline">
+						<#form:input path="mileage" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('钥匙')}：</label>
+					<div class="control-inline">
+						<#form:radio path="key" dictType="sys_have_key" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('登记证书')}：</label>
+					<div class="control-inline">
+						<#form:radio path="registrationCertificate" dictType="sys_register" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('行驶证')}：</label>
+					<div class="control-inline">
+						<#form:input path="drivingLicense" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('购置税')}：</label>
+					<div class="control-inline">
+						<#form:input path="purchaseTax" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('录入时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="createTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('update_time')}：</label>
+					<div class="control-inline">
+						<#form:input path="updateTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('上架状态')}：</label>
+					<div class="control-inline">
+						<#form:input path="upState" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('是否拆检')}：</label>
+					<div class="control-inline">
+						<#form:radio path="overhaul" dictType="sys_overhaul" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('注意事项')}：</label>
+					<div class="control-inline">
+						<#form:input path="announcements" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车辆拍卖状态码')}：</label>
+					<div class="control-inline">
+						<#form:input path="state" maxlength="4" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('审核状态')}：</label>
+					<div class="control-inline">
+						<#form:input path="checked" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('扩展字段')}：</label>
+					<div class="control-inline">
+						<#form:input path="otherField" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('注册日期')}：</label>
+					<div class="control-inline">
+						<#form:input path="registerDate" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('发证日期')}：</label>
+					<div class="control-inline">
+						<#form:input path="issueDate" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("品牌型号")}', name:'brand', index:'a.brand', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appAuction/form?id='+row.id+'" class="btnList" data-title="${text("编辑拍卖业务表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("车牌号")}', name:'plateNo', index:'a.plate_no', width:150, align:"left"},
+		{header:'${text("品牌描述")}', name:'brandDesc', index:'a.brand_desc', width:150, align:"left"},
+		{header:'${text("排量")}', name:'displacement', index:'a.displacement', width:150, align:"left"},
+		{header:'${text("传动类型")}', name:'transmission', index:'a.transmission', width:150, align:"left"},
+		{header:'${text("燃油类型")}', name:'fuel', index:'a.fuel', width:150, align:"left"},
+		{header:'${text("初次登记")}', name:'initalRegiste', index:'a.inital_registe', width:150, align:"left"},
+		{header:'${text("交强险有效期")}', name:'compulsoryInsuranceVilidity', index:'a.compulsory_insurance_vilidity', width:150, align:"center"},
+		{header:'${text("户籍地")}', name:'registeredResidence', index:'a.registered_residence', width:150, align:"left"},
+		{header:'${text("停放地")}', name:'parkingPlace', index:'a.parking_place', width:150, align:"left"},
+		{header:'${text("事故类型,1.水淹,2.火烧,3.碰撞")}', name:'accidentType', index:'a.accident_type', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_accident_type')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("是否有天窗")}', name:'sunroof', index:'a.sunroof', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_islouver')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("车架号")}', name:'frameNo', index:'a.frame_no', width:150, align:"left"},
+		{header:'${text("使用性质")}', name:'useNature', index:'a.use_nature', width:150, align:"left"},
+		{header:'${text("车架号是否受")}', name:'frameNoDamagedCondition', index:'a.frame_no_damaged_condition', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_frame_no_damaged_condition')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("发动机")}', name:'engine', index:'a.engine', width:150, align:"left"},
+		{header:'${text("车辆所有人")}', name:'carOwner', index:'a.car_owner', width:150, align:"left"},
+		{header:'${text("行驶里程")}', name:'mileage', index:'a.mileage', width:150, align:"left"},
+		{header:'${text("钥匙")}', name:'key', index:'a.key', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_have_key')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("登记证书")}', name:'registrationCertificate', index:'a.registration_certificate', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_register')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("行驶证")}', name:'drivingLicense', index:'a.driving_license', width:150, align:"left"},
+		{header:'${text("购置税")}', name:'purchaseTax', index:'a.purchase_tax', width:150, align:"left"},
+		{header:'${text("录入时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("update_time")}', name:'updateTime', index:'a.update_time', width:150, align:"center"},
+		{header:'${text("上架状态")}', name:'upState', index:'a.up_state', width:150, align:"left"},
+		{header:'${text("是否拆检")}', name:'overhaul', index:'a.overhaul', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_overhaul')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("注意事项")}', name:'announcements', index:'a.announcements', width:150, align:"left"},
+		{header:'${text("车辆拍卖状态码")}', name:'state', index:'a.state', width:150, align:"left"},
+		{header:'${text("审核状态")}', name:'checked', index:'a.checked', width:150, align:"left"},
+		{header:'${text("扩展字段")}', name:'otherField', index:'a.other_field', width:150, align:"left"},
+		{header:'${text("注册日期")}', name:'registerDate', index:'a.register_date', width:150, align:"center"},
+		{header:'${text("发证日期")}', name:'issueDate', index:'a.issue_date', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appAuction:edit')){ %>
+				actions.push('<a href="${ctx}/app/appAuction/form?id='+row.id+'" class="btnList" title="${text("编辑拍卖业务表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/app/appAuction/delete?id='+row.id+'" class="btnList" title="${text("删除拍卖业务表")}" data-confirm="${text("确认要删除该拍卖业务表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

@@ -1,0 +1,81 @@
+/**
+ * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ */
+package com.jeesite.modules.app.web;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jeesite.common.config.Global;
+import com.jeesite.common.entity.Page;
+import com.jeesite.common.web.BaseController;
+import com.jeesite.modules.app.entity.AppPushBill;
+import com.jeesite.modules.app.service.AppPushBillService;
+
+import java.util.List;
+
+/**
+ * 用户扣费记录表Controller
+ * @author zcq
+ * @version 2019-12-05
+ */
+@Controller
+@RequestMapping(value = "${adminPath}/app/appPushBill")
+public class AppPushBillController extends BaseController {
+
+	@Autowired
+	private AppPushBillService appPushBillService;
+	
+	/**
+	 * 获取数据
+	 */
+	@ModelAttribute
+	public AppPushBill get(Long id, boolean isNewRecord) {
+		return appPushBillService.get(String.valueOf(id), isNewRecord);
+	}
+	
+	/**
+	 * 查询列表
+	 */
+	@RequiresPermissions("app:appPushBill:view")
+	@RequestMapping(value = {"list", ""})
+	public String list(AppPushBill appPushBill, Model model) {
+		model.addAttribute("appPushBill", appPushBill);
+		return "modules/app/appPushBillList";
+	}
+	
+	/**
+	 * 查询列表数据
+	 */
+	@RequiresPermissions("app:appPushBill:view")
+	@RequestMapping(value = "listData")
+	@ResponseBody
+	public Page<AppPushBill> listData(AppPushBill appPushBill, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println(appPushBill.getId());
+		appPushBill.setPage(new Page<>(request, response));
+		Page<AppPushBill> page = appPushBillService.findPage(appPushBill);
+
+		List<AppPushBill> appPushBillList =  appPushBillService.selectMerchantsPush(appPushBill.getId());
+		page.setList(appPushBillList);
+		return page;
+	}
+
+	/**
+	 * 查看编辑表单
+	 */
+	@RequiresPermissions("app:appPushBill:view")
+	@RequestMapping(value = "form")
+	public String form(AppPushBill appPushBill, Model model) {
+		model.addAttribute("appPushBill", appPushBill);
+		return "modules/app/appPushBillForm";
+	}
+	
+}

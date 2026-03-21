@@ -1,0 +1,65 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="综合搜索" placeholder="套餐名称/客户电话"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#SelectCon id="orderStatus" name="订单状态" >
+                                <option value="">全部</option>
+                                <option value="CREATED">已下单</option>
+                                <option value="RECEPT">已接车</option>
+                                <option value="FINISH">已完成</option>
+                                <option value="CANCELED">已取消</option>
+                            </#SelectCon>
+                        </div>
+                        <div class="col-sm-4">
+                            <#TimeCon id="createStartTime" name="下单日期" isTime="false"/>
+                        </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="BizRepairePackageOrder.search()"/>
+                                <#button name="重置" icon="fa-trash" clickFun="BizRepairePackageOrder.resetSearch()" space="true"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="BizRepairePackageOrderTableToolbar" role="group">
+                            <#button name="推送维修人员" icon="fa-share-square-o" clickFun="BizRepairePackageOrder.pushRepaireMan()"/>
+                            <#button name="已接车" icon="fa-automobile" clickFun="BizRepairePackageOrder.recept()" space="true"/>
+                            <#button name="完成订单" icon="fa-recycle" clickFun="BizRepairePackageOrder.finish()" space="true"/>
+                            <#button name="取消订单" icon="fa-remove" clickFun="BizRepairePackageOrder.cancel()" space="true"/>
+                            <#button name="停止通知播报" icon="fa-bell-slash-o" clickFun="BizRepairePackageOrder.stopMaintain()" space="true"/>
+                            @if(shiro.hasPermission("/BizRepairePackageOrder/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="BizRepairePackageOrder.openAddBizRepairePackageOrder()"/>
+                            @}
+                            @if(shiro.hasPermission("/BizRepairePackageOrder/update")){
+                                <#button name="修改" icon="fa-edit" clickFun="BizRepairePackageOrder.openBizRepairePackageOrderDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/BizRepairePackageOrder/delete")){
+                                <#button name="删除" icon="fa-remove" clickFun="BizRepairePackageOrder.delete()" space="true"/>
+                            @}
+                        </div>
+                        <#table id="BizRepairePackageOrderTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="repaireOrderDetail" style="display: none">
+</div>
+<script src="${ctxPath}/static/modular/system/bizRepairePackageOrder/bizRepairePackageOrder.js"></script>
+
+<script>
+    laydate.render({
+        elem: '#createStartTime',
+        range: '~'
+    });
+</script>
+@}

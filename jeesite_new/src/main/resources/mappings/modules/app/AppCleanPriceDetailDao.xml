@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppCleanPriceDetailDao">
+
+	<!-- 查询数据
+	<select id="findList" resultType="AppCleanPriceDetail">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<!--List<AppCleanPriceDetail> finduserB(String userBId);-->
+	<select id="finduserB" resultType="AppCleanPriceDetail">
+		SELECT * FROM app_clean_price_detail WHERE user_b_id = #{userBId}
+	</select>
+
+<!--	AppCleanPriceDetail findProject(Integer userBId, Integer carType, Integer cleanType);-->
+	<select id="findProject" resultType="AppCleanPriceDetail">
+		SELECT * FROM app_clean_price_detail WHERE user_b_id = #{userBId} AND clean_type = #{carType} AND car_type = #{cleanType}
+	</select>
+
+	<select id="selectForUpdate" resultType="AppCleanPriceDetail">
+		   select * from app_clean_price_detail t1
+        where t1.id=#{bussinessId} for update
+	</select>
+</mapper>

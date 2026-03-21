@@ -1,0 +1,123 @@
+<% layout('/layouts/default.html', {title: '提现记录表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('提现记录表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appWxCashOutRecord:edit')){ %>
+					<a href="${ctx}/app/appWxCashOutRecord/form" class="btn btn-default btnTool" title="${text('新增提现记录表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appWxCashOutRecord}" action="${ctx}/app/appWxCashOutRecord/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('来源')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="source" dictType="cash_out_source" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('提现时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="createTime_gte" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false,onpicked:function(){createTime_lte.click()}});"/>
+						&nbsp;--&nbsp;
+						<#form:input path="createTime_lte" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+<!--				<div class="form-group">-->
+<!--					<label class="control-label">${text('提现金额')}：</label>-->
+<!--					<div class="control-inline">-->
+<!--						<#form:input path="amount" class="form-control width-120"/>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="form-group">-->
+<!--					<label class="control-label">${text('状态')}：</label>-->
+<!--					<div class="control-inline width-120">-->
+<!--						<#form:select path="status" dictType="sys_search_status" blankOption="true" class="form-control"/>-->
+<!--					</div>-->
+<!--				</div>-->
+				<div class="form-group">
+					<label class="control-label">${text('银行卡号')}：</label>
+					<div class="control-inline">
+						<#form:input path="bankNumber" maxlength="50" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('收款姓名')}：</label>
+					<div class="control-inline">
+						<#form:input path="userBankName" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('商户订单号')}：</label>
+					<div class="control-inline">
+						<#form:input path="partnerTradeNo" maxlength="32" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('到账时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="successTime_gte" maxlength="20" class="form-control width-60"/>
+						&nbsp;--&nbsp;
+						<#form:input path="successTime_lte" maxlength="20" class="form-control width-60"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("id")}', name:'id', index:'a.id', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appWxCashOutRecord/form?id='+row.id+'" class="btnList" data-title="${text("编辑提现记录表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("收款姓名")}', name:'userBankName', index:'a.user_bank_name', width:150, align:"left"},
+		{header:'${text("客户端")}', name:'source', index:'a.source', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('cash_out_source')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("提现时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("提现金额")}', name:'amount', index:'a.amount', width:150, align:"center"},
+		{header:'${text("手续费")}', name:'fee', index:'a.fee', width:150, align:"center"},
+		{header:'${text("最终到账金额")}', name:'sendAmount', index:'a.send_amount', width:150, align:"center"},
+		{header:'${text("提现用户id")}', name:'userId', index:'a.user_id', width:150, align:"center"},
+		// {header:'${text("状态")}', name:'status', index:'a.status', width:150, align:"center", formatter: function(val, obj, row, act){
+		// 	return js.getDictLabel(${@DictUtils.getDictListJson('sys_search_status')}, val, '${text("未知")}', true);
+		// }},
+		{header:'${text("银行卡号")}', name:'bankNumber', index:'a.bank_number', width:150, align:"left"},
+		{header:'${text("银行")}', name:'appWxBank.bankName', index:'appWxBank.bank_name', width:150, align:"left"},
+		{header:'${text("商户订单号")}', name:'partnerTradeNo', index:'a.partner_trade_no', width:150, align:"left"},
+		{header:'${text("结果")}', name:'result', index:'a.result', width:150, align:"left"},
+		{header:'${text("结果详情")}', name:'resultInfo', index:'a.result_info', width:150, align:"left"},
+		{header:'${text("到账时间")}', name:'successTime', index:'a.success_time', width:150, align:"left"},
+		// {header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+		// 	var actions = [];
+		// 	<% if(hasPermi('app:appWxCashOutRecord:edit')){ %>
+		// 		actions.push('<a href="${ctx}/app/appWxCashOutRecord/form?id='+row.id+'" class="btnList" title="${text("编辑提现记录表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+		// 		actions.push('<a href="${ctx}/app/appWxCashOutRecord/delete?id='+row.id+'" class="btnList" title="${text("删除提现记录表")}" data-confirm="${text("确认要删除该提现记录表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+		// 	<% } %>
+		// 	return actions.join('');
+		// }}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

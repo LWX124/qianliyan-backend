@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppVersionMapper">
+
+
+    <select id="selectNewsData" resultType="AppVersionEntity">
+        select
+         t1.id,
+         t1.version_num_min,
+         t1.version_num_max,
+         t1.version_name,
+         t1.info,
+         t1.href,
+         t1.type
+         from app_version t1
+         where t1.type=2
+         order by t1.id desc limit 0,1
+    </select>
+
+
+
+<!--    AppVersionEntity selectNewsCheData();-->
+    <select id="selectNewsCheData" resultType="AppVersionEntity">
+        select
+         t1.id,
+         t1.version_num_min,
+         t1.version_num_max,
+         t1.version_name,
+         t1.info,
+         t1.href,
+         t1.type
+         from app_version t1
+         where t1.type=3
+         order by t1.id desc limit 0,1
+    </select>
+
+
+</mapper>

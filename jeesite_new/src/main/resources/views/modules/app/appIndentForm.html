@@ -1,0 +1,418 @@
+<% layout('/layouts/default.html', {title: '订单信息表管理', libs: ['validate','fileupload']}){ %>
+<div class="main-content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <div class="box-title">
+                <i class="fa fa-list-alt"></i> ${text(appIndent.isNewRecord ? '新增订单信息表' : '编辑订单信息表')}
+                <i class="fa "></i>${text('该理赔老师推荐结算金额为：')}${appIndent.settlementRatio}</font>
+            </div>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <#form:form id="inputForm" model="${appIndent}" action="${ctx}/app/appIndent/save" method="post" class="form-horizontal">
+        <div class="box-body">
+            <div class="form-unit">${text('订单图片')}</div>
+            <div>
+                <input type="hidden" id="indentId" value="${appIndent.id}">
+                <ul id="imglist" class="connectedSortable sortable-wrapper">
+                </ul>
+            </div>
+            <br>
+
+            <div id="myModal" class="modal" style="z-index: 1;">
+                <div id="innerdiv" style="position:absolute;">
+                    <img class="modal-content" id="img01" src="">
+                </div>
+                <div id="caption"></div>
+            </div>
+
+            <div class="form-unit">${text('基本信息')}</div>
+            <#form:hidden path="id"/>
+            <div class="row">
+                <!--					<div class="col-xs-6">-->
+                <!--						<div class="form-group">-->
+                <!--							<label class="control-label col-sm-4" title="">-->
+                <!--								<span class="required hide">*</span> ${text('维修方案')}：<i class="fa icon-question hide"></i></label>-->
+                <!--							<div class="col-sm-8">-->
+                <!--								<#form:input path="plan" maxlength="50" readonly="${!appIndent.isNewRecord}" class="form-control"/>-->
+                <!--							</div>-->
+                <!--						</div>-->
+                <!--					</div>-->
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required ">*</span> ${text('订单号')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="orderNumber" maxlength="100" readonly="${!appIndent.isNewRecord}"
+                            class="form-control required"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('下单时间')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="creatTime" readonly="" maxlength="20" class="form-control Wdate" dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:true});"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!--					<div class="col-xs-6">-->
+                <!--						<div class="form-group">-->
+                <!--							<label class="control-label col-sm-4" title="">-->
+                <!--								<span class="required hide">*</span> ${text('填写订单得用户名')}：<i class="fa icon-question hide"></i></label>-->
+                <!--							<div class="col-sm-8">-->
+                <!--								<#form:input path="username" maxlength="50" readonly="${!appIndent.isNewRecord}" class="form-control"/>-->
+                <!--							</div>-->
+                <!--						</div>-->
+                <!--					</div>-->
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('车型')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="brandName" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('送修单位')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="sendUnit" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!--					<div class="col-xs-6">-->
+                <!--						<div class="form-group">-->
+                <!--							<label class="control-label col-sm-4" title="">-->
+                <!--								<span class="required hide">*</span> ${text('电话号码')}：<i class="fa icon-question hide"></i></label>-->
+                <!--							<div class="col-sm-8">-->
+                <!--								<#form:input path="phoneNumber" maxlength="50" readonly="${!appIndent.isNewRecord}" class="form-control"/>-->
+                <!--							</div>-->
+                <!--						</div>-->
+                <!--					</div>-->
+            </div>
+			<div class="row">
+
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required ">*</span> ${text('车牌')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="licensePlate" maxlength="20" class="form-control required"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('送修人')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="sendPeople" class="form-control"/>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('预估金额')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="fixloss" maxlength="100" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('维修金额')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="settleAccounts" maxlength="100" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('4s店结算给公司比例')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="settleFoursCompanyRate" maxlength="100" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('4s店结算给公司金额')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="settleFoursCompany" maxlength="100" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--				<div class="row">-->
+            <!--					<div class="col-xs-6">-->
+            <!--						<div class="form-group">-->
+            <!--							<label class="control-label col-sm-4" title="">-->
+            <!--								<span class="required hide">*</span> ${text('结算方式')}：<i class="fa icon-question hide"></i></label>-->
+            <!--							<div class="col-sm-8">-->
+            <!--								<#form:input path="meansPayments"  maxlength="100" class="form-control"/>-->
+            <!--							</div>-->
+            <!--						</div>-->
+            <!--					</div>-->
+            <!--&lt;!&ndash;					<div class="col-xs-6">&ndash;&gt;-->
+            <!--&lt;!&ndash;						<div class="form-group">&ndash;&gt;-->
+            <!--&lt;!&ndash;							<label class="control-label col-sm-4" title="">&ndash;&gt;-->
+            <!--&lt;!&ndash;								<span class="required hide">*</span> ${text('结算到用户金额')}：<i class="fa icon-question hide"></i></label>&ndash;&gt;-->
+            <!--&lt;!&ndash;							<div class="col-sm-8">&ndash;&gt;-->
+            <!--&lt;!&ndash;								<#form:input path="fixlossUser" maxlength="100" class="form-control"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;							</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;						</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;					</div>&ndash;&gt;-->
+            <!--				</div>-->
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('佣金比例')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="commissionRate" class="form-control number"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('结算到用户金额')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="fixlossUser" class="form-control number"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('订单状态')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:select path="state" dictType="app_indent_state" blankOption="true"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('审核流程')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:select path="audit" dictType="app_indent_audit" blankOption="true"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('备注')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="remake" maxlength="100" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('财务备注')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="financialRemake" maxlength="100" class="form-control"/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('经理备注')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="managerRemake" maxlength="100" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('到账信息')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="account" maxlength="100" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <% if (hasPermi('app:appIndent:edit')){ %>
+                    <button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i>
+                        ${text('保 存')}
+                    </button>&nbsp;
+                    <% } %>
+                    <button type="button" class="btn btn-sm btn-default" id="btnCancel"
+                            onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('关 闭')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </#form:form>
+</div>
+</div>
+<% } %>
+
+<style>
+    li {
+        float: left;
+        list-style: none;
+    }
+
+</style>
+<script>
+    $("#inputForm").validate({
+        submitHandler: function (form) {
+            js.ajaxSubmitForm($(form), function (data) {
+                js.showMessage(data.message);
+                if (data.result == Global.TRUE) {
+                    js.closeCurrentTabPage(function (contentWindow) {
+                        contentWindow.page();
+                    });
+                }
+            }, "json");
+        }
+    });
+
+
+    $(function () {
+        //任何需要执行的js特效
+        var indentId = $("#indentId").val();
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appIndent/findIndentImg?indentId=' + indentId + '',
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = "";
+                var list = result.imgList;
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                        "<img height=\"120\" width=\"120\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                        "</li>"
+                }
+                $("#imglist").html(str)
+            }
+        })
+    });
+
+
+    var modal = document.getElementById('myModal');
+    $(function () {
+
+//图片的缩略图
+        var $img = $(".imagegallery li img");
+        $($img).each(function () {
+            var imgWidth = $(this).width();
+            var imgHeigth = $(this).height();
+            if (imgWidth > imgHeigth) {
+                $(this).css({
+                    marginLeft: '-' + parseInt((imgWidth / 2) * (80 / imgHeigth)) + 'px'
+                }).addClass("imgh");
+            } else if (imgWidth == imgHeigth || imgHeigth <= 80 || imgWidth <= 80) {
+                $(this).addClass("imge")
+            } else if (imgWidth < imgHeigth) {
+                $(this).css(
+                    "marginTop", '-' + parseInt((imgHeigth / 2) * (80 / imgWidth)) + 'px'
+                ).addClass("imgw");
+            }
+        });
+
+        $("body").on('click', 'img', function () {
+            modal.style.display = "block";
+            var s = $(this).attr("src");
+            var _this = $(this);
+            f_show(s);
+            //	f_move(_this);
+        });
+        $("body").on('click', '.but', function () {
+            modal.style.display = "block";
+        });
+
+    });
+    $("#myModal").click(function () {
+        modal.style.display = "none";
+    });
+
+    function f_show(s) {
+        $("<img/>").attr("src", s).load(function () {
+            var windowW = $(window).width();//获取当前窗口宽度
+            var windowH = $(window).height();//获取当前窗口高度
+            var realWidth = this.width;//获取图片真实宽度
+            var realHeight = this.height;//获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+//alert(realHeight>windowH*scale)
+            if (realHeight > windowH * scale) {//判断图片高度
+                imgHeight = windowH * scale;//如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth;//等比例缩放宽度
+// alert(imgWidth>windowW*scale)
+                if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                    imgWidth = windowW * scale;//再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale;//如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight;//等比例缩放高度
+            } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+
+            var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距
+//alert(w)
+            var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距
+            $("#img01").attr("width", imgWidth)
+            var innerdiv = $("#innerdiv")
+            $(innerdiv).css({"top": h, "left": w});
+            $("#img01").attr("src", s)
+        });
+        var outterdiv = $("#myModal");
+        /*$(outerdiv).click(function(){//再次点击淡出消失弹出层
+        modal.style.display = "none";
+        });*/
+    }
+
+</script>

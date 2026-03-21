@@ -1,0 +1,28 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <input type="hidden" id="id" value="${openClaim.id}" />
+                            <#input id="orderno" name="订单号" underline="true" value="${openClaim.orderno}" readonly="readonly"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="payBillNo" name="转账凭证号" underline="true" value="${openClaim.payBillNo}"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12" style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="OpenClaimInfoDlg.addPayBillNoSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="OpenClaimInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/openClaim/openClaim_info.js"></script>
+@}

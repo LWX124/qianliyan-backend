@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.MerchantsTreeMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.MerchantsTreeEntity">
+        <id column="merchants_code" property="merchantsCode" />
+        <result column="merchants_name" property="merchantsName" />
+        <result column="parent_code" property="parentCode" />
+        <result column="parent_codes" property="parentCodes" />
+        <result column="tree_sort" property="treeSort" />
+        <result column="tree_sorts" property="treeSorts" />
+        <result column="tree_leaf" property="treeLeaf" />
+        <result column="tree_level" property="treeLevel" />
+        <result column="tree_names" property="treeNames" />
+        <result column="service_sorce" property="serviceSorce" />
+        <result column="effciency_score" property="effciencyScore" />
+        <result column="score" property="score" />
+        <result column="rebates" property="rebates" />
+        <result column="lat" property="lat" />
+        <result column="lng" property="lng" />
+        <result column="address" property="address" />
+        <result column="type" property="type" />
+        <result column="brand" property="brand" />
+        <result column="announcement" property="announcement" />
+        <result column="business_hours" property="businessHours" />
+        <result column="state" property="state" />
+        <result column="reason" property="reason" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="city" property="city" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="lable_id" property="lableId" />
+        <result column="merchant_level" property="merchantLevel" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,340 @@
+<% layout('/layouts/default.html', {title: '年检订单表管理', libs: ['validate']}){ %>
+<div class="main-content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <div class="box-title">
+                <i class="fa fa-list-alt"></i> ${text(appYearCheckIndent.isNewRecord ? '新增年检订单表' : '编辑年检订单表')}
+            </div>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <#form:form id="inputForm" model="${appYearCheckIndent}" action="${ctx}/app/appYearCheckIndent/save"
+        method="post" class="form-horizontal">
+        <div class="box-body">
+            <div>
+                <input type="hidden" id="sprayId" value="${appYearCheckIndent.id}">
+                <ul id="imglist" class="connectedSortable sortable-wrapper">
+                </ul>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br><br>
+            <br>
+            <br>
+            <br>
+            <div id="myModal" class="modal" style="z-index: 1;">
+                <div id="innerdiv" style="position:absolute;">
+                    <img class="modal-content" id="img01" src="">
+                </div>
+                <div class="but" id="but1" style="width:40px;height:80px" style="z-index: 1;"></div>
+                <div class="but" id="but2" style="width:40px;height:80px" style="z-index: 1;"></div>
+                <div id="caption"></div>
+            </div>
+
+
+            <div class="box-body">
+                <div class="form-unit">${text('基本信息')}</div>
+                <#form:hidden path="id"/>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('年检订单编号')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="yearCheckNumber" maxlength="100"
+                                readonly="${!appYearCheckIndent.isNewRecord}" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('车牌')}：<i class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="licensePlate" maxlength="20"
+                                readonly="${!appYearCheckIndent.isNewRecord}" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('用户姓名')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="username" maxlength="20"
+                                readonly="${!appYearCheckIndent.isNewRecord}" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('电话号码')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="phone" maxlength="11" readonly="${!appYearCheckIndent.isNewRecord}"
+                                class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('经度')}：<i class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="lng" readonly="${!appYearCheckIndent.isNewRecord}"
+                                class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('纬度')}：<i class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="lat" readonly="${!appYearCheckIndent.isNewRecord}"
+                                class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('接车地点')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="pickAddress" maxlength="200"
+                                readonly="${!appYearCheckIndent.isNewRecord}" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('价格')}：<i class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="price" readonly="${!appYearCheckIndent.isNewRecord}"
+                                class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('c端用户id')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="userId" maxlength="20" readonly="${!appYearCheckIndent.isNewRecord}"
+                                class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('b端用户id')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="userBId" maxlength="10" readonly="${!appYearCheckIndent.isNewRecord}"
+                                class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('订单状态')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:select path="state" dictType="app_indent_spary_state"
+                                readonly="${!appYearCheckIndent.isNewRecord}" blankOption="true" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('支付状态')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:select path="payState" dictType="app_pay_state"
+                                readonly="${!appYearCheckIndent.isNewRecord}" blankOption="true" class="form-control"/>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('年检类型')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="yearCheckType" maxlength="1"  readonly="${!appYearCheckIndent.isNewRecord}" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" title="">
+                                <span class="required hide">*</span> ${text('支付订单编号')}：<i
+                                    class="fa icon-question hide"></i></label>
+                            <div class="col-sm-8">
+                                <#form:input path="payNumber" maxlength="255"  readonly="${!appYearCheckIndent.isNewRecord}" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-sm btn-default" id="btnCancel"
+                                    onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('关 闭')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </#form:form>
+        </div>
+    </div>
+    <% } %>
+
+    <style>
+        li {
+            float: left;
+            list-style: none;
+        }
+    </style>
+    <script>
+
+
+        $(function () {
+            //任何需要执行的js特效
+            var sprayId = $("#sprayId").val();
+            $.ajax({
+                type: "GET",
+                url: '${ctx}/app/appYearCheckIndent/findImg?sprayId=' + sprayId + '',
+                async: true,
+                //请求成功
+                success: function (result) {
+                    var str = "";
+                    var list = result.imgList;
+                    console.log(list)
+                    for (var i = 0; i < list.length; i++) {
+                        var obj = list[i];
+                        str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                            "<img height=\"250\" style=\"margin-left: 20px\" src=" + obj + ">" +
+                            "</li>"
+                    }
+                    $("#imglist").html(str)
+                }
+            })
+
+        });
+
+        var modal = document.getElementById('myModal');
+        $(function () {
+
+//图片的缩略图
+            var $img = $(".imagegallery li img");
+            $($img).each(function () {
+                var imgWidth = $(this).width();
+                var imgHeigth = $(this).height();
+                if (imgWidth > imgHeigth) {
+                    $(this).css({
+                        marginLeft: '-' + parseInt((imgWidth / 2) * (80 / imgHeigth)) + 'px'
+                    }).addClass("imgh");
+                } else if (imgWidth == imgHeigth || imgHeigth <= 80 || imgWidth <= 80) {
+                    $(this).addClass("imge")
+                } else if (imgWidth < imgHeigth) {
+                    $(this).css(
+                        "marginTop", '-' + parseInt((imgHeigth / 2) * (80 / imgWidth)) + 'px'
+                    ).addClass("imgw");
+                }
+            });
+
+            $("body").on('click', 'img', function () {
+                modal.style.display = "block";
+                var s = $(this).attr("src");
+                var _this = $(this);
+                f_show(s);
+                //	f_move(_this);
+            });
+            $("body").on('click', '.but', function () {
+                modal.style.display = "block";
+            });
+
+        });
+        $("#myModal").click(function () {
+            modal.style.display = "none";
+        });
+
+        function f_show(s) {
+            $("<img/>").attr("src", s).load(function () {
+                var windowW = $(window).width();//获取当前窗口宽度
+                var windowH = $(window).height();//获取当前窗口高度
+                var realWidth = this.width;//获取图片真实宽度
+                var realHeight = this.height;//获取图片真实高度
+                var imgWidth, imgHeight;
+                var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+//alert(realHeight>windowH*scale)
+                if (realHeight > windowH * scale) {//判断图片高度
+                    imgHeight = windowH * scale;//如大于窗口高度，图片高度进行缩放
+                    imgWidth = imgHeight / realHeight * realWidth;//等比例缩放宽度
+// alert(imgWidth>windowW*scale)
+                    if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                        imgWidth = windowW * scale;//再对宽度进行缩放
+                    }
+                } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                    imgWidth = windowW * scale;//如大于窗口宽度，图片宽度进行缩放
+                    imgHeight = imgWidth / realWidth * realHeight;//等比例缩放高度
+                } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                    imgWidth = realWidth;
+                    imgHeight = realHeight;
+                }
+
+                var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距
+//alert(w)
+                var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距
+                $("#img01").attr("width", imgWidth)
+                var innerdiv = $("#innerdiv")
+                $(innerdiv).css({"top": h, "left": w});
+                $("#img01").attr("src", s)
+            });
+            var outterdiv = $("#myModal");
+            /*$(outerdiv).click(function(){//再次点击淡出消失弹出层
+            modal.style.display = "none";
+            });*/
+        }
+
+
+        $("#inputForm").validate({
+            submitHandler: function (form) {
+                js.ajaxSubmitForm($(form), function (data) {
+                    js.showMessage(data.message);
+                    if (data.result == Global.TRUE) {
+                        js.closeCurrentTabPage(function (contentWindow) {
+                            contentWindow.page();
+                        });
+                    }
+                }, "json");
+            }
+        });
+    </script>

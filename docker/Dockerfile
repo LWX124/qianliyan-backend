@@ -1,0 +1,15 @@
+FROM eclipse-temurin:8-jre-alpine
+
+LABEL maintainer="amiba"
+
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /app
+
+ARG JAR_FILE=app.jar
+COPY ${JAR_FILE} app.jar
+
+ENV JAVA_OPTS="-Xms256m -Xmx512m"
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.CleanPriceDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.CleanPriceDetailEntity">
+        <id column="id" property="id" />
+        <result column="user_b_id" property="userBId" />
+        <result column="clean_type" property="cleanType" />
+        <result column="car_type" property="carType" />
+        <result column="original_price" property="originalPrice" />
+        <result column="preferential_price" property="preferentialPrice" />
+        <result column="thrie_price" property="thriePrice" />
+        <result column="state" property="state" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_b_id AS userBId, clean_type AS cleanType, car_type AS carType, original_price AS originalPrice, preferential_price AS preferentialPrice, thrie_price AS thriePrice, state, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+
+<!--    List<PriceDetailsDto> selectMesg(Integer userBId);-->
+    <select id="selectMesg" resultType="PriceDetailsDto">
+        SELECT clean_type cleanType,car_type carType,original_price originalPrice,preferential_price preferentialPrice,thrie_price thriePrice
+        FROM app_clean_price_detail WHERE user_b_id = #{userBId}
+
+    </select>
+
+
+</mapper>
+

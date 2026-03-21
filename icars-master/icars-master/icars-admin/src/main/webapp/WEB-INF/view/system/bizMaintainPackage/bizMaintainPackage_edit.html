@@ -1,0 +1,39 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="" value="${item.id}" readonly="readonly" style="display:none;"/>
+                            <#input id="packageName" name="套餐名称" value="${item.packageName}" underline="true"/>
+                            <#input id="price" name="现价" value="${item.price}" underline="true"/>
+                            <#input id="prePrice" name="原价" value="${item.prePrice}" underline="true"/>
+
+                </div>
+
+                <div class="col-sm-6">
+                    @for(dl in item.detailList){
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">套餐明细${dlLP.index}</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" biztype="detail" type="text" value="${dl}">
+                        </div>
+                    </div>
+                    @}
+                    <#button icon="fa-plus" name="添加明细栏位" id="addLw" clickFun="BizMaintainPackageInfoDlg.addDetailInput()"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12"  style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BizMaintainPackageInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BizMaintainPackageInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizMaintainPackage/bizMaintainPackage_info.js"></script>
+@}

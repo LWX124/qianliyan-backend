@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.LableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.LableEntity">
+        <id column="id" property="id" />
+        <result column="label" property="label" />
+        <result column="type" property="type" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, label, type
+    </sql>
+
+
+    <!--拿到对应商户的标签数据，-->
+    <select id="findLable" resultType="LableEntity">
+      SELECT label FROM app_lable WHERE id = #{id}
+    </select>
+
+
+</mapper>

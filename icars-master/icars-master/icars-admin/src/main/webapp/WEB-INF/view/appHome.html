@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>首页</title>
+  <script src="/static/js/flexble.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!--  <script src="static/static/js/jquery.min.js"></script>-->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body,
+    #container {
+      width: 100%;
+      height: 100%;
+      font-family: '微软雅黑';
+    }
+
+    img {
+      display: block;
+      margin: 0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .user {
+      position: absolute;
+      z-index: 99;
+      top: 0.75rem;
+      left: 0.35rem;
+      width: 0.6rem;
+      height: 0.6rem;
+    }
+
+    .user img {
+      width: 100%;
+    }
+
+    .title {
+      position: absolute;
+      top: 0.7rem;
+      width: 3.32rem;
+      line-height: 0.72rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #0092fe;
+      background: #fff;
+      box-shadow: 0 1px 2px 2px #ccc;
+      font-size: 0.32rem;
+      text-align: center;
+      border-radius: 4px;
+    }
+
+    .botttom_group {
+      position: absolute;
+      height: 1.2rem;
+      width: 5rem;
+      bottom: 0.7rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border-radius: 1.2rem;
+      display: flex;
+      box-sizing: border-box;
+      font-size: 0.24rem;
+      box-shadow: 0 0 2px 2px #ccc;
+    }
+
+    .item_con {
+      width: 1.72rem;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      color: #8b8b8b;
+    }
+
+    .item_con img {
+      height: 0.4rem;
+    }
+
+    .item_con p {
+      text-align: center;
+      margin-top: 0.1rem;
+    }
+
+    .item_center {
+      width: 1.56rem;
+      height: 1.56rem;
+      border-radius: 50%;
+      background: #1aa4fd;
+      box-sizing: border-box;
+      padding: 0.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transform: translateY(-12.5%);
+    }
+
+    .item_center img {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="hidden" id="thirdSessionKey" value="${thirdSessionKey}">
+  <div id="container"></div>
+<!--  <a class="user" href="#">-->
+<!--    <img src="/static/img/app_user.png" alt="">-->
+<!--  </a>-->
+  <div class="title">
+    让汽车生活更美好
+  </div>
+<!--  <div class="botttom_group">-->
+<!--    <a href="#" class="item_con">-->
+<!--      <img src="/static/img/email.png" alt="">-->
+<!--      <p>事故信息</p>-->
+<!--    </a>-->
+<!--    <a href="#" class="item_center">-->
+<!--      <img src="/static/img/app_car.png" alt="">-->
+<!--    </a>-->
+<!--    <a href="#" class="item_con">-->
+<!--      <img src="/static/img/order.png" alt="">-->
+<!--      <p>理赔订单</p>-->
+<!--    </a>-->
+<!--  </div>-->
+</body>
+
+</html>
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=2A3BZ-CPAC3-V6V36-3XOVR-IHGV3-EFBKZ"></script>
+<script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js "></script>
+<script src="/static/js/md5.min.js"></script>
+<script>
+  // document.body.innerHTML = data[0].content;
+  var thirdSessionKey = $("#thirdSessionKey").val();
+  var http = 'http://211.149.137.58:8078'
+  var geolocation = new qq.maps.Geolocation("2A3BZ-CPAC3-V6V36-3XOVR-IHGV3-EFBKZ", "车己-app");
+  window.onload = function () {
+    var map = mapInit()
+    geolocation.getLocation(function (position) {
+      var lat = position.lat,
+        lng = position.lng
+      map.setCenter(new qq.maps.LatLng(lat, lng))
+      geolocationMark(lat, lng, map)
+    })
+    //nEACLwBjW0uJfrzdKa77E8k4YRtgQrKb19DLGn5c0uTE0QD76z5jRcE6E3Sx8YEh
+    // getToken(function (res) {
+    //   if (res.errorCode == 0) {
+    //     var token = res.data.sessionId
+    getMarkPositions(thirdSessionKey, function (resp) {
+      console.log(resp)
+      if (resp.errorCode == 0) {
+        var wait = resp.data.wait,
+          other = resp.data.other,
+          blueUrl = '/static/img/blue.gif',
+          orangeUrl = '/static/img/orange.gif'
+        setPositionMark(wait, orangeUrl)
+        setPositionMark(other, blueUrl)
+      }
+    })
+      // }
+    // }
+    // )
+
+    function setPositionMark(data, url) {
+      data.forEach(function (item) {
+        var lat = item.lat,
+          lng = item.lng
+        markerInit(url, lat, lng, map)
+      })
+
+  }
+
+  function mapInit() {
+    return new qq.maps.Map(document.getElementById("container"), {
+      zoom: 13,
+      mapTypeControl: false,
+      zoomControl: false
+    });
+  }
+
+
+  // function getToken(fn) {
+  //   $.ajax({
+  //     type: "post",
+  //     url: http + '/api/v1/app/login',
+  //     data: {
+  //       account: '18180765139',
+  //       password: '111111'
+  //     },
+  //     dataType: "json",
+  //     success: function (response) {
+  //       if (fn && fn instanceof Function) fn(response)
+  //     }
+  //   });
+  // }
+
+  function getMarkPositions(thirdSessionKey, fn) {
+    $.ajax({
+      type: "post",
+      url: http + '/api/v1/app/homeAccident',
+      data: {
+        thirdSessionKey
+      },
+      dataType: "json",
+      success: function (response) {
+        if (fn && fn instanceof Function) fn(response)
+      }
+    });
+  }
+
+  function geolocationMark(lat, lng, map) {
+    var marker = new qq.maps.Marker({
+      position: new qq.maps.LatLng(lat, lng),
+      map: map
+    });
+    ////设置Marker自定义图标的属性，size是图标尺寸，该尺寸为显示图标的实际尺寸，origin是切图坐标，该坐标是相对于图片左上角默认为（0,0）的相对像素坐标，anchor是锚点坐标，描述经纬度点对应图标中的位置
+    var anchor = new qq.maps.Point(0, 39),
+      size = new qq.maps.Size(20, 32),
+      origin = new qq.maps.Point(0, 0),
+      icon = new qq.maps.MarkerImage(
+        "/static/img/position02.png",
+        size,
+        origin,
+        anchor
+      );
+    marker.setIcon(icon);
+  }
+
+  function markerInit(url, lat, lng, map) {
+    var center = new qq.maps.LatLng(lat, lng);
+    var marker = new qq.maps.Marker({
+      //设置Marker的位置坐标
+      position: center,
+      map: map,
+    });
+    var anchor = new qq.maps.Point(30, 30),
+      size = new qq.maps.Size(60, 60),
+      origin = new qq.maps.Point(0, 0),
+      icon = new qq.maps.MarkerImage(
+        url,
+        size,
+        origin,
+        anchor
+      );
+    marker.setIcon(icon);
+
+    //添加到提示窗
+    var info = new qq.maps.InfoWindow({
+      map,
+      zIndex: 9999
+    }); // //获取标记的点击事件
+
+
+
+  }
+
+  function searchPosition(lat, lng, fn) {
+    var api = '/ws/geocoder/v1?',
+      sk = 'oRZVInCVAVK5Od5w1z8CjCR1NtRxhY7',
+      keyMap = [{
+        k: 'key',
+        v: '2A3BZ-CPAC3-V6V36-3XOVR-IHGV3-EFBKZ'
+      }, {
+        k: 'location',
+        v: lat + ',' + lng
+      }].sort((a, b) => a.key - b.key)
+    var params = keyMap[0].k + '=' + keyMap[0].v + '&' + keyMap[1].k + '=' + keyMap[1].v
+    // var sigStr = api + params + sk,
+    //   sig = md5(sigStr)
+    //https://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490&get_poi=1&key=2A3BZ-CPAC3-V6V36-3XOVR-IHGV3-EFBKZ
+    var url = 'https://apis.map.qq.com' + api + params + '&output=jsonp&callback=callback'
+    $.ajax({
+      type: "get",
+      url,
+      dataType: "jsonp",
+      jsonpCallback: 'callback',
+      success: function (response) {
+        if (response.status == 0) {
+          if (fn && fn instanceof Function) fn(response.result)
+        }
+      }
+    });
+  }}
+</script>

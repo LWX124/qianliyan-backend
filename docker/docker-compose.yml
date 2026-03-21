@@ -1,0 +1,187 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: amiba-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      TZ: Asia/Shanghai
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - amiba-net
+
+  redis:
+    image: redis:6-alpine
+    container_name: amiba-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - amiba-net
+
+  rocketmq-namesrv:
+    image: apache/rocketmq:4.9.4
+    container_name: amiba-rocketmq-namesrv
+    restart: always
+    ports:
+      - "9876:9876"
+    command: sh mqnamesrv
+    environment:
+      JAVA_OPT_EXT: "-Xms256m -Xmx256m"
+    networks:
+      - amiba-net
+
+  rocketmq-broker:
+    image: apache/rocketmq:4.9.4
+    container_name: amiba-rocketmq-broker
+    restart: always
+    ports:
+      - "10911:10911"
+    depends_on:
+      - rocketmq-namesrv
+    command: sh mqbroker -n rocketmq-namesrv:9876 -c /opt/rocketmq-4.9.4/conf/broker.conf
+    environment:
+      JAVA_OPT_EXT: "-Xms256m -Xmx512m"
+    networks:
+      - amiba-net
+
+  xxl-job-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: jars/xxl-job-admin.jar
+    container_name: amiba-xxl-job-admin
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+    networks:
+      - amiba-net
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: jars/web.jar
+    container_name: amiba-web
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cheji?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+    networks:
+      - amiba-net
+
+  icars-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: jars/icars-admin.jar
+    container_name: amiba-icars-admin
+    restart: always
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/icars_test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+    networks:
+      - amiba-net
+
+  icars-rest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: jars/icars-rest.jar
+    container_name: amiba-icars-rest
+    restart: always
+    ports:
+      - "8443:8443"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/icars_rest?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+    networks:
+      - amiba-net
+
+  b:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: jars/b.jar
+    container_name: amiba-b
+    restart: always
+    ports:
+      - "8091:8091"
+    depends_on:
+      - mysql
+      - redis
+      - rocketmq-namesrv
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cheji?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+      ROCKETMQ_NAMESRV_ADDR: rocketmq-namesrv:9876
+    networks:
+      - amiba-net
+
+  jeesite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: jars/jeesite.jar
+    container_name: amiba-jeesite
+    restart: always
+    ports:
+      - "9002:9002"
+    depends_on:
+      - mysql
+      - redis
+      - rocketmq-namesrv
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/jeesite?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+      ROCKETMQ_NAMESRV_ADDR: rocketmq-namesrv:9876
+    networks:
+      - amiba-net
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  amiba-net:
+    driver: bridge

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.MerchantsCommentsTreeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.MerchantsCommentsTree">
+        <id column="comments_code" property="commentsCode"/>
+        <result column="comments_name" property="commentsName"/>
+        <result column="parent_code" property="parentCode"/>
+        <result column="parent_codes" property="parentCodes"/>
+        <result column="tree_sort" property="treeSort"/>
+        <result column="tree_sorts" property="treeSorts"/>
+        <result column="tree_leaf" property="treeLeaf"/>
+        <result column="tree_level" property="treeLevel"/>
+        <result column="tree_names" property="treeNames"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_b_id" property="userBId"/>
+        <result column="content" property="content"/>
+        <result column="state" property="state"/>
+        <result column="service_score" property="serviceScore"/>
+        <result column="efficiensy_score" property="efficiensyScore"/>
+        <result column="lable" property="lable"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        comments_code AS commentsCode, comments_name AS commentsName, parent_code AS parentCode, parent_codes AS parentCodes, tree_sort AS treeSort, tree_sorts AS treeSorts, tree_leaf AS treeLeaf, tree_level AS treeLevel, tree_names AS treeNames, user_id AS userId, user_b_id AS userBId, content, state, service_score AS serviceScore, efficiensy_score AS efficiensyScore, lable, create_date AS createDate, update_date AS updateDate
+    </sql>
+
+
+    <!--BigDecimal findEvaCount(String merchantsId);-->
+    <select id="findEvaCount" resultType="BigDecimal">
+        SELECT COUNT(1) FROM app_merchants_comments_tree
+         WHERE user_b_id = #{user_b_id} AND parent_code = 0
+    </select>
+
+
+    <!--    BigDecimal highPraiseCount(String merchantsId);-->
+    <select id="highPraiseCount" resultType="BigDecimal">
+       SELECT COUNT(1) FROM app_merchants_comments_tree
+       WHERE (efficiensy_score+service_score)/2>=4  AND parent_code = 0 and user_b_id = #{user_b_id}
+    </select>
+
+    <!--BigDecimal findevaComment(String merchantsId);-->
+    <select id="findevaComment" resultType="BigDecimal">
+        SELECT COUNT(1) FROM app_merchants_comments_tree
+         WHERE tree_leaf = 1 AND user_b_id = #{user_b_id}
+    </select>
+
+    <!--BigDecimal findmidBadComment(String merchantsId);-->
+    <select id="findmidBadComment" resultType="BigDecimal">
+        SELECT COUNT(1) FROM app_merchants_comments_tree
+        WHERE tree_leaf = 0 AND parent_code = 0 AND (efficiensy_score+service_score)/2&lt;4  AND user_b_id = #{user_b_id}
+    </select>
+
+   <!-- MerchCommertsDto findallCount(String merchantsId);-->
+    <select id="findallCount" resultType="EvaluationDto">
+        SELECT
+        SUM(if(((efficiensy_score+service_score)/2>=4 AND parent_code = 0 AND user_b_id = #{userBId}),1,0)) AS highPraiseCount,
+        SUM(if(((efficiensy_score+service_score)/2&lt;4 AND parent_code = 0 AND user_b_id = #{userBId}),1,0)) AS badReviewCount,
+        SUM(if((tree_leaf = 1 AND parent_code = 0 AND user_b_id = #{userBId}),1,0)) AS noResponse,
+        SUM(if((user_b_id = #{userBId} AND parent_code = 0),1,0)) AS allComments,
+        SUM(if((user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%1%'),1,0)) AS goodTcchnology,
+        SUM(if((user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%2%'),1,0)) AS fastSpeed,
+        SUM(if((user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%3%'),1,0)) AS repeatCustomers,
+        SUM(if((user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%4%'),1,0)) AS serviceEnthusiasm
+        FROM app_merchants_comments_tree
+    </select>
+<!--    @Param("userBId")Integer userBId-->
+    <!--ArrayList<CommentsDto> findhighPraise(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize);-->
+    <select id="findhighPraise" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree WHERE (efficiensy_score+service_score)/2>=4 AND parent_code = 0 AND user_b_id = #{userBId} ORDER by create_date DESC LIMIT #{pagesize},20
+    </select>
+
+    <!--ArrayList<CommentsDto> findbadReview(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize);-->
+    <select id="findbadReview" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree WHERE (efficiensy_score+service_score)/2&lt;4 AND parent_code = 0 AND user_b_id = #{userBId} ORDER by create_date DESC LIMIT #{pagesize},20
+    </select>
+
+    <!--ArrayList<CommentsDto> findnoResponse(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize);-->
+    <select id="findnoResponse" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree WHERE tree_leaf = 1 AND parent_code = 0 AND user_b_id = #{userBId} ORDER by create_date DESC LIMIT #{pagesize},20
+
+    </select>
+
+    <!--ArrayList<CommentsDto> findAllComments(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize,@Param("type") Integer type);-->
+    <select id="findAllComments" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree
+        WHERE user_b_id = #{userBId} AND parent_code = 0
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 4">
+                    AND (type = #{type} or type = 18)
+                </when>
+                <otherwise>
+                    AND type = #{type}
+                </otherwise>
+            </choose>
+        </if>
+        ORDER by create_date DESC LIMIT #{pagesize},20
+
+    </select>
+
+    <!--ArrayList<CommentsDto> findGoodTcchologt(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize);-->
+    <select id="findGoodTcchologt" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree WHERE user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%1%' ORDER by create_date DESC LIMIT #{pagesize},20
+
+    </select>
+
+    <!--ArrayList<CommentsDto> findFastSpeed(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize);-->
+    <select id="findFastSpeed" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree WHERE user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%2%' ORDER by create_date DESC LIMIT #{pagesize},20
+
+    </select>
+
+    <!--ArrayList<CommentsDto> findRepeatCustomers(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize);-->
+    <select id="findRepeatCustomers" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree WHERE user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%3%' ORDER by create_date DESC LIMIT #{pagesize},20
+
+    </select>
+
+    <!--ArrayList<CommentsDto> findServiceEnthusiasm(@Param("merchantsId")String merchantsId, @Param("pagesize")Integer pagesize);-->
+    <select id="findServiceEnthusiasm" resultType="CommentsDto">
+        SELECT comments_code commentsCode,user_id userId,create_date time,(service_score + efficiensy_score)/2 socre,content,traffic
+        FROM app_merchants_comments_tree WHERE user_b_id = #{userBId} AND parent_code = 0 AND lable LIKE '%4%' ORDER by create_date DESC LIMIT #{pagesize},20
+    </select>
+</mapper>

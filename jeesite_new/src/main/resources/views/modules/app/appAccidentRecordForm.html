@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>draggable</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/common/layui/css/layui.css"  media="all">
+    <!--    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+    <link
+            href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <link href="../../../static/common/toastr.css" rel="stylesheet"/>
+    <!--    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+    <link rel="stylesheet" href="../../../static/common/jqueryui/jquery-ui.css"/>
+    <link rel="stylesheet" href="../../../static/common/appAccidentRecordForm.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/common/demo.css"/>
+
+</head>
+<body>
+<div id="page-wrapper">
+    <input type="hidden" id="type" value="${appAccidentRecord.type}">
+    <input type="hidden" id="accId" value="${appAccidentRecord.id}">
+
+    <div class="form-unit">${text('事故图片')}</div>
+    <div>
+        <input type="hidden" id="indentId" value="${appAccidentRecord.id}">
+        <ul id="imglist" class="connectedSortable sortable-wrapper">
+        </ul>
+    </div>
+
+    <div id="myModal" class="modal" style="z-index: 1;">
+        <div id="innerdiv" style="position:absolute;">
+            <img class="modal-content" id="img01" src="">
+        </div>
+        <div id="caption"></div>
+    </div>
+
+
+    <!--视频播放器-->
+    <p align="center">
+        <video width="600" height="400" controls="controls">
+            <source src="${appAccidentRecord.video}" type="video/mp4"/>
+        </video>
+    </p>
+    <div style="margin-top: 10px" class="search">
+        <div class="input">
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="品牌搜索">
+        </div>
+        <button class="btn btn-primary" id="search_brand">搜索</button>
+        <button class="btn btn-primary" onclick="addGar()">修理厂</button>
+        <button class="btn btn-primary" onclick="addClia()">理赔人员</button>
+        <button class="btn btn-primary" onclick="addMer()">店铺</button>
+
+    </div>
+
+    <ul id="sortable1" class="sortable-wrapper">
+    </ul>
+
+    <ul id="sortable2" class="connectedSortable sortable-wrapper">
+    </ul>
+
+    <ul id="sortable3" class="connectedSortable sortable-wrapper">
+    </ul>
+
+    <div id="table-content"></div>
+
+
+    <div class="action">
+        <input type="button" class="forward-news btn btn-success form-control" data-toggle="modal"
+               data-whatever="推送" value="推送" id="push" onclick="submitForm()"/>
+    </div>
+    <br/>
+    <!--    <div class="action">-->
+    <!--        <input type="button" class="forward-news btn btn-success form-control" data-toggle="modal"-->
+    <!--               data-whatever="查看重复视频" value="查看重复视频" id="repeat" onclick="repeatVideo()"/>-->
+    <!--    </div>-->
+    <!--    <br/>-->
+    <!--<div class="action" style="height: 50px;">
+        <input type="button" class="btn btn-success form-control" data-toggle="modal" data-target="#exampleModal2" data-whatever="审核" value="审核通过" id="pass"/>
+    </div>
+    <div class="action">
+        <input type="button" class="btn btn-success form-control" data-toggle="modal" data-target="#exampleModal3" data-whatever="审核" value="审核不通过" id="faluse"/>
+    </div>-->
+
+
+
+    <div   style="margin-left: 305px;margin-top: 10px">
+        红包金额：
+        <button href="javascript:;" style="margin-left: 25px"  class="layui-btn layui-btn-normal" ondblclick="payRed(1.68)">1.68元</button>
+        <button href="javascript:;" style="margin-left: 50px"  class="layui-btn layui-btn-normal" ondblclick="payRed(5)">5元</button>
+        <button href="javascript:;" style="margin-left: 50px" class="layui-btn layui-btn-normal" ondblclick="payRed(8)">8元</button>
+        <button href="javascript:;" style="margin-left: 50px" class="layui-btn layui-btn-normal" ondblclick="payRed(10)">10元</button>
+        <button href="javascript:;" style="margin-left: 50px" class="layui-btn layui-btn-normal" ondblclick="payRed(20)">20元</button>
+
+    </div>
+
+    <form class="layui-form" action="" style="margin-top: 20px">
+        <div class="layui-form-item">
+            <label class="layui-form-label">标记</label>
+            <div class="layui-input-inline">
+                <select id="quiz1" name="quiz1">
+                    <option value="">选择失败原因</option>
+                    <option value="没有损失">没有损失</option>
+                    <option value="重复事故">重复事故</option>
+                    <option value="超出范围">超出范围</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="quiz2" name="quiz2">
+                    <option value="">选择视频标记</option>
+                    <option value="1">轻微事故</option>
+                    <option value="2">地上拍摄</option>
+                    <option value="3">超出范围</option>
+                </select>
+            </div>
+
+            <div class="layui-input-inline">
+                <select id="quiz3" name="quiz3">
+                    <option value="">选择损失车辆</option>
+                    <option value="一车">一车</option>
+                    <option value="两车">两车</option>
+                    <option value="三车">三车</option>
+                    <option value="四车及以上">四车及以上</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="quiz4" name="quiz4">
+                    <option value="">选择损失等级</option>
+                    <option value="轻微">轻微</option>
+                    <option value="中等">中等</option>
+                    <option value="严重">严重</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="quiz5" name="quiz5">
+                    <option value="">选择维修产值</option>
+                    <option value="5000">5000</option>
+                    <option value="10000">10000</option>
+                    <option value="15000">15000</option>
+                    <option value="20000">20000</option>
+                    <option value="30000">30000</option>
+                    <option value="40000">40000</option>
+                    <option value="50000">50000</option>
+                    <option value="100000">100000</option>
+                    <option value="150000">150000</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit  lay-filter="suu"  >提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+
+<!--    <div   style="margin-left: 300px;margin-top: 20px">-->
+<!--        失败原因：-->
+<!--        <button class="layui-btn layui-btn-danger" style="margin-left: 30px" ondblclick="noPass(this)">没有损失</button>-->
+<!--        <button style="margin-left: 70px" class="layui-btn layui-btn-danger" ondblclick="noPass(this)">重复事故</button>-->
+<!--        <button style="margin-left: 75px" class="layui-btn layui-btn-danger" ondblclick="noPass(this)">超出范围</button>-->
+<!--    </div>-->
+<!--    <div   style="margin-left: 300px;margin-top: 20px">-->
+<!--        视频标记：-->
+<!--        <button class="layui-btn layui-btn-warm" style="margin-left: 30px" ondblclick="accTag(1)">轻微事故</button>-->
+<!--        <button style="margin-left: 70px" class="layui-btn layui-btn-warm" ondblclick="accTag(2)">地上拍摄</button>-->
+<!--        <button style="margin-left: 75px" class="layui-btn layui-btn-warm" ondblclick="accTag(3)">车边拍摄</button>-->
+<!--    </div>-->
+
+    <div style="margin-left:300px;margin-top: 20px">
+
+    </div>
+
+
+
+
+    <div class="form-unit">${text('签到照片')}</div>
+    <div>
+        <input type="hidden" id="indentId2" value="${appAccidentRecord.id}">
+        <ul id="imglist2" class="connectedSortable sortable-wrapper">
+        </ul>
+    </div>
+
+    <div id="myModal2" class="modal" style="z-index: 1;">
+        <div id="innerdiv2" style="position:absolute;">
+            <img class="modal-content" id="img02" src="">
+        </div>
+        <div id="caption2"></div>
+    </div>
+
+    <!--图片-->
+    <br>
+    <div class="form-unit">${text('现场照片')}</div>
+    <div>
+        <input type="hidden" id="indentId3" value="${appAccidentRecord.id}">
+        <ul id="imglist3" class="connectedSortable sortable-wrapper">
+        </ul>
+    </div>
+
+    <div id="myModal3" class="modal" style="z-index: 1;">
+        <div id="innerdiv3" style="position:absolute;">
+            <img class="modal-content" id="img03" src="">
+        </div>
+        <div id="caption3"></div>
+    </div>
+
+
+    <!--  推送商户  -->
+    <!--    根据订单数量展示表格 表格可以查看详情  -->
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+        <legend>任务详情</legend>
+    </fieldset>
+    <form class="layui-form layui-form-pane" lay-filter="formTest"  action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">派单时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="createTime" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">签到时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="checkTime" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">到场时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="presentTime" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">事故地点</label>
+            <div class="layui-input-inline">
+                <input type="text" name="accidentPlace" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">损失车辆</label>
+            <div class="layui-input-inline">
+                <input type="text" name="lossVehicle" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">损失程度</label>
+            <div class="layui-input-inline">
+                <input type="text" name="lossRate" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">服务人员</label>
+            <div class="layui-input-inline">
+                <input type="text" name="cliName" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">服务状态</label>
+            <div class="layui-input-inline">
+                <input type="text" name="serviceStatus" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">签到反馈</label>
+            <div class="layui-input-inline">
+                <input type="text" name="signFeedback" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">客户姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="customerName" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">联系电话</label>
+            <div class="layui-input-inline">
+                <input type="text" name="phone" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">保险公司</label>
+            <div class="layui-input-inline">
+                <input type="text" name="company" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">事故责任</label>
+            <div class="layui-input-inline">
+                <input type="text" name="accidentLiability" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">购车单位</label>
+            <div class="layui-input-inline">
+                <input type="text" name="carUnit" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">人员伤亡</label>
+            <div class="layui-input-inline">
+                <input type="text" name="casualties" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">车辆品牌</label>
+            <div class="layui-input-inline">
+                <input type="text" name="brand" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">推修结果</label>
+            <div class="layui-input-inline">
+                <input type="text" name="clinchDeal" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+            <label class="layui-form-label">维修单位</label>
+            <div class="layui-input-inline">
+                <input type="text" name="maintenance" lay-verify="required" placeholder="暂无"  class="layui-input">
+            </div>
+
+
+
+        </div>
+
+
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">签到地点</label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input type="text" name="checkPlace" lay-verify="required" placeholder="暂无"  class="layui-input">-->
+<!--            </div>-->
+<!--            <label class="layui-form-label">签到时间</label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input type="text" name="checkTime" lay-verify="required" placeholder="暂无"  class="layui-input">-->
+<!--            </div>-->
+<!--        </div>-->
+        <!--        <div class="layui-form-item">-->
+        <!--            <button class="layui-btn" lay-submit="" lay-filter="demo2">提交</button>-->
+        <!--        </div>-->
+    </form>
+
+
+    <form class="layui-form" lay-filter="formTwo" action="">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">信息部留言</label>
+            <div class="layui-input-block">
+                <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">经理审核</label>
+            <div class="layui-input-block">
+                <textarea name="managerDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDesc">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+    <div   style="margin-left: 305px;margin-top: 10px">
+        红包金额：
+        <button href="javascript:;" style="margin-left: 50px" class="layui-btn layui-btn-normal" ondblclick="payReward(5)">5元</button>
+        <button href="javascript:;" style="margin-left: 50px" class="layui-btn layui-btn-normal" ondblclick="payReward(10)">10元</button>
+        <button href="javascript:;" style="margin-left: 50px" class="layui-btn layui-btn-normal" ondblclick="payReward(15)">15元</button>
+
+    </div>
+
+
+
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel3">审核不通过原因</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formAmount3">
+                        <div class="form-group">
+                            <label class="control-label">选择不通过原因,或者手动输入</label>
+                            <br/>
+                            <input class="browsers form-control" list="selectId3">
+                            <datalist id="selectId3">
+                                <option value="视频未看到明显事故">
+                                <option value="视频只有受损事故车单车">
+                                <option value="撞摩托车,自行车,人">
+                                <option value="超出范围">
+                                <option value="处理完毕">
+                                <option value="视频距离过远">
+                                <option value="没有明显损失">
+                                <option value="该事故正在现场处理">
+                            </datalist>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary" onclick="saveReson()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--发红包-->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel2">发送红包</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formAmount2">
+                        <div class="form-group">
+                            <label class="control-label">选择红包金额</label>
+                            <select id="selectId2" class="form-control">
+                                <option value="5">5元</option>
+                                <option value="8">8元</option>
+                                <option value="10">10元</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary" onclick="sendMoney()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--推送事故-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">推送事故</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formAmount">
+                        <div class="form-group">
+                            <label class="control-label">选择事故情况</label>
+                            <select id="selectId" class="form-control">
+                                <option value="10">轻微事故(信息费10元)</option>
+                                <option value="15">普通事故(信息费15元)</option>
+                                <option value="20">严重事故(信息费20元)</option>
+                                <option value="30">重大事故(信息费30元)</option>
+                                <option value="40">重大事故(信息费30元)</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary" autocomplete="off" onclick="submitForm()">推送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <HR style="border:3 double #987cb9" width="80%" color=#987cb9 SIZE=3>
+    <!--    展示订单信息上的表单数据  -->
+</div>
+
+
+<div class='modal my-modal-alert' id='my-modal-alert'>
+    <div class='modal-dialog boxBodySmall' style="height: 100px">
+        <div class='modal-content'>
+            <div class='modal-header boxHeader'>
+                <h4 class='modal-title boxTitle' id='modal-title'>提示</h4>
+            </div>
+            <div class='modal-body' id='modal-body-alert'>
+                <div style="text-align: center;color: red">操作失败</div>
+                <span id='num'></span>
+            </div>
+            <div class='modal-footer boxFooter' id='modal-footer'>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class='modal my-modal-alertt' id='my-modal-alertt'>
+    <div class='modal-dialog boxBodySmall' style="height: 100px">
+        <div class='modal-content'>
+            <div class='modal-header boxHeader'>
+                <h4 class='modal-title boxTitle' id='modal-titlee'>提示</h4>
+            </div>
+            <div class='modal-body' id='modal-body-alertt'>
+                <div style="text-align: center;color: green">操作成功</div>
+                <span id='numm'></span>
+            </div>
+            <div class='modal-footer boxFooter' id='modal-footerr'>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop='static'>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                请稍候。。。<span id="result"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../../static/common/layui/layui.js" charset="utf-8"></script>
+<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+<!--<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.0.0.min.js"></script>-->
+<script src="../../../static/common/js/jquery-1.11.1.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--src=”http://www.jq22.com/jquery/jquery-ui-1.11.0.js“-->
+
+<!--href="http://www.jq22.com/jquery/jquery-ui-1.11.0.css“-->
+<script src="../../../static/common/toastr.min.js"></script>
+<script>
+    $(function () {
+        $('#sortable1, #sortable2,#sortable3')
+            .sortable({
+                connectWith: '.connectedSortable',
+            })
+            .disableSelection();
+    });
+    toastr.options.positionClass = 'toast-bottom-right';
+</script>
+
+<script>
+    layui.use(['form','layer'], function(){
+        var layer = layui.layer;
+
+        var form = layui.form;
+        //为from赋值，赋值方式:"name": "value".
+        var accId = $("#accId").val();
+        var type = $("#type").val();
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appAccidentRecord/findMessage?accId=' + accId + '&type=' + type + '',
+            async: true,
+            //请求成功
+            success: function (result) {
+                form.val('formTest', {
+                    "cliName": result.cliName,
+                    "checkPlace": result.checkPlace,
+                    "presentTime":result.presentTime,
+                    "accidentPlace": result.accidentPlace,
+                    "lossVehicle":result.lossVehicle,
+                    "lossRate": result.lossRate,
+                    "serviceStatus":result.serviceStatus,
+                    "signFeedback": result.signFeedback,
+                    "customerName":result.customerName,
+                    "phone": result.phone,
+                    "company":result.company,
+                    "accidentLiability": result.accidentLiability,
+                    "carUnit":result.carUnit,
+                    "casualties": result.casualties,
+                    "brand":result.brand,
+                    "clinchDeal": result.clinchDeal,
+                    "maintenance": result.maintenance,
+                    "createTime":new Date(result.createTime),
+                    "checkTime":new Date(result.checkTime)
+                });
+
+                form.val('formTwo', {
+                    "desc": result.cliName,
+                    "managerDesc": result.checkPlace,
+                });
+            }
+        });
+
+
+        //监听提交
+        form.on('submit(formDesc)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            $.ajax({
+                type: "POST",
+                url: "${ctx}/app/appAccidentRecord/addText",
+                data: {
+                    in: s,
+                    accId:accId,
+                    type:type
+                },
+                dataType: "json",
+                success: function (reslut) {
+                    $('#loading').modal('hide'); //关闭加载层
+                    if ($.trim(reslut.stat) == "success") {
+                        layer.msg('备注成功');
+                    } else {
+                        layer.msg('操作失败请联系管理员', {icon: 5});
+                    }
+                },
+                error: function () {
+                    $('#loading').modal('hide');//关闭加载层
+                    layer.msg('操作失败请联系管理员', {icon: 5});
+                }
+            });
+            return false;
+        });
+
+
+        form.on('submit(suu)', function(data) {
+            //data.field 是一个json对象,批量获取表单的值{'表单的name':'对应的值'}
+            $('#loading').modal('show');
+            var s = JSON.stringify(data.field);
+            $.ajax({
+                type: "POST",
+                url: "${ctx}/app/appAccidentRecord/addTag",
+                data: {
+                    in: s,
+                    accId:accId,
+                    type:type
+                },
+                dataType: "json",
+                success: function (reslut) {
+                    $('#loading').modal('hide'); //关闭加载层
+                    if ($.trim(reslut.stat) == "success") {
+                        layer.msg('标记成功');
+                    } else {
+                        layer.msg('操作失败请联系管理员', {icon: 5});
+                    }
+                },
+                error: function () {
+                    $('#loading').modal('hide');//关闭加载层
+                    layer.msg('操作失败请联系管理员', {icon: 5});
+                }
+            });
+            //return false 可以阻止 表单提交(刷新页面)
+            return false;
+        });
+    });
+
+
+    var accId = $("#accId").val();
+    var type = $("#type").val();
+    $.get('${ctx}/app/appAccidentRecord/echo?accId='+accId+'&type='+type+'&number='+1+'').done(function (data) {
+        var reason = data.data;
+        //拿到后台select选择的value数据并转换成数字类型
+        //首先需要使用lay-value来确定需要设置哪个元素自动选择
+        var select0 = 'dd[lay-value=' + reason + ']';
+        //触发点击事件，实现自动选择
+        $('#quiz1').siblings("div.layui-form-select").find('dl').find(select0).click();
+    });
+
+    $.get('${ctx}/app/appAccidentRecord/echo?accId='+accId+'&type='+type+'&number='+3+'').done(function (data) {
+        var Vehicle = data.data;
+        //拿到后台select选择的value数据并转换成数字类型
+        //首先需要使用lay-value来确定需要设置哪个元素自动选择
+        var select1 = 'dd[lay-value=' + Vehicle + ']';
+        //触发点击事件，实现自动选择
+        $('#quiz3').siblings("div.layui-form-select").find('dl').find(select1).click();
+    });
+
+    $.get('${ctx}/app/appAccidentRecord/echo?accId='+accId+'&type='+type+'&number='+4+'').done(function (data) {
+        var Level = data.data;
+        //拿到后台select选择的value数据并转换成数字类型
+        //首先需要使用lay-value来确定需要设置哪个元素自动选择
+        var select2 = 'dd[lay-value=' + Level + ']';
+        //触发点击事件，实现自动选择
+        $('#quiz4').siblings("div.layui-form-select").find('dl').find(select2).click();
+    });
+
+    $.get('${ctx}/app/appAccidentRecord/echo?accId='+accId+'&type='+type+'&number='+5+'').done(function (data) {
+        var Factor = data.data;
+        //拿到后台select选择的value数据并转换成数字类型
+        //首先需要使用lay-value来确定需要设置哪个元素自动选择
+        var select3 = 'dd[lay-value=' + Factor + ']';
+        //触发点击事件，实现自动选择
+        $('#quiz5').siblings("div.layui-form-select").find('dl').find(select3).click();
+    });
+
+
+
+        $(function () {
+        //任何需要执行的js特效
+        var accId = $("#accId").val();
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appAccidentRecord/findImg?accId=' + accId + '',
+            async: true,
+            //请求成功
+            success: function (result) {
+                if (result.code == "200") {
+                    var str = "";
+                    var list = result.imgList;
+                    for (var i = 0; i < list.length; i++) {
+                        var obj = list[i];
+                        str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                            "<img height=\"120\" width=\"120\" class=\"pic\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                            "</li>"
+                    }
+                    $("#imglist").html(str)
+                }
+            }
+        })
+    });
+
+
+
+
+    var modal = document.getElementById('myModal');
+    $(function () {
+
+//图片的缩略图
+        var $img = $(".imagegallery li img");
+        $($img).each(function () {
+            var imgWidth = $(this).width();
+            var imgHeigth = $(this).height();
+            if (imgWidth > imgHeigth) {
+                $(this).css({
+                    marginLeft: '-' + parseInt((imgWidth / 2) * (80 / imgHeigth)) + 'px'
+                }).addClass("imgh");
+            } else if (imgWidth == imgHeigth || imgHeigth <= 80 || imgWidth <= 80) {
+                $(this).addClass("imge")
+            } else if (imgWidth < imgHeigth) {
+                $(this).css(
+                    "marginTop", '-' + parseInt((imgHeigth / 2) * (80 / imgWidth)) + 'px'
+                ).addClass("imgw");
+            }
+        });
+
+        $("body").on('click', '.pic', function () {
+            modal.style.display = "block";
+            var s = $(this).attr("src");
+            var _this = $(this);
+            f_show(s);
+            //	f_move(_this);
+        });
+        $("body").on('click', '.but', function () {
+            modal.style.display = "block";
+        });
+
+    });
+    $("#myModal").click(function () {
+        modal.style.display = "none";
+    });
+
+    function f_show(s) {
+        $("<img/>").attr("src", s).load(function () {
+            var windowW = $(window).width();//获取当前窗口宽度
+            var windowH = $(window).height();//获取当前窗口高度
+            var realWidth = this.width;//获取图片真实宽度
+            var realHeight = this.height;//获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+//alert(realHeight>windowH*scale)
+            if (realHeight > windowH * scale) {//判断图片高度
+                imgHeight = windowH * scale;//如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth;//等比例缩放宽度
+// alert(imgWidth>windowW*scale)
+                if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                    imgWidth = windowW * scale;//再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale;//如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight;//等比例缩放高度
+            } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+
+            var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距
+//alert(w)
+            var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距
+            $("#img01").attr("width", imgWidth)
+            var innerdiv = $("#innerdiv")
+            $(innerdiv).css({"top": h, "left": w});
+            $("#img01").attr("src", s)
+        });
+        var outterdiv = $("#myModal");
+        /*$(outerdiv).click(function(){//再次点击淡出消失弹出层
+        modal.style.display = "none";
+        });*/
+    }
+
+
+
+    function addGar() {
+        $.ajax({
+            type: "GET",
+            url: "${ctx}/app/appAccidentRecord/addGarage",
+            async: true,
+            //请求成功
+            success: function (reslut) {
+                if ($.trim(reslut) == "success") {
+                    layer.msg('标记成功');
+                } else {
+                    layer.msg('操作失败请联系管理员', {icon: 5});
+                }
+            },
+            error: function () {
+                layer.msg('操作失败请联系管理员', {icon: 5});
+            }
+        })
+    }
+
+    $(function () {
+        //任何需要执行的js特效
+        var accId = $("#accId").val();
+        var type = $("#type").val();
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appAccidentRecord/findNowPlaceImg?accId=' + accId + '&type=' + type + '',
+            async: true,
+            //请求成功
+            success: function (result) {
+                if (result.code == "200"){
+                    var str = "";
+                    var list = result.imgList;
+                    for (var i = 0; i < list.length; i++) {
+                        var obj = list[i];
+                        str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                            "<img height=\"120\" width=\"120\" class=\"pic2\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                            "</li>"
+                    }
+                    $("#imglist2").html(str)
+                }
+            }
+        })
+    });
+
+
+
+
+    var modal = document.getElementById('myModal2');
+    $(function () {
+
+//图片的缩略图
+        var $img = $(".imagegallery li img");
+        $($img).each(function () {
+            var imgWidth = $(this).width();
+            var imgHeigth = $(this).height();
+            if (imgWidth > imgHeigth) {
+                $(this).css({
+                    marginLeft: '-' + parseInt((imgWidth / 2) * (80 / imgHeigth)) + 'px'
+                }).addClass("imgh");
+            } else if (imgWidth == imgHeigth || imgHeigth <= 80 || imgWidth <= 80) {
+                $(this).addClass("imge")
+            } else if (imgWidth < imgHeigth) {
+                $(this).css(
+                    "marginTop", '-' + parseInt((imgHeigth / 2) * (80 / imgWidth)) + 'px'
+                ).addClass("imgw");
+            }
+        });
+
+        $("body").on('click', '.pic2', function () {
+            modal.style.display = "block";
+            var s = $(this).attr("src");
+            var _this = $(this);
+            f_show(s);
+            //	f_move(_this);
+        });
+        $("body").on('click', '.but', function () {
+            modal.style.display = "block";
+        });
+
+    });
+    $("#myModal2").click(function () {
+        modal.style.display = "none";
+    });
+
+    function f_show(s) {
+        $("<img/>").attr("src", s).load(function () {
+            var windowW = $(window).width();//获取当前窗口宽度
+            var windowH = $(window).height();//获取当前窗口高度
+            var realWidth = this.width;//获取图片真实宽度
+            var realHeight = this.height;//获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+//alert(realHeight>windowH*scale)
+            if (realHeight > windowH * scale) {//判断图片高度
+                imgHeight = windowH * scale;//如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth;//等比例缩放宽度
+// alert(imgWidth>windowW*scale)
+                if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                    imgWidth = windowW * scale;//再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale;//如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight;//等比例缩放高度
+            } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+
+            var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距
+//alert(w)
+            var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距
+            $("#img02").attr("width", imgWidth)
+            var innerdiv = $("#innerdiv2")
+            $(innerdiv).css({"top": h, "left": w});
+            $("#img02").attr("src", s)
+        });
+        var outterdiv = $("#myModal2");
+        /*$(outerdiv).click(function(){//再次点击淡出消失弹出层
+        modal.style.display = "none";
+        });*/
+    }
+
+    $(function () {
+        //任何需要执行的js特效
+        var accId = $("#accId").val();
+        var type = $("#type").val();
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appAccidentRecord/findCarImg?accId=' + accId + '&type=' + type + '',
+            async: true,
+            //请求成功
+            success: function (result) {
+                if (result.code == "200"){
+                    var str = "";
+                    var list = result.imgList;
+                    for (var i = 0; i < list.length; i++) {
+                        var obj = list[i];
+                        str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                            "<img height=\"120\" width=\"120\" class=\"pic2\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                            "</li>"
+                    }
+                    $("#imglist3").html(str)
+                }
+            }
+        })
+    });
+
+
+
+
+    var modal = document.getElementById('myModal3');
+    $(function () {
+
+//图片的缩略图
+        var $img = $(".imagegallery li img");
+        $($img).each(function () {
+            var imgWidth = $(this).width();
+            var imgHeigth = $(this).height();
+            if (imgWidth > imgHeigth) {
+                $(this).css({
+                    marginLeft: '-' + parseInt((imgWidth / 2) * (80 / imgHeigth)) + 'px'
+                }).addClass("imgh");
+            } else if (imgWidth == imgHeigth || imgHeigth <= 80 || imgWidth <= 80) {
+                $(this).addClass("imge")
+            } else if (imgWidth < imgHeigth) {
+                $(this).css(
+                    "marginTop", '-' + parseInt((imgHeigth / 2) * (80 / imgWidth)) + 'px'
+                ).addClass("imgw");
+            }
+        });
+
+        $("body").on('click', '.pic3', function () {
+            modal.style.display = "block";
+            var s = $(this).attr("src");
+            var _this = $(this);
+            f_show(s);
+            //	f_move(_this);
+        });
+        $("body").on('click', '.but', function () {
+            modal.style.display = "block";
+        });
+
+    });
+    $("#myModal3").click(function () {
+        modal.style.display = "none";
+    });
+
+    function f_show(s) {
+        $("<img/>").attr("src", s).load(function () {
+            var windowW = $(window).width();//获取当前窗口宽度
+            var windowH = $(window).height();//获取当前窗口高度
+            var realWidth = this.width;//获取图片真实宽度
+            var realHeight = this.height;//获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+//alert(realHeight>windowH*scale)
+            if (realHeight > windowH * scale) {//判断图片高度
+                imgHeight = windowH * scale;//如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth;//等比例缩放宽度
+// alert(imgWidth>windowW*scale)
+                if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                    imgWidth = windowW * scale;//再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale;//如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight;//等比例缩放高度
+            } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+
+            var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距
+//alert(w)
+            var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距
+            $("#img03").attr("width", imgWidth)
+            var innerdiv = $("#innerdiv3")
+            $(innerdiv).css({"top": h, "left": w});
+            $("#img03").attr("src", s)
+        });
+        var outterdiv = $("#myModal3");
+        /*$(outerdiv).click(function(){//再次点击淡出消失弹出层
+        modal.style.display = "none";
+        });*/
+    }
+
+    function addMer() {
+        $.ajax({
+            type: "GET",
+            url: "${ctx}/app/appAccidentRecord/addMer",
+            async: true,
+            //请求成功
+            success: function (reslut) {
+                if ($.trim(reslut) == "success") {
+                    layer.msg('标记成功');
+                } else {
+                    layer.msg('操作失败请联系管理员', {icon: 5});
+                }
+            },
+            error: function () {
+                layer.msg('操作失败请联系管理员', {icon: 5});
+            }
+        })
+    }
+
+
+
+
+    function addClia() {
+        $.ajax({
+            type: "GET",
+            url: "${ctx}/app/appAccidentRecord/addClia",
+            async: true,
+            //请求成功
+            success: function (reslut) {
+                if ($.trim(reslut) == "success") {
+                    layer.msg('标记成功');
+                } else {
+                    layer.msg('操作失败请联系管理员', {icon: 5});
+                }
+            },
+            error: function () {
+                layer.msg('操作失败请联系管理员', {icon: 5});
+            }
+        })
+    }
+
+    function repeatVideo() {
+        var accId = $("#accId").val();
+        var type = $("#type").val();
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/forward/justJudge?accId=' + accId + '&type=' + type + '',
+            async: true,
+            //请求成功
+            success: function (result) {
+                if ($.trim(result.mesg) == "success") {
+                    layer.open({
+                        type: 2,
+                        title: '请判断是否有重复视频',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['900px', '90%'],
+                        content: '${ctx}/app/forward/replay?accId='+accId+'&type='+type+'' //iframe的url   /js/a/app/forward/replay${ctx}/app/forward/replay
+                    });
+                }else {
+                    toastr.warning('无重复视频');
+                    return;
+                }
+            }
+        })
+    }
+
+
+    var a  = ",";
+    // 点击生成表格的方法
+    $('#sortable2').on('click', function (ev) {
+        const target = $(ev.target).parent()[0];
+
+
+        if (target.nodeName === 'LI' && !target.dataset.clicked) {
+            $(target).attr('data-clicked', 1);
+            len = document.getElementById('sortable2').getElementsByTagName('img').length;
+            for (var i = 0; i < len; i++) {
+                if (document.getElementById('sortable2').getElementsByTagName('li')[i].id == $(target).attr('id')) {
+                    var picUrl = document.getElementById('sortable2').getElementsByTagName('img')[i].src;
+                    var name = document.getElementById('sortable2').getElementsByTagName('h4')[i].textContent;
+                }
+            }
+            //console.debug(document.getElementById('sortable1').getElementsByTagName('img').src);
+            var id = $(target).attr('id');
+            a  += id+",";
+            // var picUrl = $(target).attr('picUrl');
+            // var name = $(target).attr('name');
+            var accId = $("#accId").val();
+            var ss = "tb";
+            //查找最近的4s店
+            $.ajax({
+                type: "POST",
+                url: "${ctx}/app/appAccidentRecord/find4sStore",
+                data: {
+                    'accId': accId,
+                    'id': id
+                },
+                async: true,
+                //请求成功
+                success: function (result) {
+                    var per = result.mes;
+                    var tbody = document.getElementById(id + ss);
+
+                    for (var i = 0; i < per.length; i++) {  //遍历js数据
+                        var trow = getDataRow(per[i]);  //定义方法返回tr数据
+                        tbody.appendChild(trow);
+                    }
+                }
+            });
+            var table = '<ul class="sortable-wrapper title">' +
+                '<li class="sortable-item drop-float">' +
+                '    <div style="background-image: url(\''
+                + picUrl +
+                '\'); background-size: 100%;"></div>' +
+                '    <h4>' + name + '</h4>' +
+                '  </li>' +
+                '</ul>' +
+                '<table class="table table-bordered" data-id="111">' +
+                '  <thead>' +
+                '    <tr>' +
+                '      <th>序号</th>' +
+                '      <th>业务人员</th>' +
+                '      <th>当前状态</th>' +
+                '      <th>距离</th>' +
+                '      <th>商户类型</th>' +
+                '      <th>成交数量</th>' +
+                '      <th>成交金额</th>' +
+                '      <th>级别</th>' +
+                '      <th>0元</th>' +
+                '      <th>10元</th>' +
+                '      <th>20元</th>' +
+                '      <th>30元</th>' +
+                '      <th>40元</th>' +
+                '      <th>推送</th>' +
+                '    </tr>' +
+                '  </thead>' +
+                '  <tbody id="' + id + ss + '">' +
+                // '    <tr>'+
+                // '      <td>1</td>'+
+                // '      <td>成都金泰宝马销售有限公司</td>'+
+                // '      <td>2km</td>'+
+                // '      <td>'+
+                // '        <div class="checkbox">'+
+                // '          <label><input type="checkbox" data-id="11"></label>'+
+                // '        </div>'+
+                // '      </td>'+
+                // '    </tr>'+
+                '   </tbody>' +
+                ' </table>'
+            $('#table-content').append($('<div></div>').html(table))
+            //点击调用增加分数方法
+            $.ajax({
+                type: "POST",
+                url: "${ctx}/app/appAccidentRecord/addScore",
+                data: {
+                    'id': id
+                },
+                async: true,
+                //请求成功
+                success: function (result) {
+
+                }
+            });
+        }
+    })
+    $('#sortable3').on('click', function (ev) {
+        const target = $(ev.target).parent()[0];
+
+
+        if (target.nodeName === 'LI' && !target.dataset.clicked) {
+            $(target).attr('data-clicked', 1);
+            len = document.getElementById('sortable3').getElementsByTagName('img').length;
+            for (var i = 0; i < len; i++) {
+                if (document.getElementById('sortable3').getElementsByTagName('li')[i].id == $(target).attr('id')) {
+                    var picUrl = document.getElementById('sortable3').getElementsByTagName('img')[i].src;
+                    var name = document.getElementById('sortable3').getElementsByTagName('h4')[i].textContent;
+                }
+            }
+            //console.debug(document.getElementById('sortable1').getElementsByTagName('img').src);
+            var id = $(target).attr('id');
+            a  += id+",";
+            // var picUrl = $(target).attr('picUrl');
+            // var name = $(target).attr('name');
+            var accId = $("#accId").val();
+            var ss = "tb";
+            //查找最近的4s店
+            $.ajax({
+                type: "POST",
+                url: "${ctx}/app/appAccidentRecord/find4sStore2",
+                data: {
+                    'accId': accId,
+                    'id': id
+                },
+                async: true,
+                //请求成功
+                success: function (result) {
+                    var per = result.mes;
+                    var tbody = document.getElementById(id + ss);
+
+                    for (var i = 0; i < per.length; i++) {  //遍历js数据
+                        var trow = getDataRow(per[i]);  //定义方法返回tr数据
+                        tbody.appendChild(trow);
+                    }
+                }
+            });
+            var table = '<ul class="sortable-wrapper title">' +
+                '<li class="sortable-item drop-float">' +
+                '    <div style="background-image: url(\''
+                + picUrl +
+                '\'); background-size: 100%;"></div>' +
+                '    <h4>' + name + '</h4>' +
+                '  </li>' +
+                '</ul>' +
+                '<table class="table table-bordered" data-id="111">' +
+                '  <thead>' +
+                '    <tr>' +
+                '      <th>序号</th>' +
+                '      <th>业务人员</th>' +
+                '      <th>当前状态</th>' +
+                '      <th>距离</th>' +
+                '      <th>商户类型</th>' +
+                '      <th>成交数量</th>' +
+                '      <th>成交金额</th>' +
+                '      <th>级别</th>' +
+                '      <th>0元</th>' +
+                '      <th>10元</th>' +
+                '      <th>20元</th>' +
+                '      <th>30元</th>' +
+                '      <th>40元</th>' +
+                '      <th>推送</th>' +
+                '    </tr>' +
+                '  </thead>' +
+                '  <tbody id="' + id + ss + '">' +
+                // '    <tr>'+
+                // '      <td>1</td>'+
+                // '      <td>成都金泰宝马销售有限公司</td>'+
+                // '      <td>2km</td>'+
+                // '      <td>'+
+                // '        <div class="checkbox">'+
+                // '          <label><input type="checkbox" data-id="11"></label>'+
+                // '        </div>'+
+                // '      </td>'+
+                // '    </tr>'+
+                '   </tbody>' +
+                ' </table>'
+            $('#table-content').append($('<div></div>').html(table))
+            //点击调用增加分数方法
+            $.ajax({
+                type: "POST",
+                url: "${ctx}/app/appAccidentRecord/addScore",
+                data: {
+                    'id': id
+                },
+                async: true,
+                //请求成功
+                success: function (result) {
+
+                }
+            });
+        }
+    })
+
+    function getDataRow(h) {
+        var row = document.createElement('tr'); //创建行
+
+        var idCell = document.createElement('td');  //创建第一列
+        idCell.innerHTML = h.id;        //数据
+        row.appendChild(idCell);        //加入行
+
+        var nameCell = document.createElement('td') //第二列name
+        nameCell.innerHTML = h.name;
+        row.appendChild(nameCell);
+
+        var nowState = document.createElement('td') //第三列name
+        nowState.innerHTML = h.nowState;
+        row.appendChild(nowState);
+
+        var leaveCell = document.createElement('td') //第四列job
+        leaveCell.innerHTML = h.leave;
+        row.appendChild(leaveCell);
+
+        var yue = document.createElement('td') //第五列job
+        yue.innerHTML = h.type;
+        row.appendChild(yue);
+
+        var monCount = document.createElement('td') //第六列 monCount
+        monCount.innerHTML = h.monCount;
+        row.appendChild(monCount);
+
+        var monAmount = document.createElement('td') //第七列 monCount
+        monAmount.innerHTML = h.monAmount;
+        row.appendChild(monAmount);
+
+        var level = document.createElement('td') //第八列 level
+        level.innerHTML = h.level;
+        row.appendChild(level);
+
+
+        var zeroCell = document.createElement('td');//第四列job
+        row.appendChild(zeroCell);
+        var zerCho1 = document.createElement('input');
+        zerCho1.setAttribute('type', 'radio');
+        zerCho1.setAttribute('value', 0);
+        zerCho1.setAttribute('name', 'chamount' + h.id);
+        zerCho1.setAttribute('data_money', 0);
+        zeroCell.appendChild(zerCho1);
+
+
+        var amountCell = document.createElement('td');//第四列job
+        row.appendChild(amountCell);
+        var chamoCho1 = document.createElement('input');
+        chamoCho1.setAttribute('type', 'radio');
+        chamoCho1.setAttribute('value', 10);
+        chamoCho1.setAttribute('name', 'chamount' + h.id);
+        chamoCho1.setAttribute('data_money', 10);
+        amountCell.appendChild(chamoCho1);
+
+
+        var twotenCell = document.createElement('td');     //操作选择
+        row.appendChild(twotenCell);
+        var chamoCho2 = document.createElement('input');
+        chamoCho2.setAttribute('type', 'radio');
+        chamoCho2.setAttribute('value', 20);
+        chamoCho2.setAttribute('name', 'chamount' + h.id);
+        chamoCho2.setAttribute('data_money', 20);
+        twotenCell.appendChild(chamoCho2);
+
+        var thretenCell = document.createElement('td');     //操作选择
+        row.appendChild(thretenCell);
+        var chamoCho3 = document.createElement('input');
+        chamoCho3.setAttribute('type', 'radio');
+        chamoCho3.setAttribute('value', 30);
+        chamoCho3.setAttribute('name', 'chamount' + h.id);
+        chamoCho3.setAttribute('data_money', 30);
+        thretenCell.appendChild(chamoCho3);
+
+        var fourthCell = document.createElement('td');     //操作选择
+        row.appendChild(fourthCell);
+        var chamoCho4 = document.createElement('input');
+        chamoCho4.setAttribute('type', 'radio');
+        chamoCho4.setAttribute('value', 40);
+        chamoCho4.setAttribute('name', 'chamount' + h.id);
+        chamoCho4.setAttribute('data_money', 40);
+        fourthCell.appendChild(chamoCho4);
+
+        var choCell = document.createElement('td');     //操作选择
+        row.appendChild(choCell);
+        var btnCho = document.createElement('input');
+        btnCho.setAttribute('type', 'checkbox');
+        btnCho.setAttribute('data-id', h.id);
+        choCell.appendChild(btnCho);
+
+        return row;
+    }
+
+    function accTag(genre) {
+        layer.load(1);
+        //事故id
+        var accId = $("#accId").val();
+        //事故类型
+        var type = $("#type").val();
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/app/appAccidentRecord/accidentTag",
+            data: {
+                'id': accId,
+                'type': type,
+                'genre': genre
+            },
+            async: true,
+            //请求成功
+            success: function (reslut) {
+                layer.closeAll('loading'); //关闭加载层
+                if ($.trim(reslut.stat) == "success") {
+                    layer.msg('标记成功');
+                } else {
+                    layer.msg('操作失败请联系管理员', {icon: 5});
+                }
+            },
+            error: function () {
+                layer.closeAll('loading'); //关闭加载层
+                layer.msg('操作失败请联系管理员', {icon: 5});
+            }
+        })
+    }
+
+
+    function payReward(amount) {
+        var accId = $("#accId").val();
+        var type = $("#type").val();
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/app/appPayAmountRecord/payReward",
+            data: {
+                'id': accId,
+                'payAmount': amount,
+                'type': type
+            },
+            async: true,
+            //请求成功
+            success: function (result) {
+                if ($.trim(result.stat) == "success") {
+                    layer.msg('标记成功');
+                } else {
+                    layer.msg('操作失败请联系管理员', {icon: 5});
+                }
+            }
+        })
+
+    }
+
+
+
+    //发送红包
+    function payRed(amount) {
+        /*$('#exampleModal2').modal('hide');
+        var myType = document.getElementById("selectId2");//获取select对象
+        var index = myType.selectedIndex; //获取选项中的索引，selectIndex表示的是当前所选中的index
+        var amount =myType.options[index].value;//获取选项中options的value值   值*/
+        //获取到金额。然后发红包
+        $('#loading').modal('show');
+        var accId = $("#accId").val();
+        var type = $("#type").val();
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/app/appPayAmountRecord/addPayAount",
+            data: {
+                'id': accId,
+                'payAmount': amount,
+                'type': type
+            },
+            async: true,
+            //请求成功
+            success: function (result) {
+                $('#loading').modal('hide');
+                if ($.trim(result.stat) == "success") {
+                    showModall();
+                    localStorage.setItem('Refresh',Math.random()*10);
+                } else {
+                    showModal()
+                }
+            }
+        })
+    }
+
+    // //审核不通过原因
+    // function noPass(object) {
+    //     //$('#exampleModal3').modal('hide');
+    //     // var reason = $(".browsers").val();
+    //     $('#loading').modal('show');
+    //     var reason = object.innerHTML;
+    //     var accId = $("#accId").val();
+    //     var type = $("#type").val();
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "${ctx}/app/appAccidentRecord/failure",
+    //         data: {
+    //             'id': accId,
+    //             'reason': reason,
+    //             'type': type
+    //         },
+    //         async: true,
+    //         //请求成功
+    //         success: function (result) {
+    //             $('#loading').modal('hide');
+    //             if ($.trim(result.stat) == "success") {
+    //                 showModall();
+    //                 localStorage.setItem('Refresh',Math.random()*10);
+    //             } else {
+    //                 showModal()
+    //             }
+    //         }
+    //     })
+    // }
+
+    // 推送获取id的方法
+    function submitForm() {
+        $('#loading').modal('show');
+        const checkboxes = $('#table-content input[type=checkbox]:checked')
+        const idList = Array.prototype.slice.call(checkboxes, 0)
+            .reduce(function (pre, next) {
+                pre.push(
+                    next.dataset.id
+                )
+                return pre
+            }, [])
+
+
+        //取表格的选中行数据
+        if (idList.length <= 0) {
+            $('#loading').modal('hide');
+            toastr.warning('请先勾选推送');
+            return;
+        }
+        /*Ewin.confirm({message: "确认要推送的数据吗？"}).on(function (e) {
+            if (!e) {
+                return;
+            }*/
+        var value = "";
+        var merchantsId = "";
+        var accId = $("#accId").val();
+        var type = $("#type").val();
+        //处理a
+        //去掉所有 ，专成数组
+        console.log("a:"+a);
+
+        var str = a.substr(1);
+        str = str.substr(0, str.length - 1);
+
+        console.log("str："+str);
+
+        var arr = str.split(",");
+
+        console.log("arr："+arr);
+        //和id保持同步遍历
+        for (var j = 0; j < idList.length; j++) {
+            merchantsId = idList[j];
+            console.log("merchantsId:"+merchantsId);
+            var bank = document.getElementsByName("chamount" + idList[j]);
+            var brand = arr[j];
+            console.log("brand:"+brand);
+            //获取到商户类型
+            var x = 0;
+            for (var i = 0; i < bank.length; i++) {
+                console.log("bank:"+bank[i].checked);
+                if (bank[i].checked == true) {
+                    value = bank[i].value;
+                    $.ajax({
+                        type: "POST",
+                        url: "${ctx}/app/appAccidentRecord/pushBill",
+                        data: {
+                            'id': merchantsId,
+                            'accId': accId,
+                            'amount': value,
+                            'type': type,
+                            'brand':brand
+                        },
+                        success: function (result) {
+                            $('#loading').modal('hide');
+                            if ($.trim(result.stat) == "success") {
+                                showModall()
+                            } else {
+                                showModal()
+                            }
+                        },
+                        error: function () {
+                            $('#loading').modal('hide');
+                            toastr.error('Error');
+                        },
+                        complete: function () {
+
+                        }
+
+                    });
+                } else {
+                    x++;
+                    if (x == 4*idList.length) {
+                        $('#loading').modal('hide');
+                        toastr.warning('请勾选金额');
+                        return;
+                    }
+
+                }
+
+            }
+        }
+
+
+        // });
+
+        /*var accId=$("#accId").val();
+        var type =$("#type").val();
+        var myType = document.getElementById("selectId");//获取select对象
+        var index = myType.selectedIndex; //获取选项中的索引，selectIndex表示的是当前所选中的index
+        var amount =myType.options[index].value;//获取选项中options的value值   值
+        $.ajax({
+            type:"POST",
+            url:"${ctx}/app/appAccidentRecord/pushBill",
+            data: {
+                'id': idList,
+                'accId':accId,
+                'amount':amount,
+                'type':type
+            },
+            async: true,
+            //请求成功
+            success: function (result) {
+                if ($.trim(result.stat)=="success") {
+                    showModall()
+                }else{
+                    showModal()
+                }
+            }
+        })*/
+    }
+
+
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/app/appAccidentRecord/getBrand4Redis",
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = ""
+                console.log(result)
+
+                var list = result.carBrandCache;
+                console.log(list)
+                for (var i = 0; i < list.length; i++) {
+                    var obj = JSON.parse(list[i]);
+
+                    str += "<li class=\"sortable-item\" name=" + obj.name + " picUrl=" + obj.picUrl + " id=" + obj.id + ">" +
+                        "<img width=\"60\" src=" + obj.picUrl + ">" +
+                        "<h4>" + obj.name + "</h4>" +
+                        "</li>"
+                }
+                $("#sortable2").html(str)
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/app/appAccidentRecord/getBrand4Redis2",
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = ""
+                console.log(result)
+
+                var list = result.carBrandCache;
+                console.log(list)
+                for (var i = 0; i < list.length; i++) {
+                    var obj = JSON.parse(list[i]);
+
+                    str += "<li class=\"sortable-item\" name=" + obj.name + " picUrl=" + obj.picUrl + " id=" + obj.id + ">" +
+                        "<img width=\"60\" src=" + obj.picUrl + ">" +
+                        "<h4>" + obj.name + "</h4>" +
+                        "</li>"
+                }
+                $("#sortable3").html(str)
+            }
+        });
+    })
+
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('审核操作: ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+    })
+
+    //搜索品牌
+    $("#search_brand").click(function () {
+        var name = $("#exampleInputEmail1").val()
+        $.ajax({
+            type: "POST",
+            url: "${ctx}/app/appAccidentRecord/searchBrand",
+            data: {
+                'name': name
+            },
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = "";
+                for (var i = 0; i < result.length; i++) {
+                    str +=
+                        "<li  class=\"sortable-item\" id=" + result[i].id + ">" +
+                        "<img width=\"60\" src=" + result[i].picUrl + ">" +
+                        "<h4>" + result[i].name + "</h4>" +
+                        "</li>"
+                }
+
+                $("#sortable1").html(str)
+            }
+        });
+
+    });
+
+
+    var clearFlag = 0;
+    var count = 1;//设置2秒后自动消失
+    function showModal() {
+        $("#my-modal-alert").toggle();//显示模态框
+
+        clearFlag = self.setInterval("autoClose()", 1000);//每过一秒调用一次autoClose方法
+    }
+
+    var autoClose = function () {
+        if (count > 0) {
+            $("#num").html();
+            count--;
+        } else if (count <= 0) {
+            window.clearInterval(clearFlag);
+            $("#num").html("");
+            $("#my-modal-alert").fadeOut("slow");
+            count = 1;
+            $("#my-modal-alert").toggle();
+        }
+    }
+
+    function showModall() {
+        $("#my-modal-alertt").toggle();//显示模态框
+
+        clearFlag = self.setInterval("autoClosee()", 1000);//每过一秒调用一次autoClose方法
+    }
+
+    var autoClosee = function () {
+        if (count > 0) {
+            $("#numm").html();
+            count--;
+        } else if (count <= 0) {
+            window.clearInterval(clearFlag);
+            $("#numm").html("");
+            $("#my-modal-alertt").fadeOut("slow");
+            count = 1;
+            $("#my-modal-alertt").toggle();
+        }
+    }
+
+
+    // function downLoad(evt) {
+    //     disabledButton();
+    //     MyPeriodicalExecuter(evt);
+    // }
+    // function disabledButton(){
+    //     var inputs = document.getElementsByTagName("input");
+    //     for(var i = 0;i<inputs.length;i++){
+    //         if(inputs[i].type.toLowerCase()=="button")
+    //             inputs[i].disabled=true;
+    //     }
+    // }
+    // function MyPeriodicalExecuter(evt){
+    //     succ.obj=evt;
+    //     succ.loop=0;
+    //     sh=setInterval(succ,1000);
+    // }
+    // function succ(){
+    //     var str="禁止连续点击,"
+    //     with(arguments.callee){
+    //         obj.value=str+"("+(loop++)+"/3)秒后再试";
+    //         if (loop > 3){
+    //             enabledButton();
+    //             obj.value="审核不通过";
+    //             clearInterval(sh);
+    //             return;
+    //         }
+    //     }
+    // }
+    // function enabledButton(){
+    //     var inputs = document.getElementsByTagName("input");
+    //     for(var i = 0;i<inputs.length;i++){
+    //         if(inputs[i].type.toLowerCase()=="button")
+    //             inputs[i].disabled=false;
+    //     }
+    // }
+
+
+    window.Ewin = function () {
+        var html = '<div id="[Id]" class="modal fade" role="dialog" aria-labelledby="modalLabel">' +
+            '<div class="modal-dialog modal-sm">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+            '<h4 class="modal-title" id="modalLabel">[Title]</h4>' +
+            '</div>' +
+            '<div class="modal-body">' +
+            '<p>[Message]</p>' +
+            '</div>' +
+            '<div class="modal-footer">' +
+            '<button type="button" class="btn btn-default cancel" data-dismiss="modal">[BtnCancel]</button>' +
+            '<button type="button" class="btn btn-primary ok" data-dismiss="modal">[BtnOk]</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+
+        var dialogdHtml = '<div id="[Id]" class="modal fade" role="dialog" aria-labelledby="modalLabel">' +
+            '<div class="modal-dialog">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+            '<h4 class="modal-title" id="modalLabel">[Title]</h4>' +
+            '</div>' +
+            '<div class="modal-body">' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        var reg = new RegExp("\\[([^\\[\\]]*?)\\]", 'igm');
+        var generateId = function () {
+            var date = new Date();
+            return 'mdl' + date.valueOf();
+        }
+        var init = function (options) {
+            options = $.extend({}, {
+                title: "操作提示",
+                message: "提示内容",
+                btnok: "确定",
+                btncl: "取消",
+                width: 200,
+                auto: false
+            }, options || {});
+            var modalId = generateId();
+            var content = html.replace(reg, function (node, key) {
+                return {
+                    Id: modalId,
+                    Title: options.title,
+                    Message: options.message,
+                    BtnOk: options.btnok,
+                    BtnCancel: options.btncl
+                }[key];
+            });
+            $('body').append(content);
+            $('#' + modalId).modal({
+                width: options.width,
+                backdrop: 'static'
+            });
+            $('#' + modalId).on('hide.bs.modal', function (e) {
+                $('body').find('#' + modalId).remove();
+            });
+            return modalId;
+        }
+
+        return {
+            alert: function (options) {
+                if (typeof options == 'string') {
+                    options = {
+                        message: options
+                    };
+                }
+                var id = init(options);
+                var modal = $('#' + id);
+                modal.find('.ok').removeClass('btn-success').addClass('btn-primary');
+                modal.find('.cancel').hide();
+
+                return {
+                    id: id,
+                    on: function (callback) {
+                        if (callback && callback instanceof Function) {
+                            modal.find('.ok').click(function () {
+                                callback(true);
+                            });
+                        }
+                    },
+                    hide: function (callback) {
+                        if (callback && callback instanceof Function) {
+                            modal.on('hide.bs.modal', function (e) {
+                                callback(e);
+                            });
+                        }
+                    }
+                };
+            },
+            confirm: function (options) {
+                var id = init(options);
+                var modal = $('#' + id);
+                modal.find('.ok').removeClass('btn-primary').addClass('btn-success');
+                modal.find('.cancel').show();
+                return {
+                    id: id,
+                    on: function (callback) {
+                        if (callback && callback instanceof Function) {
+                            modal.find('.ok').click(function () {
+                                callback(true);
+                            });
+                            modal.find('.cancel').click(function () {
+                                callback(false);
+                            });
+                        }
+                    },
+                    hide: function (callback) {
+                        if (callback && callback instanceof Function) {
+                            modal.on('hide.bs.modal', function (e) {
+                                callback(e);
+                            });
+                        }
+                    }
+                };
+            },
+            dialog: function (options) {
+                options = $.extend({}, {
+                    title: 'title',
+                    url: '',
+                    width: 800,
+                    height: 550,
+                    onReady: function () {
+                    },
+                    onShown: function (e) {
+                    }
+                }, options || {});
+                var modalId = generateId();
+
+                var content = dialogdHtml.replace(reg, function (node, key) {
+                    return {
+                        Id: modalId,
+                        Title: options.title
+                    }[key];
+                });
+                $('body').append(content);
+                var target = $('#' + modalId);
+                target.find('.modal-body').load(options.url);
+                if (options.onReady())
+                    options.onReady.call(target);
+                target.modal();
+                target.on('shown.bs.modal', function (e) {
+                    if (options.onReady(e))
+                        options.onReady.call(target, e);
+                });
+                target.on('hide.bs.modal', function (e) {
+                    $('body').find(target).remove();
+                });
+            }
+        }
+    }();
+
+
+
+
+
+</script>
+</body>
+</html>

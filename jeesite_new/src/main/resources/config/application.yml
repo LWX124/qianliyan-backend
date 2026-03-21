@@ -1,0 +1,98 @@
+server:
+
+  port: 9002
+  servlet:
+    context-path: /jeesite
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  # 应用程序名称
+  application:
+    name: jeesite-web
+
+  # 当前环境名称（注意：不可设置为 test 它是单元测试专用的名称）
+  profiles:
+    active: pro
+    include:
+
+  # 打印横幅
+  main:
+    bannerMode: "off"
+
+
+
+#======================================#
+#========== Project settings ==========#
+#======================================#
+proFileName: pro
+###   微信RSA加密公匙 （企业付款到银行卡 用户名和银行卡号加密）
+publicKey: /opt/jeesite/keys/wx_bank_public_key8.pem
+
+###  微信请求证书                 apiclient_cert.p12
+apiclientCert: /opt/jeesite/keys/apiclient_cert.p12
+###   微信RSA加密公匙 （企业付款到银行卡 用户名和银行卡号加密）
+#publicKey: /opt/jeesite/keys/wx_bank_public_key8.pem   classpath:wx_bank_public_key8.pem
+#
+####  微信请求证书
+#apiclientCert: /opt/jeesite/keys/apiclient_cert.p12   classpath:apiclient_cert.p12
+
+
+# 退款回调通知
+backMoneyNotifyUrl: https://chejiqiche.com/jeesite/web/backMoneyNotify
+
+###consumer
+##该应用是否启用消费者
+rocketmq:
+  consumer:
+    isOnOff: on
+    groupName: manage
+    #mq的nameserver地址
+    namesrvAddr: 127.0.0.1:9876
+    #该消费者订阅的主题和tags("*"号表示订阅该主题下所有的tags),格式：topic~tag1||tag2||tag3;topic2~*;
+    topics: all~*;
+    consumeThreadMin: 20
+    consumeThreadMax: 64
+    #设置一次消费消息的条数，默认为1条
+    consumeMessageBatchMaxSize: 1
+
+wx:
+  mchId: 1487083832
+  mchKey: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+  pay:
+    appId: wxfd263ff6e281f881
+    mchId: 1487083832
+    mchKey: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+    subAppId: #服务商模式下的子商户公众账号ID
+    subMchId: #服务商模式下的子商户号
+    keyPath: /opt/jeesite/keys/apiclient_cert.p12
+
+# 产品或项目名称、软件开发公司名称
+productName: 生产环境
+companyName: 车己汽车
+
+# 产品版本、版权年份
+productVersion: V4.1
+copyrightYear: 2019
+
+#是否演示模式
+demoMode: false
+
+# 日志配置
+logging:
+  config: classpath:config/logback-spring.xml
+
+  # Shiro 相关配置
+  shiro:
+  #  # URI 权限过滤器定义
+    filterChainDefinitions: |
+      /ReportServer/** = user
+      ${adminPath}/** = user
+      /jeesite/f/** = anon
+
+file:
+  enabled: true
+#
+#  #  # 文件上传根路径，设置路径中不允许包含“userfiles”，在指定目录中系统会自动创建userfiles目录，如果不设置默认为contextPath路径
+  baseDir: /opt/jeesite
+

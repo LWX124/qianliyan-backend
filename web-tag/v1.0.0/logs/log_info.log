@@ -1,0 +1,15 @@
+2023-03-13 17:19:52.973 [main] INFO  com.cheji.web.WebApplication - Starting WebApplication on DESKTOP-4J4T44A with PID 18012 (F:\cheji\java\web-java\web\trunk\target\classes started by duanhong in F:\cheji\java\web-java\web\trunk)
+2023-03-13 17:19:52.977 [main] INFO  com.cheji.web.WebApplication - The following profiles are active: test
+2023-03-13 17:19:54.060 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-13 17:19:54.061 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-03-13 17:19:54.093 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 22ms. Found 0 repository interfaces.
+2023-03-13 17:19:54.389 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$50ca07ff] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-03-13 17:19:54.696 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2023-03-13 17:19:54.705 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2023-03-13 17:19:54.707 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-03-13 17:19:54.707 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.21]
+2023-03-13 17:19:54.837 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/cServer] - Initializing Spring embedded WebApplicationContext
+2023-03-13 17:19:54.838 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1811 ms
+2023-03-13 17:19:55.250 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-03-13 17:19:55.842 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-03-13 17:20:00.578 [main] INFO  com.cheji.web.config.MQProducerConfiguration - producer is start ! groupName:[web],namesrvAddr:[127.0.0.1:9876]

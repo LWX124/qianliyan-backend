@@ -1,0 +1,131 @@
+<% layout('/layouts/default.html', {title: '用户信息表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('用户信息表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appUser:edit')){ %>
+					<a href="${ctx}/app/appUser/form" class="btn btn-default btnTool" title="${text('新增用户信息表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appUser}" action="${ctx}/app/appUser/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('账户')}：</label>
+					<div class="control-inline">
+						<#form:input path="username" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('电话号码')}：</label>
+					<div class="control-inline">
+						<#form:input path="phoneNumber" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('名字')}：</label>
+					<div class="control-inline">
+						<#form:input path="name" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("账户")}', name:'username', index:'a.username', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appUser/form?id='+row.id+'" class="btnList" data-title="${text("编辑用户信息表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("电话号码")}', name:'phoneNumber', index:'a.phone_number', width:150, align:"left"},
+		{header:'${text("名字")}', name:'name', index:'a.name', width:150, align:"left"},
+		// {header:'${text("性别")}', name:'sex', index:'a.sex', width:150, align:"center", formatter: function(val, obj, row, act){
+		// 	return js.getDictLabel(${@DictUtils.getDictListJson('sys_user_sex')}, val, '${text("未知")}', true);
+		// }},
+		{header:'${text("余额")}', name:'balance', index:'a.balance', width:150, align:"left"},
+		// {header:'${text("角色id")}', name:'roleId', index:'a.role_id', width:150, align:"left"},
+		// {header:'${text("部门id")}', name:'deptId', index:'a.dept_id', width:150, align:"center"},
+		// {header:'${text("状态")}', name:'status', index:'a.status', width:150, align:"center", formatter: function(val, obj, row, act){
+		// 	return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+		// }},
+		// {header:'${text("派单黑名单")}', name:'blackFalg', index:'a.black_falg', width:150, align:"center", formatter: function(val, obj, row, act){
+		// 	return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+		// }},
+		// {header:'${text("理赔顾问等级")}', name:'levelName', index:'a.level_name', width:150, align:"center"},
+        {header:'${text("创建时间")}', name:'creatTime', index:'a.creat_time', width:150, align:"center"},
+		{header:'${text("内部员工")}', name:'isInner', index:'a.is_inner', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_is_inner')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appUser:edit')){ %>
+					actions.push('<a href="#" onclick="updatePass(\'' + row.id + '\')">重置密码</a>&nbsp;');
+					actions.push('<a href="#" onclick="addInner(\'' + row.id + '\')">内部人员</a>&nbsp;');
+					actions.push('<a href="${ctx}/app/appUserAccountRecord/list?userId2='+row.id+'" class="btnList" title="${text("账户流水")}">账户流水</a>&nbsp;');
+				<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+
+	}
+});
+
+function updatePass(id) {
+	js.confirm("确实是否重置密码？", function () {
+		$.ajax({
+			type: "POST",
+			url: "${ctx}/app/appUser/updatePass",
+			data: {
+				id: id,
+			},
+			dataType: "json",
+			success: function (data) {
+				alert("新密码为："+data.pass)
+				return false;
+			}
+		});
+	});
+}
+
+function addInner(id) {
+	js.confirm("添加或者取消为内部人员？", function () {
+		$.ajax({
+			type: "POST",
+			url: "${ctx}/app/appUser/addInner",
+			data: {
+				id: id,
+			},
+			dataType: "json",
+			success: function (data) {
+				if (data.innerState===1){
+					alert("成功添加为内部人员")
+					return false;
+				}else {
+					alert("已经取消内部人员资格")
+					return false;
+				}
+
+			}
+		});
+	});
+}
+
+
+</script>

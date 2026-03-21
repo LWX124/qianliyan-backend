@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppAccidentRecordDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppAccidentRecord">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="findAllList" resultType="AppAccidentRecord">
+		SELECT * FROM app_accident_record ORDER BY id LIMIT 20
+	</select>
+
+
+<!--		List<AppAccidentRecord> findOtherList(Integer pageoffset);-->
+	<!--<select id="findOtherList" resultType="AppAccidentRecord">-->
+	  <!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+
+	<!--&lt;!&ndash;Integer findallCount();&ndash;&gt;-->
+	<!--<select id="findallCount" resultType="Integer">-->
+		 <!--SELECT COUNT(1) FROM (SELECT id FROM biz_accident union all SELECT id FROM app_accident_record) as a-->
+	<!--</select>-->
+
+	<!--&lt;!&ndash;List<AppAccidentRecord> findrealness(Integer pageoffset, Integer realness);&ndash;&gt;-->
+	<!--<select id="findrealness" resultType="AppAccidentRecord">-->
+		<!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--WHERE realness = #{realness}-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	<!--WHERE realness = #{realness}-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+	<!--&lt;!&ndash;Long findrealnesscount(Integer pageoffset, Integer realness);&ndash;&gt;-->
+	<!--<select id="findrealnesscount" resultType="Long">-->
+		<!--SELECT  COUNT(1) FROM(-->
+		<!--(SELECT  id,-->
+		<!--realness realness-->
+		<!--FROM app_accident_record-->
+		<!--WHERE realness = #{realness}-->
+		<!--)-->
+		<!--union all-->
+		<!--(SELECT  id,-->
+		<!--realness-->
+		<!--FROM biz_accident-->
+		<!--WHERE realness = #{realness}-->
+		<!--))as a-->
+	<!--</select>-->
+
+	<!--&lt;!&ndash;List<AppAccidentRecord> findstatuse(Integer pageoffset, Integer statuse);&ndash;&gt;-->
+	<!--<select id="findstatuse" resultType="AppAccidentRecord">-->
+		<!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--WHERE statuse = #{statuse}-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	<!--WHERE status = #{statuse}-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+	<!--&lt;!&ndash;Long findstatseCount( Integer statuse);&ndash;&gt;-->
+	<!--<select id="findstatseCount" resultType="Long">-->
+		<!--SELECT  COUNT(1) FROM(-->
+		<!--(SELECT  id,-->
+		<!--statuse statuse-->
+		<!--FROM app_accident_record-->
+		<!--WHERE statuse = #{statuse}-->
+		<!--)-->
+		<!--union all-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse-->
+		<!--FROM biz_accident-->
+		<!--WHERE status = #{statuse}-->
+		<!--))as a-->
+	<!--</select>-->
+	<!--&lt;!&ndash;List<AppAccidentRecord> findcreatime(Integer pageoffset, Date createTime);&ndash;&gt;-->
+	<!--<select id="findcreatime" resultType="AppAccidentRecord">-->
+		<!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--WHERE DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime}-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	<!--WHERE DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime}-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+	<!--&lt;!&ndash;Long findCreatetimeCount(Date createTime);&ndash;&gt;-->
+	<!--<select id="findCreatetimeCount" resultType="Long">-->
+		<!--SELECT  COUNT(1) FROM(-->
+		<!--(SELECT  id,-->
+		<!--create_time createTime-->
+		<!--FROM app_accident_record-->
+		<!--WHERE DATE_FORMAT(create_time,'%Y-%m-%d') = #{createTime}-->
+		<!--)-->
+		<!--union all-->
+		<!--(SELECT  id,-->
+		<!--createTime-->
+		<!--FROM biz_accident-->
+		<!--WHERE DATE_FORMAT(createTime,'%Y-%m-%d') = #{createTime}-->
+		<!--))as a-->
+	<!--</select>-->
+	<!--&lt;!&ndash;List<AppAccidentRecord> findstatseandrealness(Integer pageoffset, Integer statuse, Integer realness);&ndash;&gt;-->
+	<!--<select id="findstatseandrealness" resultType="AppAccidentRecord">-->
+		<!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--WHERE statuse = #{statuse} and realness = #{realness}-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	 <!--WHERE status = #{statuse} and realness = #{realness}-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+	<!--&lt;!&ndash;Long findstatuserealnessCount( Integer statuse, Integer realness)   &ndash;&gt;-->
+	<!--<select id="findstatuserealnessCount" resultType="Long">-->
+		<!--SELECT  COUNT(1) FROM(-->
+		<!--(SELECT  id,-->
+		<!--statuse statuse,-->
+		<!--realness realness-->
+		<!--FROM app_accident_record-->
+		<!--WHERE statuse = #{statuse} AND realness = #{realness}-->
+		<!--)-->
+		<!--union all-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse,-->
+		<!--realness-->
+		<!--FROM biz_accident-->
+		<!--WHERE status = #{statuse} AND realness = #{realness}-->
+		<!--))as a-->
+	<!--</select>-->
+	<!--&lt;!&ndash;List<AppAccidentRecord> findStatuseAndCreatetime(Integer pageoffset, Integer statuse, Date createTime);&ndash;&gt;-->
+	<!--<select id="findStatuseAndCreatetime" resultType="AppAccidentRecord">-->
+		<!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--WHERE statuse = #{statuse} and DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime}-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	 <!--WHERE status = #{statuse} and DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime}-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+	<!--&lt;!&ndash;Long findStatuseAndeCreatimeCOunt(Integer statuse, Date createTime);&ndash;&gt;-->
+	<!--<select id="findStatuseAndeCreatimeCOunt" resultType="Long">-->
+		<!--SELECT  COUNT(1) FROM(-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse,-->
+		<!--create_time createTime,-->
+		<!--realness realness-->
+		<!--FROM app_accident_record-->
+		<!--WHERE statuse = #{statuse} AND DATE_FORMAT(create_time,'%Y-%m-%d') = #{createTime}-->
+		<!--)-->
+		<!--union all-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse,-->
+		<!--createTime,-->
+		<!--realness-->
+		<!--FROM biz_accident-->
+		<!--WHERE status = #{statuse} AND DATE_FORMAT(createTime,'%Y-%m-%d') = #{createTime}-->
+		<!--))as a-->
+	<!--</select>-->
+	<!--&lt;!&ndash;List<AppAccidentRecord> findRealnessAndCreatetime(Integer pageoffset, Integer realness, Date createTime);&ndash;&gt;-->
+	<!--<select id="findRealnessAndCreatetime" resultType="AppAccidentRecord">-->
+		<!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--WHERE realness = #{realness} and DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime}-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	 <!--WHERE realness = #{realness} and DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime}-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+	<!--&lt;!&ndash;Long findRealnessAndCreatimeCount( Integer realness, Date createTime);&ndash;&gt;-->
+	<!--<select id="findRealnessAndCreatimeCount" resultType="Long">-->
+		<!--SELECT  COUNT(1) FROM(-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse,-->
+		<!--create_time createTime,-->
+		<!--realness realness-->
+		<!--FROM app_accident_record-->
+		<!--WHERE realness = #{realness} AND DATE_FORMAT(create_time,'%Y-%m-%d') = #{createTime}-->
+		<!--)-->
+		<!--union all-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse,-->
+		<!--createTime,-->
+		<!--realness-->
+		<!--FROM biz_accident-->
+		<!--WHERE realness = #{realness} AND DATE_FORMAT(createTime,'%Y-%m-%d') = #{createTime}-->
+		<!--))as a-->
+	<!--</select>-->
+	<!--&lt;!&ndash;List<AppAccidentRecord> findStatuseRealnessCreatetime(Integer pageoffset, Integer statuse, Integer realness, Date createTime);&ndash;&gt;-->
+	<!--<select id="findStatuseRealnessCreatetime" resultType="AppAccidentRecord">-->
+		<!--SELECT * FROM(-->
+	  			<!--(SELECT  a.id,-->
+				<!--b.name userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkid checkid,-->
+				<!--statuse statuse,-->
+				<!--reason reason,-->
+				<!--address address,-->
+				<!--realness realness,-->
+				<!--type type,-->
+				<!--introduce introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.create_time createTime,-->
+				<!--b.balck balck,-->
+				<!--check_time checkTime,-->
+				<!--b.phone_number phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+				<!--FROM app_accident_record as a-->
+				<!--LEFT JOIN app_user as b ON a.user_id = b.id-->
+				<!--WHERE realness = #{realness} and DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime} AND statuse = #{statuse}-->
+				<!--)-->
+		<!--union all-->
+				<!--(SELECT  a.id,-->
+				<!--b.wxname userId,-->
+				<!--video,-->
+				<!--lng,-->
+				<!--lat,-->
+				<!--checkId checkid,-->
+				<!--`status` statuse,-->
+				<!--reason reason,-->
+				<!--address,-->
+				<!--realness,-->
+				<!--concat('3')type,-->
+				<!--concat('暂无描述')introduce,-->
+				<!--isaddvideo,-->
+				<!--video_id videoId,-->
+				<!--a.createTime createTime,-->
+				<!--b.blackList black,-->
+				<!--checkTime,-->
+				<!--b.phone phone,-->
+				<!--thumbnail_flag thumbnailFlag,-->
+				<!--thumbnail_url thumbnailUrl-->
+ 	<!--FROM biz_accident AS a-->
+ 	<!--LEFT JOIN biz_wx_user as b ON a.openid = b.openid-->
+ 	 <!--WHERE realness = #{realness} and DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime} AND status = #{statuse}-->
+ 	<!--))as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20-->
+	<!--</select>-->
+
+	<!--&lt;!&ndash;Long findStatuseRealnessCreatietimeCOunt(Integer statuse, Integer realness, Date createTime);&ndash;&gt;-->
+	<!--<select id="findStatuseRealnessCreatietimeCOunt" resultType="Long">-->
+		<!--SELECT  COUNT(1) FROM(-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse,-->
+		<!--create_time createTime,-->
+		<!--realness realness-->
+		<!--FROM app_accident_record-->
+		<!--WHERE realness = #{realness} AND DATE_FORMAT(create_time,'%Y-%m-%d') = #{createTime} AND statuse =#{statuse}-->
+		<!--)-->
+		<!--union all-->
+		<!--(SELECT  id,-->
+		<!--`status` statuse,-->
+		<!--createTime,-->
+		<!--realness-->
+		<!--FROM biz_accident-->
+		<!--WHERE realness = #{realness} AND DATE_FORMAT(createTime,'%Y-%m-%d') = #{createTime} AND status =#{statuse}-->
+		<!--))as a-->
+	<!--</select>-->
+
+
+	<!--List<AppAccidentRecord> findmessage(Integer pageoffset, Integer statuse, Integer realness, String createTime, String phone);-->
+	<select id="findmessage" resultType="AppAccidentRecord">
+SELECT * FROM(
+	  			(SELECT  a.id,
+				a.user_id useropenId,
+				b.name userId,
+				video,
+				lng,
+				lat,
+				checkid checkid,
+				statuse statuse,
+				reason reason,
+				address address,
+				realness realness,
+				type type,
+				check_time introduce,
+				isaddvideo,
+				video_id videoId,
+				a.create_time createTime,
+				a.update_time updateTime,
+				a.loss_vehicle  lossVehicle,
+				a.loss_level  lossLevel,
+				a.risk_factor  riskFactor,
+				is_order isOrder,
+				b.balck balck,
+				check_time checkTime,
+				b.phone_number phone,
+				thumbnail_flag thumbnailFlag,
+				thumbnail_url thumbnailUrl
+				FROM app_accident_record as a
+				LEFT JOIN app_user as b ON a.user_id = b.id
+				WHERE 1 = 1 AND loss_level is null or loss_level &lt;&gt; '轻微'
+				<if test="realness != null and realness != ''">
+					AND realness = #{realness}
+				</if>
+				<if test="createTime != null and createTime != ''">
+					AND DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime}
+				</if>
+				<if test="statuse != null and statuse != ''">
+					AND statuse = #{statuse}
+				</if>
+				<if test="phone != null and phone != ''">
+					AND b.username = #{phone}
+				</if>
+				)
+		union all
+				(SELECT  a.id,
+				a.openid useropenId,
+				b.wxname userId,
+				video,
+				lng,
+				lat,
+				checkId checkid,
+				`status` statuse,
+				reason reason,
+				address,
+				realness,
+				concat('3')type,
+				checkTime checkTime,
+				isaddvideo,
+				video_id videoId,
+				a.createTime createTime,
+				a.update_time updateTime,
+				a.loss_vehicle  lossVehicle,
+				a.loss_level  lossLevel,
+				a.risk_factor  riskFactor,
+				is_order isOrder,
+				b.blackList black,
+				checkTime,
+				b.phone phone,
+				thumbnail_flag thumbnailFlag,
+				thumbnail_url thumbnailUrl
+ 	FROM biz_accident AS a
+ 	LEFT JOIN biz_wx_user as b ON a.openid = b.openid
+		WHERE 1 = 1 AND  pay_red &lt;&gt; 1 AND loss_level is null or loss_level &lt;&gt; '轻微'
+		<if test="realness != null and realness != ''">
+			AND realness = #{realness}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			AND DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime}
+		</if>
+		<if test="statuse != null and statuse != ''">
+			AND status = #{statuse}
+		</if>
+		<if test="phone != null and phone != ''">
+			AND b.phone = #{phone}
+		</if>
+ 	)
+		union ALL
+		(SELECT id,
+		user_b_id useropenId,
+		concat('调度人员') userId,
+		concat('详情查看') video,
+		lng,
+		lat,
+		concat('') checkid,
+		concat('2') statuse,
+		remark reason,
+		adress address,
+		concat('0') realness,
+		concat('4') type,
+		create_time checkTime,
+		concat('2') isaddvideo,
+		concat('')  videoId,
+		create_time createTime,
+		concat('') updateTime,
+		concat('暂无')  lossVehicle,
+		concat('暂无')  lossLevel,
+		concat('暂无')  riskFactor,
+		concat('1') isOrder,
+		concat('3') black,
+		concat('')  checkTime,
+		concat('')  phone,
+		concat('') thumbnailFlag,
+		concat('') thumbnailUrl
+		FROM app_send_out_sheet
+		)
+ 	)as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20
+	</select>
+
+	<!--Long findcount();-->
+	<select id="findcount" resultType="Long">
+			SELECT  COUNT(1) FROM(
+		(SELECT  id,
+		statuse,
+		create_time createTime,
+		realness realness
+		FROM app_accident_record
+		WHERE 1 = 1 AND loss_level is null or loss_level &lt;&gt; '轻微'
+		<if test="realness != null and realness != ''">
+			AND realness = #{realness}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			AND DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime}
+		</if>
+		<if test="statuse != null and statuse != ''">
+			AND statuse = #{statuse}
+		</if>
+		)
+		union all
+		(SELECT  id,
+		`status` statuse,
+		createTime,
+		realness
+		FROM biz_accident
+		WHERE 1 = 1 AND  loss_level is null or loss_level &lt;&gt; '轻微'
+		<if test="realness != null and realness != ''">
+			AND realness = #{realness}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			AND DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime}
+		</if>
+		<if test="statuse != null and statuse != ''">
+			AND status = #{statuse}
+		</if>
+		)
+		union ALL
+		(
+		SELECT id,
+		concat('2') statuse,
+		create_time createTime,
+		concat('0') realness
+		FROM app_send_out_sheet
+		)
+		)as a
+	</select>
+
+<!--	List<AppAccidentRecord> findTwomessage(Integer pageoffset, Integer statuse, Integer realness, String format, String phone);-->
+	<select id="findTwomessage" resultType="AppAccidentRecord">
+		SELECT * FROM(
+		(SELECT  a.id,
+		a.user_id useropenId,
+		b.name userId,
+		video,
+		lng,
+		lat,
+		checkid checkid,
+		statuse statuse,
+		reason reason,
+		address address,
+		realness realness,
+		type type,
+		check_time introduce,
+		isaddvideo,
+		video_id videoId,
+		a.create_time createTime,
+		a.update_time updateTime,
+		a.loss_vehicle  lossVehicle,
+		a.loss_level  lossLevel,
+		a.risk_factor  riskFactor,
+		is_order isOrder,
+		b.balck balck,
+		check_time checkTime,
+		b.phone_number phone,
+		thumbnail_flag thumbnailFlag,
+		thumbnail_url thumbnailUrl
+		FROM app_accident_record as a
+		LEFT JOIN app_user as b ON a.user_id = b.id
+		WHERE 1 = 1 AND loss_level = '轻微'
+		<if test="realness != null and realness != ''">
+			AND realness = #{realness}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			AND DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime}
+		</if>
+		<if test="statuse != null and statuse != ''">
+			AND statuse = #{statuse}
+		</if>
+		<if test="phone != null and phone != ''">
+			AND b.username = #{phone}
+		</if>
+		)
+		union all
+		(SELECT  a.id,
+		a.openid useropenId,
+		b.wxname userId,
+		video,
+		lng,
+		lat,
+		checkId checkid,
+		`status` statuse,
+		reason reason,
+		address,
+		realness,
+		concat('3')type,
+		checkTime checkTime,
+		isaddvideo,
+		video_id videoId,
+		a.createTime createTime,
+		a.update_time updateTime,
+		a.loss_vehicle  lossVehicle,
+		a.loss_level  lossLevel,
+		a.risk_factor  riskFactor,
+		is_order isOrder,
+		b.blackList black,
+		checkTime,
+		b.phone phone,
+		thumbnail_flag thumbnailFlag,
+		thumbnail_url thumbnailUrl
+		FROM biz_accident AS a
+		LEFT JOIN biz_wx_user as b ON a.openid = b.openid
+		WHERE 1 = 1 AND  pay_red &lt;&gt; 1 AND loss_level = '轻微'
+		<if test="realness != null and realness != ''">
+			AND realness = #{realness}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			AND DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime}
+		</if>
+		<if test="statuse != null and statuse != ''">
+			AND status = #{statuse}
+		</if>
+		<if test="phone != null and phone != ''">
+			AND b.phone = #{phone}
+		</if>
+		)
+		)as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20
+	</select>
+
+	<!--Long findcount();-->
+	<select id="findcount" resultType="Long">
+		SELECT  COUNT(1) FROM(
+		(SELECT  id,
+		statuse,
+		create_time createTime,
+		realness realness
+		FROM app_accident_record
+		WHERE 1 = 1 AND loss_level = '轻微'
+		<if test="realness != null and realness != ''">
+			AND realness = #{realness}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			AND DATE_FORMAT(a.create_time,'%Y-%m-%d') = #{createTime}
+		</if>
+		<if test="statuse != null and statuse != ''">
+			AND statuse = #{statuse}
+		</if>
+		)
+		union all
+		(SELECT  id,
+		`status` statuse,
+		createTime,
+		realness
+		FROM biz_accident
+		WHERE 1 = 1 AND loss_level = '轻微'
+		<if test="realness != null and realness != ''">
+			AND realness = #{realness}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			AND DATE_FORMAT(a.createTime,'%Y-%m-%d') = #{createTime}
+		</if>
+		<if test="statuse != null and statuse != ''">
+			AND status = #{statuse}
+		</if>
+		)
+		union ALL
+		(
+		SELECT id,
+		concat('2') statuse,
+		create_time createTime,
+		concat('0') realness
+		FROM app_send_out_sheet
+		)
+		)as a
+	</select>
+
+
+
+	<!--String findCommonappCount();-->
+	<select id="findCommonappCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_pay_amount_record
+			WHERE to_days(create_time) = to_days(now()) AND type = 1
+	</select>
+
+	<!--	Integer findAudit();-->
+	<select id="findAudit" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE reward is not null AND to_days(create_time) = to_days(now())
+	</select>
+
+<!--	Integer findDayNumber();-->
+	<select id="findDayNumber" resultType="Integer">
+		SELECT COUNT(1) FROM app_indent WHERE to_days(creat_time) = to_days(now()) AND
+
+		DATE_FORMAT(creat_time,'%H:%i:%S')&gt;='09:00:00'
+
+		and DATE_FORMAT(creat_time,'%H:%i:%S')&lt;='18:00:00'
+
+	</select>
+
+<!--	Integer findNightNumber();-->
+	<select id="findNightNumber" resultType="Integer">
+		SELECT COUNT(1) FROM app_indent WHERE to_days(creat_time) = to_days(now()) AND
+
+		DATE_FORMAT(creat_time,'%H:%i:%S')&gt;='18:00:00'
+
+		and DATE_FORMAT(creat_time,'%H:%i:%S')&lt;='9:00:00'
+
+	</select>
+
+	<!--String findWxCommonCount();-->
+	<select id="findWxCommonCount" resultType="Integer">
+		SELECT COUNT(1) FROM biz_wx_pay_record
+			WHERE to_days(create_time) = to_days(now()) AND return_code = 'SUCCESS'
+	</select>
+
+
+	<!--BigDecimal findCommonAppAmount();-->
+	<select id="findCommonAppAmount" resultType="BigDecimal">
+		SELECT SUM(pay_amount) FROM app_pay_amount_record
+			WHERE TO_DAYS(create_time) = TO_DAYS(NOW()) AND type = 1
+	</select>
+
+
+
+	<!--BigDecimal findWxAmount();-->
+	<select id="findWxAmount" resultType="BigDecimal">
+		SELECT SUM(amount) FROM biz_wx_pay_record
+			WHERE TO_DAYS(create_time) = TO_DAYS(NOW()) AND return_code = 'SUCCESS'
+	</select>
+
+	<!--BigDecimal findPlusAmount();-->
+	<select id="findPlusAmount" resultType="BigDecimal">
+		SELECT SUM(pay_amount) FROM app_pay_amount_record
+			WHERE TO_DAYS(create_time) = TO_DAYS(NOW()) AND type = 2
+	</select>
+
+	<!--Integer findPlusCount();-->
+	<select id="findPlusCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_pay_amount_record
+			WHERE TO_DAYS(create_time) = TO_DAYS(NOW()) AND type = 2
+	</select>
+
+	<!--Integer findTodayCount();-->
+	<select id="findTodayCount" resultType="Integer">
+			SELECT COUNT(1) FROM(
+				SELECT id FROM biz_accident WHERE TO_DAYS(createTime) = TO_DAYS(NOW())
+				UNION ALL
+				SELECT id FROM app_accident_record WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+			) as t
+	</select>
+
+
+	<!--Integer findTodayWxCount();-->
+	<select id="findTodayWxCount" resultType="Integer">
+		SELECT COUNT(1) FROM biz_accident WHERE TO_DAYS(createTime) = TO_DAYS(NOW())
+	</select>
+
+	<!--Integer findTodayAppCount();-->
+	<select id="findTodayAppCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_accident_record WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+	</select>
+
+	<!--Integer findTodayAppPushCount();-->
+	<select id="findTodayAppPushCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE TO_DAYS(create_time) = TO_DAYS(NOW())
+	</select>
+
+	<!--List<AppAccidentRecord> selectNotDelGeo();-->
+	<select id="selectNotDelGeo" resultType="AppAccidentRecord">
+	    SELECT * FROM app_accident_record WHERE delgeo = 0
+	</select>
+
+
+	<!--List<String> selectRepart(String accId, String type);-->
+	<select id="selectRepart" resultType="AppAccidentRecord">
+		SELECT a.id,a.video,b.repeat_srouce,b.state type,if(b.state=0,'未判断重复','标记重复视频')reason FROM app_accident_record AS a
+		LEFT JOIN app_repeat_accident AS b ON b.repeat_id = a.id
+			WHERE b.accident_id = #{accId} AND b.accident_source = #{type}
+	</select>
+
+<!--	Integer findBlackNumber();-->
+	<select id="findBlackNumber" resultType="Integer">
+		SELECT COUNT(1) FROM app_user WHERE balck = 1
+	</select>
+
+<!--	List<AppAccidentRecord> findAccbyUserid(String id);-->
+
+<!--	Integer findGreenNumber();-->
+	<select id="findGreenNumber" resultType="Integer">
+		SELECT COUNT(1) from (SELECT id FROM app_user WHERE balck = 2
+				union all
+						SELECT id FROM biz_wx_user WHERE blackList = 2
+         ) as a
+	</select>
+
+
+<!--	Integer findTowRecord(String id);-->
+	<select id="findTowRecord"  resultType="Integer">
+		SELECT COUNT(1) FROM app_accident_record WHERE user_id = #{id} AND statuse = 2
+	</select>
+
+
+<!--	List<String> findgoingIndent(String id);-->
+	<select id="findgoingIndent" resultType="String">
+
+		SELECT id FROM app_push_bill WHERE user_id = #{id} AND create_time > DATE_SUB(NOW(),INTERVAL  1 HOUR)
+
+		UNION ALL
+
+		SELECT id FROM app_send_out_sheet WHERE user_b_id = #{id} AND create_time > DATE_SUB(NOW(),INTERVAL  1 HOUR)
+	</select>
+
+<!--	void insertNewAcc(AppAccidentRecord appAccidentRecord);-->
+	<insert id="insertNewAcc">
+		insert into app_accident_record (user_id,lng,lat,`type`,checkid,statuse,address,isaddvideo,delgeo,create_time,update_time,check_time,img_url)
+		value (#{userId},#{lng},#{lat},#{type},#{checkid},#{statuse},#{address},#{isaddvideo},#{delgeo},#{createTime},#{updateTime},#{checkTime},#{imgUrl})
+	</insert>
+</mapper>

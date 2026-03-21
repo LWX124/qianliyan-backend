@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/icars-master/icars-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-admin/src/main/java/com/stylefeng/guns/modular/system/service/impl/WxService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-admin/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/icars-rest/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/icars-master/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

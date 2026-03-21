@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.CdIndentMapper">
+
+    <select id="selectCount" resultType="Integer">
+        SELECT COUNT(id) from cd_indent WHERE 1 = 1
+        <if test="time != null and time != '' and type == 0">
+            AND  DATE_FORMAT(create_time,'%Y-%m') = #{time}
+        </if>
+        <if test="time != null and time != '' and type == 1">
+            AND  DATE_FORMAT(update_time,'%Y-%m') = #{time}
+        </if>
+    </select>
+
+<!--    Integer findNewIndent();-->
+    <select id="findNewIndent" resultType="Integer">
+        SELECT COUNT(1) FROM cd_indent WHERE state = #{type}
+
+    </select>
+
+
+<!--    List<CdIndentEntity> selectByType(@Param("type") Integer type, @Param("text")String text, @Param("pagesize")Integer pagesize);-->
+    <select id="selectByType" resultType="CdIndentEntity">
+
+        SELECT id,plate,username,brand_id brandId,phone,maint_plan maintPlan,car_ins carIns,
+                busines_source businesSource,
+                    create_time createTime,work_time workTime,remark,state
+
+        FROM cd_indent WHERE 1 = 1
+        <if test="type != null and type != ''">
+             AND state = #{type}
+        </if>
+        <if test="text != null and text != ''">
+         AND (plate LIKE  "%"#{text,jdbcType=VARCHAR}"%" or car_ins LIKE  "%"#{text,jdbcType=VARCHAR}"%")
+        </if>
+
+        <if test="time != null and time != ''">
+         AND  DATE_FORMAT(create_time,'%Y-%m') = #{time}
+        </if>
+        ORDER by create_time DESC LIMIT #{pagesize},20
+    </select>
+
+    <select id="selectByType3" resultType="CdIndentEntity">
+
+        SELECT id,plate,username,brand_id brandId,phone,maint_plan maintPlan,car_ins carIns,
+               busines_source businesSource,
+               create_time createTime,work_time workTime,remark,state
+
+        FROM cd_indent WHERE state BETWEEN 1 and 5
+        <if test="time != null and time != ''">
+            AND  DATE_FORMAT(create_time,'%Y-%m') = #{time}
+        </if>
+
+    </select>
+
+
+
+<!--    List<String> selectLiPei();-->
+    <select id="selectLiPei" resultType="String">
+        SELECT b.`name` FROM app_claim_teacher as a
+	        LEFT JOIN app_user as b on a.user_id = b.id
+                 WHERE a.state = 1 AND a.type = 1 AND a.current_position is not null
+    </select>
+
+<!--    CdIndentEntity selectIsRepaid(String plate);-->
+
+    <select id="selectIsRepaid" resultType="CdIndentEntity">
+         SELECT id FROM cd_indent WHERE plate = #{plate}
+    </select>
+
+
+    <select id="selectAllIncome" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(payment),0) from cd_indent WHERE DATE_FORMAT(create_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectAccessories" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(accessories_amount),0) from cd_indent WHERE DATE_FORMAT(create_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectRepair" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(fee_money),0) from cd_indent WHERE DATE_FORMAT(create_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectAllWorkPrice" resultType="java.math.BigDecimal">
+          SELECT DISTINCT IFNULL(SUM(work_price),0) from cd_repair_order WHERE DATE_FORMAT(create_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectBusiness" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(business_commission),0) from cd_indent WHERE DATE_FORMAT(create_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectAllIncome2" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(payment),0) from cd_indent WHERE DATE_FORMAT(update_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectAccessories2" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(accessories_amount),0) from cd_indent WHERE DATE_FORMAT(update_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectRepair2" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(fee_money),0) from cd_indent WHERE DATE_FORMAT(update_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectBusiness2" resultType="java.math.BigDecimal">
+         SELECT DISTINCT IFNULL(SUM(business_commission),0) from cd_indent WHERE DATE_FORMAT(update_time,'%Y-%m') = #{time}
+    </select>
+
+    <select id="selectByType2" resultType="CdIndentEntity">
+
+        SELECT id,plate,username,brand_id brandId,phone,maint_plan maintPlan,car_ins carIns,
+        busines_source businesSource,
+        create_time createTime,work_time workTime,remark,state
+
+        FROM cd_indent WHERE 1 = 1
+        <if test="type != null and type != ''">
+            AND state = #{type}
+        </if>
+        <if test="text != null and text != ''">
+            AND (plate LIKE  "%"#{text,jdbcType=VARCHAR}"%" or car_ins LIKE  "%"#{text,jdbcType=VARCHAR}"%")
+        </if>
+
+        <if test="time != null and time != ''">
+            AND  DATE_FORMAT(update_time,'%Y-%m') = #{time}
+        </if>
+        ORDER by create_time DESC LIMIT #{pagesize},20
+    </select>
+
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppSendUrlMapper">
+
+<!--    &lt;!&ndash; 开启二级缓存 &ndash;&gt;-->
+<!--    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+<!--    String findimgByid(Integer id);-->
+    <select id="findimgByid" resultType="String">
+        SELECT url FROM app_send_url WHERE send_id = #{id}  AND `index` = 1 and `type` = 1
+    </select>
+
+
+<!--    List<String> findallsendImg(Integer id);-->
+    <select id="findallsendImg" resultType="String">
+        SELECT url FROM app_send_url WHERE send_id = #{id}  and `type` = 1
+    </select>
+
+
+<!--    List<AppSendUrlEntity> findCheckImgList(Integer id);-->
+    <select id="findCheckImgList" resultType="AppSendUrlEntity">
+        SELECT * FROM app_send_url WHERE send_id = #{id}   and `type` = 2
+    </select>
+
+
+    <!--    String findMapImg(Integer id);-->
+    <select id="findMapImg" resultType="String">
+        SELECT url FROM app_send_url WHERE  send_id = #{id}   AND type =  1 AND `index` = 2
+
+    </select>
+
+
+<!--    String[] findAccidentImg(Integer id);-->
+    <select id="findAccidentImg" resultType="String">
+        SELECT url FROM app_send_url WHERE  send_id = #{id} AND type = 1 AND  source = 2
+    </select>
+
+
+    <select id="findCheckImg" resultType="String">
+         SELECT url FROM app_send_url WHERE  send_id = #{id} AND type = 2 AND  source = 1  LIMIT 0,1
+    </select>
+
+
+</mapper>

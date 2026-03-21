@@ -1,0 +1,17 @@
+2026-03-19 18:14:50.162 [main] INFO  com.cheji.b.BApplication - Starting BApplication on lwx-M4.local with PID 59887 (/Users/weixi1/Documents/PartWorkspace/waibao/amiba/b/target/classes started by weixi1 in /Users/weixi1/Documents/PartWorkspace/waibao/amiba/b)
+2026-03-19 18:14:50.173 [main] INFO  com.cheji.b.BApplication - The following profiles are active: test
+2026-03-19 18:14:51.783 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-19 18:14:51.788 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2026-03-19 18:14:51.843 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36ms. Found 0 repository interfaces.
+2026-03-19 18:14:52.451 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$d551899c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2026-03-19 18:14:52.853 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8091 (http)
+2026-03-19 18:14:52.880 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8091"]
+2026-03-19 18:14:52.895 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-19 18:14:52.896 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.24]
+2026-03-19 18:14:53.160 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/bServer] - Initializing Spring embedded WebApplicationContext
+2026-03-19 18:14:53.162 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2917 ms
+2026-03-19 18:14:54.207 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-19 18:15:14.467 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2026-03-19 18:15:14.517 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.

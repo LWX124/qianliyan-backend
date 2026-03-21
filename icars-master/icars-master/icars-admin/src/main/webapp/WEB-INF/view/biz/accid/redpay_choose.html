@@ -1,0 +1,26 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<div class="ibox-content">
+			<div class="row row-lg">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-4">
+							<#NameCon id="reason" name="审核备注" />
+						</div>
+						<div class="col-sm-4">
+							<#button name="确认审核" icon="fa-check-circle" clickFun="RedPayChoose.checkSuccess()" space="true"/>
+							<#button name="搜索" icon="fa-search" clickFun="RedPayChoose.search()"/>
+						</div>
+					</div>
+					<div class="hidden-xs" id="managerTableToolbar" role="group">
+
+					</div>
+					<#table id="managerRedPayChooseTable" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/biz/accd/redpay_choose.js"></script>
+@}

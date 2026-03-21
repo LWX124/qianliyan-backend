@@ -1,0 +1,356 @@
+<% layout('/layouts/default.html', {title: '代驾订单表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('代驾订单表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appSubstituteDrivingIndent:edit')){ %>
+					<a href="${ctx}/app/appSubstituteDrivingIndent/form" class="btn btn-default btnTool" title="${text('新增代驾订单表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appSubstituteDrivingIndent}" action="${ctx}/app/appSubstituteDrivingIndent/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('代驾订单编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="substituteDrivingNumber" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('用户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userId" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('技师id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userBId" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('代驾类型')}：</label>
+					<div class="control-inline">
+						<#form:input path="type" maxlength="1" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('起点地点')}：</label>
+					<div class="control-inline">
+						<#form:input path="startPoint" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('起点地址')}：</label>
+					<div class="control-inline">
+						<#form:input path="startAddress" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('起点经度')}：</label>
+					<div class="control-inline">
+						<#form:input path="startLng" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('起点纬度')}：</label>
+					<div class="control-inline">
+						<#form:input path="startLat" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('送车人')}：</label>
+					<div class="control-inline">
+						<#form:input path="startName" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('送车人电话')}：</label>
+					<div class="control-inline">
+						<#form:input path="startPhone" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('送车备注')}：</label>
+					<div class="control-inline">
+						<#form:input path="startRemark" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('终点地点')}：</label>
+					<div class="control-inline">
+						<#form:input path="endPoint" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('结束地址')}：</label>
+					<div class="control-inline">
+						<#form:input path="endAddress" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('终点经度')}：</label>
+					<div class="control-inline">
+						<#form:input path="endLng" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('终点纬度')}：</label>
+					<div class="control-inline">
+						<#form:input path="endLat" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('接车名字')}：</label>
+					<div class="control-inline">
+						<#form:input path="endName" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('接车人电话')}：</label>
+					<div class="control-inline">
+						<#form:input path="endPhone" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('接车备注')}：</label>
+					<div class="control-inline">
+						<#form:input path="endRemark" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('接车时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="pickCarTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('送达时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="sendTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('距离')}：</label>
+					<div class="control-inline">
+						<#form:input path="distance" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('预估价格')}：</label>
+					<div class="control-inline">
+						<#form:input path="estimatePrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('实际价格')}：</label>
+					<div class="control-inline">
+						<#form:input path="actualPrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('里程价格')}：</label>
+					<div class="control-inline">
+						<#form:input path="mileagePrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('过路费')}：</label>
+					<div class="control-inline">
+						<#form:input path="tollsPrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('时长费')}：</label>
+					<div class="control-inline">
+						<#form:input path="timePrice" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('取消来源')}：</label>
+					<div class="control-inline">
+						<#form:input path="cancelResource" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('取消原因')}：</label>
+					<div class="control-inline">
+						<#form:input path="cancelReason" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('订单状态 1.开始，2.进行中，3完成, 4.取消')}：</label>
+					<div class="control-inline">
+						<#form:input path="indentState" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('包时代驾套餐类型')}：</label>
+					<div class="control-inline">
+						<#form:input path="packageType" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('开始时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="beginTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('结束时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="endTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('等待时长')}：</label>
+					<div class="control-inline">
+						<#form:input path="waitTime" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('sid为终端所属service唯一编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="sid" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('tid为终端唯一编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="tid" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('trid为轨迹唯一编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="trid" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('支付状态 0初始状态  1已支付   2支付失败  3退款')}：</label>
+					<div class="control-inline">
+						<#form:input path="payState" maxlength="2" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('支付订单编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="payNumber" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('订单创建时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="createTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('修改时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="updateTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("代驾订单编号")}', name:'substituteDrivingNumber', index:'a.substitute_driving_number', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appSubstituteDrivingIndent/form?id='+row.id+'" class="btnList" data-title="${text("编辑代驾订单表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("用户id")}', name:'userId', index:'a.user_id', width:150, align:"center"},
+		{header:'${text("技师id")}', name:'userBId', index:'a.user_b_id', width:150, align:"center"},
+		{header:'${text("代驾类型")}', name:'type', index:'a.type', width:150, align:"center"},
+		{header:'${text("起点地点")}', name:'startPoint', index:'a.start_point', width:150, align:"left"},
+		{header:'${text("起点地址")}', name:'startAddress', index:'a.start_address', width:150, align:"left"},
+		{header:'${text("起点经度")}', name:'startLng', index:'a.start_lng', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("起点纬度")}', name:'startLat', index:'a.start_lat', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("送车人")}', name:'startName', index:'a.start_name', width:150, align:"left"},
+		{header:'${text("送车人电话")}', name:'startPhone', index:'a.start_phone', width:150, align:"left"},
+		{header:'${text("送车备注")}', name:'startRemark', index:'a.start_remark', width:150, align:"left"},
+		{header:'${text("终点地点")}', name:'endPoint', index:'a.end_point', width:150, align:"left"},
+		{header:'${text("结束地址")}', name:'endAddress', index:'a.end_address', width:150, align:"left"},
+		{header:'${text("终点经度")}', name:'endLng', index:'a.end_lng', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("终点纬度")}', name:'endLat', index:'a.end_lat', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("接车名字")}', name:'endName', index:'a.end_name', width:150, align:"left"},
+		{header:'${text("接车人电话")}', name:'endPhone', index:'a.end_phone', width:150, align:"left"},
+		{header:'${text("接车备注")}', name:'endRemark', index:'a.end_remark', width:150, align:"left"},
+		{header:'${text("接车时间")}', name:'pickCarTime', index:'a.pick_car_time', width:150, align:"center"},
+		{header:'${text("送达时间")}', name:'sendTime', index:'a.send_time', width:150, align:"center"},
+		{header:'${text("距离")}', name:'distance', index:'a.distance', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("预估价格")}', name:'estimatePrice', index:'a.estimate_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("实际价格")}', name:'actualPrice', index:'a.actual_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("里程价格")}', name:'mileagePrice', index:'a.mileage_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("过路费")}', name:'tollsPrice', index:'a.tolls_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("时长费")}', name:'timePrice', index:'a.time_price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("取消来源")}', name:'cancelResource', index:'a.cancel_resource', width:150, align:"left"},
+		{header:'${text("取消原因")}', name:'cancelReason', index:'a.cancel_reason', width:150, align:"left"},
+		{header:'${text("订单状态 1.开始，2.进行中，3完成, 4.取消")}', name:'indentState', index:'a.indent_state', width:150, align:"center"},
+		{header:'${text("包时代驾套餐类型")}', name:'packageType', index:'a.package_type', width:150, align:"center"},
+		{header:'${text("开始时间")}', name:'beginTime', index:'a.begin_time', width:150, align:"center"},
+		{header:'${text("结束时间")}', name:'endTime', index:'a.end_time', width:150, align:"center"},
+		{header:'${text("等待时长")}', name:'waitTime', index:'a.wait_time', width:150, align:"center"},
+		{header:'${text("sid为终端所属service唯一编号")}', name:'sid', index:'a.sid', width:150, align:"left"},
+		{header:'${text("tid为终端唯一编号")}', name:'tid', index:'a.tid', width:150, align:"left"},
+		{header:'${text("trid为轨迹唯一编号")}', name:'trid', index:'a.trid', width:150, align:"left"},
+		{header:'${text("支付状态 0初始状态  1已支付   2支付失败  3退款")}', name:'payState', index:'a.pay_state', width:150, align:"center"},
+		{header:'${text("支付订单编号")}', name:'payNumber', index:'a.pay_number', width:150, align:"left"},
+		{header:'${text("订单创建时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("修改时间")}', name:'updateTime', index:'a.update_time', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appSubstituteDrivingIndent:edit')){ %>
+				actions.push('<a href="${ctx}/app/appSubstituteDrivingIndent/form?id='+row.id+'" class="btnList" title="${text("编辑代驾订单表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/app/appSubstituteDrivingIndent/delete?id='+row.id+'" class="btnList" title="${text("删除代驾订单表")}" data-confirm="${text("确认要删除该代驾订单表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

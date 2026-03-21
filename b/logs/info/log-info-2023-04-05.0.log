@@ -1,0 +1,27 @@
+2023-04-05 10:27:14.466 [main] INFO  com.cheji.b.BApplicationTests - Starting BApplicationTests on DESKTOP-4J4T44A with PID 21784 (started by duanhong in F:\cheji2\b)
+2023-04-05 10:27:14.468 [main] INFO  com.cheji.b.BApplicationTests - The following profiles are active: test
+2023-04-05 10:27:19.572 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-04-05 10:27:19.577 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-04-05 10:27:19.652 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 44ms. Found 0 repository interfaces.
+2023-04-05 10:27:21.271 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$c59b783] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-04-05 10:27:22.692 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-04-05 10:27:23.524 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-04-05 10:27:31.809 [main] INFO  com.cheji.b.config.MQProducerConfiguration - producer is start ! groupName:[web],namesrvAddr:[127.0.0.1:9876]
+2023-04-05 10:27:35.294 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2023-04-05 10:27:36.257 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-04-05 10:27:37.613 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-04-05 10:27:37.663 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-04-05 10:27:37.725 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-04-05 10:27:38.003 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listDetailsUsingGET_1
+2023-04-05 10:27:38.217 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: indentList22UsingGET_1
+2023-04-05 10:27:38.259 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: deletIndentUsingPOST_1
+2023-04-05 10:27:38.298 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: registerUsingPOST_1
+2023-04-05 10:27:38.303 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: cleanParameterUsingGET_1
+2023-04-05 10:27:38.331 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: indentDetailsUsingGET_1
+2023-04-05 10:27:38.370 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: loginForPassUsingPOST_1
+2023-04-05 10:27:38.372 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: registerUsingPOST_2
+2023-04-05 10:27:38.373 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: signOutUsingPOST_1
+2023-04-05 10:27:38.541 [main] INFO  com.cheji.b.BApplicationTests - Started BApplicationTests in 25.188 seconds (JVM running for 27.346)
+2023-04-05 10:27:38.906 [Thread-3] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-04-05 10:27:38.928 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-04-05 10:27:38.948 [Thread-3] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

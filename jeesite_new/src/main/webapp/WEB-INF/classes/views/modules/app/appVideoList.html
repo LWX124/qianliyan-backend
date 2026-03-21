@@ -1,0 +1,131 @@
+<% layout('/layouts/default.html', {title: '视频信息表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('视频信息表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appVideo:edit')){ %>
+					<a href="${ctx}/app/appVideo/form" class="btn btn-default btnTool" title="${text('新增视频信息表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appVideo}" action="${ctx}/app/appVideo/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('视频地址')}：</label>
+					<div class="control-inline">
+						<#form:input path="url" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('审核状态')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="state" dictType="app_merchants_state" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('上传时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="creatTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid">
+				<th><input type="checkbox"  id="checkBoxs" name="checkBoxs" onclick="checkALL(event)"/></th>
+			</table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+        {header:'${text("视频地址")}', name:'url', index:'a.url', width:170, align:"left", frozen:true,  formatter: function(val, obj, row, act){
+                return '<a onclick="palyvideo(\''+row.url+'\')">查看视频</a>'
+            }},
+		{header:'${text("上传用户")}', name:'name', index:'a.name', width:130, align:"center"},
+		{header:'${text("点赞数")}', name:'count', index:'a.count', width:120, align:"center"},
+		{header:'${text("分享次数")}', name:'share', index:'a.share', width:120, align:"center"},
+		{header:'${text("审核状态")}', name:'state', index:'a.state', width:130, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('app_merchants_state')}, val, '${text("未知")}', true);
+		}},
+		{header:'${text("是否展示到app")}', name:'appShowFalg', index:'a.app_show_falg', width:150, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+		}},
+        {header:'${text("视频播放量")}', name:'appViewCounts', index:'a.app_view_counts', width:120, align:"center"},
+		{header:'${text("上传时间")}', name:'creatTime', index:'a.creat_time', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appVideo:edit')){ %>
+					actions.push('<a href="${ctx}/app/appVideo/save?id='+row.id+'" class="btnList" title="${text("修改是否展示到app")}" data-confirm="${text("确认要修改是否展示到app吗？")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+                    actions.push('<a href="${ctx}/app/appVideoComments/list?id='+row.id+'" class="btnList" title="${text("查看视频评论")}"><i class="icon-bubble"></i></a>&nbsp;');
+					// actions.push('<a href="#" onclick="upVideo(\'' + row.id + '\')">置顶首页</a>&nbsp;');
+					actions.push('<a href="${ctx}/app/appVideo/upvideo?ids='+row.id+'" class="btnList" title="${text("置顶首页")}" data-confirm="${text("确认置顶首页？")}"><i class="icon-location-pin"></i></a>&nbsp;')
+
+				<% } %>
+
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+
+	}
+});
+
+function upVideo(id){
+	js.confirm("是否确定置顶视频到app首页？", function () {
+		$.ajax({
+			type: "POST",
+			url: "${ctx}/app/appVideo/upVideo",
+			data: {
+				id: id,
+			},
+			dataType: "json",
+			success: function (data) {
+				alert("操作成功！")
+			}
+		});
+	});
+
+}
+
+function palyvideo(video) {
+    layer.open({
+        type: 1,
+        title: false,
+        area: ['630px', '360px'],
+        shade: 0.8,
+        closeBtn: 0,
+        shadeClose: true,
+        content: '<video width="630px" height="355px" controls><source src="'+video+'" type="video/mp4"></video>'
+    });
+    layer.msg('点击任意处关闭');
+}
+
+
+function checkALL(){
+    console.debug(rows)
+
+    // if($("#checkBoxs").attr("checked")){
+    //     $('tbody tr').find("input[name='checkItem']").attr("checked",'true');//全选
+    // }else if(!$("#checkAll").attr("checked")){
+    //     $('tbody tr').find("input[name='checkItem']").removeAttr('checked');//取消全选
+    // }
+    // /*阻止向上冒泡，以防再次触发点击操作*/
+    // event.stopPropagation();
+
+}
+</script>

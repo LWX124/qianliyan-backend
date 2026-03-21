@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppSprayPaintIndentMapper">
+
+
+<!--    CenterDetailsDto selectSprayIndentCenterMes(Integer id);-->
+    <select id="selectSprayIndentCenterMes" resultType="CenterDetailsDto">
+SELECT
+	  SUM(if((technician_id = #{id} AND TO_DAYS(create_time) = TO_DAYS(NOW())),1,0)) todayIndent,
+		SUM(if(pay_state = 1 AND technician_id= #{id},price,0)) allEarnings,
+		SUM(if((technician_id = #{id}),1,0)) allIndentCount,
+		SUM(if((technician_id = #{id} AND state = 1),1,0)) newIntentCount,
+		SUM(if((technician_id = #{id} AND (state = 2 OR state = 3 OR state = 4 OR state = 5 OR state = 6) ),1,0)) inServiceCount,
+		SUM(if((technician_id = #{id} AND state = 7),1,0)) obligationCount,
+		SUM(if((technician_id = #{id} AND state = 8),1,0)) toEvaluateCount,
+		SUM(if((technician_id = #{id} AND state = 10),1,0)) cancelledCount
+
+FROM app_spray_paint_indent;
+
+    </select>
+
+
+<!--	List<AppCleanIndetEntity> newSprayPaintIndentList(@Param("id")Integer id, @Param("pagesize")Integer pagesize, @Param("type")Integer type);-->
+
+	<select id="newSprayPaintIndentList" resultType="AppCleanIndetEntity">
+		SELECT a.user_id userId,a.user_b_id userBId,CONCAT('')cleanType,
+		CONCAT('喷漆')cleanName,brand_type carName,a.spray_paint_number cleanIndentNumber,
+		a.price amount,a.state indentState,b.url imgUrl,a.is_evaluation isEvaluation,
+		a.create_time createTime,CONCAT(4) resource,CONCAT('') rescueName,pick_address currentPosition
+		FROM app_spray_paint_indent as a
+		LEFT JOIN app_spray_paint_img as b ON a.id = b.spray_paint_id
+		WHERE a.technician_id = #{id} AND b.`index` = 1 and b.type = 1
+		<if test="type == 2">
+			AND (a.state = 1 or a.state = 2)
+		</if>
+		<if test="type == 3">
+			AND (a.state = 3 or a.state = 4 or a.state = 5 or a.state = 6)
+		</if>
+		<if test="type == 4">
+			AND a.state = 7
+		</if>
+		<if test="type == 5">
+			AND a.state = 8
+		</if>
+		<if test="type == 6">
+			AND a.state = 10
+		</if>
+		order by createTime DESC
+		LIMIT #{pagesize},20
+
+	</select>
+
+
+<!--	Integer selectByCoupon(String cleanIndentNumber);-->
+	<select id="selectByCoupon" resultType="Integer">
+		SELECT id FROM app_user_coupon WHERE order_number = #{cleanIndentNumber}
+	</select>
+
+
+
+</mapper>

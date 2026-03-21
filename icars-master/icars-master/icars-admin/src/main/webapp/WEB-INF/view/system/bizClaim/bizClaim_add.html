@@ -1,0 +1,43 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="主键" underline="true" readonly="readonly" style="display:none;" />
+                            <#input id="phone" name="客户手机号" underline="true"/>
+                            <#input id="name" name="客户姓名" underline="true"/>
+                            <#input id="cph" name="车牌号" underline="true"/>
+                            <#input id="type" name="理赔单类型" underline="true"/>
+                            <#SelectCon id="status" name="理赔状态" >
+                                <option value="">全部</option>
+                                <option value="0">已下单</option>
+                                <option value="1">理赔中</option>
+                                <option value="2">理赔完成</option>
+                                <option value="3">作废</option>
+                            </#SelectCon>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="desc" name="描述" underline="true"/>
+                            <#input id="claimer" name="理赔负责人" underline="true"/>
+                            <#input id="lng" name="经度" underline="true" />
+                            <#input id="lat" name="纬度" underline="true" />
+                            <#input id="address" name="定位地址名称" underline="true"/>
+                            <#input id="createtime" name="创建时间" underline="true" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12" style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BizClaimInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BizClaimInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizClaim/bizClaim_info.js"></script>
+@}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.MerchantsLableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.MerchantsLableEntity">
+        <id column="id" property="id"/>
+        <result column="merchants_id" property="merchantsId"/>
+        <result column="lable_id" property="lableId"/>
+        <result column="rebates" property="rebates"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, merchants_id AS merchantsId, lable_id AS lableId, rebates, state, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+
+    <!--拿到对应商户的标签数据，-->
+    <select id="findLableByCode" resultType="MerchantsLableEntity">
+        SELECT
+         lable_id lableId
+         FROM app_merchants_lable AS a
+          JOIN app_lable as b ON a.lable_id = b.id
+	      WHERE a.merchants_id =  #{merchantsId}
+    </select>
+
+    <!--拿到返点数据-->
+    <select id="findRebateByCode" resultType="MerchantsLableEntity">
+         SELECT a.rebates FROM app_merchants_lable AS a
+           JOIN app_lable as b ON a.lable_id = b.id
+           WHERE a.merchants_id = #{merchantsId}
+    </select>
+
+
+</mapper>

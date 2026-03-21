@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppWxpayOrderMapper">
+
+
+    <select id="findMonthAndAmountByuserId" resultType="ChangeBill">
+        SELECT DATE_FORMAT(create_time,'%Y-%m') AS thisMonth,SUM(amount) income FROM app_wxpay_order
+       	WHERE user_id = #{userId}
+	    GROUP BY thisMonth;
+    </select>
+
+    <select id="findMonthAndAmountByuserIdAndDate" resultType="ChangeBill">
+        SELECT DATE_FORMAT(create_time,'%Y-%m') AS thisMonth,SUM(amount) income FROM app_wxpay_order
+       	WHERE user_id = #{userId} AND DATE_FORMAT(create_time,'%Y%m') = #{date}
+	    GROUP BY thisMonth;
+    </select>
+
+
+    <select id="findListByMonth" resultType="ChangeList">
+    SELECT id,partner_trade_no partnerTradeNo,concat('-',amount)amount,create_time,concat('余额提现')workName
+        FROM app_wx_cash_out_record
+        WHERE user_id = #{userId} and DATE_FORMAT(create_time,'%Y-%m') = #{thisMonth}
+    </select>
+
+    <update id="updateStatus">
+        update app_wxpay_order t1 set t1.status=#{status}
+        where out_trade_no=#{outTradeNo}
+    </update>
+</mapper>

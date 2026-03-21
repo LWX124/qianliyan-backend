@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppInsuranceMerchantsDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppInsuranceMerchants">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+<!--	Integer findAgoInsurance(String insId, String userBId);-->
+	<select id="findAgoInsurance" resultType="Integer">
+		SELECT id FROM app_insurance_merchants WHERE user_b_id = #{insId} AND insurance_id = #{userBId}
+	</select>
+
+
+<!--	void insertInsurance(String insurance);-->
+	<insert id="insertInsurance">
+		insert into app_insurance_merchants (insurance_id,user_b_id,state,create_time,update_time)
+	value (#{insuranceId},#{userBId},#{state},#{createTime},#{updateTime})
+
+	</insert>
+
+<!--	insert into app_business_confirm (user_b_id,business_confirm,accident_reponsibility,customers_have,not_united_customer,charter_shop,create_time,update_time)-->
+<!--	value (#{userBId},#{businessConfirm},#{accidentReponsibility},#{customersHave},#{notUnitedCustomer},#{charterShop},#{createTime},#{updateTime})-->
+
+
+</mapper>

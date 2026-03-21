@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.DataCountMapper">
+
+    <select id="countCoupon" resultType="map" parameterType="map">
+        select t3.amount,count(t3.amount) as countNum from biz_wxpay_bill t2 left join biz_accident t on t.id=t2.accid
+        left join biz_wx_pay_record t3 on t3.bill_id=t2.id
+        where t.address like CONCAT('%',#{city},'%')
+        and t.`status`='2' and t2.status='0' and (t3.amount='1.88' or t3.amount='5' or t3.amount='10')
+        <if test="startTime != null and startTime != '' ">
+            and t3.payment_time>=#{startTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and t3.payment_time <![CDATA[<= ]]>#{endTime}
+        </if>
+        GROUP BY t3.amount
+    </select>
+
+    <select id="countUser" resultType="map">
+        select t1.account,t2.`name` as identity,t1.name as userName ,t1.sfkf,(
+        select count(1) from biz_wxpay_bill t188 left join biz_wx_pay_record t1883
+        on t1883.bill_id=t188.id left JOIN biz_push_record t1884 on t1884.accid=t188.accid where t188.`status`='0'
+        and t1883.amount='1.88' and t1884.account=t1.account
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''  ">
+            and (t1883.create_time between #{startTime} and #{endTime})
+        </if>
+        )amount188,(
+        select count(1) from biz_wxpay_bill t188 left join biz_wx_pay_record t1883
+        on t1883.bill_id=t188.id left JOIN biz_push_record t1884 on t1884.accid=t188.accid where t188.`status`='0'
+        and t1883.amount='5' and t1884.account=t1.account
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''  ">
+            and (t1883.create_time between #{startTime} and #{endTime})
+        </if>
+        )amount5,(
+        select count(1) from biz_wxpay_bill t188 left join biz_wx_pay_record t1883
+        on t1883.bill_id=t188.id left JOIN biz_push_record t1884 on t1884.accid=t188.accid where t188.`status`='0'
+        and t1883.amount='10' and t1884.account=t1.account
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''  ">
+            and (t1883.create_time between #{startTime} and #{endTime})
+        </if>
+        )amount10,t3.simplename,
+        (
+        select count(1) from biz_open_claim tboc where t1.account=tboc.claimer and tboc.`status`='3'
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''  ">
+            and (tboc.createtime between #{startTime} and #{endTime})
+        </if>
+        ) openClaimNum,
+        ROUND((
+        select sum(rebate_for_company) from biz_open_claim tboc where t1.account=tboc.claimer and tboc.`status`='3'
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''  ">
+            and (tboc.createtime between #{startTime} and #{endTime})
+        </if>
+        ) ,2) as openClaimSum
+        from sys_user t1 left join sys_role t2 on t1.roleid=t2.id
+        left join sys_dept t3 on t3.id=t1.deptid
+        where (t2.id=6 or t2.id=7 or t2.id=8)
+
+        <if test="department != null and department != '' ">
+            and t3.simplename like CONCAT('%',#{department},'%')
+        </if>
+        <if test="name != null and name != '' ">
+            and t1.name like CONCAT('%',#{name},'%')
+        </if>
+
+    </select>
+
+
+    <select id="xcxUserCount" resultType="map">
+        select t2.date,t2.number from (select DATE_FORMAT(t.createTime,'%Y-%m-%d') date,count(1) number from biz_wx_user  t
+        group by  DATE_FORMAT(t.createTime,'%Y-%m-%d') )t2
+        order by t2.date desc
+    </select>
+</mapper>

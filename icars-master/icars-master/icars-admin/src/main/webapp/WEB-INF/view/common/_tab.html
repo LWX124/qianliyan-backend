@@ -1,0 +1,225 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span><img alt="image" class="img-circle"
+                               @if(isEmpty(avatar) && sex== 2){
+                               src="${ctxPath}/static/img/girl.jpg"
+                               @}else if(isEmpty(avatar) && sex== 1){
+                               src="${ctxPath}/static/img/boy.jpg"
+                               @}else {
+                               src="${ctxPath}/kaptcha/${avatar}"
+                               @}
+                               width="64px" height="64px"/></span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                       <span class="block m-t-xs"><strong class="font-bold">${shiro.getUser().name}</strong></span>
+                            <span id="deptSpan" style="display: none !important;">${shiro.getUser().deptId}</span>
+                            <span id="accountSpan" style="display: none !important;">${shiro.getUser().account}</span>
+                        <span class="text-muted text-xs block">${shiro.getUser().roleNames[0]}<b
+                                class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu m-t-xs">
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_info">个人资料</a></li>
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_chpwd">修改密码</a></li>
+                        <li class="divider"></li>
+                        <li><a href="${ctxPath}/logout">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">爱车士
+                </div>
+            </li>
+
+            @for(title in titles){
+            @if(tool.isEmpty(title.children)){
+            <li>
+                <a class="J_menuItem" href="${ctxPath}${title.url}" name="tabMenuItem">
+                    <i class="fa ${title.icon}"></i>
+                    <span class="nav-label">${title.name}</span>
+                </a>
+            </li>
+            @}else{
+            <li>
+                <a href="#">
+                    <i class="fa ${title.icon}"></i>
+                    <span class="nav-label">${title.name}</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    @for(subTitle in title.children){
+                    @if(tool.isEmpty(subTitle.children)){
+                    <li>
+                        <a class="J_menuItem" href="${ctxPath}${subTitle.url}" name="tabMenuItem">${subTitle.name}</a>
+                    </li>
+                    @}else{
+                    <li>
+                        <a href="#">${subTitle.name} <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            @for(thirdTitle in subTitle.children){
+                            <li>
+                                <a class="J_menuItem" href="${ctxPath}${thirdTitle.url}" name="tabMenuItem">${thirdTitle.name}</a>
+                            </li>
+                            @}
+                        </ul>
+                    </li>
+                    @}
+                    @}
+                </ul>
+            </li>
+            @}
+            @}
+
+        </ul>
+    </div>
+
+    <input type="hidden" value="${wss}" id="wss">
+    <audio src="https://chejiqiche.com/video/notice/notice.mp3" controls loop preload="none" id="alarm" hidden></audio>
+
+    <audio src="https://chejiqiche.com/video/notice/claimer.wav" controls loop preload="none" id="alarm_claim"
+           hidden></audio>
+
+    <audio src="https://chejiqiche.com/video/notice/openclaim_home.wav" controls loop preload="none"
+           id="open_alarm_claim" hidden></audio>
+
+    <audio src="https://chejiqiche.com/video/notice/maintain_home.wav" controls loop preload="none" id="maintain_claim"
+           hidden></audio>
+
+    <audio src="https://chejiqiche.com/video/notice/repaire_home.wav" controls loop preload="none" id="repaire_claim"
+           hidden></audio>
+</nav>
+
+<script>
+    function play() {
+        document.getElementById("alarm").play();
+    }
+
+    function stop() {
+        document.getElementById("alarm").pause();
+    }
+
+    function play_claim() {
+        document.getElementById("alarm_claim").play();
+    }
+
+    function play_open_claim() {
+        document.getElementById("open_alarm_claim").play();
+    }
+
+    function play_maintain() {
+        document.getElementById("maintain_claim").play();
+    }
+
+    function stop_maintain() {
+        document.getElementById("maintain_claim").pause();
+    }
+
+    function play_repaire() {
+        document.getElementById("repaire_claim").play();
+    }
+
+    function stop_repaire() {
+        document.getElementById("repaire_claim").pause();
+    }
+
+    function stop_open_claim() {
+        document.getElementById("open_alarm_claim").pause();
+    }
+
+    function stop_claim() {
+        document.getElementById("alarm_claim").pause();
+    }
+
+    if(window.WebSocket){
+        console.log('This browser supports WebSocket');
+    }else{
+        console.log('This browser does not supports WebSocket');
+    }
+    var deptid = Number(document.getElementById('deptSpan').innerText);
+    var account = document.getElementById('accountSpan').innerText;
+    var websocket;
+
+    var wsUri =document.getElementById("wss").value;
+    var output;
+
+    function init() {
+        connect();
+    }
+
+    function connect() {
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) {
+            onOpen(evt)
+        };
+        websocket.onclose = function(evt) {
+            onClose(evt)
+        };
+        websocket.onmessage = function(evt) {
+            onMessage(evt)
+        };
+        websocket.onerror = function(evt) {
+            onError(evt)
+        };
+    }
+
+    function onOpen(evt) {
+        console.log("CONNECTED");
+        doSend('{"deptid":"'+deptid+'","account":"'+account+'"}');
+    }
+
+    function onClose(evt) {
+        console.log("DISCONNECTED");
+        setTimeout("connect()", 3000);
+    }
+
+    //验证是否播放语音
+    function validAudio(){
+        var stopAudio = sessionStorage.getItem('stopAudio');
+        if(stopAudio==undefined||stopAudio==null){
+            play();
+        }
+     }
+
+    function onMessage(evt) {
+        // console.log(evt.data);
+        var obj = JSON.parse(evt.data)
+        if(obj != null && obj.id != undefined){
+            //本次浏览器session 关闭事故上报语音
+            validAudio();
+        }else if(obj != null && obj.type == 'claim_order_notice'){
+            play_claim();
+        }else if(obj != null && obj.type == 'open_claim_order_notice'){
+            play();
+        }else if(obj != null && obj.type == 'open_claim_order_home_notice'){
+            play_open_claim();
+        }else if (obj != null && obj.type == 'maintain_order_home_notice'){
+            play_maintain();
+        }else if (obj != null && obj.type == 'repaire_order_home_notice'){
+            play_repaire();
+        }
+
+    }
+
+    function onError(evt) {
+        console.log('ERROR:'+ evt.data);
+    }
+
+    function doSend(message) {
+        console.log("SENT: " + message);
+        websocket.send(message);
+    }
+
+    window.addEventListener("load", init, false);
+
+
+
+
+
+
+
+
+</script>

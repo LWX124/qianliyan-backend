@@ -1,0 +1,77 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="packageName" name="套餐名称" underline="true"/>
+                            <#input id="prePrice" name="原价" underline="true"/>
+                            <#input id="price" name="实际价格" underline="true"/>
+                </div>
+
+                <div id="detail_container" class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">套餐明细</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" biztype="detail" name="price" type="text">
+
+                        </div>
+                    </div>
+                    <#button icon="fa-plus" name="添加明细栏位" id="addLw" clickFun="BizMaintainPackageInfoDlg.addDetailInput()"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="file-loading">
+                    <input id="f_upload" name="file" type="file"  multiple class="file" />
+                </div>
+            </div>
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12"  style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BizMaintainPackageInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BizMaintainPackageInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizMaintainPackage/bizMaintainPackage_info.js"></script>
+<script src="${ctxPath}/static/js/fileinput.js"></script>
+<script>
+
+    $('#f_upload').fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: '/file/uploadfile', //上传的地址
+        allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+        showUpload: true, //是否显示上传按钮
+        showCaption: false,//是否显示标题
+        // browseClass: "btn btn-primary btn-file", //按钮样式
+        //dropZoneEnabled: false,//是否显示拖拽区域
+        //minImageWidth: 50, //图片的最小宽度
+        //minImageHeight: 50,//图片的最小高度
+        //maxImageWidth: 1000,//图片的最大宽度
+        //maxImageHeight: 1000,//图片的最大高度
+        maxFileSize: 255,//单位为kb，如果为0表示不限制文件大小
+        minFileCount: 1,
+        maxFileCount: 1, //表示允许同时上传的最大文件个数
+        enctype: 'multipart/form-data',
+        validateInitialCount:true,
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    });
+
+    //导入文件上传完成之后的事件
+    $("#f_upload").on("fileuploaded", function (event, data, previewId, index) {
+        $("#myModal").modal("hide");
+        var errorCode = data.response.errorCode;
+        if (errorCode != 0) {
+            Feng.error("上传失败!" + data.response.data.message + "!");
+        }else {
+            BizMaintainPackageInfoDlg.imageUrl = data.response.data[0];
+        }
+    });
+
+</script>
+@}

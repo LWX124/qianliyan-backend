@@ -1,0 +1,38 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="主键" underline="true" style="display:none"/>
+
+                            <#avatar id="imgUrl" name="头像" underline="true" />
+                </div>
+
+                <div class="col-sm-6">
+                    <#input id="name" name="姓名" underline="true"/>
+                            <#input id="story" name="事迹简介" underline="true"/>
+                            <#input id="motto" type="textarea" name="座右铭"/>
+                            <#SelectCon id="status" name="展示状态" >
+                                <option value="0">展示</option>
+                                <option value="1">下架</option>
+                            </#SelectCon>
+                </div>
+            </div>
+            <div class="progress progress-striped" id="progressTipArea" style="margin-top: 20px;">
+                <div id="progressBar" style="width: 0%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar" class="progress-bar progress-bar-info">
+                </div>
+            </div>
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12" style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BizClaimerShowInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BizClaimerShowInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizClaimerShow/bizClaimerShow_info.js"></script>
+@}

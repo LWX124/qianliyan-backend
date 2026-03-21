@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppSendOutSheetMapper">
+
+
+<!--    String findIndex1Img(Long id);-->
+        <select id="findIndex1Img" resultType="String">
+
+            SELECT url FROM app_send_url as a
+                    LEFT JOIN app_send_out_sheet as b on b.id = a.send_id
+                        WHERE a.type = 1 AND a.`index` = 1 AND b.id  = #{id} AND a.source = 2
+
+        </select>
+
+
+<!--    List<CheckImgList> selectSenceImg(Long id);-->
+    <select id="selectSenceImg" resultType="CheckImgList">
+       SELECT url,`index` type FROM app_send_url WHERE type = 2 and source = 2  AND send_id = #{id}
+    </select>
+
+
+<!--    List<Integer> findBrandMerIdList(Integer brandId);-->
+    <select id="findBrandMerIdList" resultType="Integer">
+        SELECT user_b_id FROM app_merchants_brand WHERE brand_id = #{brandId}
+    </select>
+
+<!--    Integer findWaitPB(Integer userId);-->
+    <select id="findWaitPB" resultType="Integer">
+SELECT count(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id WHERE a.user_id  = #{userId} AND b.track_state = 1 AND a.checkid = '调度'
+    </select>
+
+<!--    Integer findPhone(Integer userId);-->
+    <select id="findPhone" resultType="Integer">
+SELECT count(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id WHERE a.user_id  = #{userId} AND a.phone is not null AND a.checkid = '调度'
+      </select>
+
+
+<!--    Integer findCheckTime(Integer userId);-->
+    <select id="findCheckTime" resultType="Integer">
+SELECT count(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id WHERE a.user_id  = #{userId} AND  b.check_time is not null AND a.checkid = '调度'
+      </select>
+
+<!--    Integer findHaveVioce(Integer userId);-->
+    <select id="findHaveVioce" resultType="Integer">
+        SELECT count(1) from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id WHERE a.user_id  = #{userId} AND  b.voice is not null AND a.checkid = '调度'
+    </select>
+
+
+<!--    AccidentRecordEntity findAccidentList(@Param("userId") Integer userId, @Param("state")Integer state);-->
+    <select id="findAccidentList" resultType="AccidentRecordEntity">
+       SELECT a.id,a.plate,a.`name`,a.phone,a.remark,a.company,a.brand brand,b.id pbid,c.id cid,loss_vehicle lossVehicle from app_accident_record as a
+	LEFT JOIN app_push_bill as b ON b.accid = a.id
+	LEFT JOIN app_message_car as c on c.mess_id = b.id
+
+        WHERE a.user_id  = #{userId}  AND a.checkid = '调度'
+
+        <if test="state != null and state != ''">
+            <if test="state == 1">
+                AND b.track_state = 1
+            </if>
+            <if test="state == 2">
+                AND a.phone is not null
+            </if>
+            <if test="state == 3">
+                AND b.check_time is not null
+            </if>
+            <if test="state == 4">
+                AND b.voice is not null
+            </if>
+            <if test="state == 5">
+                AND c.vehicle_results = 3
+            </if>
+            <if test="state == 6">
+                AND c.vehicle_results = 2
+            </if>
+            <if test="state == 7">
+                AND c.vehicle_results = 4
+            </if>
+            <if test="state == 8">
+                AND c.vehicle_results is not null
+            </if>
+        </if>
+        ORDER BY a.create_time DESC limit #{pagesize},20
+
+    </select>
+
+
+
+<!--    PushBillEntity findPbList(Integer id);-->
+    <select id="findPbList" resultType="PushBillEntity">
+        SELECT * FROM app_push_bill WHERE accid = #{id} ORDER BY create_time DESC LIMIT 0,1
+    </select>
+
+
+
+</mapper>

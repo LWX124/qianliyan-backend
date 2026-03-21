@@ -1,0 +1,65 @@
+#开启swagger
+swagger:
+  enable: true
+
+#spring:
+#  datasource:
+#    url: jdbc:mysql://120.78.160.111:3306/icars_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: Cheji_500
+#    hikari:
+#      connection-test-query: SELECT 1 FROM DUAL
+#      connection-timeout: 30000
+#      maximum-pool-size: 20
+#      max-lifetime: 1200000
+#      minimum-idle: 5
+spring:
+  datasource:
+    url: jdbc:mysql://120.78.160.111:3306/icars?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: Cheji_500
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      max-lifetime: 1200000
+      minimum-idle: 5
+
+  redis:
+    host: 175.6.112.42
+    port: 6379
+    ssl: false
+    database: 0
+    password: chejiTest500
+    timeout: 500
+    lettuce:
+      pool:
+        # 最大空闲连接数
+        maxIdle: 3
+        # 最大活动连接数
+        maxActive: 20
+
+
+mybatis-plus:
+  type-aliases-package: com.cheji.b.modular.domain,com.cheji.b.modular.dto
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#wx:
+#  appid: wxffaa8a6e1811c597
+#  appsecret: 0c0e808239c39a7bb5a2dec0fed15d87
+
+logging:
+
+
+
+wx:
+  pay:
+    appId: wx89a612481874931c
+    mchId: 1487083832
+    mchKey: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+#    subAppId: #服务商模式下的子商户公众账号ID
+#    subMchId: #服务商模式下的子商户号
+#    keyPath: # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+
+host: http://175.6.112.42:8091/

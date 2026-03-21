@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppWxpayOrderMapper">
+
+    <update id="updateStatus">
+        update app_wxpay_order t1 set t1.status=#{status}
+        where out_trade_no=#{outTradeNo}
+    </update>
+
+
+
+</mapper>

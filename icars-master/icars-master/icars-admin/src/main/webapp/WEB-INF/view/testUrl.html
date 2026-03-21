@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎来到我的网站</title>
+</head>
+<body>
+<h1>你好，世界！</h1>
+<button onclick="sendCodeToServer(123)">修理厂</button>
+<script>
+    function sendCodeToServer(code) {
+        fetch('http://192.168.1.91:8078/wx-admin/api/v1/wx/getGzhTokenAndOpenId', {  // 替换为你的后端接口
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code: code })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('响应数据:', data);
+                if (data.errorCode===0){
+                    //说明是成功了
+                    // 这里处理授权成功后的逻辑，例如跳转到首页
+                    window.location.href = 'https://amiba.tech/back.html';
+                }else if (data.errorCode===50040){
+                    alert("已经绑定过数据，无需重复绑定")
+                }else {
+                    alert("绑定有误，请联系客服")
+                }
+            })
+            .catch(error => {
+                alert("绑定有误，请联系客服")
+            });
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppJgPushDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppJgPush">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<insert id="insertJpush">
+		insert into app_jg_push (source,ispush,`type`,user_id,user_b_id,create_time,update_time)
+		value (#{source},#{ispush},#{type},#{userId},#{userBId},#{createTime},#{updateTime})
+	</insert>
+
+	<!--List<AppJgPush> selectCPush();-->
+	<select id="selectCPush" resultType="AppJgPush">
+		SELECT * FROM app_jg_push WHERE ispush = 0 and source = 'C'
+	</select>
+
+
+	<!--List<AppJgPush> selectBPush();-->
+	<select id="selectBPush" resultType="AppJgPush">
+		SELECT * FROM app_jg_push WHERE ispush = 0 and source = 'B'
+	</select>
+</mapper>

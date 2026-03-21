@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.FeedbackMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.FeedbackEntity">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="user_b_id" property="userBId" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="content" property="content" />
+        <result column="img_first" property="imgFirst" />
+        <result column="img_second" property="imgSecond" />
+        <result column="img_third" property="imgThird" />
+        <result column="img_fourth" property="imgFourth" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id AS userId, user_b_id AS userBId, phone_number AS phoneNumber, content, img_first AS imgFirst, img_second AS imgSecond, img_third AS imgThird, img_fourth AS imgFourth, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+</mapper>

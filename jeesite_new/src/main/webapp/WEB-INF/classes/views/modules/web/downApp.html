@@ -1,0 +1,41 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+
+    <title>下载车己</title>
+    <link
+            href="https://cdn.bootcss.com/twitter-bootstrap/3.1.0/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <style>
+        body { -webkit-text-size-adjust:100%!important; }
+    </style>
+</head>
+<body class="view">
+        <h2>=================页面跳转中===================</h2>
+</body>
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+<script>
+    $(function(){
+        var u = navigator.userAgent;
+        isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+        isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        urls = {
+            'android':'https://a.app.qq.com/o/simple.jsp?pkgname=com.cheji.cjlp&fromcase=40002',
+            'ios':'https://apps.apple.com/cn/app/%E8%BD%A6%E5%B7%B1-%E8%AE%A9%E6%B1%BD%E8%BD%A6%E7%94%9F%E6%B4%BB%E6%9B%B4%E7%BE%8E%E5%A5%BD/id1485670998',
+            'other':'https://sj.qq.com/myapp/detail.htm?apkName=com.cheji.cjlp'
+        }
+        if(isAndroid){
+            window.location.href = urls.android
+        }else if(isIOS){
+            window.location.href = urls.ios
+        }else{
+            window.location.href = urls.other
+        }
+    })
+
+</script>
+
+</html>

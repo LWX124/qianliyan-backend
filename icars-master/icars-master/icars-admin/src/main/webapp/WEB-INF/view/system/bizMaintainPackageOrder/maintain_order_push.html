@@ -1,0 +1,25 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<div class="ibox-content">
+			<div class="row row-lg">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-6">
+							<#NameCon id="name" name="名称" placeholder="修理工姓名/姓名全拼/手机号"/>
+						</div>
+						<div class="col-sm-2">
+							<#button name="搜索" icon="fa-search" clickFun="BizMaintainPackageOrderPush.search()"/>
+						</div>
+					</div>
+					<div class="hidden-xs" id="managerTableToolbar" role="group">
+						<#button name="推送维修人员" icon="fa-check-circle" clickFun="BizMaintainPackageOrderPush.push()" />
+					</div>
+					<#table id="managerMaintainPushTable" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizMaintainPackageOrder/maintain_order_push.js"></script>
+@}

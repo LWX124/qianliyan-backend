@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppClaimTeacherDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppClaimTeacher">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+<!--	List<AppClaimTeacher> findMerchants();-->
+	<select id="findMerchants" resultType="AppClaimTeacher">
+		SELECT * from app_claim_teacher WHERE type &lt;&gt; 1 AND is_add = 2 AND address is not null
+	</select>
+
+
+<!--	List<AppClaimTeacher> findClaTeacher();-->
+	<select id="findClaTeacher" resultType="AppClaimTeacher">
+
+		select a.* from app_claim_teacher as a
+				LEFT JOIN app_user as b  on a.user_id = b.id
+		 where a.type = 1 and a.current_position is not null AND b.is_location = 1
+
+	</select>
+
+
+<!--	List<AppClaimTeacher> findAllClaimTeacher();-->
+	<select id="findAllClaimTeacher" resultType="AppClaimTeacher">
+		SELECT * from app_claim_teacher WHERE type = 1 AND current_position is not null
+	</select>
+
+<!--	Integer findGoMess(Integer userId);-->
+	<select id="findGoMess" resultType="Integer">
+	   SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time) AND track_state &lt;&gt; 1
+	</select>
+
+<!--	Integer findAllMessCount(Integer userId);-->
+	<select id="findAllMessCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time)
+	</select>
+
+<!--	Integer findCheckMessage(Integer userId);-->
+	<select id="findCheckMessage" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time) AND check_time is not null
+	</select>
+
+
+<!--	Integer findFinshMess(Integer userId);-->
+	<select id="findFinshMess" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(create_time) AND message_car_id is not null
+	</select>
+
+<!--	Integer findDealCount(Integer userId);-->
+	<select id="findDealCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_indent WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(creat_time)
+	</select>
+
+
+<!--	BigDecimal findDealOutPut(Integer userId);-->
+	<select id="findDealOutPut" resultType="BigDecimal">
+		SELECT IFNULL(SUM(fixloss),0) FROM app_indent WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 1 MONTH) &lt;= date(creat_time)
+	</select>
+
+
+
+
+
+
+
+	<select id="findGoMessMonth" resultType="Integer">
+	   SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 Month) &lt;= date(create_time) AND track_state &lt;&gt; 1
+	</select>
+
+	<!--	Integer findAllMessCount(Integer userId);-->
+	<select id="findAllMessCountMonth" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 Month) &lt;= date(create_time)
+	</select>
+
+	<!--	Integer findCheckMessage(Integer userId);-->
+	<select id="findCheckMessageMonth" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 Month) &lt;= date(create_time) AND check_time is not null
+	</select>
+
+
+	<!--	Integer findFinshMess(Integer userId);-->
+	<select id="findFinshMessMonth" resultType="Integer">
+		SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 Month) &lt;= date(create_time) AND message_car_id is not null
+	</select>
+
+	<!--	Integer findDealCount(Integer userId);-->
+	<select id="findDealCountMonth" resultType="Integer">
+		SELECT COUNT(1) FROM app_indent WHERE user_id = #{userId} AND DATE_SUB(CURDATE(), INTERVAL 7 Month) &lt;= date(creat_time)
+	</select>
+
+<!--	AppClaimTeacher findClaimByUserId(Integer userId);-->
+	<select id="findClaimByUserId" resultType="AppClaimTeacher">
+		SELECT * FROM app_claim_teacher WHERE user_id = #{userId}
+	</select>
+
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizYckCzmxMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizYckCzmx">
+        <id column="id" property="id" />
+        <result column="openid" property="openid" />
+        <result column="order_no" property="orderNo" />
+        <result column="amount" property="amount" />
+        <result column="operator" property="operator" />
+        <result column="accid" property="accid" />
+        <result column="detail_type" property="detailType" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, openid, order_no, amount, operator, detail_type, create_time, accid
+    </sql>
+
+    <sql id="Base_Column_List1">
+        a.id, a.openid, a.order_no as orderNo, a.amount, a.operator, a.detail_type as detailType, a.create_time as createTime, a.accid, b.phone, c.name
+    </sql>
+
+    <select id="selectList" resultType="map">
+        select
+        <include refid="Base_Column_List1" />
+        from biz_yck_czmx a left join biz_wx_user b on a.openid = b.openid left join  sys_user c on b.phone = c.phone
+        <where>
+            <if test="condition != null and condition != ''">
+                and (a.openid = #{condition} or b.phone = #{condition} or c.name = #{condition})
+            </if>
+            <if test="detailType != null">
+                and a.detail_type = #{detailType}
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.create_time between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},' 23:59:59'))
+            </if>
+        </where>
+        ORDER BY a.create_time desc
+    </select>
+
+
+    <select id="getOrderWaste" resultType="map">
+        select
+        a.*,a.detail_type as detailType ,ba.*
+        from biz_yck_czmx a left join  sys_user c on a.account = c.account left join biz_accident ba on ba.id=a.accid where  a.account=#{account}
+        ORDER BY a.create_time desc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppUserCarInfoMapper">
+
+
+    <select id="selectByUserId" parameterType="int" resultType="appUserCarInfoEntity">
+        select * from app_user_car_info t1
+        where t1.user_id=#{userId}
+        order by t1.create_time desc
+        limit 0,1
+    </select>
+
+    <select id="selectByCarNumber"  parameterType="appUserCarInfoEntity" resultType="appUserCarInfoEntity">
+        select * from app_user_car_info t1
+        where t1.user_id=#{userId}
+        and t1.car_number=#{carNumber}
+        order by t1.create_time desc
+        limit 0,1
+    </select>
+</mapper>

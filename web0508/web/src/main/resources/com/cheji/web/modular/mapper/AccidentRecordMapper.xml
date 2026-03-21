@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AccidentRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.AccidentRecordEntity">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="video" property="video" />
+        <result column="lng" property="lng" />
+        <result column="lat" property="lat" />
+        <result column="checkid" property="checkid" />
+        <result column="status" property="status" />
+        <result column="reason" property="reason" />
+        <result column="address" property="address" />
+        <result column="realness" property="realness" />
+        <result column="create_time" property="createTime" />
+        <result column="check_time" property="checkTime" />
+        <result column="version" property="version" />
+        <result column="car_count" property="carCount" />
+        <result column="real_address" property="realAddress" />
+        <result column="real_Img" property="realImg" />
+        <result column="acc_Img" property="accImg" />
+        <result column="lat2" property="lat2" />
+        <result column="lng2" property="lng2" />
+        <result column="top_Falg" property="topFalg" />
+        <result column="real_arr_time" property="realArrTime" />
+        <result column="thumbnail_flag" property="thumbnailFlag" />
+        <result column="thumbnail_url" property="thumbnailUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id AS userId, video, lng, lat, checkid, status, reason, address, realness, create_time AS createTime, check_time AS checkTime, version, car_count AS carCount, real_address AS realAddress, real_Img AS realImg, acc_Img AS accImg, lat2, lng2, top_Falg AS topFalg, real_arr_time AS realArrTime, thumbnail_flag AS thumbnailFlag, thumbnail_url AS thumbnailUrl
+    </sql>
+
+
+    <select id="findAccMesById" resultType="AccidentList">
+        SELECT
+        id id,
+        address address,
+        thumbnail_url thumbnailUrl,
+        create_time createDate
+        FROM app_accident_record WHERE id = #{accid} and realness= #{state};
+    </select>
+
+
+    <select id="findDeatilsByAccid" resultType="AccidentDetails">
+        SELECT
+          a.id id,
+          video video,
+          user_id userId,
+          lng lng,
+          lat lat,
+          address address,
+          create_time createTime
+          FROM app_accident_record as a
+           LEFT JOIN app_user as b ON a.user_id = b.id
+             WHERE a.id = #{accid}
+    </select>
+
+
+    <select id="findAccidListByIdAndDate" resultType="AccidentList">
+        SELECT
+        a.id id,
+        address address,
+        thumbnail_url thumbnailUrl,
+        a.create_time createDate,
+        pay_amount payAmount
+        FROM app_accident_record AS a
+        LEFT JOIN app_pay_amount_record AS b ON b.accid = a.id
+        WHERE b.user_id = #{userid} AND TO_DAYS(b.create_time) = TO_DAYS(NOW()) limit #{pagesize},20
+    </select>
+
+
+    <select id="findAccidByUserid" resultType="AccidentList">
+        SELECT
+        a.id id,
+        address address,
+        thumbnail_url thumbnailUrl,
+        b.create_time createDate,
+        pay_amount payAmount
+        FROM app_accident_record AS a
+        LEFT JOIN app_pay_amount_record AS b ON b.accid = a.id
+        WHERE b.user_id = #{userid} limit #{pagesize},20
+    </select>
+
+
+    <select id="findWorkByUserId" resultType="WorkList">
+        SELECT
+        id id,
+        thumbnail_url thumbnailUrl,
+        video,
+        address,
+        video_id videoId,
+        create_time createTime,
+        reason,
+        introduce
+        FROM app_accident_record WHERE user_id = #{userId} order by create_time DESC limit #{pagesize},20
+    </select>
+
+    <select id="findWorkByUserIdAndType" resultType="WorkList">
+        SELECT
+        id id,
+        thumbnail_url thumbnailUrl,
+        video,
+        address,
+        create_time createTime,
+        introduce
+        FROM app_accident_record WHERE user_id = #{userId} AND type =#{type}
+    </select>
+
+
+    <select id="findVideoByUserid" resultType="WorkList">
+        SELECT
+        a.id id,
+        thumbnail_url thumbnailUrl
+        url video,
+        address,
+        introduce
+        FROM app_video as a
+	      LEFT JOIN app_video_thumbs AS b ON a.id = b.video_id
+	        WHERE b.user_id = #{userId} AND b.status = 1
+
+    </select>
+
+
+    <!--List<AccidentRecordEntity> selectFiveAgo(Integer id);-->
+    <select id="selectFiveAgo" resultType="AccidentRecordEntity">
+        SELECT * FROM app_accident_record WHERE id &lt; #{id} ORDER BY id DESC LIMIT 5
+    </select>
+
+    <!--AccidentRecordEntity selectByUserIdAndLngLat(@Param("userId")String userId, @Param("lng")Double lng, @Param("lat")Double lat);-->
+    <select id="selectByUserIdAndLngLat" resultType="AccidentRecordEntity">
+        SELECT * FROM app_accident_record WHERE user_id = #{userId} AND lat = #{lat} AND lng = #{lng}
+    </select>
+
+
+<!--    BigDecimal selectPayRecord(String id);-->
+    <select id="selectPayRecord" resultType="BigDecimal">
+        SELECT pay_amount amount FROM app_pay_amount_record  WHERE accid = #{id} and type = 1
+    </select>
+
+
+<!--    JSONArray findAccidentReward(Integer pagesize);-->
+    <select id="findAccidentReward" resultType="AccidentReward">
+        SELECT DISTINCT a.id,
+				b.avatar avatar,
+				b.name userId,
+				video,
+				address address,
+				a.create_time createTime,
+				thumbnail_url thumbnailUrl,
+				img_url imgUrl
+				FROM app_accident_record as a
+				LEFT JOIN app_user as b ON a.user_id = b.id
+				LEFT JOIN app_pay_amount_record as c ON a.id = c.accid
+				WHERE  statuse = 2 AND a.type = 1 AND a.video is not null AND DATEDIFF(a.create_time,NOW()) &lt;0 AND DATEDIFF(a.create_time,NOW())&gt;-3
+                order by a.create_time DESC limit #{pagesize},20
+    </select>
+
+
+<!--    List<BigDecimal> findRedPayAmount(String id);-->
+    <select id="findRedPayAmount" resultType="BigDecimal">
+        SELECT pay_amount FROM app_pay_amount_record WHERE accid = #{id}
+    </select>
+<!--        List<BigDecimal> findRedPayAmountByHim(@Param("id")String id,@Param("userId")Integer userId);
+-->
+    <select id="findRedPayAmountByHim" resultType="BigDecimal">
+        SELECT pay_amount FROM app_pay_amount_record WHERE accid = #{id} and user_id = #{userId}
+    </select>
+
+<!--    List<Integer> findSeriousAcc(Integer pagesize);-->
+    <select id="findSeriousAcc" resultType="Integer">
+        SELECT  accid FROM app_pay_amount_record WHERE pay_amount &gt;= 10 AND type = 1   order by create_time DESC limit #{pagesize},20
+    </select>
+
+
+<!--    JSONArray findSeriousMes(Integer accid);-->
+    <select id="findSeriousMes" resultType="AccidentReward">
+        SELECT a.id,
+			 b.avatar avatar,
+			 b.`name` userId,
+			 video,
+			 address address,
+		     a.create_time createTime,
+			thumbnail_url thumbnailUrl,
+			img_url imgUrl
+			FROM app_accident_record as a
+			LEFT JOIN app_user as b ON a.user_id = b.id
+					WHERE a.id = #{accid}
+    </select>
+
+
+<!--    List<Integer> findYourself(Integer id, Integer pagesize);-->
+    <select id="findYourself" resultType="Integer">
+        SELECT accid FROM app_pay_amount_record WHERE user_id = #{id} AND type = 1 order by create_time DESC limit #{pagesize},20
+    </select>
+
+
+</mapper>

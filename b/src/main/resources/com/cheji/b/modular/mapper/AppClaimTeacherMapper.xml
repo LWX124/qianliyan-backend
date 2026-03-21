@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppClaimTeacherMapper">
+
+<!--    &lt;!&ndash; 开启二级缓存 &ndash;&gt;-->
+<!--    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+
+
+    <!--    Integer findAllMesCount(Integer id, String year, String month);-->
+    <select id="findAllMesCount" resultType="Integer">
+        SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{id} AND year(create_time) = #{year} AND month(create_time) = #{month}
+    </select>
+
+
+    <!--    Integer findGoMess(@Param("id") Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findGoMess" resultType="Integer">
+        SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{id} AND year(create_time) = #{year} AND month(create_time) = #{month} AND track_state &lt;&gt; 1
+    </select>
+
+
+    <!--    List<PushBillEntity> findCarCount(@Param("id") Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findCarCount" resultType="PushBillEntity">
+        SELECT id,accid,source FROM app_push_bill WHERE user_id = #{id} AND year(create_time) = #{year} AND month(create_time) = #{month}
+    </select>
+
+
+    <!--    Integer findCheckMessage(@Param("id") Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findCheckMessage" resultType="Integer">
+        SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{id} AND year(create_time) = #{year} AND month(create_time) = #{month} AND check_time is not null
+    </select>
+
+
+    <!--    Integer findDealCount(@Param("id") Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findDealCount" resultType="Integer">
+        SELECT COUNT(1) FROM app_indent WHERE user_id = #{id} AND year(creat_time) =  #{year} AND month(creat_time) = #{month}
+    </select>
+
+
+    <!--    BigDecimal findDealOutput(@Param("id") Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findDealOutput" resultType="BigDecimal">
+        SELECT IFNULL(SUM(fixloss),0) FROM app_indent WHERE user_id = #{id} AND year(creat_time) =  #{year} AND month(creat_time) = #{month}
+    </select>
+
+
+    <select id="findOutput" resultType="BigDecimal">
+        SELECT IFNULL(SUM(settle_accounts),0) FROM app_indent WHERE user_id = #{id} AND year(creat_time) =  #{year} AND month(creat_time) = #{month}
+    </select>
+
+    <!--    Integer findFinshMess(@Param("id") Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findFinshMess" resultType="Integer">
+        SELECT COUNT(1) FROM app_push_bill WHERE user_id = #{id} AND year(create_time) = #{year} AND month(create_time) = #{month} AND message_car_id is not null
+    </select>
+
+    <!--    BigDecimal findAllIncome(@Param("id") Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findAllIncome" resultType="BigDecimal">
+        SELECT IFNULL(SUM(momey),0) FROM app_user_account_record WHERE user_id = #{id} AND year(create_time) =  #{year}  AND month(create_time) = #{month} AND type = 4
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.UserEntity">
+        <id column="id" property="id" />
+        <result column="avatar" property="avatar" />
+        <result column="parent_id" property="parentId" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="salt" property="salt" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+        <result column="black_falg" property="blackFalg" />
+        <result column="creat_time" property="creatTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="wx_union_id" property="wxUnionId" />
+        <result column="wx_open_id" property="wxOpenId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, avatar, parent_id AS parentId, username, password, phone_number AS phoneNumber, salt, name, status, black_falg AS blackFalg, creat_time AS creatTime, update_time AS updateTime, wx_union_id AS wxUnionId, wx_open_id AS wxOpenId
+    </sql>
+
+
+
+   <!-- //根据id查询到用户信息
+    IndentAndMerchants userMerchantsById(String userId);-->
+
+
+    <select id="userMerchantsById" resultType="IndentAndMerchants">
+        SELECT
+        name name,
+        phone_number phoneNumber
+        FROM app_user WHERE id = #{userId}
+    </select>
+
+
+
+    <select id="findTeamCount" resultType="Integer">
+      SELECT COUNT(*) FROM app_user WHERE parent_id = #{userId}
+    </select>
+
+
+    <select id="findFansByUserid" resultType="UserEntity">
+      SELECT
+      id id,
+      avatar avatar,
+      name name
+      FROM app_user WHERE parent_id = #{userid} limit #{pagesize},20
+    </select>
+
+
+   <!-- //根据id查询到parentid
+    Integer findTeamCount(String userId);
+    SELECT COUNT(id) FROM app_user WHERE parent_id = 1-->
+
+    <select id="findMyTeamListById" resultType="MyTeam">
+        SELECT
+        id id,
+        avatar avatar,
+        name name
+        FROM app_user WHERE parent_id = #{id}
+    </select>
+
+    <select id="findWallet" resultType="String">
+        SELECT balance FROM app_user WHERE id = #{userId};
+    </select>
+
+<!--    List<PromoteList> findPromote(Integer id);-->
+    <select id="findPromote" resultType="PromoteList">
+        SELECT
+        id id,
+        name name
+        FROM app_user WHERE parent_id = #{id} limit #{pagesize},20
+    </select>
+
+
+
+<!--    Integer findAccState(Integer id);-->
+    <select id="findAccState" resultType="Integer">
+         SELECT COUNT(1) FROM app_accident_record as a
+            LEFT JOIN app_user_account_record as b ON a.id = b.business_id
+                WHERE a.user_id = #{id} AND b.type = 19
+    </select>
+
+
+<!--    Integer findProple(Integer id);-->
+    <select id="findProple" resultType="Integer">
+         SELECT
+        count(1)
+        FROM app_user WHERE parent_id = #{id}
+    </select>
+
+    <select id="findVip" resultType="String">
+         SELECT
+             vip_lv
+        FROM app_user WHERE id = #{id}
+    </select>
+    <!--void openVip(Integer userId, String getvipLv);-->
+    <update id="openVip">
+        update app_user
+        set vip_lv = #{vipLv}
+        where id = #{userId}
+    </update>
+</mapper>

@@ -1,0 +1,30 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="主键id" value="${item.id}" underline="true"/>
+                            <#input id="crowdNo" name="活动号" value="${item.crowdNo}" underline="true"/>
+                            <#input id="payUrl" name="支付链接" value="${item.payUrl}" />
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="originCrowdNo" name="原始活动号,商户排查问题时提供的活动依据" value="${item.originCrowdNo}" underline="true"/>
+                            <#input id="createTime" name="创建时间" value="${item.createTime}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12" style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="AlipayActivityInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="AlipayActivityInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/alipayActivity/alipayActivity_info.js"></script>
+@}

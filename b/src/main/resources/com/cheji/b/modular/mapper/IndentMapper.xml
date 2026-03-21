@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.IndentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.IndentEntity">
+        <id column="id" property="id"/>
+        <result column="user_b_id" property="userBId"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="plan" property="plan"/>
+        <result column="license_plate" property="licensePlate"/>
+        <result column="commission_rate" property="commissionRate"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="remake" property="remake"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="means_payments" property="meansPayments"/>
+        <result column="state" property="state"/>
+        <result column="settle_accounts" property="settleAccounts"/>
+        <result column="fixloss_user" property="fixlossUser"/>
+        <result column="fixloss" property="fixloss"/>
+        <result column="creat_time" property="creatTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_b_id AS userBId, user_id AS userId, username, phone_number AS phoneNumber, plan, license_plate AS licensePlate, commission_rate AS commissionRate, brand_id AS brandId, remake, order_number AS orderNumber, means_payments AS meansPayments, state, settle_accounts AS settleAccounts, fixloss_user AS fixlossUser, fixloss, creat_time AS creatTime, update_time AS updateTime
+    </sql>
+
+
+    <!-- List<EarningListDto> findListByMerchants(String merchantsId,Integer pagesize);-->
+    <select id="findListByMerchants" resultType="EarningListDto">
+       SELECT t.* FROM(
+SELECT a.id indentId,
+        a.order_number orderNumber,
+        a.license_plate licensePlate,
+        c.`name` brand,
+        b.merchants_name  merchantsName,
+				a.settle_accounts settleAccounts,
+				CONCAT('图片') url,
+				a.creat_time createTime
+          FROM app_indent as a
+    	  LEFT JOIN app_b_user as b ON a.user_b_id=b.id
+	      LEFT JOIN app_car_brand as c ON a.brand_id = c.id
+            WHERE user_b_id = #{userBId}
+            AND a.state = 6
+            AND to_days(a.creat_time) = to_days(now())
+union ALL
+
+SELECT a.id indentId,clean_indent_number orderNumber,CONCAT('(洗车暂无车牌)') licensePlate,CONCAT('(洗车)')brand,b.merchants_name merchantsName,
+				format(a.amount*0.9,2) settleAccounts,c.url url,a.create_time createTime
+	FROM app_clean_indet as a
+		LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+		LEFT JOIN app_merchants_info_banner AS c ON a.user_b_id = c.user_b_id
+		WHERE a.user_b_id = #{userBId}
+		AND c.`index` = 1
+		AND to_days(a.create_time) = to_days(now())
+		AND (a.indent_state = 3 or a.indent_state = 6)
+		    AND resource = 1
+union ALL
+
+SELECT a.id indentId,clean_indent_number orderNumber,CONCAT('(美容暂无车牌)') licensePlate,CONCAT('(美容)')brand,b.merchants_name merchantsName,
+				format(a.amount*0.9,2) settleAccounts,c.url url,a.create_time createTime
+	FROM app_clean_indet as a
+		LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+		LEFT JOIN app_merchants_info_banner AS c ON a.user_b_id = c.user_b_id
+		WHERE a.user_b_id = #{userBId}
+		AND c.`index` = 1
+		AND to_days(a.create_time) = to_days(now())
+		 AND (a.indent_state = 3 or a.indent_state = 6)
+		AND resource = 2
+
+union all
+    SELECT a.id indentId,a.rescue_number orderNumber,a.license_plate licensePlate,CONCAT('(救援)')brand,
+    c.merchants_name merchantsName,format(a.price*0.8,2) settleAccounts,b.url url,
+    a.create_time createTime
+    FROM app_rescue_indent as a
+		LEFT JOIN app_rescue_img as b on a.type = b.type
+		LEFT JOIN app_b_user as c ON a.user_b_id = c.id
+	WHERE a.user_b_id = #{userBId}
+	AND (a.state = 3 or a.state = 5)
+    AND to_days(a.create_time) = to_days(now())
+
+    UNION ALL
+	SELECT a.id indentId,spray_paint_number orderNumber,a.license_plate licensePlate,CONCAT('(喷漆)')brand,
+	b.merchants_name merchantsName,format(a.price*0.8,2) settleAccounts,c.url url,a.create_time createTime
+	FROM app_spray_paint_indent as a
+	LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+	LEFT JOIN app_merchants_info_banner as c ON c.user_b_id = a.user_b_id
+	WHERE c.`index` = 1
+	AND a.user_b_id = #{userBId}
+	AND (a.state =8 or a.state = 9)
+	AND to_days(a.create_time) = to_days(now())
+
+	UNION ALL
+	SELECT a.id indentId,a.year_check_number orderNumber,a.license_plate licensePlate,CONCAT('(年检)')brand,
+		b.merchants_name merchantsName,format(a.price*0.8,2) settleAccounts,c.url url, a.create_time createTime
+ FROM app_year_check_indent as a
+	LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+
+	LEFT JOIN app_merchants_info_banner as c ON a.user_b_id = c.user_b_id WHERE c.`index` = 1 AND a.user_b_id = #{userBId} AND a.state = 6 AND to_days(a.create_time) = to_days(now())
+
+) t ORDER BY t.createTime
+            limit #{pagesize},20
+
+    </select>
+
+    <!--  LEFT JOIN app_year_check_img as c ON a.id = c.app_year_check_id WHERE a.user_b_id =  #{userBId} AND a.state = 6  AND c.`index` = 1 AND to_days(a.create_time) = to_days(now())  -->
+
+    <!--          LEFT JOIN app_merchants_info_banner as b ON a.user_b_id = b.user_b_id WHERE b.`index` = 1 AND user_b_id = #{id} AND a.state = 6
+      -->
+
+    <!--List<EarningListDto> findListEffectiveOrder(String merchantsId,Integer pagesize);-->
+    <select id="findListEffectiveOrder" resultType="EarningListDto">
+        SELECT t.* FROM(
+SELECT a.id indentId,
+        a.order_number orderNumber,
+        a.license_plate licensePlate,
+        c.`name` brand,
+        b.merchants_name  merchantsName,
+				CONCAT('') settleAccounts,
+				CONCAT('') url,
+				a.creat_time createTime
+          FROM app_indent as a
+	        LEFT JOIN app_b_user as b ON a.user_b_id=b.id
+	        LEFT JOIN app_car_brand as c ON a.brand_id = c.id
+             WHERE user_b_id = #{userBId}
+             AND (a.state = 3 OR a.state = 4 OR a.state = 5 OR a.state = 6)
+          union ALL
+
+SELECT a.id indentId,clean_indent_number orderNumber,CONCAT('(洗车暂无车牌)') licensePlate,CONCAT('(洗车)')brand,b.merchants_name merchantsName,
+				a.amount*0.9 settleAccounts,c.url url,a.create_time createTime
+	FROM app_clean_indet as a
+		LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+		LEFT JOIN app_merchants_info_banner AS c ON a.user_b_id = c.user_b_id
+		WHERE a.user_b_id = #{userBId}
+		AND c.`index` = 1
+		 AND (a.indent_state = 3 or a.indent_state = 6)
+		 and resource = 1
+
+		union all
+        SELECT a.id indentId,clean_indent_number orderNumber,CONCAT('(美容暂无车牌)') licensePlate,
+        CONCAT('(美容)')brand,b.merchants_name merchantsName,
+				a.amount*0.9 settleAccounts,c.url url,a.create_time createTime
+	    FROM app_clean_indet as a
+		    LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+		    LEFT JOIN app_merchants_info_banner AS c ON a.user_b_id = c.user_b_id
+		    WHERE a.user_b_id = #{userBId}
+		     AND c.`index` = 1
+		     AND (a.indent_state = 3 or a.indent_state = 6)
+		     and  resource = 2
+
+	union all
+    SELECT a.id indentId,a.rescue_number orderNumber,a.license_plate licensePlate,CONCAT('(救援)')brand,
+    c.merchants_name merchantsName,a.price*0.8 settleAccounts,b.url url,
+    a.create_time createTime
+    FROM app_rescue_indent as a
+		LEFT JOIN app_rescue_img as b on a.type = b.type
+		LEFT JOIN app_b_user as c ON a.user_b_id = c.id
+	    WHERE a.user_b_id = #{userBId}
+	    AND (a.state = 3 or a.state= 5)
+
+	union all
+    SELECT a.id indentId,spray_paint_number orderNumber,a.license_plate licensePlate,CONCAT('(喷漆)')brand,
+	b.merchants_name merchantsName,a.price*0.8 settleAccounts,c.url url,a.create_time createTime
+	FROM app_spray_paint_indent as a
+	LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+	LEFT JOIN app_merchants_info_banner as c ON c.user_b_id = a.user_b_id
+	WHERE c.`index` = 1
+	AND a.user_b_id = #{userBId}
+	AND (a.state = 8 or a.state = 9)
+
+    UNION ALL
+	SELECT a.id indentId,a.year_check_number orderNumber,a.license_plate licensePlate,CONCAT('(年检)')brand,
+		b.merchants_name merchantsName,a.price*0.8 settleAccounts,c.url url, a.create_time createTime
+ FROM app_year_check_indent as a
+	LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+
+    LEFT JOIN app_merchants_info_banner as c ON a.user_b_id = c.user_b_id
+     WHERE c.`index` = 1 AND a.user_b_id = #{userBId}
+      AND (a.state = 3 or a.state = 5)
+
+) t
+ORDER BY t.createTime DESC
+ limit #{pagesize},20
+    </select>
+
+    <!--
+        LEFT JOIN app_year_check_img as c ON a.id = c.app_year_check_id
+            WHERE a.user_b_id =  #{userBId}
+             AND (a.state = 6 or a.state = 2)  AND c.`index` = 1
+        -->
+
+<!--    &lt;!&ndash;List<IndentListDto> findMesg(@Param("merchantsId")String merchantsId, @Param("type")Integer type,@Param("pageSize") Integer pageSize);&ndash;&gt;-->
+<!--    <select id="findMesg" resultType="IndentListDto">-->
+<!--        SELECT a.id indentId,a.order_number orderNumber,a.license_plate licensePlate,b.`name` brand,d.`name` referees,c.url url,state,a.creat_time createTime,date_format(creat_time,'%Y-%m')MonthTime-->
+<!--        FROM app_indent AS a-->
+<!--           LEFT JOIN app_car_brand as b on a.brand_id = b.id-->
+<!--           LEFT JOIN app_img AS c ON a.id = c.key_id-->
+<!--           LEFT JOIN app_user as d ON a.user_id = d.id-->
+<!--           WHERE a.user_b_id = #{userBId} AND c.type =2 AND c.`index` =1-->
+<!--           AND a.state = #{type} ORDER BY  a.creat_time DESC  LIMIT #{pageSize},20-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;   List<IndentListDto> find4mesg(@Param("userBId")Integer userBId, @Param("pageSize")Integer pageSize);&ndash;&gt;-->
+<!--    <select id="find4mesg" resultType="IndentListDto">-->
+<!--        SELECT a.id indentId,a.order_number orderNumber,a.license_plate licensePlate,b.`name` brand,d.`name` referees,c.url url,state,a.creat_time createTime,date_format(creat_time,'%Y-%m')MonthTime FROM app_indent AS a-->
+<!--        LEFT JOIN app_car_brand as b on a.brand_id = b.id-->
+<!--        LEFT JOIN app_img AS c ON a.id = c.key_id-->
+<!--        LEFT JOIN app_user as d ON a.user_id = d.id-->
+<!--        WHERE a.user_b_id = #{userBId} AND c.type =2 AND c.`index` =1-->
+<!--        AND (a.state = 4 or a.state = 5) ORDER BY  a.creat_time DESC LIMIT #{pageSize},20-->
+<!--    </select>-->
+
+    <!--List<IndentListDto> findAllmesg(@Param("merchantsId")String merchantsId, @Param("pageSize")Integer pageSize);-->
+    <select id="findMesg" resultType="IndentListDto">
+        SELECT a.id indentId,a.order_number orderNumber,a.license_plate licensePlate,b.`name` brand,d.`name` referees,c.url url,state,a.creat_time createTime,date_format(a.creat_time,'%Y-%m')MonthTime FROM app_indent AS a
+        LEFT JOIN app_car_brand as b on a.brand_id = b.id
+        LEFT JOIN app_img AS c ON a.id = c.key_id
+        LEFT JOIN app_user as d ON a.user_id = d.id
+        WHERE a.user_b_id = #{userBId} AND c.type =2 AND c.`index` =1
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 4">
+                    AND (a.state = 4 or a.state = 5)
+                </when>
+                <otherwise>
+                    AND a.state = #{type}
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="searchText != null and searchText != ''">
+            AND CONCAT(IFNULL(b.`name`,''),IFNULL(a.license_plate,''),IFNULL(d.`name`,'')) LIKE "%"#{searchText,jdbcType=VARCHAR}"%"
+
+        </if>
+         ORDER BY a.creat_time DESC LIMIT #{pageSize},20
+    </select>
+
+
+    <!-- MineDto findIndentCount(String merchantsId);-->
+    <select id="findIndentCount" resultType="MineDto">
+        SELECT
+          SUM(if((user_b_id = #{user_b_id}),1,0)) AS allIndent,
+          SUM(if((user_b_id = #{user_b_id} AND to_days(creat_time) = to_days(now()) ),1,0)) AS todayIndent
+        FROM app_indent as a where (a.state = 3 OR a.state =4 OR a.state = 5 OR a.state = 6)
+    </select>
+
+    <!--    BigDecimal findPayAmount(Integer id);-->
+    <select id="findPayAmount" resultType="BigDecimal">
+        SELECT
+          SUM(fixloss_user) AS consumptionDeduction
+        FROM app_indent WHERE user_b_id = #{id}
+    </select>
+
+
+    <!--List<EarningListDto> findConsumptionDeductions(@Param("merchantsId")String merchantsId, @Param("pageSize")Integer pageSize);-->
+    <select id="findConsumptionDeductions" resultType="EarningListDto">
+        SELECT a.id indentId,
+        a.license_plate licensePlate,
+        a.fixloss_user settleAccounts,
+        a.order_number orderNumber,
+        d.`name` brand,
+        b.merchants_name merchantsName
+        FROM app_indent AS a
+          LEFT JOIN app_b_user as b ON a.user_b_id=b.id
+           LEFT JOIN app_car_brand AS d ON a.brand_id = d.id
+          WHERE user_b_id = #{userBId} AND a.state = 6 limit #{pageSize},20
+    </select>
+
+
+    <!--    IndentDetailsDto findDetailsById(Integer indentId);-->
+    <select id="findDetailsById" resultType="IndentDetailsDto">
+      SELECT
+	    a.id indentId,
+	    username,
+	    phone_number phoneNumber,
+	    license_plate licensePlate,
+        b.`name` brand,
+        plan,
+        state,
+	    fixloss,
+        settle_accounts settleAccounts,
+	    commission_rate commissionRate,
+	    fixloss_user fixlossUser,
+	    means_payments meansPayments,
+	    remake,
+        rescue_them_fee rescueThemFee,
+        responsibility,
+        insurance_company insuranceCompany,
+        send_unit sendUnit,
+        send_people sendPeople,
+	    order_number orderNumber,
+	    creat_time createTime
+        FROM app_indent AS a
+         LEFT JOIN app_car_brand as b ON a.brand_id =b.id
+         WHERE a.id = #{indentId}
+    </select>
+
+
+    <!--    CenterDetailsDto selectIndentCenterMes(Integer userBId);-->
+    <select id="selectIndentCenterMes" resultType="CenterDetailsDto">
+        SELECT
+            SUM(if((user_b_id = #{userBId} AND TO_DAYS(creat_time) = TO_DAYS(NOW())),1,0)) todayIndent,
+            SUM(if(state=6 AND user_b_id= #{userBId},settle_accounts,0))allEarnings,
+            SUM(if((user_b_id = #{userBId}),1,0)) allIndentCount,
+			SUM(if((user_b_id = #{userBId} AND state = 1),1,0)) newIntentCount,
+			SUM(if((user_b_id = #{userBId} AND state = 3),1,0)) inServiceCount,
+			SUM(if((user_b_id = #{userBId} AND state = 4),1,0)) obligationCount,
+            SUM(if((user_b_id = #{userBId} AND state = 5),1,0)) toEvaluateCount,
+            SUM(if((user_b_id = #{userBId} AND state = 2),1,0)) cancelledCount
+		FROM app_indent
+    </select>
+
+
+    <!--    List<IndentList> findIndentListByuseridAndState(@Param("id") String id,@Param("year")String year,  @Param("month")String month,  @Param("state") String state, @Param("pagesize") Integer pagesize);
+    -->
+    <select id="findIndentListByuseridAndState" resultType="IndentList">
+        SELECT
+        a.id indentid,
+        a.order_number orderNumber,
+        a.license_plate carId,
+        a.brand_id brand,
+        a.username name,
+        a.insurance_company insuranceCompany,
+        a.phone_number phone,
+        a.day,day,
+        a.send_unit sendUnit,
+        a.fixloss money,
+        a.fixloss_user fixMoney,
+        date_format(a.creat_time,'%Y-%m') MonthTime,
+        b.merchants_name merchantsName
+        FROM app_indent as a
+        LEFT JOIN app_b_user AS b ON a.user_b_id = b.id
+        WHERE (a.user_b_id = #{id} OR a.up_id = #{upId})
+        <if test="state != null and state != ''">
+            <choose>
+                <when test="state == 4">
+                    AND (a.state = 4 OR a.state = 5)
+                </when>
+                <otherwise>
+                    AND a.state=#{state}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="state == null and year != null and month != null">
+            AND year(a.creat_time) =  #{year} AND month(a.creat_time) = #{month}
+        </if>
+
+        ORDER BY a.creat_time DESC limit #{pagesize},20
+    </select>
+
+<!--    Integer findNumByState(Integer valueOf, String upId, String state);-->
+    <select id="findNumByState" resultType="Integer">
+        SELECT
+        count(1)
+        FROM app_indent as a
+        WHERE (a.user_b_id = #{id} OR a.up_id = #{upId})
+            <choose>
+                <when test="state == 4">
+                    AND (a.state = 4 OR a.state = 5)
+                </when>
+                <otherwise>
+                    AND a.state=#{state}
+                </otherwise>
+            </choose>
+
+    </select>
+
+
+    <select id="findIndentDetilsByIndentId" resultType="IndentDetails">
+        SELECT
+          id indentId,
+          state state,
+          username name,
+          phone_number phoneNumber,
+          license_plate carId,
+          plan plan,
+          brand_id brand,
+          fixloss fixloss,
+          commission_rate commissionRate,
+          settle_accounts settleAccounts,
+          means_payments meansPayments,
+          fixloss_user fixlossUser,
+          rescue_them_fee rescueThemFee,
+          responsibility,
+          insurance_company insuranceCompany,
+          send_unit sendUnit,
+          send_people sendPeople,
+          remake remake,
+          settle_fours_company_rate settleFoursCompanyRate
+        FROM app_indent WHERE id = #{indentId}
+    </select>
+
+
+<!--    Integer selectAllIndent(String id, String upId);-->
+    <select id="selectAllIndent" resultType="Integer">
+        SELECT DISTINCT COUNT(1) FROM app_indent WHERE (user_b_id = #{id} OR up_id = #{upId})
+    </select>
+
+
+<!--    Integer selectEstimatedOutput(String id, String upId);-->
+    <select id="selectEstimatedOutput" resultType="Integer">
+        SELECT DISTINCT SUM(fixloss) FROM app_indent WHERE (user_b_id = #{id} OR up_id = #{upId})
+    </select>
+<!--    Integer selectTrueAmount(String id, String upId);-->
+    <select id="selectTrueAmount" resultType="Integer">
+        SELECT DISTINCT SUM(settle_accounts) FROM app_indent WHERE (user_b_id = #{id} OR up_id = #{upId});
+    </select>
+
+<!--    Integer selectPayCommission(String id, String upId);-->
+    <select id="selectPayCommission" resultType="Integer">
+        SELECT DISTINCT SUM(settle_fours_company) FROM app_indent WHERE (user_b_id = #{id} OR up_id = #{upId});
+    </select>
+
+<!--    BigDecimal findAllSerMoney(@Param("id")Integer id, @Param("year")String year, @Param("month")String month);-->
+    <select id="findAllSerMoney" resultType="BigDecimal">
+        SELECT COALESCE(SUM(fixloss),0) FROM app_indent WHERE user_id = #{id} and year(creat_time) = #{year} AND month(creat_time) = #{month}
+    </select>
+
+</mapper>
+

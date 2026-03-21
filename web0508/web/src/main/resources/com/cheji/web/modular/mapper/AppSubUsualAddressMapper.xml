@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppSubUsualAddressMapper">
+
+
+<!--    AppSubUsualAddressEntity selectHistoryAddress(Integer userid);-->
+    <select id="selectHistoryAddress" resultType="AppSubUsualAddressEntity">
+    SELECT t.* from(
+    SELECT id,start_point point,start_address address,start_name username,start_phone phone,start_lng lng,start_lat lat FROM app_substitute_driving_indent WHERE user_id =  #{userid}
+        UNION ALL
+    SELECT id,end_point point,end_address address,end_name username,end_phone phone,end_lng lng,end_lat lat FROM app_substitute_driving_indent WHERE user_id =  #{userid}
+        ) t ORDER BY t.id LIMIT 5
+    </select>
+
+
+</mapper>

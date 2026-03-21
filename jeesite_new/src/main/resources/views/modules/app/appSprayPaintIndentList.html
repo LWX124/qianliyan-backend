@@ -1,0 +1,95 @@
+<% layout('/layouts/default.html', {title: '喷漆订单表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('喷漆订单表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appSprayPaintIndent:edit')){ %>
+					<a href="${ctx}/app/appSprayPaintIndent/form" class="btn btn-default btnTool" title="${text('新增喷漆订单表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appSprayPaintIndent}" action="${ctx}/app/appSprayPaintIndent/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('喷漆订单号')}：</label>
+					<div class="control-inline">
+						<#form:input path="sprayPaintNumber" maxlength="200" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车牌')}：</label>
+					<div class="control-inline">
+						<#form:input path="licensePlate" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('电话')}：</label>
+					<div class="control-inline">
+						<#form:input path="phone" maxlength="12" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("喷漆订单号")}', name:'sprayPaintNumber', index:'a.spray_paint_number', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appSprayPaintIndent/form?id='+row.id+'" class="btnList" data-title="${text("编辑喷漆订单表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("车牌")}', name:'licensePlate', index:'a.license_plate', width:150, align:"left"},
+		{header:'${text("车辆品牌类型")}', name:'brandType', index:'a.brand_type', width:150, align:"left"},
+		{header:'${text("备注")}', name:'remark', index:'a.remark', width:150, align:"left"},
+		{header:'${text("接车地址")}', name:'pickAddress', index:'a.pick_address', width:150, align:"left"},
+		{header:'${text("价格")}', name:'price', index:'a.price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("是否报价")}', name:'isOffer', index:'a.is_offer', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("订单状态")}', name:'state', index:'a.state', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_indent_spary_state')}, val, '${text("未知状态")}', true);
+			}},
+		{header:'${text("用户id")}', name:'userId', index:'a.user_id', width:150, align:"center"},
+		{header:'${text("商户id")}', name:'userBId', index:'a.user_b_id', width:150, align:"center"},
+		{header:'${text("是否评论")}', name:'isEvaluation', index:'a.is_evaluation', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("支付状态")}', name:'payState', index:'a.pay_state', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_pay_state')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("有无保险")}', name:'insurance', index:'a.insurance', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("电话")}', name:'phone', index:'a.phone', width:150, align:"left"},
+		{header:'${text("支付订单编号")}', name:'payNumber', index:'a.pay_number', width:150, align:"left"},
+		{header:'${text("下单时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appSprayPaintIndent:edit')){ %>
+				actions.push('<a href="${ctx}/app/appSprayPaintIndent/form?id='+row.id+'" class="btnList" title="${text("编辑喷漆订单表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

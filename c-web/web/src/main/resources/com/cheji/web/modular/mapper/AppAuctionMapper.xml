@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionMapper">
+
+
+    <!-- List<AppAuctionEntity> search(String address, String brand, Page page); -->
+    <select id="search" resultType="AppAuctionEntity">
+
+        SELECT * FROM app_auction a
+        where up_state = '1'
+        <if test="address != null and address != ''">
+            AND parking_place like concat('%',#{address},'%')
+        </if>
+        <if test="brand != null and brand != ''">
+            AND brand like concat('%',#{brand},'%')
+        </if>
+        limit #{current} ,#{size}
+
+    </select>
+
+    <select id="getCarCount" resultType="Integer">
+        SELECT count(a.id) FROM app_auction a WHERE a.up_state = '1'
+    </select>
+
+    <select id="selectByCondition" resultType="AppAuctionEntity">
+        SELECT t1.* FROM app_auction t1
+                    left join app_auction_up t2 on t2.car_id=t1.id
+        where t1.up_state =1
+          and t1.source_type=1
+        <if test="fixedPrice != null and fixedPrice != ''">
+            AND t1.fixed_price =#{fixedPrice}
+        </if>
+        <if test="accType != null and accType != ''">
+            AND t1.accident_type=#{accType}
+        </if>
+        <if test="parkingPlace != null and parkingPlace != ''">
+            AND t1.parking_place like concat('%',#{parkingPlace},'%')
+        </if>
+        <if test="brand != null and brand != ''">
+            AND t1.brand like concat('%',#{brand},'%')
+        </if>
+        <if test="auctionState != null and auctionState == 1">
+            AND t1.car_state=7
+            and t2.begin_time &lt; now()
+            and t2.end_time > now()
+        </if>
+        <if test="auctionState != null and auctionState == 2">
+            and t2.begin_time > now()
+        </if>
+        <if test="priceMin != null and priceMin != ''">
+            AND t1.price >= #{priceMin}
+        </if>
+        <if test="priceMax != null and priceMax != ''">
+            AND t1.price &lt;= #{priceMax}
+        </if>
+
+
+        order by t1.create_time desc
+
+        <if test="page != null">
+            LIMIT #{page.currentResult},#{page.showCount}
+        </if>
+
+    </select>
+
+    <select id="countByCondition" resultType="Integer">
+        SELECT count(*) FROM app_auction t1
+                    left join app_auction_up t2 on t2.car_id=t1.id
+        where t1.up_state =1
+          and t1.source_type=1
+        <if test="fixedPrice != null and fixedPrice != ''">
+            AND t1.fixed_price =#{fixedPrice}
+        </if>
+        <if test="accType != null and accType != ''">
+            AND t1.accident_type=#{accType}
+        </if>
+        <if test="parkingPlace != null and parkingPlace != ''">
+            AND t1.parking_place like concat('%',#{parkingPlace},'%')
+        </if>
+        <if test="brand != null and brand != ''">
+            AND t1.brand like concat('%',#{brand},'%')
+        </if>
+        <if test="auctionState != null and auctionState == 1">
+            AND t1.car_state=7
+            and t2.begin_time &lt; now()
+            and t2.end_time > now()
+        </if>
+        <if test="auctionState != null and auctionState == 2">
+            and t2.begin_time > now()
+        </if>
+        <if test="priceMin != null and priceMin != ''">
+            AND t1.price >= #{priceMin}
+        </if>
+        <if test="priceMax != null and priceMax != ''">
+            AND t1.price &lt;= #{priceMax}
+        </if>
+    </select>
+
+    <select id="countOldCarNum" resultType="Integer">
+        SELECT count(*) FROM app_auction t1
+                    left join app_auction_up t2 on t2.car_id=t1.id
+        where t1.up_state =1
+          and t1.source_type=2
+        <if test="fixedPrice != null and fixedPrice != ''">
+            AND t1.fixed_price =#{fixedPrice}
+        </if>
+        <if test="accType != null and accType != ''">
+            AND t1.accident_type=#{accType}
+        </if>
+        <if test="parkingPlace != null and parkingPlace != ''">
+            AND t1.parking_place like concat('%',#{parkingPlace},'%')
+        </if>
+        <if test="brand != null and brand != ''">
+            AND t1.brand like concat('%',#{brand},'%')
+        </if>
+        <if test="auctionState != null and auctionState == 1">
+            AND t1.car_state=7
+            and t2.begin_time &lt; now()
+            and t2.end_time > now()
+        </if>
+        <if test="auctionState != null and auctionState == 2">
+            and t2.begin_time > now()
+        </if>
+        <if test="priceMin != null and priceMin != ''">
+            AND t1.price >= #{priceMin}
+        </if>
+        <if test="priceMax != null and priceMax != ''">
+            AND t1.price &lt;= #{priceMax}
+        </if>
+    </select>
+
+
+    <select id="findListByUsedCar" parameterType="java.util.Map" resultType="com.cheji.web.modular.dto.UsedCarListVo">
+        SELECT t1.id carId,t1.brand,
+        t1.product_date as productDate,
+        t1.register_date as registerDate,
+        t1.mileage,
+        t1.luxury_car_price as luxuryCarPrice,
+        t1.first_amount as firstAmount,
+        t1.phone as phoneNumber,
+       CONCAT(CONCAT(LEFT(t1.product_date,4),'年'),' ',CONCAT(t1.mileage,'公里'))label ,
+       t1.price
+        FROM app_auction t1
+        left join app_auction_up t2 on t1.id=t2.car_id
+        WHERE t1.source_type = 2
+        and t1.car_state=7
+        and t1.up_state=1
+        and t2.begin_time &lt; now()
+        and t2.end_time > now()
+        <if test="keyWord != null and keyWord != ''">
+            AND  t1.brand like concat('%',#{keyWord},'%')
+        </if>
+
+        <if test="brand != null and brand != ''">
+            AND  t1.brand like concat('%',#{brand},'%')
+        </if>
+
+        <if test="accidentType != null and accidentType != ''">
+            AND t1.accident_type  = #{accidentType}
+        </if>
+
+        <if test="startMileage != null and startMileage != ''">
+            AND t1.mileage  >= #{startMileage}
+        </if>
+
+        <if test="endMileage != null and endMileage != ''">
+            AND t1.mileage  &lt; #{endMileage}
+        </if>
+
+        <if test="endPrice != null and endPrice != ''">
+            AND t1.price  &lt; #{endPrice}
+        </if>
+
+        <if test="startPrice != null and startPrice != ''">
+            AND t1.price  >= #{startPrice}
+        </if>
+
+        <if test="parkingPlace != null and parkingPlace != ''">
+            AND t1.parking_place  like concat('%', #{parkingPlace},'%')
+        </if>
+
+        <choose>
+            <when test="type != null and type == 1">
+                AND to_days(t2.begin_time) = to_days(now())
+            </when>
+            <otherwise>
+                <if test="type != null and type != ''">
+                    AND t1.accident_type like concat('%',#{type},'%')
+                </if>
+            </otherwise>
+        </choose>
+
+        ORDER BY t1.create_time DESC
+        <if test="page != null">
+            LIMIT #{page.currentResult},#{page.showCount}
+        </if>
+    </select>
+
+
+    <select id="findListHotByUsedCar" resultType="com.cheji.web.modular.dto.UsedCarListVo">
+        SELECT t1.id carId,t1.brand,
+        t1.product_date as productDate,
+        t1.register_date as registerDate,
+        t1.mileage,
+        t1.luxury_car_price as luxuryCarPrice,
+        t1.first_amount as firstAmount,
+        t1.phone as phoneNumber,
+        CONCAT(CONCAT(LEFT(t1.product_date,4),'年'),' ',CONCAT(t1.mileage,'公里'))label ,
+        t1.price
+        FROM app_auction t1
+        left join app_auction_up t2 on t1.id=t2.car_id
+        WHERE t1.source_type = 2
+        and t1.car_state=7
+        and t1.up_state=1
+        and t2.begin_time &lt; now()
+        and t2.end_time > now()
+        <if test="city != null and city != ''">
+            AND t1.parking_place  like concat('%',#{city},'%')
+        </if>
+        ORDER BY t1.price DESC
+        <if test="page != null">
+            LIMIT #{page.currentResult},#{page.showCount}
+        </if>
+    </select>
+</mapper>

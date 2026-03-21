@@ -1,0 +1,519 @@
+<% layout('/layouts/default.html', {title: '订单信息表管理', libs: ['dataGrid']}){ %>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+
+	ul,
+	ol,
+	li {
+		list-style: none;
+	}
+
+	p {
+		margin-top: 10px;
+		line-height: 21px;
+	}
+
+	.text-center {
+		text-align: center;
+	}
+
+	.countBox {
+		width: 1200px;
+		display: flex;
+		align-items: center;
+		margin-left: 50px;
+		/*margin: 100px auto;*/
+	}
+
+	.countBox .content {
+		display: flex;
+		align-items: center;
+	}
+
+	.item {
+		width: 110px;
+		height: 80px;
+		box-sizing: border-box;
+		border: 1px solid;
+		border-color: #ccc;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		border-radius: 20px;
+	}
+
+	.arrow {
+		width: 60px;
+		height: 6px;
+		position: relative;
+		margin-left: 10px;
+		margin-right: 20px;
+		background: #ccc;
+	}
+
+	.arrow[right]::after,
+	.arrow[left]::before {
+		position: absolute;
+		right: 0;
+		content: '';
+		width: 0;
+		height: 0;
+		border-left: 12px solid #ccc;
+		border-top: 8px solid transparent;
+		border-bottom: 8px solid transparent;
+		transform: translateX(100%) translateY(-27%);
+	}
+
+	.arrow[left]::before {
+		border-left: none;
+		border-right: 12px solid #ccc;
+	}
+
+	.default {
+		background-color: #f5f5f5;
+		color: #666;
+	}
+
+	.active {
+		background-color: rgba(0, 143, 168, 0.7);
+		color: #fff;
+	}
+</style>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+
+				<i class="fa fa-list-alt"></i> ${text('订单信息表管理')}
+				<i class="fa "></i> ${text('新订单：')}<font style="color: red">${appIndent1.newIndentNumber}</font>
+				<i class="fa "></i> ${text(',    服务中：')}<font style="color: red">${appIndent1.inServiceNumber}</font>
+				<i class="fa "></i> ${text(',    已交车：')}<font style="color: red">${appIndent1.forwardNumber}</font>
+				<i class="fa "></i> ${text(',    已结算：')}<font style="color: red">${appIndent1.settledNumber}</font>
+				<i class="fa "></i> ${text(',    已完成：')}<font style="color: red">${appIndent1.finishNumber}</font>
+				<i class="fa "></i> ${text(',    新订单总预估定损：')}<font style="color: red">${appIndent1.estimatedAmountNew}</font>
+				<i class="fa "></i> ${text(',    服务中总预估定损：')}<font style="color: red">${appIndent1.estimatedAmountInSer}</font>
+				<i class="fa "></i> ${text(',    需要结算总金额：')}<font style="color: red">${appIndent1.allSettlementAmount}</font>
+			</div>
+			<div class="box-tools pull-right">
+				<i class="fa "></i> ${text('店铺名称：')}<font style="color: blue">${appIndent1.name}</font>
+<!--				${ctx}/app/appIndent/addPeople-->
+<!--				<a href="#" type="button" onclick="addpeople()" class="btn btn-default btn-sm">${text('添加人员')}</a>-->
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<a href="#" type="button" onclick="derive()" class="btn btn-default btn-sm">${text('导出excel')}</a>
+<!--				${ctx}/app/appIndent/export-->
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appIndent1}" action="${ctx}/app/appIndent/listData111" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('车牌')}：</label>
+					<div class="control-inline">
+						<#form:input path="licensePlate" id="licensePlate" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('订单号')}：</label>
+					<div class="control-inline">
+						<#form:input path="orderNumber" id="orderNumber" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('订单状态')}：</label>
+					<div class="control-inline width-120">
+						<#form:select path="state" id="state" dictType="app_indent_state" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+
+			<div class="form-group">
+				<label class="control-label">${text('审核流程')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="audit" id="state" dictType="app_indent_audit" blankOption="true" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('送修单位')}：</label>
+				<div class="control-inline">
+					<#form:input path="sendUnit" id="sendUnit" maxlength="100" class="form-control width-80"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('送修人员')}：</label>
+				<div class="control-inline">
+					<#form:input path="sendPeople" id="sendPeople" maxlength="100" class="form-control width-80"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('信息来源')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="messageSource" id="messageSource" dictType="app_message_resource" blankOption="true" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('是否结算')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="sendBack" id="sendBack" dictType="sys_yes_no" blankOption="true" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('交易时间')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="dealTime" id="dealTime" dictType="app_deal_time" blankOption="true" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('up_id')}：</label>
+				<div class="control-inline">
+					<#form:input path="upId" id="upId" readonly="true" maxlength="100" class="form-control width-120"/>
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('user_b_id')}：</label>
+				<div class="control-inline">
+					<#form:input path="userBId" id="userBId" readonly="true" maxlength="100" class="form-control width-120"/>
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('车牌')}：</label>
+				<div class="control-inline">
+					<#form:input path="licensePlate" id="licensePlate" maxlength="20" class="form-control width-120"/>
+				</div>
+			</div>
+				<div class="form-group">
+					<label class="control-label">${text('下单时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="createTime_gte" readonly="true" maxlength="20" id="beginTime" class="form-control Wdate-datetime"
+						dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false,onpicked:function(){createTime_lte.click()}});"/>
+						&nbsp;--&nbsp;
+						<#form:input path="createTime_lte" readonly="true" maxlength="20" id="lastTime" class="form-control Wdate-datetime"
+						dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+
+			<div class="form-group">
+				<label class="control-label">${text('结算时间')}：</label>
+				<div class="control-inline">
+					<#form:input path="updateTime_gte" readonly="true" maxlength="20" id="beginUpdateTime" class="form-control Wdate-datetime"
+					dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false,onpicked:function(){updateTime_lte.click()}});"/>
+					&nbsp;--&nbsp;
+					<#form:input path="updateTime_lte" readonly="true" maxlength="20" id="lastUpdateTime" class="form-control Wdate-datetime"
+					dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+				</div>
+			</div>
+
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+<!--			<div>-->
+<!--				<ul class="countBox" id="title_count" style="display: none;">-->
+<!--					<li>-->
+<!--						<div class="content">-->
+<!--							<div class="item default">0</div>-->
+<!--							<div class="arrow" right></div>-->
+<!--						</div>-->
+<!--						<p class="text-center">0</p>-->
+<!--					</li>-->
+<!--				</ul>-->
+<!--			</div>-->
+			<table id="dataGrid"></table>
+
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("id")}', name:'userBId', index:'a.user_b_id', width:50, align:"center"},
+		{header:'${text("进车时间")}', name:'creatTime', index:'a.creat_time', width:120, align:"center"},
+		{header:'${text("车牌")}', name:'licensePlate', index:'a.license_plate', width:90, align:"left"},
+		{header:'${text("品牌")}', name:'brandName', index:'d.name', width:90, align:"center"},
+		{header:'${text("送修单位")}', name:'sendUnit', index:'a.send_unit', width:150, align:"center"},
+		{header:'${text("送修人员")}', name:'sendPeople', index:'a.send_people', width:100, align:"center"},
+		{header:'${text("订单状态")}', name:'state', index:'a.state', width:90, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_indent_state')}, val, '${text("未知")}', true);
+			}},
+		{header:'${text("下单人")}', name:'name', index:'b.name', width:90, align:"center"},
+		{header:'${text("预估金额")}', name:'fixloss', index:'a.fixloss', width:100, align:"left", formatter: function(val, obj, row, act){
+				return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+			}},
+		{header:'${text("维修金额")}', name:'settleAccounts', index:'a.settle_accounts', width:90, align:"left", formatter: function(val, obj, row, act){
+				return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+			}},
+		{header:'${text("4s结算公司比例")}', name:'settleFoursCompanyRate', index:'a.settle_fours_company_rate', width:70, align:"left", formatter: function(val, obj, row, act){
+				return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+			}},
+		{header:'${text("4s结算公司金额")}', name:'settleFoursCompany', index:'a.settle_fours_company', width:90, align:"left", formatter: function(val, obj, row, act){
+				return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+			}},
+		{header:'${text("施救费")}', name:'rescueThemFee', index:'a.rescue_them_fee', width:70, align:"center"},
+
+		{header:'${text("是否结算")}', name:'sendBack', index:'a.send_back', width:70, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("否")}', true);
+			}},
+		// {header:'${text("商户电话")}', name:'merchantsPhone', index:'c.phone_number', width:120, align:"center"},
+		// {header:'${text("商户余额")}', name:'balance', index:'c.balance', width:120, align:"center", formatter: function(val, obj, row, act){
+        //         return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+        //     }},
+		// {header:'${text("用户名称")}', name:'name', index:'b.name', width:120, align:"center"},
+		// {header:'${text("用户电话")}', name:'userPhone', index:'b.phone_number', width:120, align:"center"},
+		// {header:'${text("订单上姓名")}', name:'username', index:'a.username', width:120, align:"center"},
+		// {header:'${text("订单上电话")}', name:'phoneNumber', index:'a.phone_number', width:120, align:"center"},
+		// {header:'${text("维修方案")}', name:'plan', index:'a.plan', width:100, align:"center"},
+		{header:'${text("备注")}', name:'remake', index:'a.remake', width:100, align:"left"},
+		//{header:'${text("订单号")}', name:'orderNumber', index:'a.order_number', width:120, align:"left"},
+		//
+		// {header:'${text("结算用户比例")}', name:'commissionRate', index:'a.commission_rate', width:120, align:"left", formatter: function(val, obj, row, act){
+		// 		return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		// 	}},
+        // {header:'${text("结算用户金额")}', name:'fixlossUser', index:'a.fixloss_user', width:120, align:"left", formatter: function(val, obj, row, act){
+        //         return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+        //     }},
+		//
+		{header:'${text("信息来源")}', name:'messageSource', index:'a.message_source', width:80, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_message_resource')}, val, '${text("否")}', true);
+			}},
+
+		{header:'${text("交易时间")}', name:'dealTime', index:'a.deal_time', width:70, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_deal_time')}, val, '${text("否")}', true);
+			}},
+		{header:'${text("操作")}', name:'actions', width:100, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appIndent:edit')){ %>
+				actions.push('<a href="${ctx}/app/appIndent/form?id='+row.id+'" class="btnList" title="${text("编辑订单信息表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+
+				// if(row.state==5){
+				// 	actions.push('<a href="#" title="${text("结算用户金额")}" onclick="addMore(\''+row.id+'\')"><i class="icon-options-vertical"></i></ a>&nbsp;')
+				// }
+                <% } %>
+                return actions.join('');
+		}},
+		{header:'${text("对账")}', name:'isRec', index:'a.is_rec', width:20, align:"center"}
+
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+
+		$('#dataGrid').dataGrid('hideCol','isRec');
+
+		//获取所有id
+		var idlist = $('#dataGrid').dataGrid('getDataIDs');
+		var dataLisst = $('#dataGrid').dataGrid('getRowData');
+		for(var i =0;i<dataLisst.length;i++){
+			var rowbalck = dataLisst[i].isRec;
+			var state = dataLisst[i].state;
+			var createTime = dataLisst[i].creatTime;
+			var userBid = dataLisst[i].userBId;
+			var a = createTime.split(" ");
+			var b = a[0].split("-");
+			var c = a[1].split(":");
+			var oldTime = new Date(b[0], b[1]-1, b[2], c[0], c[1], c[2]);
+			var nowTime=new Date();
+			//除开两家修理厂
+			if (userBid!=57&&userBid!=360){
+				if (state=="服务中"||state =="新订单"){
+					/*if ((nowTime-oldTime)/(1000*60*60*24)>7){
+						$("#"+idlist[i]+ " td").css("background-color","pink");
+					}else */
+					if (rowbalck==0||rowbalck==""){
+						$("#"+idlist[i]+ " td").css("background-color","pink");
+					}
+				}
+			}
+		}
+	}
+});
+function pass(id,fixloss,settleAccounts,fixlossUser,commissionRate,settleFoursCompany,settleFoursCompanyRate){
+
+	var b = testMess(settleAccounts,fixlossUser,commissionRate,settleFoursCompany,settleFoursCompanyRate);
+
+	if (b == 2){
+		return  layer.msg('检查数据，有数据为空');
+	}
+
+    layer.open({
+        type: 1,
+        title:"请确认信息",
+        skin: 'layui-layer-rim', //加上边框
+        area: ['555px', '289px'], //宽高
+        content: '<div align="center"  style="font-size:20px">预估金额：'+fixloss+'元</div>' +
+            '<div align="center"  style="font-size:20px">维修金额：'+settleAccounts+'元</div>' +
+            '<div align="center"  style="font-size:20px"> 4s结算公司比例：'+settleFoursCompanyRate+'</div>'+
+            '<div align="center"  style="font-size:20px"> 4s结算公司金额：'+settleFoursCompany+'元</div>'+
+            '<div align="center"  style="font-size:20px">用户佣金比例：'+commissionRate+'</div>'+
+            '<div align="center"  style="font-size:20px">用户金额：'+fixlossUser+'</div>',
+
+        btn: ['确认', '取消'],
+        yes:function(index,layero){
+            var index = layer.load(2, {time: 2*1000}); //0代表加载的风格，支持0-2
+            //后台操作
+            psotst(id);
+        },
+        btn2:function(){
+            layer.msg('结算取消',{time:3000,icon:2});
+        }
+    });
+}
+
+function testMess(settleAccounts,fixlossUser,commissionRate,settleFoursCompany,settleFoursCompanyRate) {
+
+    var a = 1;
+	if (parseFloat(settleAccounts) == settleAccounts) {
+
+	}else {
+		a = 2;
+	}
+
+	if (parseFloat(fixlossUser) == fixlossUser) {
+
+	}else {
+		a = 2;
+	}
+
+	if (parseFloat(commissionRate) == commissionRate) {
+
+	}else {
+		a = 2;
+	}
+
+	if (parseFloat(settleFoursCompany) == settleFoursCompany) {
+
+	}else {
+		a = 2;
+	}
+
+	if (parseFloat(settleFoursCompanyRate) == settleFoursCompanyRate) {
+
+	}else {
+		a = 2;
+	}
+
+	if (parseFloat(fixlossUser) == fixlossUser) {
+
+	}else {
+		a = 2;
+	}
+	return a;
+
+}
+
+
+
+function compant(settleFoursCompany){
+    num = settleFoursCompany  * 0.1;
+    var newnumber = to2bits(num);
+    newnumber =  newnumber.toFixed(2);
+    return newnumber;
+}
+
+function weikong(numb) {
+
+    if (parseFloat(numb) == numb) {
+       return numb
+    }else {
+    	return 0.00
+    }
+
+}
+
+function yunsuan(settleFoursCompany,commissionRate){
+    commissionRate = commissionRate - 0.01;
+	num = settleFoursCompany * commissionRate;
+	var newnumber = to2bits(num);
+	newnumber =  newnumber.toFixed(2);
+	return newnumber;
+}
+
+function to2bits(flt) {
+    if (parseFloat(flt) == flt) {
+        return Math.round(flt * 100) / 100; // 到2位小数
+    }
+    else
+        return 0;
+}
+
+
+function psotst(id) {
+    $.ajax({
+        type: "POST",
+        url: "${ctx}/app/appIndent/settlement",
+        data: {
+            id: id,
+        },
+        dataType: "json",
+        success: function (reslut) {
+			if($.trim(reslut.data) == "操作成功"){
+                layer.msg('结算成功',{time:3000,icon:1});
+                window.location.reload();
+                return false;
+			}else {
+                layer.msg(''+reslut.data+'',{time:3000,icon:3});
+            }
+        },
+		error:function (reslut) {
+            layer.msg('结算失败,请联系管理员',{time:3000,icon:2});
+        }
+    });
+}
+
+
+function derive(){
+//	获取开始时间和结束时间
+	var beginTime = document.getElementById("beginTime").value;
+	var lastTime = document.getElementById("lastTime").value;
+	var dealTime = document.getElementById("dealTime").value;
+	var messageSource = document.getElementById("messageSource").value;
+	var sendPeople = document.getElementById("sendPeople").value;
+	var sendUnit = document.getElementById("sendUnit").value;
+	var state = document.getElementById("state").value;
+	var sendBack = document.getElementById("sendBack").value;
+	var orderNumber = document.getElementById("orderNumber").value;
+	var licensePlate = document.getElementById("licensePlate").value;
+	var userBId = document.getElementById("userBId").value;
+	var beginUpdateTime = document.getElementById("beginUpdateTime").value;
+	var lastUpdateTime = document.getElementById("lastUpdateTime").value;
+	//console.log("beginTime:"+beginTime+",lastTime:"+lastTime+",dT:"+dealTime+",mS:"+messageSource+",sP:"+sendPeople+",sU:"+sendUnit+",st:"+state +",oN:"+orderNumber+",lP:"+licensePlate+",uB:"+userBId+",but:"+beginUpdateTime+",lut:"+lastUpdateTime);
+	location.href= '${ctx}/app/appIndent/export?beginTime=' + beginTime + '&lastTime=' + lastTime + '&dealTime=' + dealTime + '&messageSource=' + messageSource + '&sendPeople=' + sendPeople + '&sendUnit=' + sendUnit + '&state=' + state + '&sendBack=' + sendBack + '&orderNumber=' + orderNumber + '&licensePlate=' + licensePlate + '&userBId=' + userBId + '&lastUpdateTime=' + lastUpdateTime + '&beginUpdateTime='+beginUpdateTime+''
+}
+function addpeople(){
+	layer.open({
+		type: 2,
+		title: '添加公司人员',
+		shadeClose: true,
+		shade: [0.8, '#393D49'],
+		maxmin: false, //开启最大化最小化按钮
+		area: ['893px', '600px'],
+		content: '${ctx}/app/appIndent/addPeople'
+	});
+}
+
+function addMore(id) {
+	layer.open({
+		type: 2,
+		title: '业务员结算',
+		shadeClose: true,
+		shade: 0.8,
+		area: ['70%', '90%'],
+		content: '${ctx}/app/appIndent/addMore?id=' + id + ''
+	});
+
+}
+
+
+countData();
+
+</script>
+

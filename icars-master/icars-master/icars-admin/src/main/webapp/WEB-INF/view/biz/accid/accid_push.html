@@ -1,0 +1,31 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<div class="ibox-content">
+			<div class="row row-lg">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-4">
+							<#NameCon id="name" name="名称" placeholder="4S店部门名称"/>
+						</div>
+						<div class="col-sm-4">
+							<#NameCon id="carType" name="汽车品牌" placeholder="汽车品牌"/>
+						</div>
+						<div class="col-sm-4">
+							<#button name="搜索" icon="fa-search" clickFun="MgrAccdPush.search()"/>
+							<#button name="重置" icon="fa-trash" clickFun="MgrAccdPush.resetSearch()" space="true"/>
+						</div>
+					</div>
+					<div class="hidden-xs" id="managerTableToolbar" role="group">
+						@if(shiro.hasPermission("/accid/pushFourS")){
+						<#button name="推送4S" icon="fa-check-circle" clickFun="MgrAccdPush.pushFours()" />
+						@}
+					</div>
+					<#table id="managerAccdPushTable" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/biz/accd/accid_push.js"></script>
+@}

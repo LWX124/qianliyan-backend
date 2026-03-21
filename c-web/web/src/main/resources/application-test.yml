@@ -1,0 +1,87 @@
+#开启swagger
+swagger:
+  enable: true
+
+
+management:
+  server:
+    port: 8102
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: 'health,prometheus,metrics'
+
+spring:
+  application:
+    name: cheji-web
+  datasource:
+    url: jdbc:mysql://101.200.75.101:3306/icars_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 6fc39f4434124510b2f198012e834fc6
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      connection-timeout: 30000
+      maximum-pool-size: 150
+      max-lifetime: 1200000
+      minimum-idle: 30
+  redis:
+    host: 101.200.75.101
+    port: 6379
+    ssl: false
+    database: 0
+    password: f8f3fa74daf542d2bdfb3e4edefec202
+    timeout: 3000
+    jedis:
+      pool:
+        max-active: 50
+        max-wait: 5000
+        max-idle: 50
+        min-idle: 0
+      timeout: 500
+
+mybatis-plus:
+  type-aliases-package: com.cheji.web.modular.domain,com.cheji.web.modular.query,com.cheji.web.modular.cwork
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#wx:
+#  appid: wxfd263ff6e281f881
+#  appsecret: xxx
+
+logging:
+
+
+wx:
+  appid: wxfd263ff6e281f881
+  appsecret: f7c2caabfd2eea05f18fe9545f61d6a9
+  pay:
+    appId: wxfd263ff6e281f881
+    mchId: 1487083832
+    mchKey: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+#    subAppId: #服务商模式下的子商户公众账号ID
+#    subMchId: #服务商模式下的子商户号
+#    keyPath: # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+  miniapp:
+    configs:
+      - appid: wxfbf28088488787ee
+        secret: 85890652cf6913e6d590952c4b89a224
+        token: #微信小程序消息服务器配置的token
+        aesKey: #微信小程序消息服务器配置的EncodingAESKey
+        msgDataFormat: JSON
+
+#host: http://175.6.112.42:8081/
+host: http://101.200.75.101:8081
+
+bail: 1 #保证金比例

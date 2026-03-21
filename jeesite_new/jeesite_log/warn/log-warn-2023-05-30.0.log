@@ -1,0 +1,9 @@
+2023-05-30 09:46:22.261 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-05-30 09:47:02.404 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-05-30 09:47:02.404 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-05-30 09:47:03.319 [http-nio-9002-exec-2] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-05-30 09:47:56.279 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-05-30 09:47:56.953 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-05-30 09:47:57.183 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-05-30 09:47:57.775 [http-nio-9002-exec-6] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-05-30 09:48:01.217 [http-nio-9002-exec-10] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.

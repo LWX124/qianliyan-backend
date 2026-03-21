@@ -1,0 +1,28 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<div class="ibox-content">
+			<div class="row row-lg">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-8">
+							<#NameCon id="name" name="名称" placeholder="理赔老师姓名/姓名全拼/手机号"/>
+						</div>
+						<div class="col-sm-4">
+							<#button name="搜索" icon="fa-search" clickFun="MgrClaimsPushClaims.search()"/>
+							<#button name="重置" icon="fa-trash" clickFun="MgrClaimsPushClaims.resetSearch()" space="true"/>
+						</div>
+					</div>
+					<div class="hidden-xs" id="managerTableToolbar" role="group">
+						@if(shiro.hasPermission("/bizClaim/pushClaims")){
+						<#button name="推送理赔顾问" icon="fa-check-circle" clickFun="MgrClaimsPushClaims.pushClaims()" />
+						@}
+					</div>
+					<#table id="managerClaimsPushClaimsTable" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizClaim/claims_push_claims.js"></script>
+@}

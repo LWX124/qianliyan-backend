@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppYearCheckIndentMapper">
+
+
+<!--    CenterDetailsDto selectYearIndentCenterMes(Integer userBId);-->
+    <select id="selectYearIndentCenterMes" resultType="CenterDetailsDto">
+        SELECT
+            SUM(if((user_b_id = #{userBId} AND state &lt;&gt; '' AND TO_DAYS(create_time) = TO_DAYS(NOW())),1,0))todayIndent,
+            SUM(if(pay_state = 1 AND user_b_id= #{userBId},price,0)) allEarnings,
+            SUM(if((user_b_id = #{userBId}),1,0)) allIndentCount,
+            SUM(if((user_b_id = #{userBId} AND state = 1),1,0)) newIntentCount,
+            SUM(if((user_b_id = #{userBId} AND state = 2),1,0)) inServiceCount,
+            CONCAT(0) obligationCount,
+            SUM(if((user_b_id = #{userBId} AND state = 3),1,0)) toEvaluateCount,
+            SUM(if((user_b_id = #{userBId} AND state = 4),1,0)) cancelledCount
+          FROM app_year_check_indent
+
+    </select>
+
+
+<!--    List<AppCleanIndetEntity> newYearCheckIndentList(@Param("userBId")Integer userBId, @Param("type")Integer type,@Param("pagesize") Integer pagesize);-->
+    <select id="newYearCheckIndentList" resultType="AppCleanIndetEntity">
+
+
+        SELECT DISTINCT a.user_id userId,a.user_b_id userBId,CONCAT('')cleanType,
+        CASE a.year_check_type
+        WHEN 1 THEN '免检代办'
+        WHEN 2 THEN '线上年检'
+        ELSE '年检'
+        END AS cleanName,CONCAT('不限车型') carName,a.year_check_number cleanIndentNumber,a.price amount,a.state indentState,b.head_img imgUrl,
+        CONCAT(1) isEvaluation,a.create_time createTime,CONCAT(5) resource,CONCAT('') rescueName,pick_address currentPosition
+        FROM app_year_check_indent as a
+        LEFT JOIN app_user_b_message as b ON a.user_b_id = b.user_b_id WHERE a.user_b_id = #{userBId} AND b.wrok_type =2  AND a.state &lt;&gt; ''
+        <if test="type != null and type != ''">
+            AND a.state = #{type}
+        </if>
+        order by createTime DESC
+        LIMIT #{pagesize},20
+
+    </select>
+
+<!--    SELECT a.user_id userId,a.user_b_id userBId,CONCAT('')cleanType,-->
+<!--    CASE a.year_check_type-->
+<!--    WHEN 1 THEN '免检代办'-->
+<!--    WHEN 2 THEN '线上年检'-->
+<!--    ELSE '年检'-->
+<!--    END AS cleanName,CONCAT('不限车型') carName,a.year_check_number cleanIndentNumber,a.price*0.8 amount,a.state indentState,b.url imgUrl,-->
+<!--    CONCAT(1) isEvaluation,a.create_time createTime,CONCAT(5) resource,CONCAT('') rescueName,pick_address currentPosition-->
+<!--    FROM app_year_check_indent as a-->
+<!--    LEFT JOIN app_merchants_info_banner as b ON a.user_b_id = b.user_b_id WHERE b.`index` = 1 AND a.user_b_id = #{userBId} AND a.state &lt;&gt; ''-->
+<!--    <if test="type != null and type != ''">-->
+<!--        AND a.state = #{type}-->
+<!--    </if>-->
+<!--    order by createTime DESC-->
+<!--    LIMIT #{pagesize},20-->
+
+
+</mapper>
+

@@ -1,0 +1,63 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="noticeInfoForm">
+
+            <input type="hidden" id="id" value="">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <#SelectCon id="newsType" name="类型" >
+                            <option value="8">滚动新闻</option>
+                            <option value="0">事故代办</option>
+                            <option value="1">物损赔付</option>
+                            <option value="2">人伤垫付</option>
+                            <option value="3">交单理赔</option>
+                            <option value="4">法律服务</option>
+                            <option value="5">代步车</option>
+                            <option value="6">事故咨询</option>
+                            <option value="7">现场理赔</option>
+                            <option value="9">发现</option>
+                            <option value="10">资讯</option>
+                            <option value="11">app首页</option>
+                        </#SelectCon>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="title" name="title" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">首页图链接</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="homePageImgUrl" name="title" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容</label>
+                        <div class="col-sm-10">
+                            <div id="editor" class="editorHeight">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="NoticeInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="NoticeInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script src="${ctxPath}/static/modular/system/notice/notice_info.js"></script>
+@}

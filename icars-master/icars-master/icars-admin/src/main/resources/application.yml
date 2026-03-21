@@ -1,0 +1,225 @@
+#server:
+#  port: 8080
+#  ssl:
+#    key-store: keystore.p12
+#    key-store-password: 182937
+#    keyStoreType: PKCS12
+#    keyAlias: tomcat
+#  websocket:
+#    port: 7397
+#
+##actuator   curl -X POST -u admin:admin http://127.0.0.1:9001/admin/shutdown 优雅停止服务
+##endpoints:
+##  shutdown:
+##    enabled: true
+##    path: /shutdown
+##management:
+##  security:
+##    enabled: true
+##  server:
+##    port: 9001
+##  address: 127.0.0.1
+##  context-path: /admin
+##security:
+##  basic:
+##    enabled: true
+##    path: /admin
+##  user:
+##    name: admin
+##    password: admin
+#
+##日志
+#logging:
+#  level:
+#    com.stylefeng.guns: DEBUG
+#
+#
+#wx:
+#  appId: wxda3db78c8532c5fd
+#  secret: 314c23be571e5a9a5865de3a214182b9
+#  grantType: authorization_code
+#  sessionHost: https://api.weixin.qq.com/sns/jscode2session
+#
+#
+#alipay:
+#  appid: 2018071960670475
+#  publickey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtoC3dzpnS0bXjtfmBLUaK/87Q8fOJ5e8oMoHUkZSkro6KeLs9ARcbxsO1uZ3mATe/JQp4XFLxQG2UJLWinrleEfwPImPVvLi/0PqqwWR81I4uG72obQsMGLjy2dBoDmdj55+/QfjPg/0amOFEV2+9GOLs/U2xQpFA28F8SDJm1pKgg4jKIHItSR/M4JK4bZ+HrXOtm9fblY2HsEASBCft5mQ+3FgfPHHMXk7uSXlBbHW1H4MAAgoG+H7zPwu9xtTdbA6Td22TMte666oblniyHApo9STmOxUgY3dDB7agr5rEOtZAP1xF3Eup6g6wmgeq4bqiF6/62+ZcqL4VfuBqQIDAQAB
+#  privatekey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCYgAmcWH6WmfB7OK/m7TMG+e0CMrU2CkaQOAHIaaVj4vuNUCNnujkEdVl3X2GX6HaYjijqgfsiQNsW85BABn4ZGhOvmKtINhhRY6wTejZGPQjuLcD351ZlpVrvk2BkF0H4i5xi4Cgq7n0blmLAYQNQpUKtn7eKOd7Nvt+z+RTX2RxDrYk3KF3TCTe367U1zqqxVVqPbRqATe8YQABGdPOj6FCZ0qhKx00qR7+XIgZ94l9PjUVDv+ovaZFXt60u9RbeBebxJDwvJ4aQjOiOeVVGLjQ3K7mFQ9lzsMgss+a3wJJtE/P+wo6IvIDYqrWs+shQ3QTed3O4s7yxxKOF9UWRAgMBAAECggEAEkE5ZUq+lH6G5+koPUdllU8zjNDPGlHuknLx27CxyJwyKn9OTatgCeWWORDk2M9N6wMRaMj4a+hBkaTEPrXIQG77rkhjMHixPoTk40v81TmXKRO3BrXdhLtfgFAu+KxEDGGB7eARTtpPhY7h8U9rmyq9KZV13gkBX7Wah6uoUBIP05GqOiuZUvpc6onqVvae4z+1ZwkNRpX2f16Og7SYbs3AMh+xjOWCOrgtPrXmiVK+WUvwvMdX5DMlpeLXdGCewj240V1Z8Gvit1cBM1Rqaamh1hBtqA93FTQAqYyFq6eDKkSIx4/g+dYBHYvzK+oeORhFVbjYWAL1/9xtkC3GNQKBgQDzugPxp2eSJ66A6Dv9BHhZpwN4GefN0Kn30cANae6ibJLLIA8IGKMolqWe4vqLx+JuLCwL3kvsdyBGJsx3YaQVWNZCy138BUyj9bnUX6X5CVYov/GELC5/P+FHmt9buFJ/BO90DWngEqmwANrcWsRiNGtXdjX4aM6LnaZjTXWl/wKBgQCgLfuBcTcJ6bExafHNxD+1D/p5ZD5Qc1xmkroaZzVJb8gok2JTuCCU9GhFnU6QkTbOtbnaLz+P1FDvQ9RbQbaV766cgj+qUtjKzvrfX34qeI852Jfnmh2SLXHJa2Io5kO5nCsOrE7Gv7miKTHR81+slv6iecX/xWThn/dOhsW0bwKBgQC9yZbyoTIUbJQFS1ITN1zkKxqXdky8RwVjtdCAYYHytuskA2XRHyZGH/D+Ja+GE3Nt6TWvVD3499aI6gOD3uOfv9qwjp4z9oh0kI9RId4ja7LM7pKKIsFeU4cAdEgDqyeKQ3SXAS71znKWXEQRHRkZg8omhCWIt0xHCc8cOqAnTwKBgE6UACuR9KQiRlCtXnfI7E/QlNl0ObWRwiR3mmBVfSiXc6OkGbpkO2eXNofgEaiN9EsXjyLfxtiyGTonFkfmRsHrIMeahczyc3OaciueVvBS0EBaZrqxOgx5yrY6vZ6+xz6Iw/6gvMx3RYOtnckXETpDoIroHh/JICInLVUSfG51AoGBAMAt0YQdds6bO4HFM6Fu2RBLFS6pEi5Uze+Xio/6ije3VQJVUEEQKC/WvtSMtIV9R7L1gb/1GxnPPBAujFZkp6CZRSbTqX/F8InzvHLZz301me36AAGmxH06izxBfzns+KEGLh+DP6pdRPbPh2ZpPw1DQtJPqwyza6tkMF46oJod
+#  gateway: https://openapi.alipay.com/gateway.do
+#
+#guns:
+#  swagger-open: true              #是否开启swagger (true/false)
+#  kaptcha-open: false             #是否开启登录时验证码 (true/false)
+##  file-upload-path: /home/ftpuser/www/claimImg/headImg       #文件上传目录(不配置的话为java.io.tmpdir目录)
+#  spring-session-open: false      #是否开启spring session,如果是多机环境需要开启(true/false)
+#  session-invalidate-time: 86400     #session失效时间(只在单机环境下生效，多机环境在SpringSessionConfig类中配置) 单位：秒
+#  session-validation-interval: 5  #多久检测一次失效的session(只在单机环境下生效) 单位：秒
+#
+#spring:
+#  profiles:
+#    active: @spring.active@
+#  mvc:
+#    static-path-pattern: /static/**
+#    view:
+#      prefix: /WEB-INF/view
+#  devtools:
+#    restart:
+#      enabled: false
+#      additional-paths: src/main/java
+#      exclude: static/**,WEB-INF/view/**
+#  servlet:
+#    multipart:
+#      max-request-size: 100MB
+#      max-file-size: 100MB
+#  mail:
+#    host: smtp.qq.com
+#    username: 2360500297@163.com
+#    password: duanhong456
+#    properties:
+#      mail:
+#        smtp:
+#          socketFactory:
+#            class: javax.net.ssl.SSLSocketFactory
+#            port: 465
+#          auth: true
+#          starttls:
+#            enable: true
+#            required: true
+#
+#
+#mybatis-plus:
+#  typeAliasesPackage: com.stylefeng.guns.modular.system.model
+#  configuration:
+##    log-impl: org.apache.ibatis.logging.jdbc.BaseJdbcLogger
+#    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+#
+#
+#log:
+#  path: /opt/logs/icars/logs
+#
+#---
+##本地环境
+#spring:
+#  profiles: local
+#  datasource:
+#    url: jdbc:mysql://120.78.160.111:3306/icars_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: Cheji_500
+#    db-name: icars_test #用来搜集数据库的所有表
+#    filters: wall,mergeStat
+#  wx:
+##    videoLocalPath: D://icars-video/
+##    videoHost: D://icars-video/
+##    netHost: https://chejiqiche.com/
+##    claimImgLocalPath: D://icars-claimImg/
+##      videoHost: http://118.24.150.197/video/
+##      netHost: http://118.24.150.197/
+#     videoLocalPath: /home/ftpuser/www/video/
+#     videoHost: http://211.149.137.58:8079/video/
+#     netHost: http://211.149.137.58:8079/
+#     claimImgLocalPath: /home/ftpuser/www/claimImg/
+#  wxpay:
+#    appid: wxda3db78c8532c5fd
+#    mchid: 1487083832
+#    key: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+##    certPath: D://apiclient_cert.p12
+#    certPath: /opt/deploy/apiclient_cert.p12
+#    notify-url: http://kosan.tunnel.qydev.com/api/v1/wxpay/notify
+#  system:
+##    headimgHost: D://headImg/
+##    file-upload-path: D://headImg/
+#     headimgHost: http://211.149.137.58:8079/claimImg/headImg/
+#     file-upload-path: /home/ftpuser/www/claimImg/headImg/
+#
+#---
+##测试环境
+#spring:
+#  profiles: test
+#  datasource:
+#      url: jdbc:mysql://120.78.160.111:3306/icars_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+#      username: root
+#      password: Cheji_500
+#      db-name: icars_test #用来搜集数据库的所有表
+#      filters: wall,mergeStat
+#  wx:
+#      videoLocalPath: /home/ftpuser/www/video/
+##      videoHost: http://118.24.150.197/video/
+##      netHost: http://118.24.150.197/
+#      videoHost: http://211.149.137.58:8079/video/
+#      netHost: http://211.149.137.58:8079/
+#      claimImgLocalPath: /home/ftpuser/www/claimImg/
+#  wxpay:
+#      appid: wxda3db78c8532c5fd
+#      mchid: 1487083832
+#      key: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+#      certPath: /opt/deploy/apiclient_cert.p12
+##      notify-url: http://118.24.150.197:8080/api/v1/wxpay/notify
+#      notify-url: http://211.149.137.58:8079/api/v1/wxpay/notify
+#  system:
+#      headimgHost: http://211.149.137.58:8079/claimImg/headImg/
+#      file-upload-path: /home/ftpuser/www/claimImg/headImg/
+#
+#
+##多数据源情况的配置
+#guns:
+#  muti-datasource:
+#    open: false
+#    url: jdbc:mysql://120.78.160.111:3306/icars?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: Cheji_500
+#    dataSourceNames:
+#      - dataSourceGuns
+#      - dataSourceBiz
+#
+#---
+#
+#sp
+#
+#---
+##生产环境
+#spring:
+#  profiles: product
+#  datasource:
+#      url: jdbc:mysql://127.0.0.1:3306/icars?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+#      username: root
+#      password: Cheji_500
+#      db-name: icars #用来搜集数据库的所有表
+#      filters: wall,mergeStat
+#  wx:
+#      videoLocalPath: /home/ftpuser/www/video/
+#      videoHost: https://chejiqiche.com/video/
+#      netHost: https://chejiqiche.com/
+#      claimImgLocalPath: /home/ftpuser/www/claimImg/
+#  wxpay:
+#      appid: wxda3db78c8532c5fd
+#      mchid: 1487083832
+#      key: jdfjdfd7365uyilz8765rtd6d6c6g7g3
+#      certPath: /opt/deploy/apiclient_cert.p12
+#      notify-url: https://www.chejiqiche.com/api/v1/wxpay/notify
+#  system:
+#      headimgHost: https://chejiqiche.com/claimImg/headImg/
+#      file-upload-path: /home/ftpuser/www/claimImg/headImg/
+#
+#
+#
+##connectionTimeOut: 2000
+##defaultSetting: false;
+##redis:
+##    auth: 123456
+##    blockWhenExhausted: true
+##    evictionPolicyClassName: org.apache.commons.pool2.impl.DefaultEvictionPolicy
+##    host: 127.0.0.1
+##    jmxEnabled: true
+##    lifo: true
+##    maxIdle: 8
+##    maxTotal: 8
+##    maxWaitMillis: -1
+##    minEvictableIdleTimeMillis: 1800000
+##    minIdle: 0
+##    numTestsPerEvictionRun: 3
+##    port: 6379
+##    softMinEvictableIdleTimeMillis: 1800000
+##    testOnBorrow: false
+##    testWhileIdle: false
+##redus:
+##    timeBetweenEvictionRunsMillis: -1

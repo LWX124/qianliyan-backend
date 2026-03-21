@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="../style/rest.css">
+    <link rel="stylesheet" href="../style/onlineRegister.css">
+    <script src="../script/rest.js"></script>
+    <script src="../script/jquery.min.js"></script>
+</head>
+<body>
+<div class="online-register-wrapper">
+    <div class="logo-wrapper">
+        <div class="logo"></div>
+        <p class="desc">4S店/维修厂线上营销平台</p>
+    </div>
+
+    <ul class="category-wrapper">
+        <li class="category-item">
+            <div class="icon accident"></div>
+            <p>事故信息</p>
+        </li>
+        <li class="category-item">
+            <div class="icon fix"></div>
+            <p>全民推荐</p>
+        </li>
+        <li class="category-item">
+            <div class="icon agent"></div>
+            <p>门店营销</p>
+        </li>
+    </ul>
+
+    <div class="register-form">
+        <ul class="register-info">
+            <li class="info-item">
+                <input placeholder="请输入手机号" id="phone">
+                <i class="icon"></i>
+            </li>
+            <li class="info-item">
+                <input placeholder="请输入验证号" id="yzm">
+                <i class="icon"></i>
+                <button class="verify-btn reset-button">发送验证码</button>
+            </li>
+            <li class="info-item">
+                <input placeholder="请输入密码" id="pass" type="password">
+                <i class="icon"></i>
+            </li>
+            <!--        <li class="info-item">-->
+            <!--          <input placeholder="请输入邀请码" >-->
+            <!--          <i class="icon"></i>-->
+            <!--        </li>-->
+        </ul>
+
+        <div class="register">
+            <button class="reset-button" onclick="zhuce()">立即注册</button>
+        </div>
+    </div>
+
+    <p class="protocol">
+        <span>注册或登录即代表您已经同意</span>
+        <a onclick="xieyi()">《车已隐私协议》</a>
+    </p>
+</div>
+
+<script>
+
+    $("#phone").change(function () {
+        var phone = $(this).val();
+        if (phone.length > 11) {
+            $(this).val(phone.substr(0, 11));
+        }
+    })
+
+    function down() {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isiOS) {
+            window.location.href = 'https://apps.apple.com/cn/app/车己汽车/id1459823028';
+        } else {
+            window.location.href = 'https://apps.apple.com/cn/app/车己汽车/id1459823028';
+        }
+    }
+
+    function zhuce() {
+        var phone = $("#phone").val();
+        var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+        if (!myreg.test(phone)) {
+            alert("请输入正确的手机号")
+            return;
+        }
+        var yzm = $("#yzm").val();
+
+        if (yzm.length != 6) {
+            alert("请输入6位验证码")
+            return;
+        }
+
+        var first_pass = $("#pass").val();
+
+
+        if (first_pass.length < 8) {
+            alert("密码长度必须不少于8位")
+            return;
+        }
+
+        $.post({
+            contentType: "application/json;charset=utf-8",
+            data: '{"userName":' + phone + ',"passWord":' + first_pass + ',"smsCode":' + yzm + '}',
+            url: "/bServer/user/register",
+            success: function (result) {
+                console.log(result)
+                if (result.code == 200) {
+                    alert('注册成功，正在为您跳转下载地址')
+                    setTimeout("down()", 2000);
+                } else {
+                    alert(result.msg)
+                }
+            }
+        });
+    }
+
+    function xieyi() {
+        window.location.href = '/bServer/page/agreement'
+    }
+
+    let verifyBtn = document.querySelector('.verify-btn')
+    let timer = null
+
+    verifyBtn.addEventListener('click', function () {
+        if (timer) {
+            return;
+        }
+        var phone = $("#phone").val();
+
+        $.post({
+            contentType: "application/json;charset=utf-8",
+            data: '{"phone":' + phone + '}',
+            url: "/bServer/user/getRegisterCode",
+            success: function (result) {
+                if (result.code != 200) {
+                    alert(result.msg)
+                } else {
+                    alert('发送成功')
+                }
+            }
+        });
+
+        let count = 60
+        timer = setInterval(() = > {
+            if(count === 0
+    )
+        {
+            clearInterval(timer)
+            timer = null
+            this.innerHTML = '发送验证码'
+
+            return
+        }
+
+        this.innerHTML = `下次发送${count--}秒`
+    },
+        1000
+    )
+
+    })
+</script>
+</body>
+</html>

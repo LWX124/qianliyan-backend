@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.CarBrandMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.CarBrandEntity">
+        <id column="id" property="id" />
+        <result column="uniacid" property="uniacid" />
+        <result column="parent_id" property="parentId" />
+        <result column="initials" property="initials" />
+        <result column="name" property="name" />
+        <result column="pic_url" property="picUrl" />
+        <result column="status" property="status" />
+        <result column="sort" property="sort" />
+        <result column="is_hot" property="isHot" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, uniacid, parent_id AS parentId, initials, name, pic_url AS picUrl, status, sort, is_hot AS isHot, create_time AS createTime
+    </sql>
+
+</mapper>

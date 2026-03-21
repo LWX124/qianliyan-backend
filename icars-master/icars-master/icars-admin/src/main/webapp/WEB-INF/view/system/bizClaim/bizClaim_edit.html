@@ -1,0 +1,53 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="主键" value="${item.id}" underline="true"  readonly="readonly" style="display:none;" />
+                            <#input id="phone" name="客户手机号" value="${item.phone}" underline="true"/>
+                            <#input id="name" name="客户姓名" value="${item.name}" underline="true"/>
+                            <#input id="cph" name="车牌号" value="${item.cph}" underline="true"/>
+                            <#SelectCon id="type" name="理赔类型" underline="true">
+                                <option value="">全部</option>
+                                <option value="0">事故代办</option>
+                                <option value="1">物损赔付</option>
+                                <option value="2">人伤垫付</option>
+                                <option value="3">交单理赔</option>
+                                <option value="4">法律服务</option>
+                                <option value="5">代步车</option>
+                                <option value="6">事故咨询</option>
+                                <option value="7">现场理赔</option>
+                            </#SelectCon>
+                            <#SelectCon id="status" name="理赔状态" >
+                                <option value="">全部</option>
+                                <option value="0">已下单</option>
+                                <option value="1">理赔中</option>
+                                <option value="2">理赔完成</option>
+                                <option value="3">作废</option>
+                            </#SelectCon>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="desc" name="描述" value="${item.desc}" underline="true"/>
+                            <#input id="claimer" name="理赔负责人" value="${item.claimer}" underline="true"/>
+                            <#input id="lng" name="经度" value="${item.lng}" underline="true" readonly="readonly" />
+                            <#input id="lat" name="纬度" value="${item.lat}" underline="true" readonly="readonly" />
+                            <#input id="address" name="定位地址名称" value="${item.address}" underline="true"/>
+                            <#input id="createtime" name="创建时间" value="${item.createtime}" readonly="readonly" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12" style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BizClaimInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BizClaimInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizClaim/bizClaim_info.js"></script>
+@}

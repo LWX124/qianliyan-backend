@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppUserMapper">
+
+
+
+    <select id="selectUser" parameterType="int" resultType="AppUserEntity">
+        select * from app_b_user t1
+        where t1.id=#{userId} for update
+    </select>
+
+
+    <!--Integer findEarningsAndIndent(String merchantsId);-->
+    <select id="findEarningsAndIndent" resultType="Integer">
+SELECT COUNT(1) indentCount FROM app_b_user AS a
+        LEFT JOIN app_indent AS b ON a.id = b.user_b_id
+        WHERE a.id = #{userId} AND (b.state = 3 OR b.state =4 OR b.state = 5 OR b.state = 6)
+    </select>
+
+
+
+<!--    BigDecimal findTodaySprayPaintEarning(Integer id);-->
+    <select id="findTodaySprayPaintEarning" resultType="BigDecimal">
+    SELECT format(SUM(price)*0.8,2) FROM app_spray_paint_indent
+         WHERE technician_id = #{id}
+         AND (state = 8 or state = 9)
+         AND to_days(create_time) = to_days(now())
+    </select>
+
+
+<!--    Integer findTodaySprayIndent(Integer id);-->
+    <select id="findTodaySprayIndent" resultType="Integer">
+        SELECT COUNT(1) FROM app_spray_paint_indent WHERE user_b_id = #{id} AND (state = 3 OR state = 6);
+    </select>
+
+
+<!--    Integer findTodayCleanIndent(Integer id);-->
+    <select id="findTodayCleanIndent" resultType="Integer">
+        SELECT SUM(aou) count FROM(
+        SELECT COUNT(1) aou FROM app_clean_indet WHERE user_b_id = #{id} AND (indent_state = 3 or indent_state = 6)
+				union ALL
+				SELECT COUNT(1) aou FROM app_spray_paint_indent WHERE technician_id = #{bMessageid} AND (state = 8 or state = 9)
+				union ALL
+				SELECT COUNT(1) aou FROM app_rescue_indent WHERE user_b_id = #{id} AND (state = 3 or state = 5)
+				union all
+			    SELECT COUNT(1) aou FROM app_year_check_indent WHERE user_b_id = #{id} AND (state = 3 or state = 5)
+			) t
+    </select>
+
+    <!--BigDecimal findTodayEarning(String merchantsId);-->
+    <select id="findTodayEarning" resultType="BigDecimal">
+    SELECT SUM(todayEar) FROM(
+        select SUM(settle_accounts) todayEar  from app_indent
+        where to_days(creat_time) = to_days(now()) and user_b_id = #{user_b_id} AND (state = 3 or state = 6)
+        union all
+        SELECT format(SUM(price)*0.8,2) todayEar FROM app_year_check_indent WHERE to_days(create_time) = to_days(now()) and user_b_id = #{user_b_id} AND state = 6
+    ) t
+    </select>
+
+
+
+    <!--    BigDecimal findTodayCleanEarning(Integer id);-->
+    <select id="findTodayCleanEarning" resultType="BigDecimal">
+        SELECT format(SUM(amount)*0.9,2) FROM app_clean_indet
+         WHERE user_b_id = #{id}
+         AND (indent_state = 3 or indent_state = 6)
+         AND to_days(create_time) = to_days(now())
+    </select>
+
+<!--    BigDecimal findTodayRescueEarning(Integer id);-->
+    <select id="findTodayRescueEarning" resultType="BigDecimal">
+        SELECT format(SUM(price)*0.8,2) FROM app_rescue_indent
+         WHERE user_b_id = #{id}
+         AND (state = 3 or state = 5)
+         AND to_days(create_time) = to_days(now());
+    </select>
+
+    <!--    StoresDto findStore(String merchantsId);-->
+    <select id="findStore" resultType="StoresDto">
+        SELECT id,merchants_name merchantsName,type merchantsType,lng,lat,merchants_phone phoneNumber,state,business_start businessStart,business_end businessEnd,address,announcement
+        FROM app_b_user
+        WHERE id = #{userBId}
+    </select>
+
+<!--    ServicDisplayDto getNameBrandScore(String userBId);-->
+    <select id="getNameBrandScore" resultType="ServicDisplayDto">
+        SELECT id,merchants_name merchantsName,score,type FROM app_b_user
+        WHERE id = #{userBId}
+    </select>
+
+
+    <!--List<ChangeListDto> findChangeList(Integer userBId,Integer pagesize);-->
+    <select id="findChangeList" resultType="ChangeListDto">
+        SELECT t.* FROM(
+        SELECT partner_trade_no id,concat('余额提现')operationName,concat('') orderNumber,concat('-',amount)amount,concat(1)type,date_format(create_time,'%Y-%m') operationMonth,create_time createTime
+            FROM app_wx_cash_out_record  WHERE sources =2 and  user_id = #{userBId}
+        UNION ALL
+        SELECT out_trade_no id,concat('账户充值')operationName,concat('') orderNumber,concat('+',amount/100)amount,concat(2)type,date_format(create_time,'%Y-%m') operationMonth,create_time createTime
+            FROM app_wxpay_order WHERE  (type = 2 OR type = 3) AND user_id = #{userBId} AND status = 2
+        UNION ALL
+        SELECT id,concat('视频扣款')operationName,concat('') orderNumber,concat('-',deduction)amount,concat(3)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+            FROM app_push_bill WHERE user_id = #{userBId}
+        UNION ALL
+        SELECT id,concat('订单结算')operationName,order_number orderNumber,format(concat('-',fixloss_user),2)amount,concat(4)type,date_format(creat_time,'%Y-%m')operationMonth,creat_time createTime
+            FROM app_indent WHERE  user_b_id = #{userBId} AND state = 6
+        UNION ALL
+		SELECT id,concat('洗车结算')operationName,concat('') orderNumber,format(CONCAT('+',amount*0.9),2)amount,concat(5)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+			FROM app_clean_indet WHERE user_b_id = #{userBId} AND (indent_state = 3 or indent_state = 6) AND contract_flag &lt;&gt; 1 and resource = 1
+		UNION ALL
+		SELECT id,concat('美容结算')operationName,concat('') orderNumber,format(CONCAT('+',amount*0.9),2)amount,concat(6)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+			FROM app_clean_indet WHERE user_b_id = #{userBId} AND (indent_state = 3 or indent_state = 6) and resource = 2
+		UNION ALL
+        SELECT id,concat('救援结算')operationName,concat('') orderNumber,format(CONCAT('+',price*0.8),2)amount,concat(7)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+             FROM app_rescue_indent  WHERE user_b_id = #{userBId} AND state= 6
+        UNION ALL
+        SELECT id,concat('喷漆结算')operationName,concat('') orderNumber,format(CONCAT('+',price*0.8),2)amount,concat(8)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+			FROM app_spray_paint_indent WHERE user_b_id = #{userBId} AND  (state = 3 or state = 6)
+        UNION ALL
+        SELECT id,concat('年检结算')operationName,concat('') orderNumber,format(CONCAT('+',price*0.8),2)amount,concat(9)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+            FROM app_year_check_indent WHERE user_b_id =  #{userBId} AND state =6
+        UNION ALL
+        SELECT id,concat('代驾结算')operationName,concat('')orderNumber,format(CONCAT('+',actual_price),2)amount,concat(10)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+            FROM app_substitute_driving_indent WHERE user_b_id =  #{userBId} AND (indent_state = 6 or indent_state = 7)
+            ) t
+        ORDER BY t.createTime DESC LIMIT #{pagesize},20
+    </select>
+
+
+    <select id="findCleanIncome" resultType="BigDecimal">
+        SELECT SUM(price) FROM(
+        SELECT SUM(amount)*0.9 price FROM app_clean_indet
+        WHERE user_b_id = #{userBId} AND (indent_state = 3 or indent_state = 6) AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth} AND contract_flag  &lt;&gt;  1
+        UNION ALL
+        SELECT SUM(price)*0.8 price FROM app_rescue_indent
+        WHERE user_b_id = #{userBId} AND  state = 6 AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+        UNION ALL
+        SELECT SUM(price)*0.8 price FROM app_spray_paint_indent
+        WHERE user_b_id = #{userBId} AND (state = 3 or state = 6) AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+        UNION ALL
+        SELECT SUM(price)*0.8 price FROM app_year_check_indent
+        WHERE user_b_id = #{userBId} AND  state = 6 AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+        ) t;
+    </select>
+
+<!--    BigDecimal findIncome(String operationMonth, Integer userBId);-->
+    <select id="findIncome" resultType="BigDecimal">
+      SELECT SUM(amount)/100 income FROM app_wxpay_order
+      WHERE (type = 2 or type = 3) AND user_id = #{userBId} AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth} AND status = 2
+
+    </select>
+
+
+<!--    BigDecimal findRescueIncome(@Param("operationMonth")String operationMonth, @Param("userBId")Integer userBId);-->
+    <select id="findRescueIncome" resultType="BigDecimal">
+             SELECT SUM(price)*0.8 FROM app_rescue_indent
+         WHERE user_b_id = #{userBId} AND  state = 6 AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+    </select>
+
+
+
+<!--    BigDecimal findspennd(String operationMonth, Integer userBId);-->
+    <select id="findspennd" resultType="BigDecimal">
+       SELECT SUM(amount) FROM(
+        SELECT partner_trade_no id,concat('余额提现')operationName,amount amount,concat(1)type,date_format(create_time,'%Y-%m') operationMonth,create_time createTime
+            FROM app_wx_cash_out_record  WHERE sources =2 and  user_id = #{userBId} AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+        UNION ALL
+        SELECT id,concat('视频扣款')operationName,deduction amount,concat(3)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+            FROM app_push_bill WHERE user_id = #{userBId} AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+        UNION ALL
+        SELECT id,concat('订单结算')operationName,fixloss_user amount,concat(4)type,date_format(creat_time,'%Y-%m')operationMonth,creat_time createTime
+            FROM app_indent WHERE  user_b_id = #{userBId} AND state = 6 AND DATE_FORMAT(creat_time,'%Y-%m') = #{operationMonth}
+            ) t
+    </select>
+
+
+<!--
+    List<ChangeListDto> findChangeListAndMonth(Integer userBId, Integer pagesize, String date);
+-->
+    <select id="findChangeListAndMonth" resultType="ChangeListDto">
+         SELECT t.* FROM(
+        SELECT partner_trade_no id,concat('余额提现')operationName,concat('-',amount)amount,concat(1)type,date_format(create_time,'%Y-%m') operationMonth
+            FROM app_wx_cash_out_record  WHERE sources =2 and  user_id = #{userBId} AND DATE_FORMAT(create_time,'%Y-%m') = #{date}
+        UNION ALL
+        SELECT out_trade_no id,concat('账户充值')operationName,concat('+',amount/100)amount,concat(2)type,date_format(create_time,'%Y-%m') operationMonth
+            FROM app_wxpay_order WHERE  (type = 2 OR type = 3)  AND status = 2 AND user_id = #{userBId} AND DATE_FORMAT(create_time,'%Y-%m') = #{date}
+        UNION ALL
+        SELECT id,concat('视频扣款')operationName,concat('-',deduction)amount,concat(3)type,date_format(create_time,'%Y-%m')operationMonth
+            FROM app_push_bill WHERE user_id = #{userBId} AND DATE_FORMAT(create_time,'%Y-%m') = #{date}
+         UNION ALL
+        SELECT id,concat('订单结算')operationName,concat('-',fixloss_user)amount,concat(4)type,date_format(creat_time,'%Y-%m')operationMonth,creat_time createTime
+            FROM app_indent WHERE  user_b_id = #{userBId} AND DATE_FORMAT(creat_time,'%Y-%m') = #{date}
+        UNION ALL
+		SELECT id,concat('洗车结算')operationName,format(CONCAT('+',amount*0.9),2)amount,concat(5)type,date_format(create_time,'%Y-%m')operationMonth,create_time createTime
+			FROM app_clean_indet WHERE user_b_id = #{userBId} AND (indent_state = 3 or indent_state = 6) AND DATE_FORMAT(create_time,'%Y-%m') = #{date} AND contract_flag &lt;&gt; 1
+            ) t
+        ORDER BY t.operationMonth DESC LIMIT #{pagesize},20
+    </select>
+
+
+    <!--List<String> findBrand(Integer userBId);-->
+    <select id="findBrand" resultType="String">
+        SELECT brand_id FROM app_merchants_brand WHERE user_b_id = #{userBId} AND state = 1
+    </select>
+
+
+<!--    String findUpName(String member);-->
+    <select id="findUpName" resultType="String">
+        SELECT `name` FROM app_up_merchants WHERE id = #{member}
+    </select>
+
+
+    <!--    AppUserEntity selectByIdupMerchats(String member);-->
+    <select id="selectByIdupMerchats" resultType="AppUserEntity">
+        SELECT huanxin_username huanxinUserName,huanxin_password huanxinPassword,
+                        unread_message unreadMessage,save_time saveTime
+         FROM app_up_merchants WHERE id = #{member}
+    </select>
+
+
+    <!--    void updateUpMerMess(String userBId);-->
+    <update id="updateUpMerMess">
+        update app_up_merchants set unread_message = 0 where id= #{userBId}
+    </update>
+
+    <!--UserEntity selectWxuser(String wxuserId);-->
+    <select id="selectWxuser" resultType="AppUserEntity">
+        SELECT
+        headImg avatar,
+        wxname name,
+        phone phoneNumber
+        from biz_wx_user WHERE openid = #{wxuserId}
+    </select>
+
+
+</mapper>

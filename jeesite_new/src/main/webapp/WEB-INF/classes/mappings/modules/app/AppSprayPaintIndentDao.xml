@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppSprayPaintIndentDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppSprayPaintIndent">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+<!--	List<String> findImgs(String sprayId);-->
+	<select id="findImgs" resultType="String">
+		SELECT url FROM app_spray_paint_img WHERE spray_paint_id = #{sprayId} AND type = #{type}
+	</select>
+
+
+<!--	AppSprayPaintIndent findByNumber(String rescueNumber);-->
+	<select id="findByNumber" resultType="AppSprayPaintIndent">
+		select * from app_spray_paint_indent where spray_paint_number = #{rescueNumber}
+	</select>
+</mapper>

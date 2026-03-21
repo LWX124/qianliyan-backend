@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.CleanPriceDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.CleanPriceDetailEntity">
+        <id column="id" property="id" />
+        <result column="user_b_id" property="userBId" />
+        <result column="clean_type" property="cleanType" />
+        <result column="car_type" property="carType" />
+        <result column="original_price" property="originalPrice" />
+        <result column="preferential_price" property="preferentialPrice" />
+        <result column="thrie_price" property="thriePrice" />
+        <result column="state" property="state" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_b_id AS userBId, clean_type AS cleanType, car_type AS carType, original_price AS originalPrice, preferential_price AS preferentialPrice, thrie_price AS thriePrice, state, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+    <!--List<String> findUsersByCleanType(String cleanType,String carType);-->
+    <select id="findUsersByCleanType" resultType="String">
+        SELECT DISTINCT a.user_b_id FROM app_clean_price_detail as a
+	       LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+	       WHERE  clean_type = #{cleanType} AND a.state = 1 AND b.city = #{cityCode}
+    </select>
+
+    <!--CleanPriceDetailEntity findCleanDetails(String userid, String cleanType, String carType);-->
+    <select id="findCleanDetails" resultType="CleanPriceDetailEntity">
+        SELECT a.* FROM app_clean_price_detail a
+          WHERE  user_b_id = #{userid}
+          AND preferential_price = (SELECT MIN(b.preferential_price)FROM app_clean_price_detail b WHERE  b.user_b_id = #{userid}) LIMIT 0,1
+    </select>
+
+
+    <!--List<CleanPriceDetailEntity> findDetailsByUserid(String userBId,String cleanType);-->
+    <select id="findDetailsByUserid" resultType="CleanPriceDetailEntity">
+        SELECT * FROM app_clean_price_detail WHERE user_b_id = #{userBId}
+        <if test="cleanType != null and cleanType != ''">
+            AND clean_type = #{cleanType}
+        </if>
+    </select>
+
+
+<!--    List<String> findUsersByCleanType1(@Param("cleanType")String cleanType, @Param("cityCode")Integer cityCode);-->
+    <select id="findUsersByCleanType1" resultType="String">
+    SELECT DISTINCT a.user_b_id FROM app_clean_price_detail as a
+	    LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+	    LEFT JOIN app_b_user_config as c ON a.user_b_id = c.user_b_id
+	        WHERE clean_type = #{cleanType} AND b.city = #{cityCode} AND c.business_type = 1 AND c.open_wash_time = 1 AND c.pass_free_carwash &lt;&gt; 1
+    </select>
+
+
+<!--    List<String> findUsersByCleanType3(@Param("cleanType")String cleanType,@Param("cityCode")Integer cityCode);-->
+    <select id="findUsersByCleanType3" resultType="String">
+    SELECT DISTINCT a.user_b_id FROM app_clean_price_detail as a
+        LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+        LEFT JOIN app_b_user_config as c ON a.user_b_id = c.user_b_id
+            WHERE  b.city = #{cityCode} AND c.business_type = 1 AND c.open_wash_time = 1 AND (manual_antomatic = 2 OR manual_antomatic = 3) AND c.pass_free_carwash &lt;&gt; 1
+    </select>
+
+<!--    List<String> findUsersByCleanType4(@Param("cleanType")String cleanType,@Param("cityCode")Integer cityCode);-->
+    <select id="findUsersByCleanType4" resultType="String">
+    SELECT DISTINCT a.user_b_id FROM app_clean_price_detail as a
+	    LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+	    LEFT JOIN app_b_user_config as c ON a.user_b_id = c.user_b_id
+	        WHERE b.city = #{cityCode} AND c.business_type = 1 AND c.open_wash_time = 1 AND night_wash = 1 AND c.pass_free_carwash &lt;&gt; 1
+    </select>
+
+<!--    List<String> findUserByCleanType5(String cleanType, Integer cityCode);-->
+    <select id="findUserByCleanType5" resultType="String">
+        SELECT DISTINCT a.user_b_id FROM app_clean_price_detail as a
+            LEFT JOIN app_b_user as b ON a.user_b_id = b.id
+            LEFT JOIN app_b_user_config as c ON a.user_b_id = c.user_b_id
+                WHERE clean_type = #{cleanType} AND b.city = #{cityCode} AND c.business_type = 1 AND c.open_wash_time = 1 AND pass_free_carwash = 1
+    </select>
+
+    <select id="selectForUpdate" parameterType="string" resultType="CleanPriceDetailEntity">
+        select * from app_clean_price_detail t1
+        where t1.id=#{bussinessId} for update
+    </select>
+
+
+<!--    CleanPriceDetailEntity selectPriceDetailsForUpdate(@Param("userBId")String userBId, @Param("carType")String carType, @Param("indentCleanType")String indentCleanType);-->
+    <select id="selectPriceDetailsForUpdate" resultType="CleanPriceDetailEntity">
+        select * from app_clean_price_detail WHERE clean_type =#{carType} AND car_type = #{carType} AND user_b_id =  #{userBId} for update
+    </select>
+
+
+<!--    Personal findIndentCount(String userId);-->
+    <select id="findIndentCount" resultType="Personal">
+        SELECT COUNT(CASE WHEN indent_state=1 THEN 1 ELSE NULL END) waitReceiving,
+            COUNT(CASE WHEN indent_state=2 THEN 1 ELSE NULL END) inServiceing,
+            COUNT(CASE WHEN indent_state=3 THEN 1 ELSE NULL END) toEvaluate
+                FROM app_clean_indet WHERE user_id = #{userId} AND is_evaluation &lt;&gt; 1
+    </select>
+
+
+<!--    List<CleanIndetEntity> selectIndentUser(@Param("id")Integer id,@Param("userBId") Integer userBId);-->
+    <select id="selectIndentUser" resultType="CleanIndetEntity">
+        SELECT id FROM app_clean_indet WHERE user_id = #{id} AND user_b_id =  #{userBId} AND is_evaluation &lt;&gt; 1
+        				union all
+        SELECT id FROM app_spray_paint_indent WHERE user_id = #{id} AND user_b_id =  #{userBId} AND (state = 3 or state =6)
+    </select>
+</mapper>
+

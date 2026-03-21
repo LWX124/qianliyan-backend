@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppRescueIndentMapper">
+
+
+<!--    CenterDetailsDto selelctRescueIndentCenterMes(Integer userBId);-->
+    <select id="selelctRescueIndentCenterMes" resultType="CenterDetailsDto">
+        SELECT
+        SUM(if((user_b_id = #{userBId} AND state &lt;&gt; '' AND TO_DAYS(create_time) = TO_DAYS(NOW())),1,0)) todayIndent,
+        SUM(if(pay_state = 1 AND user_b_id= #{userBId},price,0)) allEarnings,
+        SUM(if((user_b_id = #{userBId} AND state &lt;&gt; ''),1,0)) allIndentCount,
+        SUM(if((user_b_id = #{userBId} AND state = 1),1,0))newIntentCount,
+        SUM(if((user_b_id = #{userBId} AND state = 2),1,0)) inServiceCount,
+        CONCAT(0) obligationCount,
+        SUM(if((user_b_id = #{userBId} AND state = 3),1,0)) toEvaluateCount,
+        SUM(if((user_b_id = #{userBId} AND state = 4),1,0)) cancelledCount
+        FROM app_rescue_indent
+    </select>
+
+<!--    List<AppCleanIndetEntity> newRescueIndentList(@Param("userBId")Integer userBId, @Param("type")Integer type, @Param("pagesize")Integer pagesize);-->
+    <select id="newRescueIndentList" resultType="AppCleanIndetEntity">
+        SELECT a.user_id userId,a.user_b_id userBId,a.type cleanType,
+        CASE a.type
+        WHEN 1 THEN '搭电'
+        WHEN 2 THEN '拖车'
+        WHEN 3 THEN '送胎'
+        ELSE '救援'
+        END AS cleanName,CONCAT('不限车型') carName,a.rescue_number cleanIndentNumber,price*0.8 amount,a.state indentState,b.url imgUrl,
+        CONCAT(1) isEvaluation,a.create_time createTime,CONCAT(3) resource,rescue_name rescueName,
+        current_position currentPosition
+        FROM app_rescue_indent as a
+        LEFT JOIN app_rescue_img as b on a.type = b.type
+        WHERE a.user_b_id = #{userBId} AND a.state &lt;&gt; ''
+        <if test="type != null and type != ''">
+            AND a.state = #{type}
+        </if>
+        order by createTime DESC
+        LIMIT #{pagesize},20
+    </select>
+</mapper>

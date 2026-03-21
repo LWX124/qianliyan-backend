@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppPushBillDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppPushBill">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<!--List<AppPushBill> findisPush(String s, String accId);-->
+	<select id="findisPush" resultType="AppPushBill">
+		SELECT * FROM app_push_bill WHERE user_id = #{s} AND  accid = #{accId}
+	</select>
+
+<!--	List<AppPushBill> selectNoPush();-->
+	<select id="selectNoPush" resultType="String">
+		SELECT user_id FROM app_push_bill WHERE push = 0
+	</select>
+
+	<!--List<Integer> selectPushMerchants(String id, Integer type);-->
+	<select id="selectPushMerchants" resultType="Integer">
+		SELECT user_id FROM app_push_bill WHERE accid = #{id} AND source = #{type}
+	</select>
+
+
+	<!--List<AppPushBill> selectMerchantsPush(String id);-->
+	<select id="selectMerchantsPush" resultType="AppPushBill">
+		SELECT b.video video,c.merchants_name merchantsName,a.deduction,a.create_time FROM app_push_bill as a
+			LEFT JOIN app_accident_record as b ON a.accid = b.id
+			LEFT JOIN app_b_user as c ON a.user_id = c.id
+				WHERE a.user_id = #{id} ORDER BY a.create_time DESC
+	</select>
+
+
+<!--	AppPushBill findpushBill(String accId, String type);-->
+	<select id="findpushBill" resultType="AppPushBill">
+		SELECT * FROM app_push_bill WHERE accid = #{accId} AND source = #{type}
+	</select>
+
+<!--	List<String> findPbImg(String accId);-->
+	<select id="findPbImg" resultType="String">
+		SELECT url FROM app_send_url WHERE type = #{type} AND send_id = #{accId}  AND source = 1 and url is not null
+	</select>
+
+
+<!--	List<AppPushBill> findBySourceAccid(String id, Integer type);-->
+	<select id="findBySourceAccid" resultType="AppPushBill">
+		SELECT * FROM app_push_bill WHERE accid = #{id} AND source = #{type}
+	</select>
+
+</mapper>

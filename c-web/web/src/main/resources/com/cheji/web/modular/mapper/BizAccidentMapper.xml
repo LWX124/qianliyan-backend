@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.BizAccidentMapper">
+
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.BizAccidentEntity">
+        <id column="id" property="id" />
+        <result column="openid" property="openid" />
+        <result column="video" property="video" />
+        <result column="lng" property="lng" />
+        <result column="lat" property="lat" />
+        <result column="checkId" property="checkId" />
+        <result column="status" property="status" />
+        <result column="reason" property="reason" />
+        <result column="address" property="address" />
+        <result column="realness" property="realness" />
+        <result column="isaddvideo" property="isaddvideo" />
+        <result column="georedis" property="georedis" />
+        <result column="delgeo" property="delgeo" />
+        <result column="videoId" property="video_id" />
+        <result column="createTime" property="createTime" />
+        <result column="checkTime" property="checkTime" />
+        <result column="version" property="version" />
+        <result column="carCount" property="carCount" />
+        <result column="realaddress" property="realAddress" />
+        <result column="realImg" property="realImg" />
+        <result column="accImg" property="accImg" />
+        <result column="lat2" property="lat2" />
+        <result column="lng2" property="lng2" />
+        <result column="topFlag" property="topFalg" />
+        <result column="realArrTime" property="realArrTime" />
+        <result column="thumbnail_flag" property="thumbnailFlag" />
+        <result column="thumbnail_url" property="thumbnailUrl" />
+    </resultMap>
+
+
+<!--    BizAccidentEntity findById(Integer accid);-->
+    <select id="findById" resultType="BizAccidentEntity">
+        select * from biz_accident where id = #{accid}
+    </select>
+
+
+</mapper>

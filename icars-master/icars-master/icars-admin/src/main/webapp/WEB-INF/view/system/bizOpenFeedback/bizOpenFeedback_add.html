@@ -1,0 +1,30 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="主键" underline="true"/>
+                            <#input id="account" name="反馈账户" underline="true"/>
+                            <#input id="content" name="内容"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="creTime" name="创建时间" underline="true"/>
+                            <#input id="type" name="1:车己理赔端  2：车己视频端" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="BizOpenFeedbackInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="BizOpenFeedbackInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/bizOpenFeedback/bizOpenFeedback_info.js"></script>
+@}

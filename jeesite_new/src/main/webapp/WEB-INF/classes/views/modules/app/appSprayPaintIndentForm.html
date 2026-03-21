@@ -1,0 +1,526 @@
+<% layout('/layouts/default.html', {title: '喷漆订单表管理', libs: ['validate']}){ %>
+<div class="main-content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <div class="box-title">
+                <i class="fa fa-list-alt"></i> ${text(appSprayPaintIndent.isNewRecord ? '新增喷漆订单表' : '编辑喷漆订单表')}
+            </div>
+            <div class="box-tools pull-right" id="myPhotoList">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+
+        <#form:form id="inputForm" model="${appSprayPaintIndent}" action="${ctx}/app/appSprayPaintIndent/save"
+        method="post" class="form-horizontal">
+        <div class="box-body">
+            <div class="form-unit">${text('下单图片')}</div>
+            <div>
+                <input type="hidden" id="sprayId" value="${appSprayPaintIndent.id}">
+                <ul id="imglist" class="connectedSortable sortable-wrapper">
+                </ul>
+            </div>
+            <br>
+            <div class="form-unit">${text('接车图片')}</div>
+            <div>
+                <ul id="pickCarImg" class="connectedSortable sortable-wrapper">
+                </ul>
+            </div>
+            <br>
+            <div class="form-unit">${text('服务图片')}</div>
+            <div>
+                <ul id="inServiceImg" class="connectedSortable sortable-wrapper">
+                </ul>
+            </div>
+            <br>
+            <div class="form-unit">${text('送车图片')}</div>
+            <div>
+                <ul id="sendCarImg" class="connectedSortable sortable-wrapper">
+                </ul>
+            </div>
+            <br>
+            <div id="myModal" class="modal" style="z-index: 1;">
+                <div id="innerdiv" style="position:absolute;">
+                    <img class="modal-content" id="img01" src="">
+                </div>
+                <div class="but" id="but1" style="width:40px;height:80px" style="z-index: 1;"></div>
+                <div class="but" id="but2" style="width:40px;height:80px" style="z-index: 1;"></div>
+                <div id="caption"></div>
+            </div>
+            <div class="form-unit">${text('基本信息')}</div>
+            <#form:hidden path="id"/>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('喷漆订单号')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="sprayPaintNumber" maxlength="200"
+                            readonly="${!appSprayPaintIndent.isNewRecord}" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('车牌')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="licensePlate" maxlength="20"
+                            readonly="${!appSprayPaintIndent.isNewRecord}" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('车辆品牌类型')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="brandType" maxlength="50" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('备注')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="remark" maxlength="255" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('接车地址')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="pickAddress" maxlength="200"
+                            readonly="${!appSprayPaintIndent.isNewRecord}" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('价格')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="price" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('是否报价')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:select path="isOffer" dictType="sys_yes_no"
+                            readonly="${!appSprayPaintIndent.isNewRecord}" blankOption="true" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('订单状态')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:select path="state" dictType="app_indent_spary_state"
+                            readonly="${!appSprayPaintIndent.isNewRecord}" blankOption="true" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('用户id')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="userId" maxlength="20" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('商户id')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="userBId" maxlength="20" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('是否评论')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:select path="isEvaluation" dictType="sys_yes_no" blankOption="true"
+                            readonly="${!appSprayPaintIndent.isNewRecord}" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('支付状态')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:select path="payState" dictType="app_pay_state"
+                            readonly="${!appSprayPaintIndent.isNewRecord}" blankOption="true" class="form-control"/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('有无保险')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:select path="insurance" dictType="sys_yes_no" blankOption="true"
+                            class="form-control"/>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('电话')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="phone" maxlength="12" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('支付订单编号')}：<i class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="payNumber" maxlength="50" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" title="">
+                            <span class="required hide">*</span> ${text('下单时间')}：<i
+                                class="fa icon-question hide"></i></label>
+                        <div class="col-sm-8">
+                            <#form:input path="createTime" maxlength="20" readonly="${!appSprayPaintIndent.isNewRecord}"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-sm btn-default" id="btnCancel"
+                            onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('关 闭')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </#form:form>
+</div>
+</div>
+<% } %>
+
+<style>
+    li {
+        float: left;
+        list-style: none;
+    }
+
+</style>
+<script>
+
+
+    $(function () {
+        //任何需要执行的js特效
+        var sprayId = $("#sprayId").val();
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appSprayPaintIndent/findImg?sprayId=' + sprayId + '&type=1',
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = "";
+                var list = result.imgList;
+                console.log(list)
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                        "<img height=\"120\" width=\"120\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                        "</li>"
+                }
+                $("#imglist").html(str)
+            }
+        })
+
+        pickCarImg(sprayId)
+
+    });
+
+
+    function pickCarImg(sprayId) {
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appSprayPaintIndent/findImg?sprayId=' + sprayId + '&type=2',
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = "";
+                var list = result.imgList;
+                console.log(list)
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                        "<img height=\"120\" width=\"120\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                        "</li>"
+                }
+                $("#pickCarImg").html(str)
+            }
+        })
+
+        inServiceImg(sprayId);
+    }
+
+    function inServiceImg(sprayId) {
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appSprayPaintIndent/findImg?sprayId=' + sprayId + '&type=3',
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = "";
+                var list = result.imgList;
+                console.log(list)
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                        "<img height=\"120\" width=\"120\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                        "</li>"
+                }
+                $("#inServiceImg").html(str)
+            }
+        })
+        sendCarImg(sprayId);
+    }
+
+    function sendCarImg(sprayId) {
+        $.ajax({
+            type: "GET",
+            url: '${ctx}/app/appSprayPaintIndent/findImg?sprayId=' + sprayId + '&type=4',
+            async: true,
+            //请求成功
+            success: function (result) {
+                var str = "";
+                var list = result.imgList;
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    str += "<li class=\"sortable-item\" picUrl=" + obj + ">" +
+                        "<img height=\"120\" width=\"120\" style=\"margin-left: 20px;margin-top: 10px\" src=" + obj + ">" +
+                        "</li>"
+                }
+                $("#sendCarImg").html(str)
+            }
+        })
+    }
+
+
+    var modal = document.getElementById('myModal');
+    $(function () {
+
+//图片的缩略图
+        var $img = $(".imagegallery li img");
+        $($img).each(function () {
+            var imgWidth = $(this).width();
+            var imgHeigth = $(this).height();
+            if (imgWidth > imgHeigth) {
+                $(this).css({
+                    marginLeft: '-' + parseInt((imgWidth / 2) * (80 / imgHeigth)) + 'px'
+                }).addClass("imgh");
+            } else if (imgWidth == imgHeigth || imgHeigth <= 80 || imgWidth <= 80) {
+                $(this).addClass("imge")
+            } else if (imgWidth < imgHeigth) {
+                $(this).css(
+                    "marginTop", '-' + parseInt((imgHeigth / 2) * (80 / imgWidth)) + 'px'
+                ).addClass("imgw");
+            }
+        });
+
+        $("body").on('click', 'img', function () {
+            modal.style.display = "block";
+            var s = $(this).attr("src");
+            var _this = $(this);
+            f_show(s);
+            //	f_move(_this);
+        });
+        $("body").on('click', '.but', function () {
+            modal.style.display = "block";
+        });
+
+    });
+    $("#myModal").click(function () {
+        modal.style.display = "none";
+    });
+
+    function f_show(s) {
+        $("<img/>").attr("src", s).load(function () {
+            var windowW = $(window).width();//获取当前窗口宽度
+            var windowH = $(window).height();//获取当前窗口高度
+            var realWidth = this.width;//获取图片真实宽度
+            var realHeight = this.height;//获取图片真实高度
+            var imgWidth, imgHeight;
+            var scale = 0.8;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
+//alert(realHeight>windowH*scale)
+            if (realHeight > windowH * scale) {//判断图片高度
+                imgHeight = windowH * scale;//如大于窗口高度，图片高度进行缩放
+                imgWidth = imgHeight / realHeight * realWidth;//等比例缩放宽度
+// alert(imgWidth>windowW*scale)
+                if (imgWidth > windowW * scale) {//如宽度扔大于窗口宽度
+                    imgWidth = windowW * scale;//再对宽度进行缩放
+                }
+            } else if (realWidth > windowW * scale) {//如图片高度合适，判断图片宽度
+                imgWidth = windowW * scale;//如大于窗口宽度，图片宽度进行缩放
+                imgHeight = imgWidth / realWidth * realHeight;//等比例缩放高度
+            } else {//如果图片真实高度和宽度都符合要求，高宽不变
+                imgWidth = realWidth;
+                imgHeight = realHeight;
+            }
+
+            var w = (windowW - imgWidth) / 2;//计算图片与窗口左边距
+//alert(w)
+            var h = (windowH - imgHeight) / 2;//计算图片与窗口上边距
+            $("#img01").attr("width", imgWidth)
+            var innerdiv = $("#innerdiv")
+            $(innerdiv).css({"top": h, "left": w});
+            $("#img01").attr("src", s)
+        });
+        var outterdiv = $("#myModal");
+        /*$(outerdiv).click(function(){//再次点击淡出消失弹出层
+        modal.style.display = "none";
+        });*/
+    }
+
+    // 	function f_move(_this){
+    // 		var cclass = _this.attr("class");
+    // //alert(cclass)
+    // 		var _class = cclass.split(" ")
+    // 		var _value = _this.attr("value");
+    // 		imgs = document.getElementsByClassName(_class[0]);//图片元素
+    // 		var tab = _value;
+    // 		var max = imgs.length-1;
+    //
+    // //绑定左右键键盘，切换图片
+    // 		$(window).keydown(function(e){
+    // 			switch ((e||event).keyCode) {
+    // 				case 37:
+    // 					if(tab > 0){
+    // 						tab -- ;
+    // 						var _src = imgs[tab].src;
+    // 						f_show(_src)
+    // 					}else{
+    // 						tab = max;
+    // 						var _src = imgs[tab].src;
+    // 						f_show(_src)
+    // 					}
+    // 					break;
+    // 				case 39:
+    // 					if(tab < max){
+    // 						tab ++ ;
+    // 						var _src = imgs[tab].src;
+    // 						f_show(_src)
+    // 					}else{
+    // 						tab = 0;
+    // 						var _src = imgs[tab].src;
+    // 						f_show(_src)
+    // 					}
+    // 					break;
+    // 				case 27://esc退出模态框
+    // 					modal.style.display = "none";
+    // 					break;
+    // 			}
+    // 		});
+    // //按钮切换图片
+    // 		$("#but1").click(function(){
+    // 			if(tab > 0){
+    // 				tab -- ;
+    // 				var _src = imgs[tab].src;
+    // 				f_show(_src)
+    // 			}else{
+    // 				tab = max;
+    // 				var _src = imgs[tab].src;
+    // 				f_show(_src)
+    // 			}
+    //
+    // 		});
+    // 		$("#but2").click(function(){
+    // 			if(tab < max){
+    // 				tab ++ ;
+    // 				var _src = imgs[tab].src;
+    // 				f_show(_src)
+    // 			}else{
+    // 				tab = 0;
+    // 				var _src = imgs[tab].src;
+    // 				f_show(_src)
+    // 			}
+    //
+    // 		});
+    // 	}
+
+    // 获取 <span> 元素，设置关闭模态框按钮
+    // var span = document.getElementsByClassName("close")[0];
+    //
+    // // 点击 <span> 元素上的 (x), 关闭模态框
+    // span.onclick = function() {
+    // 	modal.style.display = "none";
+    // }
+
+
+    $("#inputForm").validate({
+        submitHandler: function (form) {
+            js.ajaxSubmitForm($(form), function (data) {
+                js.showMessage(data.message);
+                if (data.result == Global.TRUE) {
+                    js.closeCurrentTabPage(function (contentWindow) {
+                        contentWindow.page();
+                    });
+                }
+            }, "json");
+        }
+    });
+
+
+</script>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppBUserDao">
+
+	<!-- 查询数据
+	<select id="findList" resultType="AppBUser">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<!--List<String> findBrand(String id);-->
+	<select id="findBrand" resultType="String">
+		SELECT brand_id FROM app_merchants_brand WHERE user_b_id = #{id} AND state = 1
+	</select>
+
+	<select id="findByUserId" parameterType="string" resultType="appLableDetailsReviewTree">
+		select * from app_lable_details_review_tree t1
+		where t1.`show`=1
+		and t1.user_b_id=#{id}
+	</select>
+
+	<select id="selectFotUpdate" parameterType="int" resultType="AppBUser">
+		select * from app_b_user t1
+        where t1.id=#{userId} for update
+	</select>
+
+	<select id="findOne" parameterType="string" resultType="AppBUser">
+		select * from app_b_user t1
+        where t1.username=#{phone}
+	</select>
+
+<!--	AppBUser updateBalance(Integer userBId);-->
+	<select id="updateBalance" resultType="AppBUser">
+		SELECT * FROM app_b_user WHERE id = #{userBId} FOR UPDATE
+	</select>
+
+<!--	List<Integer> findAllMerchants();-->
+	<select id="findAllMerchants" resultType="Integer">
+		SELECT id FROM app_b_user
+	</select>
+
+	<select id="findUpMerchants" resultType="String">
+		SELECT up_id upId FROM app_b_user where up_id is not null
+	</select>
+
+<!--	List<AppBUser> findIsCompany();-->
+	<select id="findIsCompany" resultType="AppBUser">
+		SELECT id,merchants_name merchantsName,address,username FROM app_b_user WHERE is_company = 1 AND state = 1
+	</select>
+
+
+<!--	AppBUser findBByPhone(String phone);-->
+	<select id="findBByPhone" resultType="AppBUser">
+		select * from app_b_user where username = #{phone}
+	</select>
+
+<!--	String selectBUserMessage(Integer id);-->
+	<select id="selectBUserMessage" resultType="Integer">
+		SELECT user_b_id FROM app_user_b_message as a
+	WHERE a.id =  1
+	</select>
+
+
+<!--	void findJsUpload(String id, String s);-->
+
+<!--	<update id="findJsUpload" >-->
+<!--			update app_file_url set remarks = #{s} where file_id=#{id}-->
+<!--	</update>-->
+
+<!--	void insertFileUrl(String id, String s);-->
+	<insert id="insertFileUrl">
+		insert into app_file_url (file_id,url,type)
+		value (#{id},#{s},1)
+	</insert>
+
+<!--	String findNewUrl(String uploadId);-->
+	<select id="findNewUrl" resultType="String">
+		SELECT a.url FROM app_file_url as a
+		 LEFT JOIN js_sys_file_upload as b on a.file_id = b.file_id
+		 WHERE b.id = #{uploadId} and  a.type = 1
+	</select>
+
+	<select id="findNewUrl1" resultType="String">
+		SELECT a.url FROM app_file_url as a
+		 LEFT JOIN js_sys_file_upload as b on a.file_id = b.file_id
+		 WHERE b.id = #{uploadId} and  a.type = 1
+	</select>
+
+	<select id="findImgsByAuctionId" resultType="String">
+		SELECT a.url FROM app_file_url as a
+		 LEFT JOIN js_sys_file_upload as b on a.file_id = b.file_id
+		 WHERE b.id = #{uploadId} and  a.type = 1
+	</select>
+
+	<select id="findRep" resultType="String">
+		SELECT a.id FROM app_file_url as a
+		 WHERE file_id = #{fileId}
+	</select>
+
+
+
+<!--	<select id="findDriRep" resultType="String">-->
+<!--		SELECT a.user_id FROM app_auction_driving as a-->
+<!--		WHERE a.user_id = #{userId}-->
+<!--	</select>-->
+
+
+<!--	Integer findShelvesCount();-->
+	<select id="findShelvesCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_b_user WHERE state = 1
+	</select>
+
+<!--	Integer findOutCount();-->
+	<select id="findOutCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_b_user WHERE state &lt;&gt; 1
+	</select>
+
+<!--	Integer findAllCount();-->
+	<select id="findAllCount" resultType="Integer">
+		SELECT COUNT(1) FROM app_b_user
+	</select>
+
+
+<!--	List<String> findMerchantsInsert(String id);-->
+	<select id="findMerchantsInsert" resultType="String">
+		SELECT insurance_id FROM app_insurance_merchants WHERE user_b_id = #{id}
+	</select>
+
+
+<!--	AppIndent findNumberAndMoney(String id);-->
+	<select id="findNumberAndMoney" resultType="AppIndent">
+		SELECT COUNT(1) brandId,COALESCE(SUM(fixloss),0) balance FROM app_indent WHERE user_b_id = #{id}
+	</select>
+
+
+<!--	String getCity(String id);-->
+	<select id="getCity" resultType="String">
+
+		SELECT city_name FROM app_city WHERE citycode = #{id} limit 0,1
+
+	</select>
+<!--	AppBUser finUserByUpId(String id1);-->
+	<select id="finUserByUpId" resultType="AppBUser">
+
+		SELECT id, balance, up_id upId, username, name FROM app_b_user WHERE up_id = #{id1}
+
+	</select>
+
+	<select id="findAllByState" resultType="AppBUser">
+
+		SELECT * FROM app_b_user WHERE state = 1 and type = 1
+
+	</select>
+
+
+
+
+</mapper>
+
+
+

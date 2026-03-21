@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionOrderMapper">
+
+
+    <select id="countOrderByUser" resultType="Integer">
+        SELECT  COUNT(id) FROM app_auction_order t1
+                          left join app_auction_bail_log t3 on t1.car_id=t3.car_id and t3.user_id=#{userId}
+        WHERE t1.user_id = #{userId}
+          AND t1.state = #{state}
+          and t3.out_trade_no is null
+    </select>
+</mapper>

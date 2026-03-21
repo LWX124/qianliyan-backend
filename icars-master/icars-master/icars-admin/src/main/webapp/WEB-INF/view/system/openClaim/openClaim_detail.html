@@ -1,0 +1,134 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>理赔单明细</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">订单号</label>
+                                    <div class="col-sm-8">
+                                        <input id="orderno" class="form-control" readonly type="text" value="${item.orderno}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-5 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">客户姓名</label>
+                                    <div class="col-sm-7">
+                                        <input id="name" class="form-control" readonly type="text" value="${item.name}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-5 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">客户电话</label>
+                                    <div class="col-sm-7">
+                                        <input id="phone" class="form-control" readonly type="text" value="${item.phone}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-5 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">理赔状态</label>
+                                    <div class="col-sm-7">
+                                        <input id="statusName" class="form-control" readonly type="text" value="${item.statusName}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">车牌号</label>
+                                    <div class="col-sm-8">
+                                        <input id="cph" class="form-control" readonly type="text" value="${item.cph}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">车架号</label>
+                                    <div class="col-sm-8">
+                                        <input id="cjh" class="form-control" readonly type="text" value="${item.cjh}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-5 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">汽车品牌</label>
+                                    <div class="col-sm-7">
+                                        <input id="name" class="form-control" readonly type="text" value="${item.qcpp}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">承诺客户</label>
+                                    <div class="col-sm-10">
+                                        <textarea id="desc" class="form-control" readonly rows="1">${item.promise}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">事故描述</label>
+                                    <div class="col-sm-10">
+                                        <textarea id="desc" class="form-control" readonly rows="3">${item.desc}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#viewImage" data-toggle="tab">
+                        现场照片
+                    </a>
+                </li>
+                <li><a href="#detailImage" data-toggle="tab">理赔资料</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="viewImage">
+                    @if(item.claimImgList != null){
+                        @for(imgurl in item.claimImgList){
+                            <img src="${imgurl}" class="img-thumbnail" style="width: 450px;height: 480px;">
+                        @}
+                    @}else {
+                        暂无图片可以查看
+                    @}
+                </div>
+                <div class="tab-pane fade" id="detailImage">
+                    @if(item.detailImgList != null){
+                        @for(imgurl in item.detailImgList){
+                            <img src="${imgurl}" class="img-thumbnail" style="width: 450px;height: 480px;">
+                        @}
+                    @}else {
+                         暂无图片可以查看
+                    @}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/modular/system/openClaim/openClaim.js"></script>
+@}

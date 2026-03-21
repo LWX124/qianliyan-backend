@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/common/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../static/common/jqueryui/jquery-ui.css">
+</head>
+<body>
+<input type="hidden" value="${upId}"   id="method1">
+<br>
+<form class="layui-form" lay-filter="formTest" action="">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">增加时间：</label>
+        <div class="layui-input-inline">
+            <input  name="title" required  lay-verify="required" placeholder="天数" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input type="hidden" name="upId" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+<script src="../../../static/common/layui/layui.js" charset="utf-8"></script>
+<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+<script src="../../../static/common/js/jquery-1.11.1.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<script type="text/javascript" src="../../../static/common/layui/xm-select.js"></script>
+
+
+<script>
+
+    var upId = '${upId}';
+
+
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var field = data.field;
+            //提交操作
+            $.ajax({
+                type:"GET",
+                url:"${ctx}/app/appAuctionUp/saveEndTime?title=" + field.title + '&upId=' + upId + "",
+                async: false,
+                //请求成功
+                success: function (result) {
+                        layer.msg(result.message)
+                },
+                error:function(result){
+                    layer.msg("操作失败请联系管理员")
+                }
+            });
+            return false;
+        });
+
+    });
+
+
+
+
+
+</script>
+</body>
+</html>

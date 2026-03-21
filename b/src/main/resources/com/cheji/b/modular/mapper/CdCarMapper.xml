@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.CdCarMapper">
+
+
+
+<!--    List<CdCarEntity> findBylevelAndPar(@Param("hierarchy")Integer hierarchy, @Param("parentId")Integer parentId);-->
+    <select id="findBylevelAndPar" resultType="CdCarDto">
+        SELECT * FROM cd_car WHERE   hierarchy = #{hierarchy}
+        <if test="parentId != null and parentId != ''">
+            AND parent_id = #{parentId}
+        </if>
+
+    </select>
+
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppAuctionUpDao">
+
+	<!-- 查询数据
+	<select id="findList" resultType="AppAuctionUp">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="findTodayUpCar" resultType="AppAuctionUp">
+		select t1.* from app_auction_up t1 left join app_auction t2 on t2.id=t1.car_id
+		         where t2.car_state = 3 and t1.begin_time IS NULL
+				and t2.source_type = 1
+	</select>
+
+	<select id="findTodayEndCar" resultType="AppAuctionUp">
+		select t1.* from app_auction_up t1 left join app_auction t2 on t2.id=t1.car_id
+		         where t2.up_state=1 and t2.car_state=7 and to_days(t1.end_time)=to_days(now())
+	</select>
+
+	<select id="findAuctionUpByCarId" resultType="AppAuctionUp">
+		select t1.* from app_auction_up t1
+		 left join app_auction t2 on t2.id=t1.car_id
+		where t2.up_state='1' and t2.car_state='7' and t1.car_id=#{carId}
+	</select>
+
+	<select id="findAuctionUp" resultType="AppAuctionUp">
+		select * from app_auction_up where  car_id=#{carId}
+	</select>
+
+	<select id="findListByCodeAndName" resultType="AppAuctionUp">
+		SELECT
+		a.id as id,
+		a.up_id as upId,
+		a.create_time as createTime,
+		a.up_time as upTime,
+		a.end_time as endTime,
+		a.update_time as updateTime,
+		t2.up_state as upState,
+		t2.car_state as carState,
+		a.auction_state as auctionState,
+		a.auction_days as auctionDays,
+		a.transfer_state as transferState,
+-- 		a.audit_state as auditState,
+		a.price as upId,
+		a.service_fee as serviceFee,
+		a.other_fee as otherFee,
+		a.brand as upId,
+		a.explain as upId,
+		a.counselor_id
+         FROM app_auction_up a
+		left join app_auction t2 on a.car_id=t2.id
+		<where>
+			<if test="auditState != null and auditState != ''">
+				AND t2.car_state = #{auditState}
+			</if>
+			<if test="upId != null and upId != ''">
+				AND a.id = #{upId}
+			</if>
+			<if test="upState != null and upState != ''">
+				AND t2.up_state = #{upState}
+			</if>
+
+		</where>
+		<if test="page != null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+
+</mapper>

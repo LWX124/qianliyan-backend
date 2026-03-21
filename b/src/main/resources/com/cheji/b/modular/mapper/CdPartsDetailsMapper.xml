@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.CdPartsDetailsMapper">
+
+<!--    List<CdPartsDetailsEntity> addProcurementAndType(Integer indentId, int type);-->
+        <select id="addProcurementAndType" resultType="CdPartsDetailsEntity">
+            SELECT  * FROM cd_parts_details WHERE indent_id = #{indentId} AND type = #{type}
+        </select>
+</mapper>

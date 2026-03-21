@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.CdRepairOrderMapper">
+
+
+<!--    CdPartsDetailsEntity selectIndentByType(@Param("indentId") Integer indentId,@Param("type") Integer type);-->
+    <select id="selectIndentByType" resultType="CdRepairOrderEntity">
+        SELECT * FROM cd_repair_order WHERE indent_id = #{indentId} AND type = #{type}
+    </select>
+
+
+<!--    Integer findSaleFood(Integer indentId);-->
+    <select id="findSaleFood" resultType="Integer">
+        SELECT COUNT(1) FROM cd_parts_details WHERE indent_id = #{indentId} AND state = 1
+    </select>
+
+<!--    BigDecimal findOrderMoney(@Param("indentId")Integer indentId, @Param("i")int i);-->
+    <select id="findOrderMoney" resultType="BigDecimal">
+        SELECT work_price FROM cd_repair_order WHERE indent_id = #{indentId} AND type = #{i}
+    </select>
+
+<!--    BigDecimal selectWorkPrice(Integer indentId);-->
+    <select id="selectWorkPrice" resultType="BigDecimal">
+        SELECT SUM(work_price) FROM cd_repair_order WHERE indent_id  = #{indentId}
+    </select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppPhotoMerMapper">
+
+
+
+<!--    List<MerchantsInfoBannerEntity> selectBrannerList(String merchantsCode);-->
+    <select id="selectBrannerList" resultType="MerchantsInfoBannerEntity">
+
+            SELECT id,url,`index` FROM app_photo_mer WHERE up_id = #{merchantsCode}
+
+    </select>
+
+</mapper>

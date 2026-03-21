@@ -1,0 +1,48 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<div class="ibox-content">
+			<div class="row row-lg">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="col-sm-3 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">省市区</label>
+								<div class="col-sm-9">
+									<div id="distpicker">
+										<input id="city-picker3" class="form-control" readonly type="text" value="" data-toggle="city-picker">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<#NameCon id="name" name="名称" placeholder="理赔老师姓名/姓名全拼/手机号"/>
+						</div>
+						<div class="col-sm-2">
+							<#button name="搜索" icon="fa-search" clickFun="MgrAccdPushClaims.search()"/>
+						</div>
+					</div>
+					<div class="hidden-xs" id="managerTableToolbar" role="group">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">事故等级</label>
+							<div class="col-sm-3">
+								<select id="accLevel" name="accLevel" class="selectpicker show-tick form-control" data-live-search="false">
+								</select>
+							</div>
+						</div>
+						@if(shiro.hasPermission("/accid/pushClaims")){
+						<#button name="推送理赔顾问" icon="fa-check-circle" clickFun="MgrAccdPushClaims.pushClaims()" />
+						@}
+					</div>
+					<#table id="managerAccdPushClaimsTable" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/biz/accd/accid_push_claims.js"></script>
+<script src="${ctxPath}/static/js/citypicker/city-picker.data.js"></script>
+<script src="${ctxPath}/static/js/citypicker/city-picker.js"></script>
+<script src="${ctxPath}/static/js/citypicker/main.js"></script>
+@}

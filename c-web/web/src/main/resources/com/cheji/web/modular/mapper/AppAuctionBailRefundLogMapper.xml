@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionBailRefundLogMapper">
+
+    <select id="selectByOutTradeNo" resultType="AppAuctionBailRefundLogEntity">
+        SELECT * FROM app_auction_bail_refund_log t1
+        WHERE  t1.out_trade_no = #{outTradeNo}
+        limit 1
+    </select>
+
+
+
+</mapper>

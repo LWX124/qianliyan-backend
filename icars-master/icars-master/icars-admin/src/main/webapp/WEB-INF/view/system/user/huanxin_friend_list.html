@@ -1,0 +1,61 @@
+@layout("/common/_container.html"){
+
+
+<script type="text/javascript">
+    $(function () {
+
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+        $("#btn_close").bind("click", function () {
+            parent.layer.close(index);
+        });
+
+        initZtree();
+    });
+
+    function initZtree() {
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType: {
+                    "Y": "",
+                    "N": ""
+                }
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+
+        var ztree = new $ZTree("zTree", "/mgr/huanxinFriendList/${userId}");
+        ztree.setSettings(setting);
+        ztree.init();
+    }
+</script>
+
+
+<!-- 配置grid -->
+<div class="container"
+     style="padding:  0px 10px !important; margin-top: -10px; text-align: center !important;">
+    <div class="row">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>${userAccount!}</h5>
+            </div>
+            <div class="ibox-content">
+                <ul id="zTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-sm btn-danger" type="button" id="btn_close">
+                <i class="ace-icon fa fa-close bigger-110"></i> 关闭
+            </button>
+        </div>
+    </div>
+</div>
+
+@}

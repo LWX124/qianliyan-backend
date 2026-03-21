@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppRepeatAccidentDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppRepeatAccident">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<!--AppRepeatAccident updateRepaer(String reapetAccId, String source,String accId);-->
+	<select id="updateRepaer" resultType="AppRepeatAccident">
+		SELECT * FROM app_repeat_accident WHERE repeat_id = #{reapetAccId}  AND repeat_srouce = #{source} AND accident_id = #{accId}
+	</select>
+
+	<!--List<AppRepeatAccident> selectAllrepeat(String accId, String type);-->
+	<select id="selectAllrepeat" resultType="AppRepeatAccident">
+		SELECT * FROM app_repeat_accident WHERE accident_id = #{accId} AND  accident_source = #{type}
+	</select>
+	
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizMaintainPackageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizMaintainPackage">
+        <id column="id" property="id" />
+        <result column="package_name" property="packageName" />
+        <result column="detail" property="detail" />
+        <result column="price" property="price" />
+        <result column="prePrice" property="prePrice" />
+        <result column="img" property="img" />
+        <result column="pstatus" property="pstatus" />
+        <result column="package_type" property="packageType" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, package_name as packageName, detail, price, prePrice, pstatus, create_time as createTime, img, package_type as packageType
+    </sql>
+
+    <select id="selectPage" resultType="com.stylefeng.guns.modular.system.model.BizMaintainPackage">
+        select
+        <include refid="Base_Column_List" />
+        from biz_maintain_package
+        <where>
+            <if test="condition != null and condition != ''">
+                and (package_name like CONCAT('%',#{condition},'%') or detail like CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="bizMaintainPackage.pstatus != null">
+                and pstatus = #{bizMaintainPackage.pstatus}
+            </if>
+            <if test="bizMaintainPackage.packageType != null">
+                and package_type = #{bizMaintainPackage.packageType}
+            </if>
+        </where>
+        ORDER BY pstatus ,createTime asc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,153 @@
+<% layout('/layouts/default.html', {title: '用户信息表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('用户信息表管理')}
+				<i class="fa "></i> ${text('        商户上架：')}<font style="color: red">${appBUser.shelvesCount}</font>
+				<i class="fa "></i> ${text('  商户下架：')}<font style="color: red">${appBUser.outCount}</font>
+				<i class="fa "></i> ${text('  商户总数：')}<font style="color: red">${appBUser.allCount}</font>
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appBUser:edit')){ %>
+				<a href="${ctx}/app/appBUser/form" class="btn btn-default btnTool" title="${text('新增用户信息表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appBUser}" action="${ctx}/app/appBUser/listData" method="post" class="form-inline hide"
+			data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+			<div class="form-group">
+				<label class="control-label">${text('商户名称')}：</label>
+				<div class="control-inline">
+					<#form:input path="merchantsName" maxlength="20" class="form-control width-120"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('账号')}：</label>
+				<div class="control-inline">
+					<#form:input path="username" maxlength="50" class="form-control width-120"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('地址')}：</label>
+				<div class="control-inline">
+					<#form:input path="address" maxlength="50" class="form-control width-120"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('商户类型')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="type" dictType="app_merchants_type" blankOption="true" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('上架状态')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="state" dictType="app_merchants_state" blankOption="true" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('商户等级')}：</label>
+				<div class="control-inline">
+					<#form:input path="merchantsLevel" maxlength="11" class="form-control width-120"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('城市')}：</label>
+				<div class="control-inline width-120">
+					<#form:select path="city" dictType="app_b_city" blankOption="true" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+				<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+			</div>
+		</#form:form>
+		<table id="dataGrid"></table>
+		<div id="dataGridPage"></div>
+	</div>
+</div>
+</div>
+<% } %>
+<script>
+    // 初始化DataGrid对象
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            {header:'${text("商户名称")}', name:'merchantsName', index:'a.merchants_name', width:180, align:"left", frozen:true, formatter: function(val, obj, row, act){
+                    return '<a href="${ctx}/app/appPushBill/list?id='+row.id+'" class="btnList" data-title="${text("查看推送给用户")}">'+(val||row.id)+'</a>';
+                }},
+            {header:'${text("账号")}', name:'username', index:'a.username', width:120, align:"center"},
+            {header:'${text("服务分")}', name:'serviceSorce', index:'a.service_sorce', width:90, align:"center"},
+            {header:'${text("效率分")}', name:'effciencyScore', index:'a.effciency_score', width:90, align:"center"},
+            {header:'${text("地址")}', name:'address', index:'a.address', width:180, align:"left"},
+            {header:'${text("商户类型")}', name:'type', index:'a.type', width:110, align:"center", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('app_merchants_type')}, val, '${text("未知")}', true);
+                }},
+            {header:'${text("商户品牌")}', name:'brandName', index:'c.name', width:120, align:"left"},
+            {header:'${text("营业时间")}', name:'businessStart', index:'a.business_start', width:90, align:"left"},
+            {header:'${text("关门时间")}', name:'businessEnd', index:'a.business_end', width:90, align:"left"},
+            {header:'${text("商户余额")}', name:'balance', index:'a.balance', width:90, align:"left"},
+            {header:'${text("商户电话")}', name:'merchantsPhone', index:'a.merchants_phone', width:120, align:"center"},
+            {header:'${text("商户等级")}', name:'merchantsLevel', index:'a.merchants_level', width:90, align:"left", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('app_merchants_level')}, val, '${text("暂无")}', true);
+                }},
+            {header:'${text("是否添加到GEO中")}', name:'addgeo', index:'a.addgeo', width:130, align:"center", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("暂无")}', true);
+                }},
+            {header:'${text("操作")}', name:'actions', width:140, sortable:false, title:false, formatter: function(val, obj, row, act){
+                    var actions = [];
+                <% if(hasPermi('app:appBUser:edit')){ %>
+                        if (row.status!=1){
+                            actions.push('<a href="${ctx}/app/appBUser/passAccount?id=' + row.id + '" class="btnList" title="${text("审核账户通过")}" data-confirm="${text("确认审核账户通过吗？")}">审核账户</a>&nbsp;');
+                        }else {
+                            actions.push('<a href="${ctx}/app/appBUser/form?id='+row.id+'" class="btnList" title="${text("编辑用户信息表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+                            if (row.addgeo==0) {
+                                actions.push('<a href="${ctx}/app/appBUser/addgeo?id=' + row.id + '" class="btnList" title="${text("添加到收事故")}" data-confirm="${text("确认要添加商户吗？")}"><i class="icon-note"></i></a>&nbsp;');
+                            }else{
+                                actions.push('<a href="${ctx}/app/appBUser/addgeo?id=' + row.id + '" class="btnList" title="${text("从收事故中移除")}" data-confirm="${text("确认要移除商户吗？")}"><i class="icon-loop"></i></a>&nbsp;');
+                            }
+                            if(row.state==1){
+                                actions.push('<a href="${ctx}/app/appBUser/updateState?id=' + row.id + '" class="btnList" title="${text("从App下架商户")}" data-confirm="${text("确认要下架商户吗？")}"><i class="icon-arrow-down-circle "></i></a>&nbsp;');
+                            }else{
+                                 actions.push('<a href="${ctx}/app/appBUser/updateState?id=' + row.id + '" class="btnList" title="${text("上架商户到App")}" data-confirm="${text("确认要上架商户吗？")}"><i class="icon-arrow-up-circle"></i></a>&nbsp;');
+                                //actions.push('<a onclick="addBusinessConfirm()" class="btnList" title="${text("上架商户到App")}" data-confirm="${text("确认要上架商户吗？")}"><i class="icon-arrow-up-circle"></i></a>&nbsp;');
+                            }
+
+                           // actions.push('<a href="${ctx}/app/appMerchantsCommentsTree/list?id='+row.id+'" class="btnList" title="${text("查看商户评论")}"><i class="icon-bubble"></i></a>&nbsp;');
+							actions.push('<a href="#" onclick="addBusinessConfirm(\''+row.id+'\')" title="${text("添加商户比例")}"><i class="icon-bubble"></i></a>&nbsp;');
+							//actions.push('<a href="#" title="${text("结算用户金额")}" onclick="addMore(\''+row.id+'\')"><i class="icon-options-vertical"></i></ a>&nbsp;')
+
+
+							actions.push('<a href="${ctx}/app/appBUser/banLogin?id=' + row.id + '" class="btnList" title="${text("禁止登陆")}" data-confirm="${text("确定要禁止商户登陆吗？")}"><i class="icon-target"></i></a>&nbsp;');
+                        }
+                    <% } %>
+                    return actions.join('');
+                }}
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function(data){
+
+        }
+    });
+
+	function addBusinessConfirm(id){
+
+		console.log(id);
+		layer.open({
+			type: 2,
+			title: '添加商户比例',
+			shadeClose: true,
+			shade: 0.8,
+			area: ['50%', '40%'],
+			content: '${ctx}/app/appBusinessConfirm/addBusinessList?userBId='+id+'' //iframe的url
+		});
+
+	}
+
+
+
+
+</script>

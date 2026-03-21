@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.UserPlusRoyaltyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.UserPlusRoyaltyEntity">
+        <id column="id" property="id" />
+        <result column="royalty_user_id" property="royaltyUserId" />
+        <result column="plus_user_id" property="plusUserId" />
+        <result column="create_time" property="createTime" />
+        <result column="amount" property="amount" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, royalty_user_id AS royaltyUserId, plus_user_id AS plusUserId, create_time AS createTime, amount
+    </sql>
+
+<!--    BigDecimal findtodayRoyalty(Integer id);-->
+    <select id="findtodayRoyalty" resultType="BigDecimal">
+        SELECT IFNULL(SUM(amount),0) FROM app_user_plus_royalty WHERE royalty_user_id = #{id} AND to_days(create_time) = to_days(now())
+    </select>
+<!--    BigDecimal findMonthRoyalty(Integer id);-->
+    <select id="findMonthRoyalty" resultType="BigDecimal">
+        SELECT IFNULL(SUM(amount),0) FROM app_user_plus_royalty WHERE royalty_user_id = #{id} AND DATE_FORMAT(create_time, '%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+    </select>
+<!--    BigDecimal findRoyalty(Integer id);-->
+    <select id="findRoyalty" resultType="BigDecimal">
+        SELECT IFNULL(SUM(amount),0) FROM app_user_plus_royalty WHERE royalty_user_id = #{id}
+    </select>
+</mapper>

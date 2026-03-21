@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizAlipayBillMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizAlipayBill">
+        <id column="id" property="id" />
+        <result column="accid" property="accid" />
+        <result column="status" property="status" />
+        <result column="pay_time" property="payTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, accid, status, pay_time, create_time
+    </sql>
+
+    <sql id="Combine_Column_List">
+        a.id, a.accid, a.status, a.pay_time as payTime, a.create_time as createTime, b.response_info as responseInfo, b.sub_code as subCode, b.sub_msg as subMsg, b.out_biz_no as outBizNo, b.prize_amount as prizeAmount, b.alipay_account as alipayAccount
+    </sql>
+
+    <sql id="Combine1_Column_List">
+        a.id, a.accid, a.status, a.pay_time as payTime, a.create_time as createTime, b.response_info as responseInfo, b.sub_code as subCode, b.sub_msg as subMsg, b.out_biz_no as outBizNo, b.prize_amount as prizeAmount
+    </sql>
+
+    <sql id="RePay_Column_List">
+        a.id, a.accid, a.status, a.pay_time as payTime, a.create_time as createTime,d.alipay_account as alipayAccount
+    </sql>
+
+    <select id="selectListForPage" resultType="map">
+        select
+        <include refid="Combine_Column_List" />
+        from biz_alipay_bill a inner join biz_accident c on a.accid = c.id inner join biz_wx_user d on c.openid = d.openid left join biz_alipay_pay_record b on a.id = b.bill_id
+        <where>
+            <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+                and (a.pay_time between CONCAT(#{startTime},' 00:00:00') and CONCAT(#{endTime},' 00:00:00'))
+            </if>
+            <if test="payStatus != null">
+                and a.status = #{payStatus}
+            </if>
+            <if test="alipayAccount != null and alipayAccount != ''">
+                and b.alipay_account = #{alipayAccount}
+            </if>
+        </where>
+        ORDER BY a.create_time desc
+    </select>
+
+    <select id="selectListForRePay" resultType="com.stylefeng.guns.modular.system.model.BizAlipayBill">
+        select
+        <include refid="RePay_Column_List" />
+        from biz_alipay_bill a inner join biz_accident c on a.accid = c.id inner join biz_wx_user d on c.openid = d.openid
+        WHERE
+        a.status = #{status}
+    </select>
+
+    <select id="selectListForPageByOpenid" resultType="map">
+        select
+        <include refid="Combine1_Column_List" />
+        from biz_accident d inner join biz_alipay_bill  a on d.id = a.accid and a.status = 0 inner join biz_alipay_pay_record b on a.id = b.bill_id
+        WHERE
+        d.openid = #{openid}
+        ORDER BY a.pay_time desc
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="bizAlipayBill.id" keyColumn="id"  parameterType="com.stylefeng.guns.modular.system.model.BizAlipayBill" >
+		insert into biz_alipay_bill(accid, status, pay_time, create_time)
+		values
+		(#{bizAlipayBill.accid},#{bizAlipayBill.status},#{bizAlipayBill.payTime},#{bizAlipayBill.createTime})
+	</insert>
+</mapper>

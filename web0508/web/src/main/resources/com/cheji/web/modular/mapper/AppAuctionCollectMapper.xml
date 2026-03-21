@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionCollectMapper">
+    <select id="isCollect" resultType="AppAuctionCollectEntity">
+
+        SELECT * FROM app_auction_collect
+        where user_id=#{id} and car_id=#{carId}
+
+    </select>
+</mapper>

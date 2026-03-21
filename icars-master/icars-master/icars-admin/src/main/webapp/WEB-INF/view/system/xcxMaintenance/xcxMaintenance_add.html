@@ -1,0 +1,130 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="xcxMaintenanceForm">
+
+            <input type="hidden" id="id" value="">
+
+            <div class="row">
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <#SelectCon id="type" name="类别" underline="true">
+                            <option value="1">保养</option>
+                            <option value="2">油漆</option>
+                            <option value="3">钣金</option>
+                        </#SelectCon>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">标题</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="title" name="title" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">价格</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="price" name="price" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">图片链接</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="imageUrl" name="imageUrl" type="text">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">套餐内容</label>
+                    <div class="col-sm-10">
+                        <div id="content" class="editorHeight">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">使用车型</label>
+                    <div class="col-sm-10">
+                        <div id="carType" class="editorHeight">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row btn-group-m-t">
+            <div class="col-sm-10">
+                <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="XcxMaintenanceInfoDlg.addSubmit()"/>
+                <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="XcxMaintenanceInfoDlg.close()"/>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script src="${ctxPath}/static/modular/system/xcxMaintenance/xcxMaintenance_info.js"></script>
+<script>
+       var url = '';
+$("#uploadImage").fileupload({
+    url : "/security/company/uploadFile",
+    dataType : 'json',
+    autoUpload : false,
+    acceptFileTypes : /(gif|jpe?g|png)$/i,
+    maxFileSize : 1000000, // 1 MB
+    imageMaxWidth : 100,
+    imageMaxHeight : 100,
+    messages : {
+        acceptFileTypes : '文件类型不匹配',
+        maxFileSize : '文件过大',
+        minFileSize : '文件过小'
+    }
+}).on("fileuploadadd", function(e, data) {
+    // 当文件添加上去时候调用
+    $("#titleImageError").html("");
+    data.submit()
+}).on("fileuploaddone", function(e, data) {
+    // 上传完成时调用
+    if (data.result.returnState == "ERROR") {
+        alert("上传失败")
+        return;
+    }
+    url = data.result.returnData.url;
+});
+
+function updateMsg() {
+    $.ajax({
+        url : "/security/company/updateInfo",
+        data : {
+            id : $("#companyId").val(),
+            image : url,
+            companyName : $("#companyName").val(),
+            companySite : $("#companySite").val(),
+            companyLinker : $("#companyLinker").val(),
+            companyTel : $("#companyTel").val()
+        },
+        type : "post",
+        success : function(data) {
+            if (data.returnState == "OK") {
+                layer.msg('操作成功', {
+                    icon : 6,
+                    shade : 0.01,
+                    offset : [ '57px', '1100px' ]
+                });
+                $table.bootstrapTable('refresh');
+            } else {
+                layer.msg('操作失败', {
+                    icon : 5,
+                    shade : 0.01,
+                    offset : [ '90px', '900px' ]
+                });
+            }
+        }
+    });
+}
+
+</script>
+@}

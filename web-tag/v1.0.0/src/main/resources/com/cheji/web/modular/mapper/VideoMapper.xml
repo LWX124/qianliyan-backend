@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.VideoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.VideoEntity">
+        <id column="id" property="id" />
+        <result column="url" property="url" />
+        <result column="user_id" property="userId" />
+        <result column="count" property="count" />
+        <result column="share" property="share" />
+        <result column="state" property="state" />
+        <result column="reson" property="reson" />
+        <result column="app_show_falg" property="appShowFalg" />
+        <result column="app_view_counts" property="appViewCounts" />
+        <result column="accident_id" property="accidentId" />
+        <result column="thumbnail_flag" property="thumbnailFlag" />
+        <result column="thumbnail_url" property="thumbnailUrl" />
+        <result column="creat_time" property="creatTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, url, user_id AS userId, count, share, state, reson, app_show_falg AS appShowFalg, app_view_counts AS appViewCounts, accident_id AS accidentId, thumbnail_flag AS thumbnailFlag, thumbnail_url AS thumbnailUrl, creat_time AS creatTime, update_time AS updateTime
+    </sql>
+
+
+    <!--WorkList findVideoById(String member);-->
+
+    <select id="findVideoById" resultType="WorkList">
+       SELECT id,
+       thumbnail_url thumbnailUrl,
+       url video,
+       user_id userId,
+       address,
+       source isPass,
+       creat_time createTime,
+       introduce
+       FROM app_video WHERE id = #{member};
+    </select>
+
+</mapper>

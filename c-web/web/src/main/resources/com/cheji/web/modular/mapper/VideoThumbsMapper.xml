@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.VideoThumbsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.VideoThumbsEntity">
+        <id column="id" property="id" />
+        <result column="video_id" property="videoId" />
+        <result column="user_id" property="userId" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, video_id AS videoId, user_id AS userId, status, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+
+    <select id="findByUserIdAndVideoId" resultType="VideoThumbsEntity">
+        SELECT
+        id id,
+        video_id videoId,
+        user_id userId,
+        status status,
+        create_time createTime,
+        update_time updateTime
+        FROM app_video_thumbs
+        WHERE video_id = #{videoId}
+        and user_id =#{userId}
+    </select>
+</mapper>

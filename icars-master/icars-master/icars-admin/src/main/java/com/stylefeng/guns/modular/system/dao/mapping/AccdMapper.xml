@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.AccdMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.Accident">
+        <id column="id" property="id"/>
+        <result column="openid" property="openid"/>
+        <result column="video" property="video"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="createTime" property="createTime"/>
+        <result column="checkId" property="checkId"/>
+        <result column="address" property="address"/>
+        <result column="checkTime" property="checkTime"/>
+        <result column="status" property="status"/>
+        <result column="version" property="version"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, openid, video, lng, lat, createTime, checkId, address,
+        checkTime, status,version
+    </sql>
+    <sql id="Base_Column_List1">
+        a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason,a.realness,
+        a.checkTime, a.status, a.version, c.name, d.phone,d.blackList, v.total as totalAcc, v.exist, v.notexist,
+        n.amount, p.amount as backAmount
+    </sql>
+
+    <sql id="Base_Column_List2">
+        a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason, b.phone,
+        a.checkTime, a.status, a.version
+    </sql>
+
+    <select id="selectAccident" resultType="map">
+        select
+        <include refid="Base_Column_List1"/>
+
+        from biz_accident a left join biz_wx_user d on a.openid = d.openid
+
+        <!--<choose>-->
+        <!--<when test="pushStatus == null">-->
+        <!--left join  biz_push_record b on a.id = b.accid-->
+        <!--</when>-->
+        <!--<when test="pushStatus == 0">-->
+        <!--left join  biz_push_record b on a.id = b.accid and b.accid = null-->
+        <!--</when>-->
+        <!--<otherwise>-->
+        <!--inner join  biz_push_record b on a.id = b.accid and b.accid != null-->
+        <!--</otherwise>-->
+        <!--</choose>-->
+        left join biz_push_record b on a.id = b.accid
+        left join sys_user c on c.account = b.account and c.status != 3
+        left join biz_accident_realness_view v on a.openid = v.openid
+        left join biz_wxpay_bill m on a.id = m.accid left join biz_wx_pay_record n on m.id = n.bill_id
+        left join biz_yck_czmx p on a.id = p.accid
+        <where>
+            <if test="openid != null and openid != ''">
+                and (a.openid = #{openid} or d.phone = #{openid})
+            </if>
+            <if test="name != null and name != ''">
+                and c.name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="checkStatus != null">
+                and a.status = #{checkStatus}
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createTime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},'
+                23:59:59'))
+            </if>
+            <if test="checkStartTime != null and checkStartTime != '' and checkEndTime != '' and checkEndTime != null">
+                and (a.checkTime between CONCAT(#{checkStartTime},' 00:00:00') and CONCAT(#{checkEndTime},' 23:59:59'))
+            </if>
+            <if test="pushStatus == 0">
+                and b.accid is null
+            </if>
+            <if test="pushStatus == 1">
+                and b.accid is not null
+            </if>
+        </where>
+        ORDER BY a.status ,a.createTime desc
+    </select>
+
+    <select id="countAccidentRedPack" resultType="java.math.BigDecimal">
+        select
+        sum(n.amount)
+        from biz_accident a
+        left join biz_push_record b on a.id = b.accid
+        left join sys_user c on c.account = b.account and c.status != 3
+        left join biz_accident_realness_view v on a.openid = v.openid
+        left join biz_wxpay_bill m on a.id = m.accid left join biz_wx_pay_record n on m.id = n.bill_id
+        left join biz_yck_czmx p on a.id = p.accid
+        <where>
+            <if test="createStartTime == null">
+                and (a.createTime between CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00') and
+                CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'))
+            </if>
+            <if test="openid != null and openid != ''">
+                and a.openid = #{openid}
+            </if>
+            <if test="name != null and name != ''">
+                and c.name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="checkStatus != null">
+                and a.status = #{checkStatus}
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createTime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},'
+                23:59:59'))
+            </if>
+            <if test="checkStartTime != null and checkStartTime != '' and checkEndTime != '' and checkEndTime != null">
+                and (a.checkTime between CONCAT(#{checkStartTime},' 00:00:00') and CONCAT(#{checkEndTime},' 23:59:59'))
+            </if>
+            <if test="pushStatus == 0">
+                and b.accid is null
+            </if>
+            <if test="pushStatus == 1">
+                and b.accid is not null
+            </if>
+        </where>
+    </select>
+
+    <select id="countAccidentRedPackByGroup" resultType="map">
+        select
+        n.amount as amount,count(a.id) as counts
+        from biz_accident a
+        left join biz_push_record b on a.id = b.accid
+        left join sys_user c on c.account = b.account and c.status != 3
+        left join biz_accident_realness_view v on a.openid = v.openid
+        left join biz_wxpay_bill m on a.id = m.accid left join biz_wx_pay_record n on m.id = n.bill_id
+        left join biz_yck_czmx p on a.id = p.accid
+        <where>
+            m.accid > 0
+            <if test="createStartTime == null">
+                and (a.createTime between CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00') and
+                CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'))
+            </if>
+            <if test="openid != null and openid != ''">
+                and a.openid = #{openid}
+            </if>
+            <if test="checkStatus != null">
+                and a.status = #{checkStatus}
+            </if>
+            <if test="name != null and name != ''">
+                and c.name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="createStartTime != null and createStartTime != '' and createEndTime != '' and createEndTime != null">
+                and (a.createTime between CONCAT(#{createStartTime},' 00:00:00') and CONCAT(#{createEndTime},'
+                23:59:59'))
+            </if>
+            <if test="checkStartTime != null and checkStartTime != '' and checkEndTime != '' and checkEndTime != null">
+                and (a.checkTime between CONCAT(#{checkStartTime},' 00:00:00') and CONCAT(#{checkEndTime},' 23:59:59'))
+            </if>
+            <if test="pushStatus == 0">
+                and b.accid is null
+            </if>
+            <if test="pushStatus == 1">
+                and b.accid is not null
+            </if>
+        </where>
+        group by n.amount
+    </select>
+
+    <select id="selectAccidentForApi" resultType="map">
+        select
+        <include refid="Base_Column_List2"/>
+        from biz_accident a left join biz_wx_user b on a.openid = b.openid
+        where
+        a.openid = #{openid}
+        ORDER BY a.createTime desc
+    </select>
+
+    <select id="selectsum" resultType="int">
+		select sum(a.carCount)
+		from biz_accident a left join biz_push_record b on a.id = b.accid
+		where
+		b.account = #{account}
+
+	</select>
+
+    <select id="findUrlByAccIdAndOpenId" resultType="string">
+        select t.thumbnail_url from biz_accident t
+        where t.openid=#{openId} and t.id=#{accId}
+    </select>
+
+
+    <update id="setStatus">
+		update biz_accident set status = #{status},checkId = #{checkId},checkTime = #{checkTime},reason = #{reason} where id =
+		#{accdId} and status = 1
+	</update>
+    <update id="setStatus">
+        update biz_accident set status = #{status},checkId = #{checkId},checkTime = #{checkTime},reason = #{reason}
+        where id =
+        #{accdId} and status = 1
+    </update>
+
+    <!-- 新增事故上报 -->
+    <insert id="insertAccid" useGeneratedKeys="true" keyProperty="accident.id" keyColumn="id"
+            parameterType="com.stylefeng.guns.modular.system.model.Accident">
+        insert into biz_accident(openid, video, lng, lat, createTime, address, status,thumbnail_flag)
+        values
+        (#{accident.openid},#{accident.video},#{accident.lng},#{accident.lat},#{accident.createTime},#{accident.address},#{accident.status},#{accident.thumbnailFlag})
+    </insert>
+
+
+</mapper>

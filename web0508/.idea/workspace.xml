@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2bbdb2ae-c1ad-4efb-8c4d-4ddd7d6541e2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9bd44a26-bc23-492f-b172-3a3873bc13d6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9bd44a26-bc23-492f-b172-3a3873bc13d6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries" beforeDir="true" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/web/web.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../maven/apache-maven-3.6.3-bin/apache-maven-3.6.3" />
+        <option name="useMavenConfig" value="true" />
+        <option name="userSettingsFile" value="D:\maven\apache-maven-3.6.3-bin\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2BHjDrmNSU5qBY5bbqNQk2A13qz" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/IdeaWorkSpace/web0508",
+    "settings.editor.selected.configurable": "MavenSettings"
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\resources\com\cheji\web\modular\mapper" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\resources\templates" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\resources" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\java\com\cheji\web\config" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\test\java\com.cheji.web" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.cheji.web" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.cheji.web.constant" />
+      <recent name="com.cheji.web.modular.domain" />
+      <recent name="com.cheji.web.modular.service" />
+      <recent name="com.cheji.web.modular.mapper" />
+      <recent name="com.cheji.web.modular.controller" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.CourseTest.test">
+    <configuration name="CourseTest (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseTest (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseTest (4)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.cheji.web" />
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.CourseTest.test" />
+        <item itemvalue="Application.CourseTest (4)" />
+        <item itemvalue="Application.CourseTest (3)" />
+        <item itemvalue="Application.CourseTest (2)" />
+        <item itemvalue="Application.CourseTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\94922\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaWorkSpace\web0508" />
+          <option name="myCopyRoot" value="D:\IdeaWorkSpace\web0508" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaWorkSpace\web0508" />
+          <option name="myCopyRoot" value="D:\IdeaWorkSpace\web0508" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2bbdb2ae-c1ad-4efb-8c4d-4ddd7d6541e2" name="Changes" comment="" />
+      <created>1656569788543</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1656569788543</updated>
+      <workItem from="1656569791361" duration="1450000" />
+      <workItem from="1656576178938" duration="3782000" />
+      <workItem from="1656637955302" duration="174000" />
+      <workItem from="1656662684447" duration="738000" />
+      <workItem from="1656923714817" duration="780000" />
+      <workItem from="1656924621535" duration="1795000" />
+      <workItem from="1656982560560" duration="606000" />
+      <workItem from="1657074507694" duration="879000" />
+      <workItem from="1658127237756" duration="6610000" />
+      <workItem from="1658192688851" duration="3428000" />
+      <workItem from="1658201098924" duration="1020000" />
+      <workItem from="1658287041816" duration="4691000" />
+      <workItem from="1658297902164" duration="6768000" />
+      <workItem from="1658307738598" duration="503000" />
+      <workItem from="1658308390653" duration="1387000" />
+      <workItem from="1658365375924" duration="962000" />
+      <workItem from="1658372781194" duration="5789000" />
+      <workItem from="1658468588566" duration="8376000" />
+      <workItem from="1658797650351" duration="1086000" />
+      <workItem from="1659426006359" duration="6981000" />
+      <workItem from="1659494072674" duration="1705000" />
+      <workItem from="1659495949081" duration="781000" />
+      <workItem from="1659601355395" duration="3667000" />
+      <workItem from="1659664246650" duration="1903000" />
+      <workItem from="1659679395087" duration="2999000" />
+      <workItem from="1660012115318" duration="1363000" />
+      <workItem from="1660186334695" duration="3163000" />
+      <workItem from="1660205691237" duration="1211000" />
+      <workItem from="1660208660644" duration="1405000" />
+      <workItem from="1660266990001" duration="753000" />
+      <workItem from="1660267879795" duration="372000" />
+      <workItem from="1660269081619" duration="336000" />
+      <workItem from="1660274021879" duration="2860000" />
+      <workItem from="1660700313443" duration="4027000" />
+      <workItem from="1660725019875" duration="4300000" />
+      <workItem from="1660785944247" duration="10898000" />
+      <workItem from="1660871240062" duration="5795000" />
+      <workItem from="1661134121561" duration="5426000" />
+      <workItem from="1661216278026" duration="3851000" />
+      <workItem from="1661304889536" duration="2372000" />
+      <workItem from="1661389331221" duration="1294000" />
+      <workItem from="1661937814583" duration="690000" />
+      <workItem from="1661939794682" duration="339000" />
+      <workItem from="1663553226690" duration="1132000" />
+      <workItem from="1663556615132" duration="707000" />
+      <workItem from="1663809261680" duration="2586000" />
+      <workItem from="1663833441063" duration="252000" />
+      <workItem from="1664155075709" duration="4832000" />
+      <workItem from="1664180347256" duration="1734000" />
+      <workItem from="1664328418543" duration="5307000" />
+      <workItem from="1664413792757" duration="14901000" />
+      <workItem from="1664501163260" duration="9516000" />
+      <workItem from="1665191099305" duration="16113000" />
+      <workItem from="1665277591839" duration="11320000" />
+      <workItem from="1665363174610" duration="10454000" />
+      <workItem from="1665450160633" duration="4751000" />
+      <workItem from="1665536090261" duration="3602000" />
+      <workItem from="1665565427588" duration="17000" />
+      <workItem from="1666077099616" duration="2232000" />
+      <workItem from="1666147268190" duration="16255000" />
+      <workItem from="1666228215810" duration="1769000" />
+      <workItem from="1666235772540" duration="1394000" />
+      <workItem from="1666245487272" duration="3861000" />
+      <workItem from="1666573241799" duration="26560000" />
+      <workItem from="1666610268127" duration="2460000" />
+      <workItem from="1666660563900" duration="3910000" />
+      <workItem from="1666664533659" duration="12578000" />
+      <workItem from="1666861664914" duration="3991000" />
+      <workItem from="1666918793701" duration="25177000" />
+      <workItem from="1667178037090" duration="20039000" />
+      <workItem from="1667207969689" duration="8461000" />
+      <workItem from="1667264069671" duration="21948000" />
+      <workItem from="1667352480996" duration="11138000" />
+      <workItem from="1667381758910" duration="1498000" />
+      <workItem from="1667436580728" duration="13862000" />
+      <workItem from="1667530810757" duration="10862000" />
+      <workItem from="1667556740465" duration="2000" />
+      <workItem from="1667783337970" duration="9682000" />
+      <workItem from="1667793919298" duration="217000" />
+      <workItem from="1667868885450" duration="26718000" />
+      <workItem from="1667957947214" duration="29454000" />
+      <workItem from="1668041648467" duration="21144000" />
+      <workItem from="1668077998109" duration="1446000" />
+      <workItem from="1668127966553" duration="23169000" />
+      <workItem from="1668162413831" duration="2265000" />
+      <workItem from="1668387385303" duration="18739000" />
+      <workItem from="1668474612411" duration="24709000" />
+      <workItem from="1668560644069" duration="26619000" />
+      <workItem from="1668595977613" duration="1631000" />
+      <workItem from="1668646502241" duration="14191000" />
+      <workItem from="1668672560261" duration="12150000" />
+      <workItem from="1668733876027" duration="25029000" />
+      <workItem from="1668820717599" duration="15636000" />
+      <workItem from="1669618314040" duration="1834000" />
+      <workItem from="1669769340383" duration="33337000" />
+      <workItem from="1669856067591" duration="27313000" />
+      <workItem from="1669942812588" duration="25178000" />
+      <workItem from="1670201937021" duration="20159000" />
+      <workItem from="1670232328803" duration="1505000" />
+      <workItem from="1670287913334" duration="23016000" />
+      <workItem from="1670374960838" duration="23399000" />
+      <workItem from="1670461188397" duration="25632000" />
+      <workItem from="1670547567079" duration="10243000" />
+      <workItem from="1670569479758" duration="6010000" />
+      <workItem from="1670806579657" duration="17045000" />
+      <workItem from="1670893012336" duration="16386000" />
+      <workItem from="1670979377591" duration="3802000" />
+      <workItem from="1671071646850" duration="4964000" />
+      <workItem from="1671152479515" duration="7747000" />
+      <workItem from="1671246072434" duration="59000" />
+      <workItem from="1671246385843" duration="5359000" />
+      <workItem from="1671260572065" duration="1310000" />
+      <workItem from="1672022338913" duration="3189000" />
+      <workItem from="1672107550568" duration="12290000" />
+      <workItem from="1672190027653" duration="18431000" />
+      <workItem from="1672276357811" duration="14510000" />
+      <workItem from="1672361478931" duration="8471000" />
+      <workItem from="1672707320093" duration="328000" />
+      <workItem from="1672707853805" duration="25544000" />
+      <workItem from="1672793076881" duration="21197000" />
+      <workItem from="1672880173276" duration="19515000" />
+      <workItem from="1672910488073" duration="1614000" />
+      <workItem from="1672969023001" duration="16753000" />
+      <workItem from="1672994704897" duration="4499000" />
+      <workItem from="1673226499456" duration="17571000" />
+      <workItem from="1673312159610" duration="5439000" />
+      <workItem from="1673398657267" duration="4148000" />
+      <workItem from="1673407565652" duration="3189000" />
+      <workItem from="1673465912073" duration="16445000" />
+      <workItem from="1673514425056" duration="2261000" />
+      <workItem from="1673570974038" duration="6483000" />
+      <workItem from="1673830202638" duration="6715000" />
+      <workItem from="1673920785509" duration="17645000" />
+      <workItem from="1674954053734" duration="9486000" />
+      <workItem from="1675040279729" duration="4191000" />
+      <workItem from="1675126344677" duration="4715000" />
+      <workItem from="1675213047885" duration="1809000" />
+      <workItem from="1675299692768" duration="5092000" />
+      <workItem from="1675385505324" duration="4470000" />
+      <workItem from="1675644992885" duration="17752000" />
+      <workItem from="1675730949042" duration="12125000" />
+      <workItem from="1675817864902" duration="7732000" />
+      <workItem from="1675904434592" duration="9724000" />
+      <workItem from="1675990917815" duration="9305000" />
+      <workItem from="1676249481099" duration="1808000" />
+      <workItem from="1676258206492" duration="3907000" />
+      <workItem from="1676336107959" duration="4802000" />
+      <workItem from="1676422657174" duration="19306000" />
+      <workItem from="1676508690848" duration="12652000" />
+      <workItem from="1676535742048" duration="2358000" />
+      <workItem from="1676597913860" duration="20892000" />
+      <workItem from="1676691308182" duration="1174000" />
+      <workItem from="1676692840899" duration="1752000" />
+      <workItem from="1676703587336" duration="1064000" />
+      <workItem from="1676854876076" duration="23362000" />
+      <workItem from="1676941645708" duration="11855000" />
+      <workItem from="1677027309968" duration="13992000" />
+      <workItem from="1677242650198" duration="1507000" />
+      <workItem from="1677459363570" duration="15907000" />
+      <workItem from="1677744656669" duration="43000" />
+      <workItem from="1677744762775" duration="56000" />
+      <workItem from="1677744882668" duration="120000" />
+      <workItem from="1677745067872" duration="2466000" />
+      <workItem from="1677804457681" duration="10719000" />
+      <workItem from="1683533470040" duration="976000" />
+    </task>
+    <task id="LOCAL-00001" summary="1">
+      <created>1656570599621</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1656570599621</updated>
+    </task>
+    <task id="LOCAL-00002" summary="1">
+      <created>1656637992567</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1656637992567</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1">
+      <created>1660268247382</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1660268247383</updated>
+    </task>
+    <task id="LOCAL-00004" summary="1">
+      <created>1660872686767</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1660872686767</updated>
+    </task>
+    <task id="LOCAL-00005" summary="1">
+      <created>1666147713915</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1666147713915</updated>
+    </task>
+    <task id="LOCAL-00006" summary="1">
+      <created>1670575898890</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1670575898890</updated>
+    </task>
+    <task id="LOCAL-00007" summary="1">
+      <created>1677745703158</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1677745703158</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1" />
+    <option name="LAST_COMMIT_MESSAGE" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/web/trunk/src/main/java/com/cheji/web/util/VinUtil.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="id" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.CdOrderMapper">
+
+    <select id="findNewIndent" resultType="Integer">
+        SELECT COUNT(1) FROM cd_order WHERE state = #{type}
+
+    </select>
+
+    <select id="selectIsRepaid" resultType="CdOrderEntity">
+        SELECT id FROM cd_order WHERE plate = #{plate}
+    </select>
+
+    <select id="selectByType" resultType="CdOrderEntity">
+
+        SELECT id,plate,username,remark,phone,accident_type accidentType,brand_id brandId,car_ins carIns,
+        chesun_coverage chesunCoverage,car_prices carPrices,
+        accident_time accidentTime,used_prices usedPrices,
+        salvage_prices salvagePrices,cost_upkeep costUpkeep,
+        client_will clientWill
+
+        FROM cd_order WHERE 1 = 1
+        <if test="type != null and type != ''">
+            AND state = #{type}
+        </if>
+        <if test="text != null and text != ''">
+            AND (plate LIKE  "%"#{text,jdbcType=VARCHAR}"%" or car_ins LIKE  "%"#{text,jdbcType=VARCHAR}"%"
+                or brand_id LIKE  "%"#{text,jdbcType=VARCHAR}"%")
+        </if>
+
+        <if test="time != null and time != ''">
+            AND  DATE_FORMAT(create_time,'%Y-%m') = #{time}
+        </if>
+        ORDER by create_time DESC LIMIT #{pagesize},20
+    </select>
+
+</mapper>

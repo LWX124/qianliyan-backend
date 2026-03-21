@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppUserBMessageMapper">
+
+
+
+
+<!--    List<BUserMessageDto> findInWork(Integer score);-->
+    <select id="findInWork" resultType="BUserMessageDto">
+        SELECT a.id technicianId,`name`,order_number orderNumber,price,introduction,score,lng,lat,head_img headImg
+        FROM app_user_b_message as a WHERE a.business_type = 1 AND wrok_type = 3
+        <choose>
+            <when test="score != null and score != ''">
+                ORDER BY score DESC
+            </when>
+            <otherwise>
+                ORDER BY order_number DESC
+            </otherwise>
+        </choose>
+       limit #{pagesize},20
+
+    </select>
+
+<!--    AppUserBMessageEntity selectByBIdWorkType(@Param("userBId")Integer userBId, @Param("i")int i);-->
+    <select id="selectByBIdWorkType" resultType="AppUserBMessageEntity">
+        SELECT * FROM app_user_b_message WHERE user_b_id = #{userBId} AND wrok_type = #{i}
+
+    </select>
+
+
+<!--    AppUserBMessageEntity selectByUserId(Integer userBId);-->
+    <select id="selectByUserId" resultType="AppUserBMessageEntity">
+        SELECT * FROM app_user_b_message WHERE user_b_id = #{userBId} AND wrok_type = 4
+    </select>
+
+
+</mapper>
+
+

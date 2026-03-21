@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppUpMerchantsDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppUpMerchants">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+<!--	void insertNew(AppUpMerchants appUpMerchants);-->
+	<insert id="insertNew">
+		insert into app_up_merchants (address,lng,lat,name,brand,score,adcode,citycode,create_time,update_time)
+		value (#{address},#{lng},#{lat},#{name},#{brand},#{score},#{adcode},#{citycode},#{createTime},#{updateTime})
+	</insert>
+
+	<insert id="insertUpMer" useGeneratedKeys="true" keyProperty="id">
+		insert into app_up_merchants (address,lng,lat,name,brand,score,adcode,citycode,create_time,update_time,huanxin_username,huanxin_password)
+		value (#{address},#{lng},#{lat},#{name},#{brand},#{score},#{adcode},#{citycode},#{createTime},#{updateTime},#{huanxinUsername},#{huanxinPassword})
+	</insert>
+
+
+<!--	List<String> findAllPhone();-->
+	<select id="findAllPhone" resultType="String">
+		SELECT phone FROM biz_wx_user WHERE phone IS NOT NULL
+	</select>
+
+
+<!--	List<AppUpMerchants> findNoHuanxin();-->
+	<select id="findNoHuanxin" resultType="AppUpMerchants">
+		SELECT * FROM app_up_merchants WHERE huanxin_username  is NULL
+	</select>
+
+
+<!--	List<AppUpMerchants> findAllMerchants(int pageoffset, String address, String selectName, String selectBrand, String selectAdcode);-->
+	<select id="findAllMerchants" resultType="AppUpMerchants">
+		SELECT * FROM(
+			SELECT id,concat('1') type,`name` name,address,brand,adcode,phone,concat('0') indentNumber,concat('0') money,DATE_FORMAT(create_time,'%Y-%m-%d') createTime,concat('1') state
+			 FROM app_up_merchants
+			 	where 1 = 1
+			 	 <if test="address != null and address != ''">
+					AND address like "%"#{address,jdbcType=VARCHAR}"%"
+				 </if>
+				<if test="selectName != null and selectName != ''">
+					AND name like "%"#{selectName,jdbcType=VARCHAR}"%"
+				</if>
+				<if test="selectBrand != null and selectBrand != ''">
+					AND brand = #{selectBrand}
+				</if>
+				<if test="selectAdcode != null and selectAdcode != ''">
+					AND citycode = #{selectAdcode}
+				</if>
+
+				UNION ALL
+			SELECT id,concat('2') type,merchants_name name,address,brand_id brand ,city adcode,phone_number phone,concat('0') indentNumber,concat('0') money,DATE_FORMAT(creat_time,'%Y-%m-%d') createTime,state
+			FROM app_b_user WHERE is_merchants = 1
+				<if test="address != null and address != ''">
+					AND address like "%"#{address,jdbcType=VARCHAR}"%"
+				</if>
+				<if test="selectName != null and selectName != ''">
+					AND merchants_name like "%"#{selectName,jdbcType=VARCHAR}"%"
+				</if>
+				<if test="selectBrand != null and selectBrand != ''">
+					AND brand_id = #{selectBrand}
+				</if>
+				<if test="selectAdcode != null and selectAdcode != ''">
+					AND city = #{selectAdcode}
+				</if>
+		)as a ORDER BY a.createTime DESC LIMIT #{pageoffset},20;
+
+	</select>
+
+
+<!--	Long findCount();-->
+	<select id="findCount" resultType="Long">
+		SELECT count(1) FROM(
+			SELECT `name` name FROM app_up_merchants
+		where 1 = 1
+		<if test="address != null and address != ''">
+			AND address like "%"#{address,jdbcType=VARCHAR}"%"
+		</if>
+		<if test="selectName != null and selectName != ''">
+			AND name like "%"#{selectName,jdbcType=VARCHAR}"%"
+		</if>
+		<if test="selectBrand != null and selectBrand != ''">
+			AND brand = #{selectBrand}
+		</if>
+		<if test="selectAdcode != null and selectAdcode != ''">
+			AND citycode = #{selectAdcode}
+		</if>
+				UNION ALL
+			SELECT merchants_name name
+			FROM app_b_user WHERE is_merchants = 1
+		<if test="address != null and address != ''">
+			AND address like "%"#{address,jdbcType=VARCHAR}"%"
+		</if>
+		<if test="selectName != null and selectName != ''">
+			AND merchants_name like "%"#{selectName,jdbcType=VARCHAR}"%"
+		</if>
+		<if test="selectBrand != null and selectBrand != ''">
+			AND brand_id = #{selectBrand}
+		</if>
+		<if test="selectAdcode != null and selectAdcode != ''">
+			AND city = #{selectAdcode}
+		</if>
+		)as a
+
+	</select>
+
+
+<!--	JSONObject findNumberAndMoney(String id);-->
+	<select id="findNumberAndMoney" resultType="AppIndent">
+		SELECT COUNT(1) brandId,COALESCE(SUM(fixloss),0) balance FROM app_indent WHERE up_id = #{id}
+	</select>
+
+<!--	String findCity(String adcode);-->
+	<select id="findCity" resultType="String">
+		SELECT city_name FROM app_city WHERE adcode =  (SELECT citycode FROM app_city WHERE adcode = #{adcode})
+	</select>
+
+<!--	String findCityCode(String selectAdcode);<
+-->
+	<select id="findCityCode" resultType="String">
+		SELECT citycode FROM app_city WHERE city_name  like "%"#{selectAdcode,jdbcType=VARCHAR}"%" LIMIT 0 ,1
+	</select>
+
+
+<!--	String findCarCode(String selectBrand);-->
+	<select id="findCarCode" resultType="String">
+		SELECT id FROM app_car_brand WHERE `name` LIKE  "%"#{selectBrand,jdbcType=VARCHAR}"%" LIMIT 0 ,1
+	</select>
+
+	<select id="findBrands" resultType="String">
+		SELECT DISTINCT brand FROM app_up_merchants
+		<where>
+			id in
+			<foreach item="item" collection="list" separator="," open="(" close=")" index="">
+				#{item}
+			</foreach>
+		</where>
+	</select>
+
+	<!--findUpMerchantsByBrands-->
+	<select id="findUpMerchantsByBrands" resultType="AppUpMerchants">
+		SELECT id ,address,lng,lat,name,brand,adcode,citycode FROM app_up_merchants
+		<where>
+			id in
+			<foreach collection="list" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,285 @@
+2023-06-12 17:10:02.477 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:10:27.891 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:10:27.892 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:10:30.091 [taskScheduler-6] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:10:30.265 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:10:33.259 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:10:33.533 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:10:34.287 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:10:41.414 [http-nio-9002-exec-7] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 17:32:19.768 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:32:39.136 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:32:39.136 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:32:39.974 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:34:14.886 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:34:15.750 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:34:16.035 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:34:16.565 [http-nio-9002-exec-6] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:34:24.264 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 17:37:31.885 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:37:54.613 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:37:54.613 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:38:02.558 [http-nio-9002-exec-2] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:38:04.958 [http-nio-9002-exec-6] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:38:05.767 [http-nio-9002-exec-6] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:38:06.047 [http-nio-9002-exec-6] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:38:06.605 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:38:13.820 [http-nio-9002-exec-6] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 17:41:23.801 [NettyClientSelector_1] WARN  io.netty.channel.ChannelInitializer - Failed to initialize a channel. Closing: [id: 0x551ab107]
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:226)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:409)
+	at com.alibaba.rocketmq.remoting.netty.NettyRemotingClient$4.initChannel(NettyRemotingClient.java:294)
+	at com.alibaba.rocketmq.remoting.netty.NettyRemotingClient$4.initChannel(NettyRemotingClient.java:291)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:115)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:107)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:637)
+	at io.netty.channel.DefaultChannelPipeline.access$000(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1487)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1161)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:686)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:510)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:423)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:482)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 17:41:23.823 [NettyClientSelector_1] WARN  io.netty.channel.AbstractChannelHandlerContext - Failed to submit an exceptionCaught() event.
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeExceptionCaught(AbstractChannelHandlerContext.java:267)
+	at io.netty.channel.AbstractChannelHandlerContext.fireExceptionCaught(AbstractChannelHandlerContext.java:256)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.exceptionCaught(DefaultChannelPipeline.java:1401)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeExceptionCaught(AbstractChannelHandlerContext.java:285)
+	at io.netty.channel.AbstractChannelHandlerContext.notifyHandlerException(AbstractChannelHandlerContext.java:850)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:183)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:167)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelUnregistered(DefaultChannelPipeline.java:865)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$8.run(AbstractChannel.java:830)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 17:41:23.824 [NettyClientSelector_1] WARN  io.netty.channel.AbstractChannelHandlerContext - The exceptionCaught() event that was failed to submit was:
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.DefaultChannelPipeline.destroyUp(DefaultChannelPipeline.java:895)
+	at io.netty.channel.DefaultChannelPipeline.destroy(DefaultChannelPipeline.java:880)
+	at io.netty.channel.DefaultChannelPipeline.access$700(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelUnregistered(DefaultChannelPipeline.java:1416)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:181)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:167)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelUnregistered(DefaultChannelPipeline.java:865)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$8.run(AbstractChannel.java:830)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 17:42:02.203 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:42:50.444 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:42:50.445 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:42:52.149 [http-nio-9002-exec-2] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:42:54.764 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:42:55.616 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:42:55.922 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:42:56.477 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:43:03.641 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 17:43:54.037 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:44:12.565 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:44:12.565 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:45:04.479 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:46:05.857 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:46:06.656 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:46:06.925 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:46:07.469 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:46:14.630 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 17:47:50.437 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:48:10.461 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:48:10.461 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:48:14.930 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:49:46.918 [http-nio-9002-exec-7] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:49:47.778 [http-nio-9002-exec-7] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:49:48.048 [http-nio-9002-exec-7] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:49:48.601 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:49:55.943 [http-nio-9002-exec-7] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 17:51:31.033 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:52:00.676 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:52:00.676 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:52:10.009 [http-nio-9002-exec-2] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:52:13.701 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:52:14.559 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:52:14.861 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:52:15.469 [http-nio-9002-exec-5] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:52:23.414 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 17:54:15.300 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 17:54:37.779 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 17:54:37.782 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 17:54:41.340 [http-nio-9002-exec-1] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 17:54:44.757 [http-nio-9002-exec-4] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 17:54:45.502 [http-nio-9002-exec-4] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:54:45.757 [http-nio-9002-exec-4] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 17:54:46.437 [http-nio-9002-exec-7] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 17:54:53.413 [http-nio-9002-exec-4] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 18:02:23.217 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 18:03:08.590 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 18:03:08.591 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 18:04:28.984 [main] WARN  com.obs.services.ObsClient - [OBS SDK Version=3.19.7];[Endpoint=https://obs.cn-southwest-2.myhuaweicloud.com:443/];[Access Mode=Virtul Hosting]
+2023-06-12 18:04:49.616 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.String[]
+2023-06-12 18:04:49.616 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.lang.Integer[]
+2023-06-12 18:04:53.412 [http-nio-9002-exec-3] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [sysCache] not defined, using default.
+2023-06-12 18:04:56.542 [http-nio-9002-exec-2] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache] not defined, using default.
+2023-06-12 18:04:57.250 [http-nio-9002-exec-2] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 18:04:57.530 [http-nio-9002-exec-2] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [userCache_system] not defined, using default.
+2023-06-12 18:04:58.056 [http-nio-9002-exec-10] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [corpCache] not defined, using default.
+2023-06-12 18:05:05.259 [http-nio-9002-exec-10] WARN  net.oschina.j2cache.caffeine.CaffeineProvider - Caffeine cache [msgPcPoolCache] not defined, using default.
+2023-06-12 18:05:43.696 [NettyClientSelector_1] WARN  io.netty.channel.ChannelInitializer - Failed to initialize a channel. Closing: [id: 0xb10e4a22]
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:226)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:409)
+	at com.alibaba.rocketmq.remoting.netty.NettyRemotingClient$4.initChannel(NettyRemotingClient.java:294)
+	at com.alibaba.rocketmq.remoting.netty.NettyRemotingClient$4.initChannel(NettyRemotingClient.java:291)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:115)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:107)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:637)
+	at io.netty.channel.DefaultChannelPipeline.access$000(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1487)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1161)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:686)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:510)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:423)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:482)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 18:05:43.705 [NettyClientSelector_1] WARN  io.netty.channel.AbstractChannelHandlerContext - Failed to submit an exceptionCaught() event.
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeExceptionCaught(AbstractChannelHandlerContext.java:267)
+	at io.netty.channel.AbstractChannelHandlerContext.fireExceptionCaught(AbstractChannelHandlerContext.java:256)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.exceptionCaught(DefaultChannelPipeline.java:1401)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeExceptionCaught(AbstractChannelHandlerContext.java:285)
+	at io.netty.channel.AbstractChannelHandlerContext.notifyHandlerException(AbstractChannelHandlerContext.java:850)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:183)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:167)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelUnregistered(DefaultChannelPipeline.java:865)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$8.run(AbstractChannel.java:830)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 18:05:43.706 [NettyClientSelector_1] WARN  io.netty.channel.AbstractChannelHandlerContext - The exceptionCaught() event that was failed to submit was:
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.DefaultChannelPipeline.destroyUp(DefaultChannelPipeline.java:895)
+	at io.netty.channel.DefaultChannelPipeline.destroy(DefaultChannelPipeline.java:880)
+	at io.netty.channel.DefaultChannelPipeline.access$700(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelUnregistered(DefaultChannelPipeline.java:1416)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:181)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:167)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelUnregistered(DefaultChannelPipeline.java:865)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$8.run(AbstractChannel.java:830)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 18:05:43.708 [NettyClientSelector_1] WARN  io.netty.channel.ChannelInitializer - Failed to initialize a channel. Closing: [id: 0x7690af5e]
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:226)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:409)
+	at com.alibaba.rocketmq.remoting.netty.NettyRemotingClient$4.initChannel(NettyRemotingClient.java:294)
+	at com.alibaba.rocketmq.remoting.netty.NettyRemotingClient$4.initChannel(NettyRemotingClient.java:291)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:115)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:107)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:637)
+	at io.netty.channel.DefaultChannelPipeline.access$000(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1487)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1161)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:686)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:510)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:423)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:482)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 18:05:43.709 [NettyClientSelector_1] WARN  io.netty.channel.AbstractChannelHandlerContext - Failed to submit an exceptionCaught() event.
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeExceptionCaught(AbstractChannelHandlerContext.java:267)
+	at io.netty.channel.AbstractChannelHandlerContext.fireExceptionCaught(AbstractChannelHandlerContext.java:256)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.exceptionCaught(DefaultChannelPipeline.java:1401)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeExceptionCaught(AbstractChannelHandlerContext.java:285)
+	at io.netty.channel.AbstractChannelHandlerContext.notifyHandlerException(AbstractChannelHandlerContext.java:850)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:183)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:167)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelUnregistered(DefaultChannelPipeline.java:865)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$8.run(AbstractChannel.java:830)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)
+2023-06-12 18:05:43.709 [NettyClientSelector_1] WARN  io.netty.channel.AbstractChannelHandlerContext - The exceptionCaught() event that was failed to submit was:
+java.util.concurrent.RejectedExecutionException: event executor terminated
+	at io.netty.util.concurrent.SingleThreadEventExecutor.reject(SingleThreadEventExecutor.java:842)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.offerTask(SingleThreadEventExecutor.java:328)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.addTask(SingleThreadEventExecutor.java:321)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.execute(SingleThreadEventExecutor.java:765)
+	at io.netty.channel.DefaultChannelPipeline.destroyUp(DefaultChannelPipeline.java:895)
+	at io.netty.channel.DefaultChannelPipeline.destroy(DefaultChannelPipeline.java:880)
+	at io.netty.channel.DefaultChannelPipeline.access$700(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelUnregistered(DefaultChannelPipeline.java:1416)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:181)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelUnregistered(AbstractChannelHandlerContext.java:167)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelUnregistered(DefaultChannelPipeline.java:865)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$8.run(AbstractChannel.java:830)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute$$$capture(AbstractEventExecutor.java:163)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:404)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:446)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:884)
+	at java.lang.Thread.run(Unknown Source)

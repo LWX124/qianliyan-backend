@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizClaimerShowMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizClaimerShow">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="imgUrl" property="imgUrl" />
+        <result column="motto" property="motto" />
+        <result column="story" property="story" />
+        <result column="status" property="status" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, imgUrl, motto, story, status, createtime
+    </sql>
+
+
+
+    <select id="selectClaimerShows" resultType="map">
+            select
+            <include refid="Base_Column_List" />
+            from biz_claimer_show
+            <where>
+
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getThreeModel" resultType="map">
+        select ths.*,su.name,su.headImg from  (SELECT t.claimer as account,sum(t.rebate_for_emp) as totalRebate,count(1) as countNum  FROM (select * from biz_open_claim t where t.createtime    <![CDATA[<]]>  CURRENT_DATE and t.createtime <![CDATA[>]]>  DATE_SUB(CURRENT_DATE, interval 150 day)) t group by t.claimer order by totalRebate desc limit 3) ths left join sys_user su on ths.account=su.account
+
+    </select>
+
+    <select id="selectClaimerShowsYes" resultType="map">
+        select t.id, t.name, t.imgUrl, t.motto, t.story, t.status, t.createtime,t2.stars from biz_claimer_show t left join sys_user t2 on t.userId=t2.id where t.name is not null and t.imgUrl is not null and t.motto is not null and t.story is not null and t.status=0 and t2.status=5 and t.userId is not null order by t2.stars DESC
+    </select>
+
+</mapper>

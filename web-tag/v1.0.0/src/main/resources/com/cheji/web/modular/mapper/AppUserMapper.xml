@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppUserMapper">
+
+
+
+    <select id="selectUser" parameterType="int" resultType="AppUserEntity">
+        select * from app_user t1
+        where t1.id=#{userId} for update
+    </select>
+
+<!--
+    List<AmountList> findChangeList(@Param("id")Integer id, @Param("pagesize")Integer pagesize, @Param("date")String date);
+
+    SELECT partner_trade_no id,concat('余额提现')operationName,concat('-',amount)amount,concat(1)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth,create_time createTime
+        FROM app_wx_cash_out_record WHERE user_id = #{id} AND source = 1
+           UNION ALL
+-->
+    <select id="findChangeList" resultType="AmountList">
+     SELECT t.* FROM(
+        SELECT id,concat('收到红包')operationName,concat('+',pay_amount) amount,concat(2)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth,create_time createTime
+        FROM app_pay_amount_record WHERE user_id = #{id} AND type = 1
+           UNION ALL
+        SELECT id,concat('收到红包(Plus会员提成)')operationName,concat('+',pay_amount) amount,concat(2)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth,create_time createTime
+        FROM app_pay_amount_record WHERE user_id = #{id} AND type = 2
+           UNION ALL
+        SELECT id,concat('开通提成')operationName,concat('+',amount)amount,concat(3)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth,create_time createTime
+        FROM app_user_plus_royalty WHERE royalty_user_id = #{id}
+           UNION ALL
+        SELECT id,concat('订单提成')operationName,concat('+',settle_plus_amount) amount,concat(4)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth,create_time createTime
+        FROM app_settle_plus WHERE plus_id = #{id}
+           UNION ALL
+        SELECT id,concat('订单开始')operationName,concat('+',fixloss_user) amount,concat(5) type,DATE_FORMAT(creat_time,'%Y-%m')operationMonth,update_time createTime
+        FROM app_indent WHERE user_id = #{id} AND state = 6
+           UNION ALL
+        SELECT id,CONCAT('洗车红包(Plus会员提成)')operationName,concat('+',momey) amount,concat(6)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth,create_time createTime
+        FROM app_user_account_record WHERE user_id = #{id} AND type = 12 AND momey &lt;&gt; 0
+           UNION ALL
+        SELECT id,CONCAT('美容红包(Plus会员提成)')operationName,concat('+',momey) amount,concat(7)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth,create_time createTime
+        FROM app_user_account_record WHERE user_id = #{id} AND type = 14 AND momey &lt;&gt; 0
+             ) t ORDER BY t.createTime DESC LIMIT #{pagesize},20
+    </select>
+
+<!--
+    List<AmountList> findChangeListAndDate(@Param("id")Integer id, @Param("pagesize")Integer pagesize, @Param("date")String date);
+-->
+    <select id="findChangeListAndDate" resultType="AmountList">
+        SELECT t.* FROM(
+        SELECT partner_trade_no,concat('余额提现')operationName,concat('-',amount)amount,concat(1)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth
+        FROM app_wx_cash_out_record WHERE user_id = #{id} AND source = 1 AND DATE_FORMAT(create_time,'%Y-%m') =#{date}
+           UNION ALL
+        SELECT id,concat('收到红包')operationName,concat('+',pay_amount) amount,concat(2)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth
+        FROM app_pay_amount_record WHERE user_id = #{id} AND DATE_FORMAT(create_time,'%Y-%m') =#{date} AND type = 1
+           UNION ALL
+        SELECT id,concat('收到红包(Plus会员提成)')operationName,concat('+',pay_amount) amount,concat(2)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth
+        FROM app_pay_amount_record WHERE user_id = #{id} AND DATE_FORMAT(create_time,'%Y-%m') =#{date} AND type = 2
+           UNION ALL
+        SELECT id,concat('开通提成')operationName,concat('+',amount)amount,concat(3)type,DATE_FORMAT(create_time,'%Y-%m')operationMonth
+        FROM app_user_plus_royalty WHERE royalty_user_id = #{id} AND DATE_FORMAT(create_time,'%Y-%m') =#{date}
+           UNION ALL
+        SELECT id,concat('订单提成')operationName,concat('+',settle_plus_amount) amount,concat(4)type,DATE_FORMAT(create_time,'%Y-%m')
+        FROM app_settle_plus WHERE plus_id = #{id} AND DATE_FORMAT(create_time,'%Y-%m') =#{date}
+           UNION ALL
+        SELECT id,concat('订单结算')operationName,concat('+',fixloss_user) amount,concat(5) type,DATE_FORMAT(creat_time,'%Y-%m')
+        FROM app_indent WHERE user_id = #{id} AND state = 6 AND DATE_FORMAT(creat_time,'%Y-%m') =#{date}
+             ) t ORDER BY t.operationMonth DESC LIMIT #{pagesize},20
+    </select>
+
+
+    <!--UserEntity selectWxuser(String wxuserId);-->
+    <select id="selectWxuser" resultType="UserEntity">
+        SELECT
+        headImg avatar,
+        wxname name,
+        phone phoneNumber
+        from biz_wx_user WHERE openid = #{wxuserId}
+    </select>
+<!--
+    BigDecimal findIncome(@Param("operationMonth")String operationMonth, @Param("id")Integer id);
+-->
+    <select id="findSpend" resultType="BigDecimal">
+         SELECT sum(amount)
+        FROM app_wx_cash_out_record WHERE user_id = #{id} AND source = 1 AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+    </select>
+
+
+<!--
+    BigDecimal findSpend(@Param("operationMonth")String operationMonth, @Param("id")Integer id);
+-->
+    <select id="findIncome" resultType="BigDecimal">
+    SELECT SUM(amount) FROM(
+        SELECT concat('+',pay_amount) amount
+        FROM app_pay_amount_record WHERE user_id = #{id} AND type = 1 AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+           UNION ALL
+        SELECT concat('+',pay_amount) amount
+        FROM app_pay_amount_record WHERE user_id = #{id} AND type = 2 AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+           UNION ALL
+        SELECT concat('+',amount)amount
+        FROM app_user_plus_royalty WHERE royalty_user_id = #{id} AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+           UNION ALL
+        SELECT concat('+',settle_plus_amount) amount
+        FROM app_settle_plus WHERE plus_id = #{id} AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+           UNION ALL
+        SELECT concat('+',fixloss_user) amount
+        FROM app_indent WHERE user_id = #{id} AND state = 6 AND DATE_FORMAT(creat_time,'%Y-%m') = #{operationMonth}
+           UNION ALL
+        SELECT concat('+',momey) amount
+        FROM app_user_account_record WHERE user_id = user_id = #{id} AND type = 12 AND momey &lt;&gt; 0 AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+           UNION ALL
+        SELECT concat('+',momey) amount
+        FROM app_user_account_record WHERE user_id = user_id = #{id} AND type = 14  AND DATE_FORMAT(create_time,'%Y-%m') = #{operationMonth}
+        ) t
+    </select>
+    <!--List<Integer> selectId();-->
+    <select id="selectId" resultType="Integer">
+        SELECT id FROM app_user
+    </select>
+
+
+    <!--AppUserEntity findUserById(Integer parentId);-->
+    <select id="findUserById" resultType="AppUserEntity">
+        SELECT * FROM app_user WHERE id = #{parentId} FOR UPDATE;
+    </select>
+
+
+<!--    String[] findFans(Integer id);-->
+    <select id="findFans" resultType="String">
+        SELECT id FROM app_user WHERE parent_id = #{id}
+    </select>
+
+
+<!--    List<AccidentRecordEntity> findVideo(List<String> users,Integer pagesize, @Param("beginTime")String beginTime, @Param("endTime")String endTime);-->
+    <select id="findVideo" resultType="FansVideoDto">
+        SELECT id,user_id userId,video,statuse,reason,type,introduce,DATE_FORMAT(create_time,'%Y-%m-%d') createTime
+         FROM app_accident_record WHERE type = 1
+        <if test="beginTime != null and beginTime != ''">
+         AND create_time BETWEEN #{beginTime} AND #{endTime}
+        </if>
+         AND user_id IN
+        <foreach item="users" index="index" collection="users" open="(" separator="," close=")">
+            #{users}
+        </foreach>
+        ORDER BY createTime DESC
+        limit #{pagesize},20
+    </select>
+</mapper>

@@ -1,0 +1,117 @@
+<% layout('/layouts/default.html', {title: '个人产值', libs: ['dataGrid']}){ %>
+<div class="main-content">
+    <div class="box box-main">
+        <div class="box-header">
+            <div class="box-title">
+                <i class="fa fa-list-alt"></i> ${text('订单信息表管理')}
+                <h3 id="result">个人产值:</h3>
+            </div>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <#form:form id="searchForm" model="${appIndent}" action="${ctx}/app/appIndent/professionalListData" method="post" class="form-inline hide"
+            data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+                <div class="form-group">
+                    <label class="control-label">${text('理赔人员名称')}：</label>
+                    <div class="control-inline">
+                        <#form:input path="username" id="username" maxlength="20" class="form-control width-60"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">${text('月份（格式:xxxx-xx）')}：</label>
+                    <div class="control-inline">
+                        <#form:input path="plan" id="plan" maxlength="20" class="form-control width-120"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-sm" onclick="allFixuer()" >${text('查询')}</button>
+                    <button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+                </div>
+            </#form:form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<script>
+    // 初始化DataGrid对象
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            // {header:'${text("id")}', name:'userBId', index:'a.user_b_id', width:60, align:"center"},
+            {header:'${text("进车时间")}', name:'creatTime', index:'a.creat_time', width:120, align:"center"},
+            {header:'${text("车牌")}', name:'licensePlate', index:'a.license_plate', width:100, align:"left"},
+            // {header:'${text("品牌")}', name:'brandName', index:'d.name', width:120, align:"center"},
+            {header:'${text("送修单位")}', name:'sendUnit', index:'a.send_unit', width:150, align:"center"},
+            {header:'${text("送修人员")}', name:'sendPeople', index:'a.send_people', width:120, align:"center"},
+            {header:'${text("订单状态")}', name:'state', index:'a.state', width:90, align:"center", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('app_indent_state')}, val, '${text("未知")}', true);
+                }},
+            {header:'${text("预估金额")}', name:'fixloss', index:'a.fixloss', width:120, align:"left", formatter: function(val, obj, row, act){
+                    return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+                }},
+            {header:'${text("维修金额")}', name:'settleAccounts', index:'a.settle_accounts', width:100, align:"left", formatter: function(val, obj, row, act){
+                    return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+                }},
+            // {header:'${text("4s结算公司比例")}', name:'settleFoursCompanyRate', index:'a.settle_fours_company_rate', width:100, align:"left", formatter: function(val, obj, row, act){
+            //         return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+            //     }},
+            // {header:'${text("4s结算公司金额")}', name:'settleFoursCompany', index:'a.settle_fours_company', width:100, align:"left", formatter: function(val, obj, row, act){
+            //         return js.formatNumber(val, 2, false, '0.00'); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+            //     }},
+            // {header:'${text("是否结算")}', name:'sendBack', index:'a.send_back', width:70, align:"center", formatter: function(val, obj, row, act){
+            //         return js.getDictLabel(${@DictUtils.getDictListJson('sys_yes_no')}, val, '${text("否")}', true);
+            //     }},
+            {header:'${text("备注")}', name:'remake', index:'a.remake', width:100, align:"left"},
+            // {header:'${text("信息来源")}', name:'messageSource', index:'a.message_source', width:80, align:"center", formatter: function(val, obj, row, act){
+            //         return js.getDictLabel(${@DictUtils.getDictListJson('app_message_resource')}, val, '${text("否")}', true);
+            //     }},
+            // {header:'${text("交易时间")}', name:'dealTime', index:'a.deal_time', width:70, align:"center", formatter: function(val, obj, row, act){
+            //         return js.getDictLabel(${@DictUtils.getDictListJson('app_deal_time')}, val, '${text("否")}', true);
+            //     }},
+            {header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+                    var actions = [];
+                <% if(hasPermi('app:appIndent:edit')){ %>
+                        actions.push('<a href="#" class="btnList" title="${text("编辑事故上报信息表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+                        actions.push('<a href="#" class="btnList" title="${text("删除事故上报信息表")}" data-confirm="${text("确认要删除该事故上报信息表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    <% } %>
+                    return actions.join('');
+                }}
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function(data){
+
+        }
+    });
+
+    function allFixuer() {
+
+        var username = document.getElementById("username").value;
+        var plan = document.getElementById("plan").value;
+        var b = "暂无,请重新查询";
+        //查询到产值
+        $.ajax({
+            type: "GET",
+            url: "${ctx}/app/appIndent/fincAllFixuser",
+            data: {
+                username: username,
+                plan:plan
+            },
+            dataType: "json",
+            success: function (reslut) {
+                b = $.trim(reslut.data)
+                var a = "个人产值:" +b+"元";
+                // 显示，在id为result处动态显示（清除旧的显示新的）
+                document.getElementById('result').innerText = a;
+            },
+            error:function (reslut) {
+                layer.msg('查询失败,请联系管理员',{time:3000,icon:2});
+            }
+        });
+    }
+</script>
+

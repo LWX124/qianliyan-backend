@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>分享</title>
+    <link rel="stylesheet" href="../style/rest.css">
+    <link rel="stylesheet" href="../style/share.css">
+    <script src="../script/rest.js"></script>
+    <script src="../script/jquery.min.js"></script>
+<!--    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        #video {
+            display: block;
+            width: 100%;
+        }
+        #mask {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.83);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .pop-container {
+            width: 250px;
+            height: 200px;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .buttons {
+            width: 50px;
+            height: 30px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="share-wrapper">
+
+    <div class="video-wrapper">
+        <video muted  controls
+               id="video"
+                width="100%"
+                height="100%"
+                preload="auto"
+                autoplay="autoplay"
+                th:src="${video}"
+                style="position: absolute;"
+        ></video>
+        <div class="control">
+            <i class="icon"></i>
+        </div>
+    </div>
+
+    <div class="download-tip" onclick="all_click()">
+        <div class="left">
+            <div>
+                <i></i>
+            </div>
+            <div>
+                <p>车己车服</p>
+                <p>拍事故 得现金</p>
+            </div>
+        </div>
+        <div class="right">
+            <button class="reset-button download-btn">立即下载</button>
+        </div>
+    </div>
+
+    <!-- <div class="back">
+      <i></i>
+    </div> -->
+
+    <!--    <div class="actions" onclick="all_click()" th:style="'display:' + @{(${source} ? 'none' : 'inline-block')} + ''">-->
+    <div class="actions" onclick="all_click()">
+        <ul class="action-wrapper">
+            <li class="item">
+                <i class="icon"></i>
+            </li>
+            <li class="item">
+                <i class="icon heart"></i>
+                <p th:text="${up_num}"></p>
+            </li>
+            <li class="item">
+                <i class="icon"></i>
+                <p th:text="${comment_num}"></p>
+            </li>
+            <li class="item">
+                <i class="icon"></i>
+                <!--                <p>996</p>-->
+            </li>
+        </ul>
+    </div>
+    <div id="mask">
+        <div class="pop-container">
+            <p>页面内有自动播放视频 请注意流量</p>
+            <button onclick="playVideo()" class="buttons">好的</button>
+        </div>
+    </div>
+    <div class="info" onclick="all_click()">
+        <div class="red-envelop">
+            <p>
+                <i class="pic"></i>
+            </p>
+            <button class="reset-button download-btn">
+                下载车己车服
+            </button>
+        </div>
+        <p></p>
+        <p th:text="${introduce}"></p>
+        <p>
+            <i></i>
+            <span th:text="${address}"></span>
+            <input type="hidden" th:value="${code}" id="code">
+        </p>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.4.3/lottie.min.js"></script>
+<script src="../script/lottie.js"></script>
+<script>
+    function all_click() {
+        var url = '/cServer/page/register?code=' + document.getElementById('code').value
+        window.location.href = url
+    }
+
+    window.onload = function(){
+        setTimeout(function () {
+            document.getElementById('mask').style.display = 'none';
+        }, 2000);
+    }
+
+    function playVideo() {
+        document.getElementById('mask').style.display = 'none';
+        var video = document.querySelector('#video');
+        video.play();
+    }
+
+    // 点赞
+    let heartEl = document.querySelector('.heart')
+    heartEl.addEventListener('click', function () {
+        if (this.classList.contains('active')) {
+            this.classList.remove('active')
+        } else {
+            this.classList.add('active')
+        }
+    })
+
+    // 视频播放
+    let video = document.getElementById('video')
+    let videoWrapper = document.querySelector('.video-wrapper')
+    let pauseIcon = document.querySelector('.control .icon')
+    video.play();
+    videoWrapper.addEventListener('click', function () {
+        if (video.paused === true) {
+            video.play()
+            pauseIcon.classList.remove('pause-icon')
+        } else {
+            video.pause()
+            pauseIcon.classList.add('pause-icon')
+        }
+    })
+
+    // 加载图片
+    let params = {
+        container: document.querySelector('.red-envelop .pic'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: redEnvelop
+    }
+
+    lottie.loadAnimation(params)
+</script>
+</body>
+</html>

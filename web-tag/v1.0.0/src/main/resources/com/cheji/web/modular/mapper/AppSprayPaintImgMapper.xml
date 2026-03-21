@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppSprayPaintImgMapper">
+
+
+<!--    List<AppSprayPaintImgEntity> selectInService(Integer id);-->
+    <select id="selectInService" resultType="AppSprayPaintImgEntity">
+        SELECT * FROM app_spray_paint_img WHERE  type = 3 AND spray_paint_id = #{id};
+    </select>
+
+</mapper>
+

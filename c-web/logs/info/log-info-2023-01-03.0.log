@@ -1,0 +1,49 @@
+2023-01-03 09:49:37.846 [main] INFO  com.cheji.web.WebApplication - Starting WebApplication on DESKTOP-HJ3OC0F with PID 4800 (C:\software\workspace_idea\web-java\web\trunk\target\classes started by yang in C:\software\workspace_idea\web-java)
+2023-01-03 09:49:37.859 [main] INFO  com.cheji.web.WebApplication - The following profiles are active: pro
+2023-01-03 09:49:39.918 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-01-03 09:49:39.922 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-01-03 09:49:40.127 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 167ms. Found 0 repository interfaces.
+2023-01-03 09:49:41.146 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$8dadec56] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-01-03 09:49:41.813 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2023-01-03 09:49:41.842 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2023-01-03 09:49:41.844 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-01-03 09:49:41.846 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.21]
+2023-01-03 09:49:42.173 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/cServer] - Initializing Spring embedded WebApplicationContext
+2023-01-03 09:49:42.173 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 4206 ms
+2023-01-03 09:49:42.944 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2023-01-03 09:49:43.604 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2023-01-03 09:49:46.761 [main] INFO  com.cheji.web.config.MQProducerConfiguration - producer is start ! groupName:[web],namesrvAddr:[127.0.0.1:9876]
+2023-01-03 09:49:49.860 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023-01-03 09:49:49.910 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Initializing ExecutorService
+2023-01-03 09:49:49.913 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+2023-01-03 09:49:50.090 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2023-01-03 09:49:51.143 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2023-01-03 09:49:51.177 [main] INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2023-01-03 09:49:51.235 [main] INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2023-01-03 09:49:51.644 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getCityUsingGET_1
+2023-01-03 09:49:51.705 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: createVipOrderUsingGET_1
+2023-01-03 09:49:51.786 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingGET_1
+2023-01-03 09:49:51.791 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: cancelOrderUsingGET_1
+2023-01-03 09:49:51.918 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_1
+2023-01-03 09:49:51.970 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: foursStoresBrandUsingGET_1
+2023-01-03 09:49:52.016 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: addCashOutUsingPOST_1
+2023-01-03 09:49:52.076 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: thumbsUsingPOST_1
+2023-01-03 09:49:52.078 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: indentMesUsingGET_1
+2023-01-03 09:49:52.084 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingGET_2
+2023-01-03 09:49:52.086 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingGET_3
+2023-01-03 09:49:52.087 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingHEAD_1
+2023-01-03 09:49:52.087 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingPOST_1
+2023-01-03 09:49:52.087 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingPUT_1
+2023-01-03 09:49:52.088 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingPATCH_1
+2023-01-03 09:49:52.088 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingDELETE_1
+2023-01-03 09:49:52.088 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingOPTIONS_1
+2023-01-03 09:49:52.088 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: listUsingTRACE_1
+2023-01-03 09:49:52.100 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: queryOrderStatusUsingPOST_1
+2023-01-03 09:49:52.101 [main] INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: wxpayNotifyUsingPOST_1
+2023-01-03 09:49:52.135 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2023-01-03 09:49:52.156 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path '/cServer'
+2023-01-03 09:49:52.160 [main] INFO  com.cheji.web.WebApplication - Started WebApplication in 15.873 seconds (JVM running for 18.752)
+2023-01-03 09:52:35.841 [Thread-35] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-01-03 09:52:35.842 [Thread-35] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+2023-01-03 09:52:35.889 [Thread-35] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2023-01-03 09:52:35.904 [Thread-35] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

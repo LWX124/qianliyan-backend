@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionVipLvMapper">
+
+    <select id="selectByVip" resultType="AppAuctionVipLvEntity" >
+        select t1.* from app_auction_vip_lv t1
+        where t1.lv = #{vipLv}
+            limit 1
+    </select>
+</mapper>

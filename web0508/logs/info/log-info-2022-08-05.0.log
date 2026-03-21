@@ -1,0 +1,36 @@
+2022-08-05 14:08:00.645 [main] INFO  com.cheji.web.WebApplication - Starting WebApplication on DESKTOP-HJ3OC0F with PID 11944 (C:\software\workspace_idea\web-java\web\trunk\target\classes started by yang in C:\software\workspace_idea\web-java)
+2022-08-05 14:08:00.674 [main] INFO  com.cheji.web.WebApplication - The following profiles are active: pro
+2022-08-05 14:08:02.342 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-08-05 14:08:02.345 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-08-05 14:08:02.421 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 57ms. Found 0 repository interfaces.
+2022-08-05 14:08:02.894 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7a9e0da4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-08-05 14:08:03.238 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2022-08-05 14:08:03.249 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2022-08-05 14:08:03.250 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-08-05 14:08:03.250 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.21]
+2022-08-05 14:08:03.387 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/cServer] - Initializing Spring embedded WebApplicationContext
+2022-08-05 14:08:03.387 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2607 ms
+2022-08-05 14:08:03.992 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2022-08-05 14:08:04.613 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2022-08-05 14:08:09.257 [main] INFO  com.cheji.web.config.MQProducerConfiguration - producer is start ! groupName:[web],namesrvAddr:[127.0.0.1:9876]
+2022-08-05 14:08:11.147 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2022-08-05 14:08:11.765 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2022-08-05 14:08:11.785 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path '/cServer'
+2022-08-05 14:08:11.789 [main] INFO  com.cheji.web.WebApplication - Started WebApplication in 12.363 seconds (JVM running for 15.341)
+2022-08-05 14:13:25.782 [Thread-26] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2022-08-05 14:13:25.797 [Thread-26] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2022-08-05 14:13:25.806 [Thread-26] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2022-08-05 14:13:35.695 [main] INFO  com.cheji.web.WebApplication - Starting WebApplication on DESKTOP-HJ3OC0F with PID 1416 (C:\software\workspace_idea\web-java\web\trunk\target\classes started by yang in C:\software\workspace_idea\web-java)
+2022-08-05 14:13:35.748 [main] INFO  com.cheji.web.WebApplication - The following profiles are active: pro
+2022-08-05 14:13:36.938 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-08-05 14:13:36.941 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-08-05 14:13:37.007 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 53ms. Found 0 repository interfaces.
+2022-08-05 14:13:37.364 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$82a79db6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-08-05 14:13:37.618 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2022-08-05 14:13:37.627 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2022-08-05 14:13:37.628 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-08-05 14:13:37.628 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.21]
+2022-08-05 14:13:37.779 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/cServer] - Initializing Spring embedded WebApplicationContext
+2022-08-05 14:13:37.779 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1919 ms
+2022-08-05 14:13:38.283 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2022-08-05 14:13:40.325 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.

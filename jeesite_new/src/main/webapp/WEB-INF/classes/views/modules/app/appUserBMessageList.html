@@ -1,0 +1,200 @@
+<% layout('/layouts/default.html', {title: '用户服务信息表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('用户服务信息表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appUserBMessage:edit')){ %>
+					<a href="${ctx}/app/appUserBMessage/form" class="btn btn-default btnTool" title="${text('新增用户服务信息表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appUserBMessage}" action="${ctx}/app/appUserBMessage/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="serialNumber" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('商户id')}：</label>
+					<div class="control-inline">
+						<#form:input path="userBId" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('名称')}：</label>
+					<div class="control-inline">
+						<#form:input path="name" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('技师电话')}：</label>
+					<div class="control-inline">
+						<#form:input path="phone" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('头像')}：</label>
+					<div class="control-inline">
+						<#form:input path="headImg" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('工作地址')}：</label>
+					<div class="control-inline">
+						<#form:input path="workPlace" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('经度')}：</label>
+					<div class="control-inline">
+						<#form:input path="lng" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('纬度')}：</label>
+					<div class="control-inline">
+						<#form:input path="lat" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('拖车车牌')}：</label>
+					<div class="control-inline">
+						<#form:input path="trailerPlate" maxlength="50" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('价格/面')}：</label>
+					<div class="control-inline">
+						<#form:input path="price" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('分数')}：</label>
+					<div class="control-inline">
+						<#form:input path="score" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('订单个数')}：</label>
+					<div class="control-inline">
+						<#form:input path="orderNumber" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('简介')}：</label>
+					<div class="control-inline">
+						<#form:input path="introduction" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('工作等级')}：</label>
+					<div class="control-inline">
+						<#form:input path="level" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('工作内容')}：</label>
+					<div class="control-inline">
+						<#form:input path="wrokType" maxlength="2" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('驾龄')}：</label>
+					<div class="control-inline">
+						<#form:input path="driverYear" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('营业状态 1.开始 2未营业')}：</label>
+					<div class="control-inline">
+						<#form:input path="businessType" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('技术年龄')}：</label>
+					<div class="control-inline">
+						<#form:input path="technologyYear" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('创建时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="createTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('修改时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="updateTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("编号")}', name:'serialNumber', index:'a.serial_number', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appUserBMessage/form?id='+row.id+'" class="btnList" data-title="${text("编辑用户服务信息表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("商户id")}', name:'userBId', index:'a.user_b_id', width:150, align:"center"},
+		{header:'${text("名称")}', name:'name', index:'a.name', width:150, align:"left"},
+		{header:'${text("技师电话")}', name:'phone', index:'a.phone', width:150, align:"left"},
+		{header:'${text("头像")}', name:'headImg', index:'a.head_img', width:150, align:"left"},
+		{header:'${text("工作地址")}', name:'workPlace', index:'a.work_place', width:150, align:"left"},
+		{header:'${text("经度")}', name:'lng', index:'a.lng', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("纬度")}', name:'lat', index:'a.lat', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("拖车车牌")}', name:'trailerPlate', index:'a.trailer_plate', width:150, align:"left"},
+		{header:'${text("价格/面")}', name:'price', index:'a.price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("分数")}', name:'score', index:'a.score', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("订单个数")}', name:'orderNumber', index:'a.order_number', width:150, align:"center"},
+		{header:'${text("简介")}', name:'introduction', index:'a.introduction', width:150, align:"left"},
+		{header:'${text("工作等级")}', name:'level', index:'a.level', width:150, align:"center"},
+		{header:'${text("工作内容")}', name:'wrokType', index:'a.wrok_type', width:150, align:"center"},
+		{header:'${text("驾龄")}', name:'driverYear', index:'a.driver_year', width:150, align:"left"},
+		{header:'${text("营业状态 1.开始 2未营业")}', name:'businessType', index:'a.business_type', width:150, align:"center"},
+		{header:'${text("技术年龄")}', name:'technologyYear', index:'a.technology_year', width:150, align:"left"},
+		{header:'${text("创建时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("修改时间")}', name:'updateTime', index:'a.update_time', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appUserBMessage:edit')){ %>
+				actions.push('<a href="${ctx}/app/appUserBMessage/form?id='+row.id+'" class="btnList" title="${text("编辑用户服务信息表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/app/appUserBMessage/delete?id='+row.id+'" class="btnList" title="${text("删除用户服务信息表")}" data-confirm="${text("确认要删除该用户服务信息表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

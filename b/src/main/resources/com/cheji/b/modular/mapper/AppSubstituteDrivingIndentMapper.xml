@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppSubstituteDrivingIndentMapper">
+
+
+
+<!--    AppSubstituteDrivingIndentEntity selectMonthIncome(Integer id);-->
+        <select id="selectMonthIncome" resultType="AppSubstituteDrivingIndentEntity">
+
+            SELECT SUM(actual_price) monthIncome,COUNT(1) monthCount
+            FROM app_substitute_driving_indent
+             WHERE user_b_id = #{id} AND DATE_FORMAT(create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+                and (indent_state = 6 or indent_state = 7)
+        </select>
+
+
+
+
+<!--    AppSubstituteDrivingIndentEntity selectAllMess(Integer id);-->
+        <select id="selectAllMess" resultType="AppSubstituteDrivingIndentEntity">
+
+            SELECT SUM(actual_price) income,COUNT(1) count FROM app_substitute_driving_indent
+             WHERE user_b_id = #{id} AND (indent_state = 6 or indent_state = 7)
+
+        </select>
+
+
+
+<!--    List<AppCleanIndetEntity> newSubDriIndentList(@Param("id")Integer id, @Param("type")Integer type, @Param("pagesize")Integer pagesize);-->
+        <select id="newSubDriIndentList" resultType="AppCleanIndetEntity">
+
+        SELECT a.user_id userId,a.user_b_id userBId,CONCAT('') cleanType,
+            CONCAT('代驾') cleanName,CONCAT('') carName,a.substitute_driving_number cleanIndentNumber,
+            a.actual_price amount,a.indent_state indentState,b.url imgUrl,CONCAT('1') isEvaluation,
+            a.create_time createTime,CONCAT('6') resource,CONCAT('') rescueName,end_address currentPosition
+         FROM app_substitute_driving_indent as a
+            LEFT JOIN app_lable as b ON b.id = 19
+         WHERE user_b_id = #{id} AND a.indent_state &lt;&gt; 0
+            <if test="type == 2">
+                AND a.indent_state = 1
+            </if>
+            <if test="type == 3">
+                AND (a.indent_state = 2 or a.indent_state = 3 or a.indent_state = 4)
+            </if>
+            <if test="type == 4">
+                AND a.indent_state = 5
+            </if>
+            <if test="type == 5">
+                AND a.indent_state = 6
+            </if>
+            <if test="type == 6">
+                AND a.indent_state = 8
+            </if>
+            order by createTime DESC
+            LIMIT #{pagesize},20
+
+
+
+        </select>
+
+
+
+</mapper>

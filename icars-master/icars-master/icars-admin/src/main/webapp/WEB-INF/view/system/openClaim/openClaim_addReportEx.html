@@ -1,0 +1,68 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <input type="hidden" id="id" value="${openClaim.id}" />
+                            <#input id="orderno" name="订单号" underline="true" value="${openClaim.orderno}" readonly="readonly"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="exMgs" name="异常信息" underline="true" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="file-loading">
+                    <input id="f_upload" name="file" type="file"  multiple class="file" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12" style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="OpenClaimInfoDlg.addExMsgSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="OpenClaimInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/openClaim/openClaim_info.js"></script>
+<script>
+
+    $('#f_upload').fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: '/file/uploadfile', //上传的地址
+        allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+        showUpload: true, //是否显示上传按钮
+        showCaption: false,//是否显示标题
+        // browseClass: "btn btn-primary btn-file", //按钮样式
+        //dropZoneEnabled: false,//是否显示拖拽区域
+        //minImageWidth: 50, //图片的最小宽度
+        //minImageHeight: 50,//图片的最小高度
+        //maxImageWidth: 1000,//图片的最大宽度
+        //maxImageHeight: 1000,//图片的最大高度
+        maxFileSize: 200,//单位为kb，如果为0表示不限制文件大小
+        //minFileCount: 0,
+        maxFileCount: 10, //表示允许同时上传的最大文件个数
+        enctype: 'multipart/form-data',
+        validateInitialCount:true,
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    });
+
+    //导入文件上传完成之后的事件
+    $("#f_upload").on("fileuploaded", function (event, data, previewId, index) {
+        $("#myModal").modal("hide");
+        var errorCode = data.response.errorCode;
+        if (errorCode != 0) {
+            Feng.error("上传失败!" + data.response.data.message + "!");
+        }else {
+            OpenClaimInfoDlg.imageUrls = OpenClaimInfoDlg.imageUrls == null ? data.response.data[0] : OpenClaimInfoDlg.imageUrls + '|' + data.response.data[0];
+        }
+    });
+
+</script>
+@}

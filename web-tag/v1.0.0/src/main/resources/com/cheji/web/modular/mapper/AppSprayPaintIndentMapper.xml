@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppSprayPaintIndentMapper">
+
+<!--    Personal findIndentCount(String userId);-->
+    <select id="findIndentCount" resultType="Personal">
+        SELECT COUNT(CASE WHEN state = 2 THEN 1 ELSE NULL END)inServiceing,
+        COUNT(CASE WHEN state = 3 THEN 1 ELSE NULL END)toEvaluate
+        FROM app_spray_paint_indent WHERE user_id = #{userId} AND is_evaluation &lt;&gt; 1
+    </select>
+
+<!--    List<Integer> findOtherIndent(Integer userid);-->
+    <select id="findOtherIndent" resultType="Integer">
+        SELECT id FROM app_spray_paint_indent WHERE user_id = #{userid} AND (pay_state = 0 OR pay_state = 2)
+    </select>
+
+<!--    AppSprayPaintIndentEntity selectByNumber(String orderNumber);-->
+    <select id="selectByNumber" resultType="AppSprayPaintIndentEntity">
+        SELECT * from app_spray_paint_indent WHERE spray_paint_number = #{orderNumber}
+    </select>
+
+</mapper>
+
+

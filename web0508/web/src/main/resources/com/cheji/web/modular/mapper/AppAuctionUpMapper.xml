@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionUpMapper">
+
+
+    <!--  List<AppAuctionEntity> todayNew(); -->
+
+    <select id="todayNew" resultMap="AppAuctionEntityMap">
+        select a.*,
+               i.id iId, i.car_id iCarId, i.state iState, i.url iUrl, i.index iIndex
+        from app_auction a
+                 left join app_auction_up u on a.id = u.car_id
+                 left join app_auction_img i on u.car_id = i.car_id
+        <where>
+            TO_DAYS(u.begin_time) = TO_DAYS(NOW())
+                and a.up_state = 1
+                and a.car_state in (3,7)
+                and i.index = 1
+
+            <if test="ac.brand != null and ac.brand !=''">
+                AND a.brand like CONCAT('%',#{ac.brand},'%')
+            </if>
+
+            <if test="ac.auctionState != null and ac.auctionState == 1">
+                AND a.car_state=7
+                and u.begin_time &lt; now()
+                and u.end_time > now()
+            </if>
+            <if test="ac.auctionState != null and ac.auctionState == 2">
+                and u.begin_time &lt; now()
+            </if>
+
+            <if test="ac.fixedPrice != null and ac.fixedPrice !=''">
+                AND a.fixed_price = #{ac.fixedPrice}
+            </if>
+
+            <if test="ac.parkingPlace != null and ac.parkingPlace != ''">
+                AND a.parking_place like CONCAT('%',#{ac.parkingPlace},'%')
+            </if>
+
+            <if test="ac.accType != null and ac.accType != ''">
+                AND a.accident_type = #{ac.accType}
+            </if>
+
+            <if test="ac.priceMin != null and ac.priceMax != null and ac.priceMin != '' and ac.priceMax != ''">
+                AND a.price between #{ac.priceMin} and #{ac.priceMax}
+            </if>
+
+        </where>
+
+        order by a.create_time  DESC
+
+        limit #{page},20
+
+    </select>
+
+
+    <select id="todayNewCount" resultType="java.lang.Integer">
+        select count(1)
+        from app_auction a
+        left join app_auction_up u on a.id = u.car_id
+        left join app_auction_img i on u.car_id = i.car_id
+        <where>
+            TO_DAYS(u.begin_time) = TO_DAYS(NOW())
+            and a.up_state = 1
+            and a.car_state in (3,7)
+            and i.index = 1
+
+            <if test="ac.brand != null and ac.brand !=''">
+                AND a.brand like CONCAT('%',#{ac.brand},'%')
+            </if>
+            <if test="ac.auctionState != null and ac.auctionState == 1">
+                AND a.car_state=7
+                and u.begin_time &lt; now()
+                and u.end_time > now()
+            </if>
+            <if test="ac.auctionState != null and ac.auctionState == 2">
+                and u.begin_time > now()
+            </if>
+
+            <if test="ac.parkingPlace != null and ac.parkingPlace != ''">
+                AND a.parking_place like CONCAT('%',#{ac.parkingPlace},'%')
+            </if>
+
+            <if test="ac.accType != null and ac.accType != ''">
+                AND a.accident_type = #{ac.accType}
+            </if>
+
+            <if test="ac.priceMin != null and ac.priceMax != null and ac.priceMin != '' and ac.priceMax != ''">
+                AND a.price between #{ac.priceMin} and #{ac.priceMax}
+            </if>
+
+        </where>
+
+
+    </select>
+
+
+
+    <resultMap id="AppAuctionEntityMap" type="com.cheji.web.modular.domain.AppAuctionEntity">
+        <id column="id" property="id"/>
+        <result column="brand" property="brand"/>
+        <result column="displacement" property="displacement"/>
+        <result column="transmission" property="transmission"/>
+        <result column="fuel" property="fuel"/>
+        <result column="name" property="name"/>
+        <result column="inital_registe" property="initalRegiste"/>
+        <result column="register_date" property="registerDate"/>
+        <result column="issue_date" property="issueDate"/>
+        <result column="annual_check" property="annualCheck"/>
+        <result column="compulsory_insurance_vilidity" property="compulsoryInsuranceVilidity"/>
+        <result column="registered_residence" property="registeredResidence"/>
+        <result column="parking_place" property="parkingPlace"/>
+        <result column="accident_type" property="accidentType"/>
+        <result column="sunroof" property="sunroof"/>
+        <result column="frame_no" property="frameNo"/>
+        <result column="use_nature" property="useNature"/>
+        <result column="frame_no_damaged_condition" property="frameNoDamagedCondition"/>
+        <result column="engine" property="engine"/>
+        <result column="mileage" property="mileage"/>
+        <result column="key" property="key"/>
+        <result column="purchase_tax" property="purchaseTax"/>
+        <result column="plate_number" property="plateNumber"/>
+        <result column="registration_certificate" property="registrationCertificate"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="overhaul" property="overhaul"/>
+        <result column="announcements" property="announcements"/>
+        <result column="checked" property="checked"/>
+        <result column="other_field" property="otherField"/>
+        <result column="color" property="color"/>
+        <result column="mortgage" property="mortgage"/>
+        <result column="second" property="second"/>
+        <result column="change" property="change"/>
+        <result column="transfer" property="transfer"/>
+        <result column="owner" property="owner"/>
+        <result column="duty" property="duty"/>
+        <result column="duty_book" property="dutyBook"/>
+        <result column="driving_license" property="drivingLicense"/>
+        <result column="licence" property="licence"/>
+        <result column="insurance" property="insurance"/>
+        <result column="repair" property="repair"/>
+        <result column="user_id" property="userId"/>
+        <result column="plate_no" property="plateNo"/>
+        <result column="price" property="price"/>
+        <result column="fixed_price" property="fixedPrice"/>
+        <result column="insured_amount" property="insuredAmount"/>
+        <result column="up_state" property="upState"/>
+        <result column="car_state" property="carState"/>
+        <result column="product_date" property="productDate"/>
+        <result column="phone" property="phone"/>
+        <result column="auction_type" property="auctionType"/>
+
+
+        <collection property="imgList" ofType="AppAuctionImgEntity">
+            <id column="iId" property="id"/>
+            <result column="iUrl" property="url"/>
+            <result column="iIndex" property="index"/>
+            <result column="iCarId" property="carId"/>
+            <result column="iState" property="state"/>
+        </collection>
+    </resultMap>
+
+    <select id="todayNewCount" resultType="Integer">
+        select count(a.id) from app_auction a left join app_auction_up u on a.id = u.car_id
+        where TO_DAYS(u.begin_time) = TO_DAYS(NOW())
+          and a.up_state = 1
+          and a.car_state in (3,7)
+    </select>
+</mapper>

@@ -1,0 +1,102 @@
+<% layout('/layouts/default.html', {title: '年检订单表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('年检订单表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appYearCheckIndent:edit')){ %>
+					<a href="${ctx}/app/appYearCheckIndent/form" class="btn btn-default btnTool" title="${text('新增年检订单表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appYearCheckIndent}" action="${ctx}/app/appYearCheckIndent/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('年检订单编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="yearCheckNumber" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车牌')}：</label>
+					<div class="control-inline">
+						<#form:input path="licensePlate" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('用户姓名')}：</label>
+					<div class="control-inline">
+						<#form:input path="username" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('电话号码')}：</label>
+					<div class="control-inline">
+						<#form:input path="phone" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('年检类型')}：</label>
+					<div class="control-inline">
+						<#form:input path="yearCheckType" maxlength="1" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("年检订单编号")}', name:'yearCheckNumber', index:'a.year_check_number', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appYearCheckIndent/form?id='+row.id+'" class="btnList" data-title="${text("编辑年检订单表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("车牌")}', name:'licensePlate', index:'a.license_plate', width:150, align:"left"},
+		{header:'${text("用户姓名")}', name:'username', index:'a.username', width:150, align:"left"},
+		{header:'${text("电话号码")}', name:'phone', index:'a.phone', width:150, align:"left"},
+		{header:'${text("接车地点")}', name:'pickAddress', index:'a.pick_address', width:150, align:"left"},
+		{header:'${text("价格")}', name:'price', index:'a.price', width:150, align:"right", formatter: function(val, obj, row, act){
+			return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+		}},
+		{header:'${text("c端用户id")}', name:'userId', index:'a.user_id', width:150, align:"center"},
+		{header:'${text("b端用户id")}', name:'userBId', index:'a.user_b_id', width:150, align:"center"},
+		{header:'${text("订单状态")}', name:'state', index:'a.state', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_indent_spary_state')}, val, '${text("未知状态")}', true);
+			}},
+		{header:'${text("支付状态")}', name:'payState', index:'a.pay_state', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_pay_state')}, val, '${text("未知状态")}', true);
+			}},
+		{header:'${text("年检类型")}', name:'yearCheckType', index:'a.year_check_type', width:150, align:"center", formatter: function(val, obj, row, act){
+				return js.getDictLabel(${@DictUtils.getDictListJson('app_year_check_type')}, val, '${text("未知状态")}', true);
+			}},
+		{header:'${text("支付订单编号")}', name:'payNumber', index:'a.pay_number', width:150, align:"left"},
+		{header:'${text("创建时间")}', name:'createTime', index:'a.create_time', width:150, align:"center"},
+		{header:'${text("修改时间")}', name:'updateTime', index:'a.update_time', width:150, align:"center"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('app:appYearCheckIndent:edit')){ %>
+				actions.push('<a href="${ctx}/app/appYearCheckIndent/form?id='+row.id+'" class="btnList" title="${text("编辑年检订单表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/app/appYearCheckIndent/delete?id='+row.id+'" class="btnList" title="${text("删除年检订单表")}" data-confirm="${text("确认要删除该年检订单表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

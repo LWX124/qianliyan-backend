@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionBailLogMapper">
+
+    <select id="findByNo" resultType="AppAuctionBailLogEntity">
+        SELECT * FROM app_auction_bail_log
+        WHERE  out_trade_no = #{orderId}
+    </select>
+
+    <select id="sumByUserId" resultType="Integer">
+        SELECT sum(t1.amount) as singleAmt FROM app_auction_bail_log t1
+                 left join app_auction_bail_refund_log t2 on t1.out_trade_no=t2.out_trade_no
+        WHERE  t1.user_id = #{userId}
+        and t1.status=2
+        and t2.state =0;
+    </select>
+</mapper>

@@ -1,0 +1,113 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal" id="deptInfoForm">
+
+            <input type="hidden" id="id" value="${dept.id}">
+            <input type="hidden" id="companyids" value="${dept.companyids}">
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <#input id="simplename" name="部门名称" underline="true" value="${dept.simplename}"/>
+
+                    <#input id="fullname" name="部门全称" underline="true" value="${dept.fullname}"/>
+
+                    <#input id="tips" name="汽车品牌" underline="true" value="${dept.tips}"/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">省市区</label>
+                        <div class="col-sm-9">
+                            <div id="distpicker">
+                                <input id="city-picker3" class="form-control" readonly type="text" value="" data-toggle="city-picker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <#input id="address" name="详细地址" value="${dept.address}" underline="true" />
+                    <!--<#input id="synopsis" name="简介" value="${dept.synopsis}" underline="true"/>-->
+                    <#input id="scaleForEmp" name="业务提点(%)" underline="true" value="${dept.scaleForEmp}" />
+                </div>
+                <div class="col-sm-6">
+                    <#input id="synopsis" name="电话" underline="true" value="${dept.synopsis}"/>
+                    <#input id="pName" name="上级部门" readonly="readonly" hidden="pid"
+                            hiddenValue="${dept.pid}" value="${pName}"
+                            clickFun="DeptInfoDlg.showDeptSelectTree(); return false;"
+                            style="background-color: #ffffff !important;" underline="true"/>
+                    <#input id="lng" name="经度" value="${dept.lng}" underline="true"/>
+                    <#input id="lat" name="纬度" value="${dept.lat}" underline="true"/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">合作保险</label>
+                        <div class="col-sm-9">
+                            <select id="winsuranceCompany" name="winsuranceCompany" class="selectpicker show-tick form-control" multiple data-live-search="false">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <#input id="scaleForCompany" name="4S返点(%)" underline="true" value="${dept.scaleForCompany}" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="file-loading">
+                    <input id="f_upload" name="file" type="file"  multiple class="file" />
+                </div>
+            </div>
+            <!-- 父级部门的选择框 -->
+            <div id="parentDeptMenu" class="menuContent"
+                 style="display: none; position: absolute; z-index: 200;">
+                <ul id="parentDeptMenuTree" class="ztree tree-box" style="width: 245px !important;"></ul>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-12" style="text-align: center">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="DeptInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="DeptInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/dept/dept_info.js"></script>
+<script src="${ctxPath}/static/js/fileinput.js"></script>
+<script src="${ctxPath}/static/js/plugins/sortable.js"></script>
+<script src="${ctxPath}/static/js/plugins/piexif.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/purify.min.js"></script>
+<script src="${ctxPath}/static/js/locales/zh.js"></script>
+
+<script src="${ctxPath}/static/js/citypicker/city-picker.data.js"></script>
+<script src="${ctxPath}/static/js/citypicker/city-picker.js"></script>
+<script src="${ctxPath}/static/js/citypicker/main.js"></script>
+<script>
+    $('#f_upload').fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: '/file/uploadfile', //上传的地址
+        allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+        showUpload: true, //是否显示上传按钮
+        showCaption: false,//是否显示标题
+        // browseClass: "btn btn-primary btn-file", //按钮样式
+        //dropZoneEnabled: false,//是否显示拖拽区域
+        //minImageWidth: 50, //图片的最小宽度
+        //minImageHeight: 50,//图片的最小高度
+        //maxImageWidth: 1000,//图片的最大宽度
+        //maxImageHeight: 1000,//图片的最大高度
+        //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+        //minFileCount: 0,
+        maxFileCount: 10, //表示允许同时上传的最大文件个数
+        enctype: 'multipart/form-data',
+        validateInitialCount:true,
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    });
+
+    //导入文件上传完成之后的事件
+    $("#f_upload").on("fileuploaded", function (event, data, previewId, index) {
+        $("#myModal").modal("hide");
+        var errorCode = data.response.errorCode;
+        if (errorCode != 0) {
+            Feng.error("上传失败!" + data.response.data.message + "!");
+        }else {
+            DeptInfoDlg.imageUrls = DeptInfoDlg.imageUrls == null ? data.response.data[0] : DeptInfoDlg.imageUrls + '|' + data.response.data[0];
+        }
+    });
+
+</script>
+@}

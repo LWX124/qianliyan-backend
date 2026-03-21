@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.InsuranceMerchantsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.InsuranceMerchantsEntity">
+        <id column="id" property="id" />
+        <result column="insurance_id" property="insuranceId" />
+        <result column="merchants_id" property="merchantsId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, insurance_id AS insuranceId, merchants_id AS merchantsId
+    </sql>
+
+    <select id="getInsByMerchants" resultType="InsuranceMerchantsEntity">
+
+    SELECT DISTINCT
+    b.url
+    FROM app_insurance_merchants as a
+	JOIN biz_insurance_company as b ON a.insurance_id = b.id
+	WHERE a.user_b_id = #{merchantsId} AND a.state = 1;
+
+    </select>
+
+
+<!-- String getCompanyName(String merchantsCode);   -->
+    <select id="getCompanyName" resultType="String">
+SELECT GROUP_CONCAT(b.`name`) insurance FROM app_insurance_merchants as a
+		LEFT JOIN biz_insurance_company as b on a.insurance_id = b.id
+			WHERE user_b_id = #{merchantsCode}
+    </select>
+
+
+</mapper>

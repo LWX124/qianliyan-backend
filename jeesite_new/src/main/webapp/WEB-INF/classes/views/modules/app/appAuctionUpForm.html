@@ -1,0 +1,495 @@
+<% layout('/layouts/default.html', {title: '拍卖车上架信息表管理', libs: ['validate']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text(appAuctionUp.isNewRecord ? '新增拍卖车上架信息表' : '编辑拍卖车上架信息表')}
+			</div>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div>
+		</div>
+		<#form:form id="inputForm" model="${appAuctionUp}" action="${ctx}/app/appAuctionUp/save" method="post" class="form-horizontal">
+		<div class="box-body">
+			<div class="form-unit">${text('基本信息')}</div>
+			<#form:hidden path="id"/>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required ">*</span> ${text('关联拍卖车id')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="carId" maxlength="20" readonly="true" class="form-control required digits"/>
+							<#form:input path="appAuction.sourceType" id="sourceType" maxlength="20" readonly="true" class="form-control hide digits"/>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('拍卖开始时间')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="beginTime" id="beginTime1" dataFormat="datetime2" readonly="true" class="form-control"/>
+
+							<#form:input path="beginTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime2" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+
+
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('拍卖结束时间')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="endTime" id="endTime1" dataFormat="datetime2" readonly="true" class="form-control"/>
+							<#form:input path="endTime" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime2" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('上架状态')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:select path="appAuction.upState" maxlength="1" dictType="sys_up_state" class="form-control digits"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('起拍价')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="appAuction.price" maxlength="20" readonly="true" class="form-control"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('拍卖天数')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="upDateNum" class="form-control required digits"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('审核')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:radio path="appAuction.carState" maxlength="2" dictType="sys_audit" class="form-control digits"/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('其他费用')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="otherFee" class="form-control required digits"/>
+						</div>
+					</div>
+				</div>
+
+<!--				<div class="col-xs-6">-->
+<!--					<div class="form-group">-->
+<!--						<label class="control-label col-sm-4" title="">-->
+<!--							<span class="required hide">*</span> ${text('服务费率:百分比')}：<i class="fa icon-question hide"></i></label>-->
+<!--						<div class="col-sm-8">-->
+<!--							<#form:input path="serviceFee" maxlength="10" class="form-control required digits"/>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('服务费(元)')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="appAuction.carServiceAmt" maxlength="10" class="form-control required"/>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+
+			<div class="row">
+
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('单车保证金（元）')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="appAuction.carBondAmt" maxlength="20"  class="form-control required"/>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('精品车价格（万元）')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="appAuction.luxuryCarPrice" class="form-control"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('首付价格（万元）')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="appAuction.firstAmount" maxlength="10" class="form-control"/>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('未通过说明')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:textarea path="explain" rows="3" maxlength="200" class="form-control"/>
+						</div>
+					</div>
+				</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> ${text('备注')}：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:textarea path="backInfo" rows="3" maxlength="200" class="form-control"/>
+							</div>
+						</div>
+					</div>
+
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('型号')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="appAuction.brand" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('出价人')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input value="${bidLog}" readonly="true"  maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('车牌号')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8">
+							<#form:input path="brand" maxlength="255" class="form-control"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label col-sm-4" title="">
+							<span class="required hide">*</span> ${text('基本信息')}：<i class="fa icon-question hide"></i></label>
+						<div class="col-sm-8" id="getAppAuctionId">
+							<#form:hidden path="carId" id="appAuctionId" name="appAuctionId"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('车辆损失照片:')}：</label>
+						<div class="col-sm-10" id="carImgs">
+							<#inpt:hidden name="carImg" value="${carImg}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('驾驶证照片:')}：</label>
+						<div class="col-sm-10" id="driveImgs">
+							<#inpt:hidden name="driveImg" value="${driveImg}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('登记证书照片:')}：</label>
+						<div class="col-sm-10" id="regImgs">
+							<#inpt:hidden name="regImg" value="${regImg}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('理赔资料:')}：</label>
+						<div class="col-sm-10" id="insImgs">
+							<#inpt:hidden name="insImg" value="${insImg}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('过户资料:登记证书')}：</label>
+						<div class="col-sm-10" id="registrationImgs">
+							<#inpt:hidden name="registrationImg" value="${registrationImg}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('过户资料:行驶证')}：</label>
+						<div class="col-sm-10" id="newDriveImgs">
+							<#inpt:hidden name="newDriveImg" value="${newDriveImg}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('过户资料:二手交易发票')}：</label>
+						<div class="col-sm-10" id="carInvoiceImgs">
+							<#inpt:hidden name="carInvoiceImg" value="${carInvoiceImg}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('修理前')}：</label>
+						<div class="col-sm-10" id="beforeRepairs">
+							<#inpt:hidden name="beforeRepair" id="beforeRepair" value="${beforeRepair}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2">${text('修理后')}：</label>
+						<div class="col-sm-10" id="afterRepairs">
+							<#inpt:hidden name="afterRepair" id="afterRepair" value="${afterRepair}"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-footer">
+			<div class="row">
+				<div class="col-sm-offset-2 col-sm-10">
+					<% if (hasPermi('app:appAuctionUp:edit')){ %>
+					<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> ${text('保 存')}</button>&nbsp;
+					<% } %>
+					<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('关 闭')}</button>
+				</div>
+			</div>
+		</div>
+	</#form:form>
+</div>
+</div>
+<% } %>
+
+<script>
+
+
+	var luxuryCarPrice='[${appAuction.luxuryCarPrice}]';
+	var firstAmount='[${appAuction.firstAmount}]';
+	console.error(luxuryCarPrice);
+	console.error(firstAmount);
+
+
+	var appAuctionId = $("#appAuctionId").val();
+	var info = "<a href='${ctx}/app/appAuction/form?id="+appAuctionId+"'>点击查看详情</a>"
+	$("#getAppAuctionId").append(info);
+
+	var sourceType=$("#sourceType").val()
+	if (sourceType == 2) {
+		//二手车
+		$("#beginTime1").remove()
+		$("#endTime1").remove()
+	}else{
+		$("#beginTime").remove()
+		$("#endTime").remove()
+	}
+
+	var a = ${carImg}.toString();
+	var carImgs = a.substring(0,a.length);
+	if(carImgs != null){
+		for (const url of carImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#carImgs").append(img);
+		};
+	}
+
+
+	var beforeRepairs = ${beforeRepair}.toString();
+	var beforeRepairsImgs = beforeRepairs.substring(0,beforeRepairs.length);
+	if(beforeRepairsImgs != null){
+		for (const url of beforeRepairsImgs.split(",")) {
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#beforeRepairs").append(img);
+		}
+	}
+
+	var afterRepair = ${afterRepair}.toString();
+	var afterRepairImgs = afterRepair.substring(0,afterRepair.length);
+	if(afterRepairImgs != null){
+		for (const url of afterRepairImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#afterRepairs").append(img);
+		}
+	}
+
+
+	var b = ${driveImg}.toString();
+	var driveImgs = b.substring(0,b.length);
+	if(driveImgs != null){
+		for (const url of driveImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#driveImgs").append(img);
+		};
+	}
+
+
+	var c = ${regImg}.toString();
+	var regImgs = c.substring(0,c.length);
+	if(regImgs != null){
+		for (const url of regImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#regImgs").append(img);
+		};
+	}
+
+
+	var d = ${insImg}.toString();
+	var insImgs = d.substring(0,d.length);
+	if(insImgs != null){
+		for (const url of insImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#insImgs").append(img);
+		};
+	}
+
+	var e = ${registrationImg}.toString();
+	var registrationImgs = e.substring(0,e.length);
+	if(registrationImgs != null){
+		for (const url of registrationImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#registrationImgs").append(img);
+		};
+	}
+
+	var f = ${newDriveImg}.toString();
+	var newDriveImgs = f.substring(0,f.length);
+	if(newDriveImgs != null){
+		for (const url of newDriveImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#newDriveImgs").append(img);
+		};
+	}
+
+	var g = ${carInvoiceImg}.toString();
+	var carInvoiceImgs = g.substring(0,g.length);
+	if(carInvoiceImgs != null){
+		for (const url of carInvoiceImgs.split(",")) {
+			// var img = "<img height='200' src='"+url+"'>"
+			var img = "<a href='"+url+"' target='_blank'><img style='width: 200px;height: 140px;border: 3px solid white' src='"+url+"' ></a>"
+			$("#carInvoiceImgs").append(img);
+		};
+	}
+
+
+
+</script>
+
+<script>
+	$("#inputForm").validate({
+		submitHandler: function(form){
+			js.ajaxSubmitForm($(form), function(data){
+				js.showMessage(data.message);
+				if(data.result == Global.TRUE){
+					js.closeCurrentTabPage(function(contentWindow){
+						contentWindow.page();
+					});
+				}
+			}, "json");
+		}
+	});
+
+
+	//无论点击哪一个img弹出层都会展示相应的图片。
+	$(".form-group").find("img").on("click", function () {
+		var imgSrc;
+		$(this).each(function () {
+			var $this = $(this);
+			imgSrc = $this.attr("src");//获取当前点击img的src的值
+			console.log(imgSrc)
+		});
+		var carId = $("#carId").val();
+		//弹窗
+		layer.open({
+			type: 2,
+			title: '替换图片',
+			shadeClose: true,
+			shade: 0.8,
+			area: ['50%', '40%'],
+			content: '${ctx}/app/appBusinessConfirm/replaceImg?imgSrc='+imgSrc+'&carId='+carId+'' //iframe的url
+		});
+
+	});
+
+
+
+
+</script>

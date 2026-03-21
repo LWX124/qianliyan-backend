@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppSubstituteDrivingIndentMapper">
+
+<!--        Personal findIndentCount(String userId);-->
+        <select id="findIndentCount" resultType="Personal">
+
+        SELECT  COUNT(CASE WHEN indent_state =1 THEN 1 ELSE NULL END) waitReceiving,
+				COUNT(CASE WHEN (indent_state = 2 or indent_state =3 or indent_state = 4 or indent_state = 5) THEN 1 ELSE NULL END) inServiceing,
+				COUNT(CASE WHEN indent_state = 6 THEN 1 ELSE NULL END) toEvaluate
+								FROM app_substitute_driving_indent WHERE user_id =55
+
+        </select>
+
+
+<!--    List<Integer> selectNoPayList(Integer userid);-->
+    <select id="selectNoPayList" resultType="Integer">
+        SELECT id from app_substitute_driving_indent WHERE pay_state &lt;&gt; 1 AND indent_state &lt;&gt; 4 AND user_id = #{userid}
+    </select>
+
+
+<!--    AppSubstituteDrivingIndentEntity selectBySubNumber(String orderNumber);-->
+    <select id="selectBySubNumber" resultType="AppSubstituteDrivingIndentEntity">
+        SELECT * FROM app_substitute_driving_indent WHERE substitute_driving_number = #{orderNumber}
+    </select>
+
+
+</mapper>

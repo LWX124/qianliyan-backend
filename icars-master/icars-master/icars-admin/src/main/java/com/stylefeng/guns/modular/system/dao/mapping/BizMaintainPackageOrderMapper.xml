@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizMaintainPackageOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizMaintainPackageOrder">
+        <id column="id" property="id" />
+        <result column="orderno" property="orderno" />
+        <result column="openid" property="openid" />
+        <result column="packageid" property="packageid" />
+        <result column="phone" property="phone" />
+        <result column="price" property="price" />
+        <result column="order_status" property="orderStatus" />
+        <result column="lng" property="lng" />
+        <result column="lat" property="lat" />
+        <result column="address" property="address" />
+        <result column="name" property="name" />
+        <result column="preImgs" property="preImgs" />
+        <result column="aftImgs" property="aftImgs" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, orderno, openid, packageid, phone, price, order_status as orderStatus, lng, lat, address, modify_time as modifyTime, create_time as createTime, name, preImgs, aftImgs
+    </sql>
+
+    <sql id="Base_Column_List2">
+        a.id, a.orderno, a.openid, a.packageid, a.phone, a.price, a.order_status as orderStatus, a.name, a.preImgs, a.aftImgs
+        , a.lng, a.lat, a.address, a.modify_time as modifyTime, a.create_time as createTime, b.package_name as packageName, b.img, b.detail, b.prePrice, d.name as repaireName, d.phone as repairePhone
+    </sql>
+
+    <select id="getMaintainOrderNo" resultType="java.lang.String">
+        SELECT get_maintain_order_num() FROM dual
+    </select>
+
+    <select id="selectPage" resultType="com.stylefeng.guns.modular.system.model.BizMaintainPackageOrder">
+        select
+        <include refid="Base_Column_List2" />
+        from biz_maintain_package_order a inner join biz_maintain_package b on a.packageid = b.id left join biz_maintain_order_pushrecord c on a.id = c.maintain_order_id
+        left join sys_user d on c.account = d.account
+        <where>
+            <if test="condition != null and condition != ''">
+                and (b.package_name like CONCAT('%',#{condition},'%') or a.phone like CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="order.createStartTime != null and order.createStartTime != '' and order.createEndTime != '' and order.createEndTime != null">
+                and (a.create_time between CONCAT(#{order.createStartTime},' 00:00:00') and CONCAT(#{order.createEndTime},' 23:59:59'))
+            </if>
+            <if test="order.orderStatus != null and order.orderStatus != ''">
+                and a.order_status = #{order.orderStatus}
+            </if>
+            <if test="order.openid != null and order.openid != ''">
+                and a.openid = #{order.openid}
+            </if>
+            <if test="order.account != null and order.account != ''">
+                and c.account = #{order.account}
+            </if>
+            <if test="order.packageType != null">
+                and b.package_type = #{order.packageType}
+            </if>
+        </where>
+        ORDER BY createTime desc
+    </select>
+
+    <select id="selectPageForInner" resultType="com.stylefeng.guns.modular.system.model.BizMaintainPackageOrder">
+        select
+        <include refid="Base_Column_List2" />
+        from biz_maintain_package_order a inner join biz_maintain_package b on a.packageid = b.id inner join biz_maintain_order_pushrecord c on a.id = c.maintain_order_id
+        inner join sys_user d on c.account = d.account
+        <where>
+            <if test="condition != null and condition != ''">
+                and (b.package_name like CONCAT('%',#{condition},'%') or a.phone like CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="order.createStartTime != null and order.createStartTime != '' and order.createEndTime != '' and order.createEndTime != null">
+                and (a.create_time between CONCAT(#{order.createStartTime},' 00:00:00') and CONCAT(#{order.createEndTime},' 23:59:59'))
+            </if>
+            <if test="order.orderStatus != null and order.orderStatus != ''">
+                and a.order_status = #{order.orderStatus}
+            </if>
+            <if test="order.openid != null and order.openid != ''">
+                and a.openid = #{order.openid}
+            </if>
+            <if test="order.account != null and order.account != ''">
+                and c.account = #{order.account}
+            </if>
+            <if test="order.packageType != null">
+                and b.package_type = #{order.packageType}
+            </if>
+        </where>
+        ORDER BY createTime desc
+    </select>
+
+    <select id="countByCondition" resultType="java.lang.Long">
+        select
+        count(1)
+        from biz_maintain_package_order a inner join biz_maintain_package b on a.packageid = b.id left join biz_maintain_order_pushrecord c on a.id = c.maintain_order_id
+        left join sys_user d on c.account = d.account
+        <where>
+            <if test="order.openid != null and order.openid != ''">
+                and a.openid = #{order.openid}
+            </if>
+            <if test="order.account != null and order.account != ''">
+                and d.account = #{order.account}
+            </if>
+            <if test="order.orderStatus != null and order.orderStatus != ''">
+                and a.order_status = #{order.orderStatus}
+            </if>
+            <if test="order.packageType != null">
+                and b.package_type = #{order.packageType}
+            </if>
+        </where>
+    </select>
+
+    <select id="countByConditionForInner" resultType="java.lang.Long">
+        select
+        count(1)
+        from biz_maintain_package_order a inner join biz_maintain_package b on a.packageid = b.id inner join biz_maintain_order_pushrecord c on a.id = c.maintain_order_id
+        inner join sys_user d on c.account = d.account
+        <where>
+            <if test="order.openid != null and order.openid != ''">
+                and a.openid = #{order.openid}
+            </if>
+            <if test="order.account != null and order.account != ''">
+                and d.account = #{order.account}
+            </if>
+            <if test="order.orderStatus != null and order.orderStatus != ''">
+                and a.order_status = #{order.orderStatus}
+            </if>
+            <if test="order.packageType != null">
+                and b.package_type = #{order.packageType}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.PushBillMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.PushBillEntity">
+        <id column="id" property="id" />
+        <result column="accid" property="accid" />
+        <result column="user_id" property="userId" />
+        <result column="deduction" property="deduction" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, accid, user_id AS userId, deduction, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+
+    <select id="findBillListByid" resultType="BillList">
+        SELECT
+        DATE_FORMAT(create_time,'%Y-%m') as thisMouth,
+        sum(deduction) pay
+        FROM app_push_bill
+        WHERE user_id =#{id}
+        GROUP BY thisMouth
+    </select>
+
+
+    <select id="findRecordByid" resultType="BillListDetail">
+        SELECT
+         b.id id,
+        b.address address,
+        a.create_time createTime,
+        a.deduction money,
+        b.thumbnail_url thumbnailUrl
+         FROM app_push_bill	AS a
+	      LEFT JOIN app_accident_record AS b ON a.accid = b.id	WHERE a.user_id =#{id}
+    </select>
+
+    <select id="findBillListByidAndDate" resultType="BillList">
+         SELECT
+        DATE_FORMAT(create_time,'%Y-%m') as thisMouth,
+        sum(deduction) pay
+        FROM app_push_bill
+        WHERE user_id =#{id} AND DATE_FORMAT(create_time,'%Y%m') = #{date}
+        GROUP BY thisMouth
+    </select>
+
+    <select id="selectAllBillList" resultType="PushBillEntity">
+
+        SELECT t.* FROM(
+        SELECT id ,accid,user_id userId,deduction,source,create_time createTime,update_time updateTime,CONCAT(1)type,CONCAT('') address,CONCAT('') thumbnailUrl,track_state trackState from app_push_bill
+         WHERE user_id = #{id}  AND is_claim = 1
+
+          <if test="state != null and state != ''">
+              <if test="state == 1">
+                  AND state = #{state}
+              </if>
+              <if test="state == 2">
+                  AND check_time is not null
+              </if>
+              <if test="state == 3">
+                  AND check_time is null
+              </if>
+              <if test="state == 4">
+                  AND reward is not null
+              </if>
+
+          </if>
+
+            union ALL
+
+        SELECT a.id,a.id accid,user_b_id userId,CONCAT('')deduction,CONCAT('')source , a.create_time createTime,a.update_time updateTime,CONCAT(2)type,adress address,CONCAT('') thumbnailUrl,track_state trackState FROM app_send_out_sheet as a
+         WHERE    user_b_id = #{id} AND state = #{state}
+        )as t ORDER BY createTime DESC LIMIT #{pagesize},20
+    </select>
+
+
+<!--    List<PushBillEntity> select234BillList(@Param("id")Integer id, @Param("pagesize")Integer pagesize,@Param("state")Integer state);-->
+    <select id="select234BillList" resultType="PushBillEntity">
+
+        SELECT t.* FROM(
+        SELECT DISTINCT a.id ,accid,a.user_id userId,deduction,a.source,a.create_time createTime,a.update_time updateTime,CONCAT(1)type,CONCAT('') address,CONCAT('') thumbnailUrl,track_state trackState from app_push_bill as a
+						LEFT JOIN app_message_car as b on a.id = b.mess_id
+						WHERE b.type = 1
+						AND a.user_id = #{id}
+						AND is_claim = 1
+                    <if test="state != null and state != ''">
+                        <if test="state == 1">
+                            AND b.vehicle_results = 3
+                        </if>
+                        <if test="state == 2">
+                            AND b.vehicle_results = 4
+                        </if>
+                        <if test="state == 3">
+                            AND b.vehicle_results = 2
+                        </if>
+                        <if test="state == 4">
+                            AND a.remark is not null
+                        </if>
+                    </if>
+
+
+            UNION ALL
+
+        SELECT DISTINCT a.id id,a.id accid,a.user_b_id userId,CONCAT('')deduction,CONCAT('')source , a.create_time createTime,a.update_time updateTime,CONCAT(2)type,adress address,CONCAT('') thumbnailUrl,track_state trackState FROM app_send_out_sheet as a
+						LEFT JOIN app_message_car as c ON a.id = c.mess_id
+         WHERE  a.user_b_id = #{id} AND c.type = 2 AND c.vehicle_results = #{state}
+        )as t
+
+				ORDER BY createTime DESC LIMIT 0,20
+    </select>
+
+
+    <!--    TrackStateNumber selectStateNumberBySOS(String bid);-->
+        <select id="selectStateNumberBySOS" resultType="TrackStateNumber">
+            SELECT
+               SUM(if(((a.track_state = 1 or a.track_state = 2) ),1,0)) newTask,
+                SUM(if((b.vehicle_results = 1  ),1,0)) agree,
+              SUM(if((b.vehicle_results = 2 ),1,0)) trackAgain,
+              SUM(if((b.vehicle_results = 3 ),1,0)) refuse
+             FROM app_send_out_sheet as a
+								LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 2
+												WHERE a.user_b_id = #{bid}
+
+        </select>
+
+
+<!--    TrackStateNumber selectStateNumberByPB(String bid);-->
+        <select id="selectStateNumberByPB" resultType="TrackStateNumber">
+           SELECT DISTINCT
+             SUM(if(((a.track_state = 1 or a.track_state = 2) ),1,0)) newTask,
+             SUM(if((b.vehicle_results = 1  ),1,0)) agree,
+              SUM(if((b.vehicle_results = 2 ),1,0)) trackAgain,
+              SUM(if((b.vehicle_results = 3 ),1,0)) refuse
+                     FROM app_push_bill as a
+                        LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 1
+                        WHERE  user_id = #{bid}
+        </select>
+
+
+<!--    List<String> selectSceneImg(Long id);-->
+    <select id="selectSceneImg" resultType="CheckImgList">
+     SELECT url,`index` type FROM app_send_url WHERE type = 2 and source = 1  AND send_id = #{id}
+
+    </select>
+
+
+<!--    List<PushBillEntity> selectAllBillListbySearch(@Param("id")Integer id, @Param("pagesize")Integer pagesize,@Param("state")Integer state,@Param("text") String text);-->
+    <select id="selectAllBillListbySearch" resultType="PushBillEntity">
+         SELECT t.* FROM(
+        SELECT id ,accid,user_id userId,deduction,source,create_time createTime,update_time updateTime,CONCAT(1)type,CONCAT('') address,CONCAT('') thumbnailUrl,track_state trackState from app_push_bill  WHERE user_id = #{id}
+
+            union ALL
+
+        SELECT a.id,a.id accid,user_b_id userId,CONCAT('')deduction,CONCAT('')source , a.create_time createTime,a.update_time updateTime,CONCAT(2)type,adress address,b.url thumbnailUrl,track_state trackState FROM app_send_out_sheet as a
+            LEFT JOIN app_send_url as b ON a.id = b.send_id
+         WHERE  b.`index` = 1  AND user_b_id = #{id}
+        )as t
+            	WHERE t.address LIKE "%"#{text,jdbcType=VARCHAR}"%"
+         ORDER BY createTime DESC LIMIT #{pagesize},20
+    </select>
+
+
+<!--    Integer findAllNewTask(String bid);-->
+    <select id="findAllNewTask" resultType="Integer">
+        SELECT count(1) newTask FROM app_push_bill WHERE state = 1 AND user_id = #{bid} AND is_claim = 1
+
+    </select>
+
+
+<!--    Integer findPbAgree(String bid);-->
+    <select id="findPbAgree" resultType="Integer">
+    SELECT  COUNT(*) from
+		(SELECT DISTINCT a.id id FROM app_push_bill as a LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 1
+	         WHERE  user_id = #{bid} AND b.vehicle_results = 3 AND is_claim = 1)a
+    </select>
+
+<!--    Integer findPbTrackAgain(String bid);-->
+    <select id="findPbTrackAgain" resultType="Integer">
+        SELECT  COUNT(*) from
+		(SELECT DISTINCT a.id id FROM app_push_bill as a LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 1
+	         WHERE  user_id = #{bid} AND b.vehicle_results = 4 AND is_claim = 1)a
+    </select>
+
+
+<!--    Integer findPbRefuse(String bid);-->
+    <select id="findPbRefuse" resultType="Integer">
+
+	             SELECT count(1)  FROM app_push_bill WHERE remark is not null AND user_id = #{bid}
+
+    </select>
+
+
+<!--    Integer findSosAgree(String bid);-->
+    <select id="findSosAgree" resultType="Integer">
+        SELECT  COUNT(*) from
+    (SELECT DISTINCT a.id id FROM app_send_out_sheet as a  LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 2
+					 WHERE a.user_b_id = #{bid} AND b.vehicle_results = 3) a
+    </select>
+
+
+<!--    Integer findSosTrackAgain(String bid);-->
+    <select id="findSosTrackAgain" resultType="Integer">
+        SELECT  COUNT(*) from
+    (SELECT DISTINCT a.id id FROM app_send_out_sheet as a  LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 2
+					 WHERE a.user_b_id = #{bid} AND b.vehicle_results = 4) a
+    </select>
+
+<!--    Integer findSosRefuse(String bid);-->
+    <select id="findSosRefuse" resultType="Integer">
+        SELECT  COUNT(*) from
+    (SELECT DISTINCT a.id id FROM app_send_out_sheet as a  LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 2
+					 WHERE a.user_b_id = #{bid} AND b.vehicle_results = 1) a
+    </select>
+
+
+<!--    Integer findComeScene(String bid);-->
+    <select id="findComeScene" resultType="Integer">
+       SELECT count(1) newTask FROM app_push_bill WHERE check_time is not null AND user_id = #{bid} AND is_claim = 1
+
+    </select>
+
+<!--    Integer findNotToScene(String bid);-->
+    <select id="findNotToScene" resultType="Integer">
+       SELECT count(1) newTask FROM app_push_bill WHERE check_time is null  AND user_id = #{bid} AND is_claim = 1
+
+    </select>
+
+<!--    Integer findNoCar(String bid);-->
+    <select id="findNoCar" resultType="Integer">
+
+    SELECT count(1) newTask FROM app_push_bill WHERE reward is not null AND user_id = #{bid}
+
+    </select>
+
+<!--    Integer findPushSuccess(String bid);-->
+    <select id="findPushSuccess" resultType="Integer">
+        SELECT  COUNT(*) from
+		(SELECT DISTINCT a.id id FROM app_push_bill as a LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 1
+	         WHERE  user_id = #{bid} AND b.vehicle_results = 2 AND is_claim = 1)a
+    </select>
+
+
+<!--    Integer findSosPushSuccess(String bid);-->
+    <select id="findSosPushSuccess" resultType="Integer">
+        SELECT  COUNT(*) from
+    (SELECT DISTINCT a.id id FROM app_send_out_sheet as a  LEFT JOIN app_message_car as b on a.id = b.mess_id AND b.type = 2
+					 WHERE a.user_b_id = #{bid} AND b.vehicle_results = 2) a
+    </select>
+
+
+
+<!--    List<PushBillEntity> findAccident(@Param("id")Integer id, @Param("s")String s);-->
+    <select id="findAccident" resultType="PushBillEntity">
+        SELECT * FROM app_push_bill WHERE user_id = #{id} AND accid = #{s}
+    </select>
+</mapper>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/common/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../static/common/jqueryui/jquery-ui.css">
+</head>
+<body>
+<input type="hidden" value="${userBId}"   id="method1">
+<br>
+<form class="layui-form" lay-filter="formTest" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">店内保险 全</label>
+        <div class="layui-input-inline">
+            <input  name="title" required  lay-verify="required" placeholder="已联客户" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input name="title2" required  lay-verify="required" placeholder="未联客户" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input  name="title3" required  lay-verify="required" placeholder="包车到店" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input type="hidden" name="userBId" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">店内保险 三</label>
+        <div class="layui-input-inline">
+            <input name="title4" required  lay-verify="required" placeholder="已联客户" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input  name="title5" required  lay-verify="required" placeholder="未联客户" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input  name="title6" required  lay-verify="required" placeholder="包车到店" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">店外保险 含</label>
+        <div class="layui-input-inline">
+            <input  name="title7" required  lay-verify="required" placeholder="已联客户" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input  name="title8" required  lay-verify="required" placeholder="未联客户" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <input  name="title9" required  lay-verify="required" placeholder="包车到店" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+<script src="../../../static/common/layui/layui.js" charset="utf-8"></script>
+<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
+<script src="../../../static/common/js/jquery-1.11.1.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<script type="text/javascript" src="../../../static/common/layui/xm-select.js"></script>
+
+
+<script>
+
+    var userBId = '${userBId}';
+    var ashes = '${ashes}';
+
+
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var field = data.field;
+            //提交操作
+            $.ajax({
+                type:"POST",
+                url:"${ctx}/app/appBusinessConfirm/saveBusinessCon",
+                data: JSON.stringify(field),
+                dataType: "json",
+                contentType : "application/json",
+                async: false,
+                //请求成功
+                success: function (result) {
+                    alert("成功")
+                },
+                error:function(data){
+                    layer.msg("操作失败请联系管理员")
+                }
+            });
+            return false;
+        });
+
+        if (ashes < 2){
+            var first = '${firstCon}';
+            var second = '${secondCon}';
+            var third = '${thirdCon}';
+            var fourth = '${fourthCon}' ;
+            var fifth = '${fifthCon}' ;
+            var sixth ='${sixthCon}'  ;
+            var seventh ='${seventhCon}';
+            var eighth ='${eighthCon}';
+            var ninth = '${ninthCon}' ;
+            var userBId = '${userBId}';
+
+            form.val("formTest", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                "title": first // "name": "value"
+                ,"title2": second
+                ,"title3": third
+                ,"title4": fourth
+                ,"title5": fifth
+                ,"title6": sixth
+                ,"title7": seventh
+                ,"title8": eighth
+                ,"title9": ninth
+                ,"userBId": userBId
+            });
+        }else {
+            userBId = '${userBId}';
+
+            form.val("formTest", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                "userBId": userBId
+            });
+        }
+
+
+    });
+
+
+
+
+
+</script>
+</body>
+</html>

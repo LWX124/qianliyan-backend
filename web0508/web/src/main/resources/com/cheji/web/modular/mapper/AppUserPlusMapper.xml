@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppUserPlusMapper">
+
+    <select id="findOlusUserByid" resultType="AppUserPlusEntity">
+        SELECT
+        id,
+        user_id userId,
+        create_time createTime,
+        invalid_time_start invalidTimeStart,
+        invalid_time_end invalidTimeEnd,
+        invite_code inviteCode
+        FROM app_user_plus WHERE user_id = #{id} ORDER BY create_time DESC LIMIT 0,1
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppWxpayOrderDao">
+
+	<!-- 查询数据
+	<select id="findList" resultType="AppWxpayOrder">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<select id="selectForPlusMem" resultType="map">
+		select * from app_wxpay_order t1
+		LEFT JOIN app_user t2 on t1.user_id=t2.id
+		where t1.`status`='2'
+		and t1.type='1'
+		and t1.business_status='1'
+	</select>
+
+	<update id="updateBusinessStatus">
+		update app_wxpay_order t1  set t1.business_status=#{wxPayOrderBusinessStatusOps}
+		where t1.out_trade_no=#{out_trade_no}
+	</update>
+
+	<select id="findByPayNumber" parameterType="string" resultType="com.jeesite.modules.app.entity.AppWxpayOrder">
+		select * from app_wxpay_order t1
+		where t1.out_trade_no=#{payNumber}
+	 </select>
+</mapper>

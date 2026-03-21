@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppJgPushMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.AppJgPushEntity">
+        <id column="id" property="id" />
+        <result column="source" property="source" />
+        <result column="ispush" property="ispush" />
+        <result column="type" property="type" />
+        <result column="user_id" property="userId" />
+        <result column="user_b_id" property="userBId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, source, ispush, type, user_id AS userId, user_b_id AS userBId, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+</mapper>

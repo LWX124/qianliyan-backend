@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppAuctionWithdrawcashDao">
+
+	<select id="findAllBack" resultType="AppAuctionWithdrawcash">
+		select * from app_auction_withdrawcash t1
+		where (t1.state=0 or t1.state=2)
+	</select>
+</mapper>

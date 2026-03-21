@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppEveryMesgDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppEveryMesg">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+
+	<!--AppEveryMesg selectTwoAgo(String format);-->
+	<select id="selectTwoAgo" resultType="AppEveryMesg">
+		SELECT * FROM app_every_mesg WHERE today_time = #{format}
+	</select>
+
+	<!--AppAccidentRecord selectPayAmountAndCount(String format);-->
+	<select id="selectPayAmountAndCount" resultType="AppAccidentRecord">
+		SELECT IFNULL(SUM(pay_amount),0) envelopeAmount,COUNT(1) redEnvelopes FROM app_pay_amount_record
+	WHERE DATE_FORMAT(create_time,'%Y-%m-%d') = #{format}
+	AND type = 1
+	</select>
+
+
+	<!--AppAccidentRecord selectTodatAccident(String format);-->
+	<select id="selectTodatAccident" resultType="AppAccidentRecord">
+		SELECT COUNT(1)todayAppup  FROM app_accident_record WHERE DATE_FORMAT(create_time,'%Y-%m-%d') = #{format}
+	</select>
+
+
+	<!--AppAccidentRecord selectPlusPayAmountCount(String format);-->
+	<select id="selectPlusPayAmountCount" resultType="AppAccidentRecord">
+		SELECT IFNULL(SUM(pay_amount),0) plusEnevlopeAmount,COUNT(1) plusEnevlopeCount FROM app_pay_amount_record
+	WHERE DATE_FORMAT(create_time,'%Y-%m-%d') = #{format}
+	AND type = 2
+	</select>
+
+	<!--AppAccidentRecord selectPassAccident(String format);-->
+	<select id="selectPassAccident" resultType="AppAccidentRecord">
+		  SELECT COUNT(1) passAccident FROM app_push_bill WHERE DATE_FORMAT(create_time,'%Y-%m-%d') = #{format}
+	</select>
+
+	<!--AppAccidentRecord selectWxUp(String format);-->
+	<select id="selectWxUp" resultType="AppAccidentRecord">
+		SELECT COUNT(1) todayWxup FROM biz_accident WHERE DATE_FORMAT(createTime,'%Y-%m-%d') = #{format}
+	</select>
+
+	<!--BigDecimal selectWxAomunt(String format);-->
+	<select id="selectWxAomunt" resultType="BigDecimal">
+		SELECT IFNULL(SUM(amount),0)FROM biz_wx_pay_record
+	WHERE DATE_FORMAT(create_time,'%Y-%m-%d') = #{format} AND return_code = 'SUCCESS'
+	</select>
+
+
+	<!--String selectWxcount(String format);-->
+	<select id="selectWxcount" resultType="String">
+		SELECT COUNT(1) FROM biz_wx_pay_record
+	WHERE DATE_FORMAT(create_time,'%Y-%m-%d') = #{format} AND return_code = 'SUCCESS'
+	</select>
+
+
+</mapper>

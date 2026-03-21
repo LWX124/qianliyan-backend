@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.LableDetailsReviewTreeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.LableDetailsReviewTreeEntity">
+        <id column="lable_code" property="lableCode" />
+        <result column="lable_name" property="lableName" />
+        <result column="parent_code" property="parentCode" />
+        <result column="parent_codes" property="parentCodes" />
+        <result column="tree_sort" property="treeSort" />
+        <result column="tree_sorts" property="treeSorts" />
+        <result column="tree_leaf" property="treeLeaf" />
+        <result column="tree_level" property="treeLevel" />
+        <result column="tree_names" property="treeNames" />
+        <result column="status" property="status" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="lable_id" property="lableId" />
+        <result column="lable_details_id" property="lableDetailsId" />
+        <result column="rebates" property="rebates" />
+        <result column="user_b_id" property="userBId" />
+        <result column="show" property="show" />
+        <result column="reson" property="reson" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        lable_code AS lableCode, lable_name AS lableName, parent_code AS parentCode, parent_codes AS parentCodes, tree_sort AS treeSort, tree_sorts AS treeSorts, tree_leaf AS treeLeaf, tree_level AS treeLevel, tree_names AS treeNames, status, create_date AS createDate, update_date AS updateDate, lable_id AS lableId, lable_details_id AS lableDetailsId, rebates, user_b_id AS userBId, show, reson, state
+    </sql>
+
+    <!--Integer getLastLable();-->
+    <select id="getLastLable" resultType="Integer">
+        SELECT
+        MAX(CAST(lable_code as SIGNED INTEGER)) lableCode
+        FROM app_lable_details_review_tree WHERE parent_code = 0
+    </select>
+
+
+    <!--List<LableDetailsReviewTreeEntity> findIdTreeleaf(String lableCode);-->
+    <select id="findIdTreeleaf" resultType="LableDetailsReviewTreeEntity">
+        SELECT
+        lable_code lableCode,
+        lable_name lableName,
+        parent_code parentCode,
+        parent_codes parentCodes,
+        tree_sort treeSort,
+        tree_sorts treeSorts,
+        tree_leaf treeLeaf,
+        tree_level treeLevel,
+        tree_names treeNames,
+        status status,
+        create_date createDate,
+        update_date updateDate,
+        lable_id lableId,
+        lable_details_id lableDetailsId,
+        rebates,
+        user_b_id userBId,
+        reson reson,
+        state state
+        FROM  app_lable_details_review_tree WHERE parent_code = #{lableCode}
+    </select>
+
+    <!--List<LableDetailsEntity> findProjectDetails(@Param("merchantsCode") String merchantsCode, @Param("id")Integer id);-->
+    <select id="findProjectDetails" resultType="LableDetailsEntity">
+          SELECT lable_details_id id,lable_name content,rebates
+          FROM app_lable_details_review_tree WHERE user_b_id = #{user_b_id} AND lable_id = #{id} AND `show` = 0
+    </select>
+
+    <!--LableDetailsReviewTreeService findNowProject(@Param("id")String id, @Param("userBId")Integer userBId);-->
+    <select id="findNowProject" resultType="LableDetailsReviewTreeEntity">
+        SELECT * FROM app_lable_details_review_tree WHERE user_b_id =#{userBId}  AND lable_id =#{id} AND tree_level =1
+    </select>
+</mapper>

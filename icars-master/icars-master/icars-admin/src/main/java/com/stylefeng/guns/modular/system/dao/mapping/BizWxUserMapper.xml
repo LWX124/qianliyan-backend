@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizWxUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizWxUser">
+        <id column="id" property="id" />
+        <result column="openid" property="openid" />
+        <result column="type" property="type" />
+        <result column="alipay_account" property="alipayAccount" />
+        <result column="phone" property="phone" />
+        <result column="extensionAccount" property="extensionAccount" />
+        <result column="headImg" property="headImg" />
+        <result column="wxname" property="wxname" />
+        <result column="bindAccount" property="bindAccount" />
+        <result column="createTime" property="createTime" />
+        <result column="version" property="version" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, openid, type, alipay_account, extensionAccount, phone, createTime, version, headImg, wxname
+    </sql>
+
+    <!-- 联合查询结果列 -->
+    <sql id="Combine_Column_List">
+        a.id, a.openid,a.unionid,a.third_openid as thirdOpenid, a.type, a.alipay_account as alipayAccount, a.extensionAccount, a.bindAccount,a.headImg, a.wxname,a.phone, a.createTime, a.version,b.bankcard,b.bankUserName, b.bankName, b.bankSecondName, b.idcard, (CASE WHEN b.id is null THEN 0 WHEN b.status = 4 THEN 3 WHEN b.status = 5 THEN 2 ELSE 1 END) as userType, b.account
+    </sql>
+
+    <update id="setAlipay">
+		update biz_wx_user set alipay_account = #{alipayAccount} where openid = #{openid}
+	</update>
+
+    <update id="setPhone">
+		update biz_wx_user set phone = #{phone} where openid = #{openid}
+	</update>
+
+    <update id="setThirdOpenid">
+        update biz_wx_user set third_openid = #{thirdOpenId} where openid = #{openid}
+    </update>
+
+    <select id="selectBizWxUser" resultType="com.stylefeng.guns.modular.system.model.BizWxUser">
+        select
+        <include refid="Combine_Column_List" />
+        from biz_wx_user a
+        left join sys_user b on a.phone = b.phone and a.phone is not null and a.phone != '' and b.status != 3
+        where
+        a.openid = #{openid}
+    </select>
+
+    <select id="selectFansPage" resultType="com.stylefeng.guns.modular.system.model.BizWxUser">
+        select
+        wxname,headImg
+        from biz_wx_user
+        <where>
+            <if test="bizWxUser.extensionAccount != null and bizWxUser.extensionAccount != ''">
+                and extensionAccount = #{bizWxUser.extensionAccount}
+            </if>
+        </where>
+    </select>
+
+</mapper>

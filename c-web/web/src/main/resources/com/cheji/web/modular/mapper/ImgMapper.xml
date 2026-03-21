@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.ImgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.ImgEntity">
+        <id column="id" property="id" />
+        <result column="key_id" property="keyId" />
+        <result column="url" property="url" />
+        <result column="type" property="type" />
+        <result column="index" property="index" />
+        <result column="creat_time" property="creatTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, key_id AS keyId, url, type, index, creat_time AS creatTime, update_time AS updateTime
+    </sql>
+
+    <select id="getImgEntityByMerchantsAndType" resultType="ImgEntity">
+      SELECT
+      url url
+      FROM app_img
+      WHERE type =1 AND key_id = #{keyId} ORDER BY `index`
+    </select>
+
+    <select id="findImgByndentId" resultType="ImgEntity">
+        SELECT
+        url url
+        FROM app_img
+        WHERE type = 2 AND  key_id = #{indentId} ORDER BY `index`
+    </select>
+
+    <select id="findImgByIndentidndIndex" resultType="String">
+        SELECT
+        url url
+        FROM app_img
+        WHERE type = 2 AND  key_id = #{indentId} ORDER BY `index`
+    </select>
+</mapper>

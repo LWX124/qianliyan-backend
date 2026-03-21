@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizClaimMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizClaim">
+        <id column="id" property="id" />
+        <result column="openid" property="openid" />
+        <result column="phone" property="phone" />
+        <result column="name" property="name" />
+        <result column="cph" property="cph" />
+        <result column="type" property="type" />
+        <result column="status" property="status" />
+        <result column="desc" property="desc" />
+        <result column="claimer" property="claimer" />
+        <result column="lng" property="lng" />
+        <result column="lat" property="lat" />
+        <result column="address" property="address" />
+        <result column="claimImg" property="claimImg" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, phone, openid, name, cph, type, status, desc, claimer, lng, lat, address, createtime, claimImg
+    </sql>
+    <sql id="Combine_Column_List1">
+        a.id, a.openid, a.phone, a.name, a.cph, a.type, a.status, a.desc, a.claimer, a.lng, a.lat, a.address, a.createtime, a.claimImg, b.name as claimerName, b.phone as claimerPhone
+    </sql>
+
+    <select id="selectListForPage" resultType="map">
+        select
+        <include refid="Combine_Column_List1" />
+        from biz_claim a left join sys_user b on a.claimer = b.account
+        <where>
+            <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+                and (a.createtime between CONCAT(#{startTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+            </if>
+            <if test="bizClaim.status != null">
+                and a.status = #{bizClaim.status}
+            </if>
+            <if test="bizClaim.type != null">
+                and a.type = #{bizClaim.type}
+            </if>
+            <if test="bizClaim.name != null and bizClaim.name != ''">
+                and a.name = #{bizClaim.name}
+            </if>
+            <if test="bizClaim.phone != null and bizClaim.phone != ''">
+                and a.phone = #{bizClaim.phone}
+            </if>
+            <if test="bizClaim.claimer != null and bizClaim.claimer != ''">
+                and a.claimer = #{bizClaim.claimer}
+            </if>
+            <if test="bizClaim.openid != null and bizClaim.openid != ''">
+                and a.openid = #{bizClaim.openid}
+            </if>
+
+            <if test="bizClaim.id != null and bizClaim.id != ''">
+                and a.id = #{bizClaim.id}
+            </if>
+        </where>
+        ORDER BY a.createtime desc
+    </select>
+
+    <select id="selectListForPageByOpendId" resultType="map">
+        select t.createtime,txm.title,t.type from biz_claim t left join biz_xcx_maintenance txm on txm.id=t.maintenance_id
+        where t.openid=#{openId}
+        <if test="type != null and type != '' and type !=0">
+            and t.type=#{type}
+        </if>
+        order by t.createtime desc
+    </select>
+
+    <select id="selectAllForXcx" resultType="map">
+        select t.createtime,txm.title,t.type from biz_claim t left join biz_xcx_maintenance txm on txm.id=t.maintenance_id
+        where t.openid=#{openId}
+            and (t.type=8 or t.type=9 or t.type=10 or t.type=11)
+        order by t.id desc
+    </select>
+
+</mapper>

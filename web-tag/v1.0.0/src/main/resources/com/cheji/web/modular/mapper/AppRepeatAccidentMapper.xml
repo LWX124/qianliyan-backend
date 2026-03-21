@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppRepeatAccidentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.AppRepeatAccidentEntity">
+        <id column="id" property="id" />
+        <result column="accident_id" property="accidentId" />
+        <result column="accident_source" property="accidentSource" />
+        <result column="repeat_id" property="repeatId" />
+        <result column="repeat_srouce" property="repeatSrouce" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, accident_id AS accidentId, accident_source AS accidentSource, repeat_id AS repeatId, repeat_srouce AS repeatSrouce, state
+    </sql>
+
+
+
+<!--    AppRepeatAccidentEntity selectByAccid(Integer id);-->
+    <select id="selectByAccid" resultType="AppRepeatAccidentEntity">
+        SELECT * FROM app_repeat_accident WHERE accident_id = #{id} AND repeat_srouce = 1
+    </select>
+
+
+<!--    String selectWxVideo(Integer accidentSource);-->
+    <select id="selectWxVideo" resultType="String">
+        SELECT video FROM biz_accident WHERE id = #{accidentSource}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppSendUrlDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppSendUrl">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+<!--	void insertSendSheet(AppSendOutSheet appSendOutSheet);-->
+	<insert id="insertSendSheet">
+		insert into app_send_url (`type`,url,`index`,source,send_id,create_time,update_time)
+		value (#{type},#{url},#{index},#{source},#{sendId},#{createTime},#{updateTime})
+	</insert>
+
+<!--	List<String> findImg(String pushBillId, Integer source, Integer type);-->
+	<select id="findImg" resultType="String">
+		select url from app_send_url where send_id = #{pushBillId} and  source = #{source} and  type = #{type} and url is not null
+	</select>
+
+<!--	<List<String> findcarImg(String pushBillId, Integer source, Integer type);?-->
+	<select id="findcarImg" resultType="String">
+		select url from  app_message_url where message_id = #{pushBillId} and  source = #{source} and  type  = #{type} and url is not null
+	</select>
+
+
+</mapper>

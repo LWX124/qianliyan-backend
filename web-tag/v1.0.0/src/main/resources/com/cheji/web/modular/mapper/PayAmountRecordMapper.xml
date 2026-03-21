@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.PayAmountRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.PayAmountRecordEntity">
+        <id column="id" property="id" />
+        <result column="accid" property="accid" />
+        <result column="user_id" property="userId" />
+        <result column="pay_amount" property="payAmount" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, accid, user_id AS userId, pay_amount AS payAmount, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+
+    <select id="findRecordByid" resultType="BillListDetail">
+        SELECT
+         b.id id,
+        b.address address,
+        b.create_time createTime,
+        a.pay_amount money,
+        b.thumbnail_url thumbnailUrl
+          FROM app_pay_amount_record as a
+	      LEFT JOIN app_accident_record AS b ON a.accid = b.id
+	      WHERE a.user_id = #{id}
+    </select>
+
+
+    <select id="findRecordByidAndDate" resultType="BillListDetail">
+        SELECT
+        b.id id,
+        b.address address,
+        b.create_time createTime,
+        a.pay_amount money,
+        b.thumbnail_url thumbnailUrl
+         FROM app_pay_amount_record as a
+	       LEFT JOIN app_accident_record AS b ON a.accid = b.id
+	       WHERE a.user_id = #{id} AND DATE_FORMAT(a.create_time,'%Y%m') = #{date}
+    </select>
+
+    <select id="findListByid" resultType="BillList">
+            SELECT
+             DATE_FORMAT(create_time,'%Y-%m') as thisMouth
+             FROM app_pay_amount_record
+              WHERE user_id = #{id}
+              GROUP BY  thisMouth
+    </select>
+
+
+    <select id="findListByidAndDate" resultType="BillList">
+            SELECT
+             DATE_FORMAT(create_time,'%Y-%m') as thisMouth
+             FROM app_pay_amount_record
+              WHERE user_id = #{id} AND DATE_FORMAT(create_time,'%Y%m') = #{date}
+              GROUP BY  thisMouth
+    </select>
+
+
+    <!--BigDecimal findtodayPayAmount(Integer id);-->
+    <select id="findtodayPayAmount" resultType="BigDecimal">
+        SELECT IFNULL(SUM(pay_amount),0) FROM app_pay_amount_record
+        WHERE user_id = #{id} AND type = 2 AND to_days(create_time) = to_days(now())
+
+    </select>
+
+
+    <!--BigDecimal findMonthPayAMount(Integer id);-->
+    <select id="findMonthPayAMount" resultType="BigDecimal">
+        SELECT IFNULL(SUM(pay_amount),0) FROM app_pay_amount_record
+        WHERE user_id = #{id} AND type = 2 AND DATE_FORMAT(create_time, '%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+
+    </select>
+
+    <!--BigDecimal findPayAmount(Integer id);-->
+    <select id="findPayAmount" resultType="BigDecimal">
+        SELECT IFNULL(SUM(pay_amount),0) FROM app_pay_amount_record
+        WHERE user_id = #{id}
+    </select>
+</mapper>

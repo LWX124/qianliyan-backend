@@ -1,0 +1,195 @@
+@layout("/common/_container.html"){
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul,
+    ol,
+    li {
+        list-style: none;
+    }
+
+    p {
+        margin-top: 10px;
+        line-height: 21px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .box {
+        width: 1200px;
+        display: flex;
+        align-items: center;
+        margin-left: 50px;
+        /*margin: 100px auto;*/
+    }
+
+    .box .content {
+        display: flex;
+        align-items: center;
+    }
+
+    .item {
+        width: 110px;
+        height: 80px;
+        box-sizing: border-box;
+        border: 1px solid;
+        border-color: #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 20px;
+    }
+
+    .arrow {
+        width: 60px;
+        height: 6px;
+        position: relative;
+        margin-left: 10px;
+        margin-right: 20px;
+        background: #ccc;
+    }
+
+    .arrow[right]::after,
+    .arrow[left]::before {
+        position: absolute;
+        right: 0;
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 12px solid #ccc;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        transform: translateX(100%) translateY(-27%);
+    }
+
+    .arrow[left]::before {
+        border-left: none;
+        border-right: 12px solid #ccc;
+    }
+
+    .default {
+        background-color: #f5f5f5;
+        color: #666;
+    }
+
+    .active {
+        background-color: rgba(0, 143, 168, 0.7);
+        color: #fff;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <ul class="box" id="title_count" style="display: none;">
+                                <li>
+                                    <div class="content">
+                                        <div class="item default">0</div>
+                                        <div class="arrow" right></div>
+                                    </div>
+                                    <p class="text-center">0</p>
+                                </li>
+                            </ul>
+                            <div class="col-sm-2">
+                                <#NameCon id="condition" name="关键字" placeholder="车牌号/车架号/客户姓名/手机号" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#NameCon id="citySel" name="4S店" readonly="readonly" hidden="deptid"
+                                clickFun="OpenClaim.showDeptSelectTree(); return false;"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#NameCon id="orderno" name="订单号" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#TimeCon id="createStartTime" name="上报日期区间" isTime="false"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <#SelectCon id="orderStatus" name="订单状态" >
+                                <option value="">全部</option>
+                                <option value="-1">未接车</option>
+                                <option value="1">服务中</option>
+                                <option value="2">已交车</option>
+                                <option value="3">结算完成</option>
+                                <option value="4">打款完成</option>
+                                <option value="6">未到店</option>
+                                <option value="5">作废</option>
+                            </#SelectCon>
+                        </div>
+                        <div class="col-sm-2">
+                            <#button name="搜索" icon="fa-search" clickFun="OpenClaim.search()"/>
+                            <#button name="重置" icon="fa-search" clickFun="OpenClaim.reSearch()"/>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                       style="height: 34px;line-height: 34px;">定损合计</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" id="fixLossSumDiv" name="fixLossSumDiv" type="text"
+                                           readonly="readonly"
+                                           style="margin-left: -213px;border: none;text-align: left;background-color: rgb(255, 255, 255);color: red;"
+                                           value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden-xs" id="PartnerOpenClaimTableToolbar" role="group">
+                        <#button name="支付确认" icon="fa-cc-visa" clickFun="OpenClaim.openPayedOpenClaim()"/>
+                        <#button name="导出" icon="fa-cloud-download" clickFun="OpenClaim.export()"/>
+                        <#button name="停止通知播报" icon="fa-bell-slash-o" clickFun="OpenClaim.stopOpenClaim()"/>
+                        <#button name="修改" icon="fa-edit" clickFun="OpenClaim.updateState()"/>
+                    </div>
+                    <#table id="OpenClaimTable"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="myCarousel" class="carousel slide" style="display: none">
+    <!-- 轮播（Carousel）指标 -->
+    <ol id="pointol" class="carousel-indicators">
+    </ol>
+    <!-- 轮播（Carousel）项目 -->
+    <div id="imgDiv" class="carousel-inner">
+    </div>
+    <!-- 轮播（Carousel）导航 -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<!-- 这是部门选择的下拉框 -->
+<div id="menuContent" class="menuContent"
+     style="display: none; position: absolute; z-index: 200;">
+    <ul id="treeDemo" class="ztree tree-box" style="width: 249px !important;"></ul>
+</div>
+<script src="${ctxPath}/static/modular/system/openClaim/openClaim.js"></script>
+<script>
+    laydate.render({
+        elem: '#createStartTime',
+        range: '~'
+    });
+</script>
+@}

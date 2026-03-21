@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.IndentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.IndentEntity">
+        <id column="id" property="id" />
+        <result column="merchants_id" property="merchantsId" />
+        <result column="user_id" property="userId" />
+        <result column="username" property="username" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="plan" property="plan" />
+        <result column="license_plate" property="licensePlate" />
+        <result column="brand_id" property="brandId" />
+        <result column="remake" property="remake" />
+        <result column="order_number" property="orderNumber" />
+        <result column="means_payments" property="meansPayments"/>
+        <result column="state" property="state" />
+        <result column="commission_rate" property="commissionRate" />
+        <result column="settle_accounts" property="settleAccounts" />
+        <result column="fixloss_user" property="fixlossUser" />
+        <result column="fixloss" property="fixloss" />
+        <result column="creat_time" property="creatTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, merchants_id AS merchantsId, user_id AS userId, username, phone_number AS phoneNumber, plan, license_plate AS licensePlate, brand_id AS brandId, remake, order_number AS orderNumber, state, settle_accounts AS settleAccounts, fixloss_user AS fixlossUser, fixloss, creat_time AS creatTime, update_time AS updateTime
+    </sql>
+
+    <select id="findIndentListByuserid" resultType="IndentList">
+    SELECT
+    a.id indentid,
+    a.order_number orderNumber,
+    a.license_plate carId,
+    a.brand_id brand,
+    a.send_unit sendUnit,
+    b.merchants_name merchantsName
+    FROM app_indent as a
+    LEFT JOIN app_b_user AS b ON a.user_b_id = b.id
+    WHERE a.user_id = #{id}
+    ORDER BY a.creat_time DESC limit #{pagesize},20
+    </select>
+
+<!--    List<IndentList> findIndentListByuseridAndState(@Param("id") String id,@Param("year")String year,  @Param("month")String month,  @Param("state") String state, @Param("pagesize") Integer pagesize);
+-->
+    <select id="findIndentListByuseridAndState" resultType="IndentList">
+    SELECT
+    a.id indentid,
+    a.order_number orderNumber,
+    a.license_plate carId,
+    a.brand_id brand,
+    a.username name,
+    a.insurance_company insuranceCompany,
+    a.phone_number phone,
+    a.day,day,
+    a.send_unit sendUnit,
+    a.fixloss money,
+    a.fixloss_user fixMoney,
+    date_format(a.creat_time,'%Y-%m') MonthTime,
+    b.merchants_name merchantsName
+    FROM app_indent as a
+    LEFT JOIN app_b_user AS b ON a.user_b_id = b.id
+    WHERE a.user_id = #{id}
+        <if test="state != null and state != ''">
+            <choose>
+                <when test="state == 4">
+                    AND (a.state = 4 OR a.state = 5)
+                </when>
+                <otherwise>
+                    AND a.state=#{state}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="state == null and year != null and month != null">
+             AND year(a.creat_time) =  #{year} AND month(a.creat_time) = #{month}
+        </if>
+
+    ORDER BY a.creat_time DESC limit #{pagesize},20
+    </select>
+<!--    year(creat_time) =  #{year} AND month(creat_time) = #{month}  creat_time-->
+
+    <select id="findIndentDetilsByIndentId" resultType="IndentDetails">
+        SELECT
+          id indentId,
+          state state,
+          username name,
+          phone_number phoneNumber,
+          license_plate carId,
+          plan plan,
+          brand_id brand,
+          fixloss fixloss,
+          commission_rate commissionRate,
+          settle_accounts settleAccounts,
+          means_payments meansPayments,
+          fixloss_user fixlossUser,
+          rescue_them_fee rescueThemFee,
+          responsibility,
+          insurance_company insuranceCompany,
+          send_unit sendUnit,
+          send_people sendPeople,
+          remake remake,
+          settle_fours_company_rate settleFoursCompanyRate
+        FROM app_indent WHERE id = #{indentId}
+    </select>
+
+
+    <select id="findFixlossUserByuserId" resultType="String">
+        SELECT sum(fixloss_user) FROM app_indent WHERE user_id = #{userId} AND send_back = 1
+    </select>
+
+    <select id="findIndentCount" resultType="Personal">
+        SELECT COUNT(CASE WHEN state=1 THEN 1 ELSE NULL END) newIndent,
+				COUNT(CASE WHEN state=2 THEN 1 ELSE NULL END) beforeShop,
+				COUNT(CASE WHEN state=3 THEN 1 ELSE NULL END) inService,
+				COUNT(CASE WHEN (state=4 OR state = 5) THEN 1 ELSE NULL END) endService,
+				COUNT(CASE WHEN state=6 THEN 1 ELSE NULL END) alreadySolved
+				FROM app_indent WHERE user_id = #{userId}
+    </select>
+
+
+    <!--List<IndentList> findFourAndFive(@Param("id") String id,@Param("pagesize") Integer pagesize);-->
+    <select id="findFourAndFive" resultType="IndentList">
+  SELECT
+    a.id indentid,
+    a.order_number orderNumber,
+    a.license_plate carId,
+    a.brand_id brand,
+    b.merchants_name merchantsName
+    FROM app_indent as a
+    LEFT JOIN app_b_user AS b ON a.user_b_id = b.id
+    WHERE a.user_id = #{id} AND (a.state=4 OR a.state = 5)
+    ORDER BY a.creat_time DESC limit #{pagesize},20
+    </select>
+
+
+<!--    List<String> findSendUnit();-->
+    <select id="findSendUnit" resultType="String">
+        SELECT `name` FROM app_send_unit
+    </select>
+
+
+<!--    List<String> findEmployee();-->
+    <select id="findEmployee" resultType="String">
+        SELECT username FROM app_employee
+    </select>
+
+<!--    IndentEntity findTime(String dateString1);-->
+    <select id="findTime" resultType="IndentEntity">
+        select * from app_indent where DATE_FORMAT(creat_time,'%Y-%m-%d') &lt; #{dateString1}  AND user_id =  #{userId} LIMIT 0,1
+    </select>
+
+
+</mapper>

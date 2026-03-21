@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.BUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.web.modular.domain.BUserEntity">
+        <id column="id" property="id" />
+        <result column="avatar" property="avatar" />
+        <result column="parent_id" property="parentId" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="salt" property="salt" />
+        <result column="name" property="name" />
+        <result column="status" property="status" />
+        <result column="balance" property="balance" />
+        <result column="creat_time" property="creatTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="wx_union_id" property="wxUnionId" />
+        <result column="wx_open_id" property="wxOpenId" />
+        <result column="huanxin_user_name" property="huanxinUserName" />
+        <result column="huanxin_password" property="huanxinPassword" />
+        <result column="merchants_name" property="merchantsName" />
+        <result column="service_sorce" property="serviceSorce" />
+        <result column="effciency_score" property="effciencyScore" />
+        <result column="score" property="score" />
+        <result column="lat" property="lat" />
+        <result column="lng" property="lng" />
+        <result column="address" property="address" />
+        <result column="type" property="type" />
+        <result column="business_start" property="businessStart" />
+        <result column="business_end" property="businessEnd" />
+        <result column="announcement" property="announcement" />
+        <result column="state" property="state" />
+        <result column="reason" property="reason" />
+        <result column="merchants_phone" property="merchantsPhone" />
+        <result column="lable_id" property="lableId" />
+        <result column="merchants_level" property="merchantsLevel" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="county" property="county" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, avatar, parent_id AS parentId, username, password, phone_number AS phoneNumber, salt, name, status, balance, creat_time AS creatTime, update_time AS updateTime, wx_union_id AS wxUnionId, wx_open_id AS wxOpenId, huanxin_user_name AS huanxinUserName, huanxin_password AS huanxinPassword, merchants_name AS merchantsName, service_sorce AS serviceSorce, effciency_score AS effciencyScore, score, lat, lng, address, type, business_start AS businessStart, business_end AS businessEnd, announcement, state, reason, merchants_phone AS merchantsPhone, lable_id AS lableId, merchants_level AS merchantsLevel, province, city, county
+    </sql>
+
+
+    <select id="findAllGarage" resultType="ListMessage">
+         SELECT DISTINCT
+        a.id merchantsCode,
+        a.merchants_name merchantsName,
+        a.score score,
+        a.lat lat,
+        a.lng lng,
+        a.address address,
+        a.type type
+        FROM app_b_user as a
+        LEFT JOIN app_lable_details_review_tree as c ON a.id = c.user_b_id
+        WHERE a.state = 1
+        <if test="city != null and city != ''">
+            AND city =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND county =#{county}
+        </if>
+
+        AND a.type = 2 AND c.lable_id = 9 AND c.state = 1
+        <if test="lable != null and lable != ''">
+            AND a.lable_id like "%"#{lable,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="level != null and level != ''">
+            AND merchants_level IS NOT NULL ORDER BY merchants_level
+        </if>
+
+        UNION ALL
+
+        SELECT id merchantsCode,
+        `name` merchantsName,
+        score,
+        lat,
+        lng,
+        address,
+        CONCAT('7') type
+        FROM app_up_merchants where brand is null
+
+        <if test="city != null and city != ''">
+            AND citycode =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND adcode =#{county}
+        </if>
+
+    </select>
+
+<!--    List<ListMessage> findListByCounty(Integer city);-->
+    <select id="findListByCounty" resultType="ListMessage">
+        SELECT
+        id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE county =#{city} AND state = 1
+
+    UNION ALL
+
+        SELECT id merchantsCode,
+					`name` merchantsName,
+					score,
+					lat,
+                    lng,
+					address,
+          CONCAT('7') type
+		FROM app_up_merchants where  adcode =#{city} and brand is not null
+    </select>
+
+    <select id="findList" resultType="ListMessage">
+        SELECT
+        id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE city =#{city} AND state = 1
+
+    UNION ALL
+
+        SELECT id merchantsCode,
+					`name` merchantsName,
+					score,
+					lat,
+                    lng,
+					address,
+          CONCAT('7') type
+		FROM app_up_merchants where  citycode =#{city} and brand is not null
+    </select>
+
+    <!--<select id="findList" resultType="ListMessage">
+        SELECT
+        id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE county =#{city} AND state = 1
+
+        UNION ALL
+
+        SELECT id merchantsCode,
+					`name` merchantsName,
+					score,
+					lat,
+                    lng,
+					address,
+          CONCAT('7') type
+		FROM app_up_merchants where  adcode =#{city} and brand is not null
+-->
+
+    <select id="findGarage" resultType="ListMessage">
+        SELECT
+        a.id merchantsCode,
+        a.merchants_name merchantsName,
+        a.score score,
+        a.lat lat,
+        a.lng lng,
+        a.address address,
+        a.type type
+        FROM app_b_user as a
+        LEFT JOIN app_lable_details_review_tree as c ON a.id = c.user_b_id
+        WHERE a.state = 1
+        <if test="city != null and city != ''">
+             AND city =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND county =#{county}
+        </if>
+
+           AND a.type = 2  AND c.lable_id = 2 AND c.state = 1
+
+UNION ALL
+
+        SELECT id merchantsCode,
+					`name` merchantsName,
+					score,
+					lat,
+                    lng,
+					address,
+          CONCAT('7') type
+		FROM app_up_merchants where brand is null
+
+        <if test="city != null and city != ''">
+            AND citycode =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND adcode =#{county}
+        </if>
+    </select>
+
+    <select id="findByBrand" resultType="ListMessage">
+        SELECT
+        a.id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user AS a
+        	LEFT JOIN app_merchants_brand AS b ON b.user_b_id = a.id
+        WHERE city =#{city} AND a.state = 1 AND type = 2 AND b.brand_id = #{brand}
+    </select>
+
+    <select id="findByStores" resultType="ListMessage">
+        SELECT      id merchantsCode,
+         merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user
+        WHERE  state = 1
+        <if test="city != null and city != ''">
+            AND city =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND county =#{county}
+        </if>
+          AND (type = 1 or type = 3)
+
+        UNION ALL
+
+        SELECT id merchantsCode,
+					`name` merchantsName,
+					score,
+					lat,
+                    lng,
+					address,
+          CONCAT('7') type
+		FROM app_up_merchants where  brand is not null
+        <if test="city != null and city != ''">
+            AND citycode =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND adcode =#{county}
+        </if>
+    </select>
+
+    <select id="findByfoursStoresBrand" resultType="ListMessage">
+        SELECT      a.id merchantsCode,
+         merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+         FROM app_b_user AS a
+        	LEFT JOIN app_merchants_brand AS b ON b.user_b_id = a.id
+        	 WHERE  a.state = 1
+        <if test="city != null and city != ''">
+            AND city =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND county =#{county}
+        </if>
+        	 AND (type = 1 OR type = 3) AND b.brand_id = #{brand}
+
+        	 UNION ALL
+
+   SELECT id merchantsCode,
+					`name` merchantsName,
+					score,
+					lat,
+          lng,
+					address,
+          CONCAT('7') type
+		FROM app_up_merchants where  brand = #{brand}
+
+        <if test="city != null and city != ''">
+            AND citycode =#{city}
+        </if>
+        <if test="county != null and county != ''">
+            AND adcode =#{county}
+        </if>
+    </select>
+
+    <select id="findByLable" resultType="ListMessage">
+        SELECT      id merchantsCode,
+         merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE city =#{city} AND state = 1 AND lable_id like "%"#{lable,jdbcType=VARCHAR}"%"
+    </select>
+
+    <select id="findBylevel" resultType="ListMessage">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE city =#{city} AND state = 1 AND merchants_level IS NOT NULL ORDER BY merchants_level
+    </select>
+
+    <select id="findGarByBrandAndLable" resultType="ListMessage">
+        SELECT      a.id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user AS a
+        	LEFT JOIN app_merchants_brand AS b ON b.user_b_id = a.id
+        	WHERE city =#{city} AND a.state = 1 AND type = 2 AND b.brand_id = #{brand} AND lable_id like "%"#{lable,jdbcType=VARCHAR}"%"
+    </select>
+
+    <select id="findGarByBrandAndLevel" resultType="ListMessage">
+        SELECT      a.id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user AS a
+        	LEFT JOIN app_merchants_brand AS b ON b.user_b_id = a.id
+        WHERE city =#{city} AND a.state = 1 AND type = 2 AND b.brand_id = #{brand} AND merchants_level IS NOT NULL ORDER BY merchants_level
+    </select>
+
+    <select id="findGarByLable" resultType="ListMessage">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE city =#{city} AND state = 1 AND type = 2 AND lable_id like "%"#{lable,jdbcType=VARCHAR}"%"
+    </select>
+
+    <select id="findGarByLevel" resultType="ListMessage">
+        SELECT      id,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE city =#{city} AND state = 1 AND type = 2 AND merchants_level IS NOT NULL ORDER BY merchants_level
+    </select>
+
+    <select id="findStoByBrandAndLable" resultType="ListMessage">
+        SELECT      a.id merchantsCode,
+         merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user AS a
+        	LEFT JOIN app_merchants_brand AS b ON b.user_b_id = a.id
+         WHERE city =#{city} AND  a.state = 1 AND (type = 1 OR type = 3) AND b.brand_id = #{brand} AND lable_id like "%"#{lable,jdbcType=VARCHAR}"%"
+    </select>
+
+
+    <select id="findStoByBrandAndLevel" resultType="ListMessage">
+        SELECT      a.id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user AS a
+        	LEFT JOIN app_merchants_brand AS b ON b.user_b_id = a.id
+        WHERE city =#{city} AND a.state = 1 AND (type = 1 OR type = 3) AND b.brand_id = #{brand} AND merchants_level IS NOT NULL ORDER BY merchants_level
+    </select>
+
+
+    <select id="findStoByLable" resultType="ListMessage">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE city =#{city} AND state = 1 AND (type = 1 OR type = 3) AND lable_id like "%"#{lable,jdbcType=VARCHAR}"%"
+    </select>
+
+
+    <select id="findStoByLevel" resultType="ListMessage">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type
+        FROM app_b_user WHERE city =#{city} AND state = 1 AND (type = 1 OR type = 3) AND merchants_level IS NOT NULL ORDER BY merchants_level
+    </select>
+
+
+    <select id="findMerchantsByCode" resultType="MerchantsDetails">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        service_sorce serviceSorce,
+        effciency_score effciencyScore,
+        score score,
+        huanxin_user_name huanxinUserName,
+        lat lat,
+        lng lng,
+        address address,
+        merchants_phone merchantsPhone,
+        type type
+        FROM app_b_user WHERE id = #{merchantsCode}
+    </select>
+
+
+    <select id="indentMerchantsMes" resultType="IndentAndMerchants">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        lat lat,
+        lng lng,
+        address address,
+        lable_id lableid
+        FROM app_b_user WHERE id = #{merchantsId}
+    </select>
+
+    <select id="findRecommendMer" resultType="ListMessage">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type,
+        state state
+        FROM app_b_user
+        WHERE merchants_level is NOT NULL AND city = #{city} AND state = 1
+        ORDER BY merchants_level
+    </select>
+
+
+<!--    String findDetailsLable(String s);-->
+    <select id="findDetailsLable" resultType="String">
+        SELECT merchants_lable
+        FROM app_merchants_details_lable WHERE  id = #{s}
+    </select>
+
+
+
+    <!--CleanMerDto findMechantsByid(String userid);-->
+    <select id="findMechantsByid" resultType="CleanMerDto">
+     SELECT a.id userBId,a.merchants_name merchantsName,a.type,a.score,a.address,a.lng,a.lat,b.url FROM app_b_user  as a
+	  LEFT JOIN app_merchants_info_banner as b ON a.id = b.user_b_id
+	  	WHERE a.id = #{userid} AND b.`index` = 1
+    </select>
+
+
+    <!--CleanMerDto findCleanDetails(String userBId);-->
+    <select id="findCleanDetails" resultType="CleanMerDto">
+SELECT a.id userBId,b.url url,a.merchants_name merchantsName,a.score,a.address,a.lng,a.lat,a.merchants_phone phoneNumber,a.huanxin_user_name huanxinUserName,c.start_time startTime,c.end_time endTime FROM app_b_user as a
+        LEFT JOIN app_merchants_info_banner as b ON a.id = b.user_b_id
+        LEFT JOIN app_b_user_config as c ON c.user_b_id = a.id
+        WHERE a.id = #{userBId} AND b.`index` = 1
+    </select>
+
+
+
+    <!--BUserEntity updateBalance(String userBId);-->
+    <select id="updateBalance" resultType="BUserEntity">
+        SELECT * FROM app_b_user WHERE id = #{userBId} FOR UPDATE;
+    </select>
+
+
+
+<!--    StoreDisplayDto findstoreDisplay(String userBId);-->
+    <select id="findstoreDisplay" resultType="StoreDisplayDto">
+SELECT a.id userBId,a.merchants_name merchantsName,b.end_time endTime,b.start_time startTime,a.address,type,score,lng,lat,huanxin_user_name huanxinUserName FROM app_b_user as a
+	LEFT JOIN app_b_user_config as b on a.id = b.user_b_id
+		WHERE a.id = #{userBId}
+
+    </select>
+
+
+<!--    List<ListMessage> findRecommendFirstMer(Integer city);-->
+    <select id="findRecommendFirstMer" resultType="ListMessage">
+        SELECT      id merchantsCode,
+        merchants_name merchantsName,
+        score score,
+        lat lat,
+        lng lng,
+        address address,
+        type type,
+        state state
+        FROM app_b_user
+        WHERE  city = #{city} AND state = 1 AND type = 1 limit #{pagesize},10
+    </select>
+
+<!--
+
+         SELECT      a.id merchantsCode,
+            merchants_name merchantsName,
+            score score,
+            lat lat,
+            lng lng,
+            address address,
+            type type,
+            state state
+            FROM app_b_user as a
+		LEFT JOIN app_b_user_config as b on a.id = b.user_b_id
+            WHERE merchants_level is NOT NULL AND city = #{city} AND state = 1 AND b.business_type = 1 AND b.open_wash_time = 1
+            ORDER BY merchants_level -->
+
+
+<!--    SparyMerchantsDto findSprayMerchants(@Param("userBId")Integer userBId, @Param("cityCode")String cityCode, @Param("score")String score,@Param("pagesize") Integer pagesize);-->
+    <select id="findSprayMerchants" resultType="SparyMerchantsDto">
+
+        SELECT a.id userBId,a.merchants_name merchantsName,a.address,a.score,(SELECT COUNT(1) FROM app_spray_paint_indent WHERE user_b_id = #{userBId}) sparyIndent,a.lng,a.lat,b.url imgUrl
+         FROM app_b_user as a
+	        LEFT JOIN app_merchants_info_banner as b ON a.id = b.user_b_id
+		        WHERE a.id = #{userBId}
+		        AND b.`index` = 1
+            <if test="cityCode != null and cityCode != ''">
+                AND a.city = #{cityCode}
+            </if>
+            <if test="score != null and score != ''">
+                ORDER BY score DESC
+            </if>
+		        LIMIT #{pagesize},20;
+
+
+    </select>
+
+
+<!--    String selectByUsername(String username);-->
+    <select id="selectByUsername" resultType="String">
+        SELECT id FROM app_b_user WHERE username = #{username}
+    </select>
+
+
+<!--    List<String> findBrand(String s);-->
+    <select id="findBrand" resultType="String">
+        SELECT brand_id FROM app_merchants_brand WHERE user_b_id = #{s} AND state = 1
+    </select>
+</mapper>
+

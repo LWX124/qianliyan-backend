@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.AppWxCashOutRecordEntityMapper">
+
+
+<!--    ChangeDetailsDto findChangeDetails(String changeId);-->
+    <select id="findChangeDetails" resultType="ChangeDetailsDto">
+      SELECT b.icon_url bankImg,b.bank_name bankName,a.bank_number bankTail,a.amount amount,
+				a.fee serviceFee,a.create_time createTime,success_time successTime,
+				a.result_info resultInfo,partner_trade_no partnerTradeNo
+        FROM app_wx_cash_out_record as a
+	    LEFT JOIN app_wx_bank as b ON a.bank_code = b.bank_code
+	    WHERE a.source = 2 AND a.partner_trade_no = #{changeId}
+    </select>
+</mapper>

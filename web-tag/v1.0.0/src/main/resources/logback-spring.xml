@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name"  defaultValue="service"/>
+    <springProperty scope="context" name="spring.profiles" source="spring.profiles" defaultValue="dev"/>
+    <springProperty scope="context" name="eureka.instance.instance-id" source="eureka.instance.instance-id" defaultValue="eureka-server"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <appender name="FLUENT" class="ch.qos.logback.more.appenders.DataFluentAppender">
+        <tag>service.${spring.profiles}</tag>
+        <label>logback</label>
+        <remoteHost>10.108.12.127</remoteHost>
+        <port>9880</port>
+        <additionalField>
+            <key>service_name</key>
+            <value>${spring.application.name}</value>
+        </additionalField>
+        <additionalField>
+            <key>profile</key>
+            <value>${spring.profiles}</value>
+        </additionalField>
+        <additionalField>
+            <key>ip_address</key>
+            <value>${eureka.instance.instance-id}</value>
+        </additionalField>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="FLUENT" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

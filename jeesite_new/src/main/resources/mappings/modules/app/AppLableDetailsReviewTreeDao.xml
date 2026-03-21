@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppLableDetailsReviewTreeDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppLableDetailsReviewTree">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+<!--	BigDecimal findMaxRebates(String lableCode);-->
+	<select id="findMaxRebates" resultType="Double">
+		       SELECT
+       MAX(rebates) rebates
+       FROM app_lable_details_review_tree WHERE parent_code = #{lableCode}
+	</select>
+
+
+	<!--List<AppLableDetailsReviewTree> findLable(String id);
+	-->
+	<select id="findLable" resultType="AppLableDetailsReviewTree">
+		SELECT * FROM app_lable_details_review_tree WHERE user_b_id = #{id} AND `show` = 1 AND state = 1
+	</select>
+
+<!--	List<AppLableDetailsReviewTree> finduserBId(Integer user_b_id);-->
+	<select id="finduserBId" resultType="AppLableDetailsReviewTree">
+		SELECT * FROM app_lable_details_review_tree WHERE user_b_id = #{user_b_id}
+	</select>
+
+
+<!--	Integer getLastLable-->
+	<select id="getLastLable" resultType="Integer">
+		SELECT
+	MAX(CAST(lable_code as SIGNED INTEGER)) lableCode
+	FROM app_lable_details_review_tree WHERE parent_code = 0
+	</select>
+
+<!--	List<AppLableDetailsReviewTree> findIdTreeLeaf(String lableCode);-->
+	<select id="findIdTreeLeaf" resultType="AppLableDetailsReviewTree">
+		SELECT
+        lable_code lableCode,
+        lable_name lableName,
+        parent_code parentCode,
+        parent_codes parentCodes,
+        tree_sort treeSort,
+        tree_sorts treeSorts,
+        tree_leaf treeLeaf,
+        tree_level treeLevel,
+        tree_names treeNames,
+        status status,
+        create_date createDate,
+        update_date updateDate,
+        lable_id lableId,
+        lable_details_id lableDetailsId,
+        rebates,
+        user_b_id userBId,
+        reson reson,
+        state state
+        FROM  app_lable_details_review_tree WHERE parent_code = #{lableCode}
+	</select>
+
+<!--	List<AppLableDetailsReviewTree> finduserandParent(Integer userBId, int i);-->
+	<select id="finduserandParent" resultType="AppLableDetailsReviewTree">
+		SELECT * FROM app_lable_details_review_tree WHERE user_b_id = #{userBId} and parent_code = #{i}
+	</select>
+
+<!--	AppLableDetailsReviewTree selectLable(Integer userBId, int lableId, int show);-->
+	<select id="selectLable" resultType="AppLableDetailsReviewTree">
+		SELECT * FROM app_lable_details_review_tree
+		WHERE user_b_id = #{userBId} and lable_id = #{lableId} and `show`= #{show}
+	</select>
+
+
+
+<!--	void add(AppLableDetailsReviewTree lableDetailsReview);-->
+
+<!--	<insert id="add">-->
+<!--		insert into app_user_account_record (momey,user_id,`type`,create_time,add_flag,source,business_id)-->
+<!--		value (#{momey},#{userId},#{type},#{createTime},#{addFlag},#{source},#{businessId})-->
+<!--	</insert>-->
+
+	<insert id="add">
+		INSERT INTO app_lable_details_review_tree
+		(`lable_code`, `lable_name`, `parent_code`, `parent_codes`, `tree_sort`, `tree_sorts`, `tree_leaf`, `tree_level`, `tree_names`, `status`,  `create_date`, `update_date`, `lable_id`, `user_b_id`, `show`, `index`, `state`)
+		VALUES
+		(#{lableCode}, #{lableName}, #{parentCode}, #{parentCodes}, #{treeSort}, #{treeSorts}, #{treeLeaf}, #{treeLevel}, #{treeNames}, #{status}, #{createDate}, #{updateDate}, #{lableId}, #{userBId}, #{show}, #{index}, #{state})
+	</insert>
+
+
+
+<!--	List<Integer> selectAllAccident();-->
+	<select id="selectAllAccident" resultType="Integer">
+		SELECT user_b_id FROM app_lable_details_review_tree WHERE lable_id = 9 AND tree_leaf = 0
+	</select>
+
+<!--	List<AppLableDetailsReviewTree> selectAllList(Integer userBId);-->
+	<select id="selectAllList" resultType="BigDecimal">
+		SELECT rebates FROM app_lable_details_review_tree WHERE lable_id = 9 AND tree_leaf = 1 AND user_b_id = #{userBId}
+	</select>
+
+</mapper>

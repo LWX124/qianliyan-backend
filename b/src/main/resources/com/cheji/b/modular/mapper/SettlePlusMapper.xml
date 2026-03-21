@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.b.modular.mapper.SettlePlusMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheji.b.modular.domain.SettlePlusEntity">
+        <id column="id" property="id" />
+        <result column="settlement_amount" property="settlementAmount" />
+        <result column="proprotion" property="proprotion" />
+        <result column="settle_plus_amount" property="settlePlusAmount" />
+        <result column="plus_id" property="plusId" />
+        <result column="indent_id" property="indentId" />
+        <result column="inform" property="inform" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, settlement_amount AS settlementAmount, proprotion, settle_plus_amount AS settlePlusAmount, plus_id AS plusId, indent_id AS indentId, inform, create_time AS createTime, update_time AS updateTime
+    </sql>
+
+</mapper>

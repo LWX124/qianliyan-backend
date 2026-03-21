@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppWxCashOutRecordDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppWxCashOutRecord">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+	<select id="selectForJob" resultType="com.jeesite.modules.app.entity.AppWxCashOutRecord">
+			select t1.id,t1.sources,t1.create_time createTime, t1.amount ,t1.bank_code as bankCode,t1.bank_number as bankNumber,t1.user_bank_name as userBankName,t1.user_id userId,t1.`status`
+			,t1.partner_trade_no as partnerTradeNo,t1.send_amount sendAmount
+			from app_wx_cash_out_record t1
+			where t1.`status`='1'
+	</select>
+
+	<select id="selectForErrCode" resultType="AppWxCashOutRecord">
+			select t1.id,t1.source,t1.create_time createTime, t1.amount,t1.bank_code as bankCode,t1.bank_number as bankNumber,t1.user_bank_name as userBankName ,t1.user_id userId,t1.`status`,t2.err_code as errCode
+			,t2.partner_trade_no as partnerTradeNo,t1.send_amount sendAmount
+			from app_wx_cash_out_record t1
+			left join app_wx_bank_interface t2 on t1.partner_trade_no=t2.partner_trade_no
+			where t2.result_code!='SUCCESS' and t2.ops_flag=1 and t2.return_code='SUCCESS'
+	</select>
+
+	<update id="updateStatusById" parameterType="AppWxCashOutRecord">
+		update app_wx_cash_out_record t1 set t1.status=#{status},t1.partner_trade_no=#{partnerTradeNo}
+		where t1.id=#{id}
+	</update>
+
+	<update id="updateContent" parameterType="AppWxCashOutRecord">
+		update app_wx_cash_out_record t1 set t1.status=#{status},t1.result_info=#{resultInfo},t1.result=#{result}
+		where t1.id=#{id}
+	</update>
+
+<!--    <![CDATA[
+		where  t1.create_time<=DATE_SUB(NOW(),INTERVAL  4 HOUR)
+		]]>
+		and	-->
+	<select id="selectForResult" resultType="map">
+		select * from app_wx_cash_out_record t1
+		<![CDATA[
+		where  t1.create_time<=DATE_SUB(NOW(),INTERVAL  4 HOUR)
+		]]>
+		and t1.partner_trade_no is not null
+		and t1.`status`='2'
+		and (t1.result='DEFAULT' OR t1.result='PROCESSING' OR t1.result='SYSTEMERROR')
+
+	</select>
+
+	<update id="updateResult" parameterType="AppWxCashOutRecord">
+		update app_wx_cash_out_record t1 set t1.result=#{result},t1.result_info=#{resultInfo},t1.success_time=#{successTime}
+		where t1.id=#{id}
+	</update>
+</mapper>

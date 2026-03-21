@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheji.web.modular.mapper.AppAuctionMapper">
+
+
+    <!-- List<AppAuctionEntity> search(String address, String brand, Page page); -->
+    <select id="search" resultType="AppAuctionEntity">
+
+        SELECT * FROM app_auction a
+        where up_state = '1'
+        <if test="address != null and address != ''">
+            AND parking_place like concat('%',#{address},'%')
+        </if>
+        <if test="brand != null and brand != ''">
+            AND brand like concat('%',#{brand},'%')
+        </if>
+        limit #{current} ,#{size}
+
+    </select>
+
+    <select id="getCarCount" resultType="Integer">
+        SELECT count(a.id) FROM app_auction a WHERE a.up_state = '1'
+    </select>
+
+    <select id="selectByCondition" resultType="AppAuctionEntity">
+        SELECT t1.* FROM app_auction t1
+                    left join app_auction_up t2 on t2.car_id=t1.id
+        where t1.up_state =1
+        <if test="fixedPrice != null and fixedPrice != ''">
+            AND t1.fixed_price =#{fixedPrice}
+        </if>
+        <if test="accType != null and accType != ''">
+            AND t1.accident_type=#{accType}
+        </if>
+        <if test="parkingPlace != null and parkingPlace != ''">
+            AND t1.parking_place like concat('%',#{parkingPlace},'%')
+        </if>
+        <if test="brand != null and brand != ''">
+            AND t1.brand like concat('%',#{brand},'%')
+        </if>
+        <if test="auctionState != null and auctionState == 1">
+            AND t1.car_state=7
+            and t2.begin_time &lt; now()
+            and t2.end_time > now()
+        </if>
+        <if test="auctionState != null and auctionState == 2">
+            and t2.begin_time > now()
+        </if>
+        <if test="priceMin != null and priceMin != ''">
+            AND t1.price >= #{priceMin}
+        </if>
+        <if test="priceMax != null and priceMax != ''">
+            AND t1.price &lt;= #{priceMax}
+        </if>
+
+
+        order by t1.create_time desc
+
+        <if test="page != null">
+            LIMIT #{page.currentResult},#{page.showCount}
+        </if>
+
+    </select>
+
+    <select id="countByCondition" resultType="Integer">
+        SELECT count(*) FROM app_auction t1
+                    left join app_auction_up t2 on t2.car_id=t1.id
+        where t1.up_state =1
+        <if test="fixedPrice != null and fixedPrice != ''">
+            AND t1.fixed_price =#{fixedPrice}
+        </if>
+        <if test="accType != null and accType != ''">
+            AND t1.accident_type=#{accType}
+        </if>
+        <if test="parkingPlace != null and parkingPlace != ''">
+            AND t1.parking_place like concat('%',#{parkingPlace},'%')
+        </if>
+        <if test="brand != null and brand != ''">
+            AND t1.brand like concat('%',#{brand},'%')
+        </if>
+        <if test="auctionState != null and auctionState == 1">
+            AND t1.car_state=7
+            and t2.begin_time &lt; now()
+            and t2.end_time > now()
+        </if>
+        <if test="auctionState != null and auctionState == 2">
+            and t2.begin_time > now()
+        </if>
+        <if test="priceMin != null and priceMin != ''">
+            AND t1.price >= #{priceMin}
+        </if>
+        <if test="priceMax != null and priceMax != ''">
+            AND t1.price &lt;= #{priceMax}
+        </if>
+    </select>
+</mapper>

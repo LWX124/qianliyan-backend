@@ -1,0 +1,215 @@
+<% layout('/layouts/default.html', {title: '事故车送修现场业务表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('事故车送修现场业务表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('app:appSendRepair:edit')){ %>
+					<a href="${ctx}/app/appSendRepair/form" class="btn btn-default btnTool" title="${text('新增事故车送修现场业务表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${appSendRepair}" action="${ctx}/app/appSendRepair/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="time" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('信息手机')}：</label>
+					<div class="control-inline">
+						<#form:input path="phone" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('事故区域')}：</label>
+					<div class="control-inline">
+						<#form:input path="area" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('严重程度')}：</label>
+					<div class="control-inline">
+						<#form:input path="severity" maxlength="64" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('事故详情')}：</label>
+					<div class="control-inline">
+						<#form:input path="details" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('红包金额')}：</label>
+					<div class="control-inline">
+						<#form:input path="redpacket" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('业务老师')}：</label>
+					<div class="control-inline">
+						<#form:input path="servicer" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('业务人车')}：</label>
+					<div class="control-inline">
+						<#form:input path="businessCar" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车牌号码')}：</label>
+					<div class="control-inline">
+						<#form:input path="busnumber" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车型品牌')}：</label>
+					<div class="control-inline">
+						<#form:input path="brand" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('客户姓名')}：</label>
+					<div class="control-inline">
+						<#form:input path="cusname" maxlength="10" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('电话号码')}：</label>
+					<div class="control-inline">
+						<#form:input path="cusphone" maxlength="11" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('保险公司')}：</label>
+					<div class="control-inline">
+						<#form:input path="insure" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('预估损失')}：</label>
+					<div class="control-inline">
+						<#form:input path="losses" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('推修4s')}：</label>
+					<div class="control-inline">
+						<#form:input path="push4s" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('成交情况')}：</label>
+					<div class="control-inline">
+						<#form:input path="condition" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+	var lastrow;
+	var lastcell;
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	cellEdit: true,
+	mtype:"POST",
+	cellsubmit: "clientArray",
+	columnModel: [
+		{header:'${text("操作")}', name:'actions', width:140, sortable:false, title:false, formatter: function(val, obj, row, act){
+				var actions = [];
+				<% if(hasPermi('app:appSendRepair:edit')){ %>
+					actions.push('<a href="${ctx}/app/appSendRepair/delete?id='+row.id+'" class="btnList" title="${text("删除一条记录")}" data-confirm="${text("确认要删除该条吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+					actions.push('<a href="javascript:;" onclick="subMit()" class="btnList"><i class="fa fa-pencil"></i></a>&nbsp;');
+					<% } %>
+				return actions.join('');
+			}},
+		{header:'${text("时间")}', name:'time', index:'a.time', width:200, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/app/appSendRepair/form?id='+row.id+'" class="btnList" data-title="${text("编辑事故车送修现场业务表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("信息手机")}', name:'phone', index:'a.phone', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("事故区域")}', name:'area', index:'a.area', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("严重程度")}', name:'severity', index:'a.severity', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("事故详情")}', name:'details', index:'a.details', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("红包金额")}', name:'redpacket', index:'a.redpacket', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("业务老师")}', name:'servicer', index:'a.servicer', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("业务人车")}', name:'businessCar', index:'a.business_car', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("有无同行")}', name:'peer', index:'a.peer', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("车牌号码")}', name:'busnumber', index:'a.busnumber', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("车型品牌")}', name:'brand', index:'a.brand', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("客户姓名")}', name:'cusname', index:'a.cusname', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("电话号码")}', name:'cusphone', index:'a.cusphone', width:245, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("保险公司")}', name:'insure', index:'a.insure', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("事故责任")}', name:'duty', index:'a.duty', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("预估损失")}', name:'losses', index:'a.losses', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("推修4s")}', name:'push4s', index:'a.push4s', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("成交情况")}', name:'condition', index:'a.condition', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("备注")}', name:'remark', index:'a.remark', width:150, align:"left"
+			, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+	],
+	beforeEditCell: function(rowid, cellname, value, irow, icol) {
+		lastrow = irow;
+		lastcell = icol;
+		rowId = rowid;
+	},
+
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+	},
+});
+function subMit() {
+	// console.log($('#dataGrid').dataGrid('editRow',$('#dataGrid').dataGrid('getSelectRows')).context)\
+	$("#dataGrid").jqGrid("saveCell",lastrow,lastcell);
+	var data = $("#dataGrid").jqGrid("getRowData",rowId);
+	data.id = rowId;
+	// js.ajaxSubmit('${ctx}/app/appSendRepair/save2', data);
+	$.ajax({
+		type: "POST",
+		url: "${ctx}/app/appSendRepair/save2",
+		data: data,
+		dataType: "json",
+		success: function (data) {
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}
+	})
+}
+
+
+</script>

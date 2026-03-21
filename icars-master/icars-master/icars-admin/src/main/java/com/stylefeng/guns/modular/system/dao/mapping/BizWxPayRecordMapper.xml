@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.BizWxPayRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.BizWxPayRecord">
+        <id column="id" property="id" />
+        <result column="bill_id" property="billId" />
+        <result column="openid" property="openid" />
+        <result column="amount" property="amount" />
+        <result column="return_code" property="returnCode" />
+        <result column="return_msg" property="returnMsg" />
+        <result column="result_code" property="resultCode" />
+        <result column="mch_appid" property="mchAppid" />
+        <result column="mchid" property="mchid" />
+        <result column="device_info" property="deviceInfo" />
+        <result column="nonce_str" property="nonceStr" />
+        <result column="err_code" property="errCode" />
+        <result column="err_code_des" property="errCodeDes" />
+        <result column="partner_trade_no" property="partnerTradeNo" />
+        <result column="payment_no" property="paymentNo" />
+        <result column="payment_time" property="paymentTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bill_id, openid, amount, return_code, return_msg, result_code, mch_appid, mchid, device_info, nonce_str, err_code, err_code_des, partner_trade_no, payment_no, payment_time, create_time
+    </sql>
+
+    <select id="selectSumRedPack" resultType="java.math.BigDecimal">
+        select
+        sum(d.amount)
+        from biz_wx_user a inner join biz_wx_pay_record d on a.openid = d.openid
+        <where>
+        a.extensionAccount = #{openid}
+        <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+            and (d.payment_time between CONCAT(#{startTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        </where>
+    </select>
+
+    <select id="getRedPackPercentageCounts" resultType="java.math.BigDecimal">
+        select
+        sum(a.amount)
+        from biz_wx_pay_record a inner join biz_wxpay_bill b on a.bill_id = b.id
+        <where>
+        a.openid = #{openid}
+        <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+            and (b.pay_time between CONCAT(#{startTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <![CDATA[ and b.accid < 0 ]]>
+        </where>
+    </select>
+
+    <select id="getRedPackPercentage" resultType="map">
+        select
+        a.amount,b.pay_time
+        from biz_wx_pay_record a inner join biz_wxpay_bill b on a.bill_id = b.id
+        <where>
+            a.openid = #{openid}
+            <![CDATA[ and b.accid < 0 ]]>
+        </where>
+        order by a.payment_time desc
+    </select>
+
+    <select id="getAllAmount" resultType="java.math.BigDecimal">
+        SELECT IFNULL(SUM(amount),0) FROM biz_wx_pay_record
+        WHERE openid = #{openid}
+          AND result_code = 'SUCCESS'
+    </select>
+
+</mapper>

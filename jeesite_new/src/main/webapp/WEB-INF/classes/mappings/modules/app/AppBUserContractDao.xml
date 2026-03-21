@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.app.dao.AppBUserContractDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="AppBUserContract">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+
+<!--	void insertNewCon(AppBUserContract appBUserContract);-->
+	<insert id="insertNewCon">
+		insert into app_b_user_contract (url,`index`,user_b_id,state,create_time,update_time)
+		value (#{url},#{index},#{userBId},#{state},#{createTime},#{updateTime})
+	</insert>
+
+<!--	String selectUrl(String newUrl);-->
+	<select id="selectUrl" resultType="String">
+		select id from app_b_user_contract where url = #{newUrl}
+	</select>
+
+<!--	List<AppBUserContract> selectAll(String id);-->
+	<select id="selectAll" resultType="AppBUserContract">
+		SELECT * FROM app_b_user_contract WHERE user_b_id = #{id}
+	</select>
+
+</mapper>

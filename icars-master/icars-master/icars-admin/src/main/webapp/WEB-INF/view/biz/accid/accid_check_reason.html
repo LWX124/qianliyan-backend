@@ -1,0 +1,44 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+	<div class="ibox-content">
+		<div class="ibox-content">
+			<div class="row row-lg">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-9">
+							<!--<#NameCon id="reason" name="审核不通过原因" placeholder="请输入不通过原因"/>-->
+						<div class="form-group">
+							<label class="col-sm-3 control-label" style="height: 34px;line-height: 34px;border: 1px solid #e7eaec;">审核不通过原因</label>
+							<div class="col-sm-9">
+							<select id="reason" name="" style="height: 34px;line-height: 34px;width: 100%;">
+								<option value="">自定义信息</option>
+								<option value="谢谢参与，已收到您的信息，但视频未看到明显事故，审核未通过，请拍摄事故车辆">视频未看到明显事故</option>
+								<option value="谢谢参与，已收到您的信息，但事故已经过了太长时间，仅剩余一个事故车等待救援，审核未通过">视频只有受损事故车单车</option>
+								<option value="谢谢参与，已收到您的信息，但撞摩托车，电动车，撞人事故我们暂不处理，根据平台规则不予发放红包">撞摩托、自行车、人</option>
+								<option value="谢谢参与，已收到您的信息，但面包车、共享汽车、货车均不处理，根据平台规则不予发放红包">面包车，货车</option>
+								<option value="谢谢参与，已收到您的信息，但该事故超出我们受理范围，审核不通过，根据平台规则不予发放红包">超出范围</option>
+								<option value="谢谢参与，已收到您的信息，但该事故已有人提报且处理完毕，根据平台规则不予发放红包">处理完毕</option>
+								<option value="谢谢参与，已收到您的信息，但该视频距离太远，无法判定事故，根据平台规则不予发放红包">视频距离过远</option>
+								<option value="谢谢参与，已收到您的信息，但该视频未看到明显损失，根据平台规则不予发放红包">没有明显损失</option>
+								<option value="谢谢参与，已收到您的信息，但我司人员已提前在现场处理，根据平台规则不予发放红包">该事故正在现场处理</option>
+<!--								<option value="您好，师傅，感谢您的提报，五一期间未接收事故消息，祝您假期愉快">五一期间未接收事故消息，祝您假期愉快</option>-->
+							</select>
+							</div>
+
+								<input type="text" class="form-control"  style="height: 34px;line-height: 34px;width: 100%;" name="reasonText" id="reasonText" placeholder="请输入少于45个字符的不通过理由。">
+						</div>
+<!--							<div class="form-group">-->
+<!--								-->
+<!--							</div>-->
+						</div>
+						<div class="col-sm-3">
+							<#button name="提交原因" icon="fa-check-circle" clickFun="MgrAccdCheckReason.submitReason()" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctxPath}/static/modular/biz/accd/accid_check_reason.js"></script>
+@}

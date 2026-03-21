@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2bbdb2ae-c1ad-4efb-8c4d-4ddd7d6541e2" name="Changes" comment="日期">
+      <change afterPath="$PROJECT_DIR$/web/src/test" afterDir="true" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9bd44a26-bc23-492f-b172-3a3873bc13d6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9bd44a26-bc23-492f-b172-3a3873bc13d6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries" beforeDir="true" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/com/cheji/web/modular/mapper/AppAuctionOnePriceCarLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/com/cheji/web/modular/mapper/AppAuctionOnePriceCarLogMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/resources/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/resources/application-test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/test/java/com.cheji.web/CourseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/test/java/com.cheji.web/CourseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/application-pro.yml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/application-pro.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/application-test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/application-test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/WebApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/WebApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/config/WxPayProperties.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/config/WxPayProperties.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/config/WxProperties.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/config/WxProperties.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/AppAuctionWxPayConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/AppAuctionWxPayConstant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/AuctionConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/AuctionConstant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/RedisConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/RedisConstant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/TransactionConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/constant/TransactionConstant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AccidentRecordController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AccidentRecordController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionBidController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionBidController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionContrlloer.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionContrlloer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionMyMoneyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionMyMoneyController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionVipLvController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionVipLvController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionWithdrawCashController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionWithdrawCashController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionWxPayController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppAuctionWxPayController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppRescueIndentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppRescueIndentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppSprayPaintIndentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppSprayPaintIndentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppSubstituteDrivingIndentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppSubstituteDrivingIndentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppYearCheckIndentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/AppYearCheckIndentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/CityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/CityController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/CleanIndetController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/CleanIndetController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/IndexController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/IndexController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/PageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/PageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/WxPayController.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/controller/WxPayController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionBailLogEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionBailLogEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionBailRefundLogEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionBailRefundLogEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionBidEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionBidEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionOrderEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionOrderEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionPayLogEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionPayLogEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionTransactionLogEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionTransactionLogEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionUpEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionUpEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionVipLvEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppAuctionVipLvEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppUserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/AppUserEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/UserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/domain/UserEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/dto/AppDrivingCardDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/dto/AppDrivingCardDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/dto/AuctionCarListDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/dto/AuctionCarListDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/dto/AuctionMyDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/dto/AuctionMyDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailLogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailLogMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailLogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailLogMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailRefundLogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailRefundLogMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailRefundLogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBailRefundLogMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBidMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBidMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBidMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionBidMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionHotMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionHotMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionHotMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionHotMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionImgMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionImgMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionImgMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionImgMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionOrderMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionOrderMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionOrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionOrderMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionTransactionLogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionTransactionLogMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionTransactionLogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionTransactionLogMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionUpMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionUpMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipControlMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipControlMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipControlMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipControlMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipLvMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipLvMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipLvMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppAuctionVipLvMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppMessageCarMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppMessageCarMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppWxCashOutRecordEntityMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppWxCashOutRecordEntityMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppWxCashOutRecordEntityMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/mapper/AppWxCashOutRecordEntityMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionBidService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionBidService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionBrandSubService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionBrandSubService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionCollectService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionCollectService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionImgService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionImgService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionMyMoneyService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionMyMoneyService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionOrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionPayLogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionPayLogService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionUpService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionUpService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionVipLvService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionVipLvService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionWarnCarService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionWarnCarService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionWithdrawCashService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionWithdrawCashService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionWxPayService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppAuctionWxPayService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppRescueIndentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppRescueIndentService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppWxService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppWxService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppYearCheckIndentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/AppYearCheckIndentService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/CleanIndetService.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/service/CleanIndetService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/websocket/MyHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/modular/websocket/MyHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/util/COrderNoUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/util/COrderNoUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/util/DateUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/util/DateUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/com/cheji/web/util/OCRUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/com/cheji/web/util/OCRUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/templates/privacy.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/classes/templates/privacy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/web/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/web/web.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../maven/apache-maven-3.6.3-bin/apache-maven-3.6.3" />
+        <option name="useMavenConfig" value="true" />
+        <option name="userSettingsFile" value="D:\maven\apache-maven-3.6.3-bin\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="enabledProfiles">
+      <list>
+        <option value="dev" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="delegateBuildToMaven" value="true" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2BHjDrmNSU5qBY5bbqNQk2A13qz" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0": "0",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1": "1",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2": "2",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3": "3",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4": "4",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5": "5",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5": "248",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0": "0",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1": "1",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2": "2",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3": "3",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4": "4",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5": "5",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4": "249",
+    "FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5": "248",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelOrder2": "2",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RequestMappingsPanelWidth2": "75",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/IdeaWorkSpace/c-web/web/src/main/resources/templates/apidoc",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "Docker",
+    "spring.configuration.checksum": "2567a5ec9705eb7ac2c984033e06189d",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.cheji.web.modular.service" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaWorkSpace\c-web\web\src\main\resources\templates\apidoc" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\resources\com\cheji\web\modular\mapper" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\resources\templates" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\resources" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main\java\com\cheji\web\config" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\IdeaWorkSpace\c-web\web\src\main\resources\templates" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src" />
+      <recent name="C:\software\workspace_idea\web-java\web\trunk\src\main" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.cheji.web" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.cheji.web.constant" />
+      <recent name="com.cheji.web.modular.domain" />
+      <recent name="com.cheji.web.modular.service" />
+      <recent name="com.cheji.web.modular.mapper" />
+      <recent name="com.cheji.web.modular.controller" />
+    </key>
+  </component>
+  <component name="RedisHelper">
+    <option name="connections">
+      <list>
+        <ConnectionInfo>
+          <option name="global" value="false" />
+          <option name="id" value="a91748d6-1ccb-4c0a-81ab-a6516cf2133c" />
+          <option name="name" value="redis" />
+          <option name="password" value="f8f3fa74daf542d2bdfb3e4edefec202" />
+          <option name="port" value="6379" />
+          <option name="url" value="101.200.75.101" />
+        </ConnectionInfo>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.WebApplication">
+    <configuration name="CourseTest (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseTest (4)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.cheji.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.cheji.web" />
+      <option name="MAIN_CLASS_NAME" value="com.cheji.web.CourseTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="web" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.cheji.web.WebApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
+      <deployment type="docker-image">
+        <settings>
+          <option name="imageTag" value="registry.cn-chengdu.aliyuncs.com/cheji/web:v1.2.2" />
+          <option name="containerName" value="" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="web/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="web/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.web/Dockerfile" />
+        <item itemvalue="Docker.Docker Image" />
+        <item itemvalue="JUnit.CourseTest.test" />
+        <item itemvalue="Application.CourseTest (4)" />
+        <item itemvalue="Application.CourseTest (3)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\94922\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaWorkSpace\c-web" />
+          <option name="myCopyRoot" value="D:\IdeaWorkSpace\c-web" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaWorkSpace\c-web" />
+          <option name="myCopyRoot" value="D:\IdeaWorkSpace\c-web" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2bbdb2ae-c1ad-4efb-8c4d-4ddd7d6541e2" name="Changes" comment="" />
+      <created>1656569788543</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1656569788543</updated>
+      <workItem from="1656569791361" duration="1450000" />
+      <workItem from="1656576178938" duration="3782000" />
+      <workItem from="1656637955302" duration="174000" />
+      <workItem from="1656662684447" duration="738000" />
+      <workItem from="1656923714817" duration="780000" />
+      <workItem from="1656924621535" duration="1795000" />
+      <workItem from="1656982560560" duration="606000" />
+      <workItem from="1657074507694" duration="879000" />
+      <workItem from="1658127237756" duration="6610000" />
+      <workItem from="1658192688851" duration="3428000" />
+      <workItem from="1658201098924" duration="1020000" />
+      <workItem from="1658287041816" duration="4691000" />
+      <workItem from="1658297902164" duration="6768000" />
+      <workItem from="1658307738598" duration="503000" />
+      <workItem from="1658308390653" duration="1387000" />
+      <workItem from="1658365375924" duration="962000" />
+      <workItem from="1658372781194" duration="5789000" />
+      <workItem from="1658468588566" duration="8376000" />
+      <workItem from="1658797650351" duration="1086000" />
+      <workItem from="1659426006359" duration="6981000" />
+      <workItem from="1659494072674" duration="1705000" />
+      <workItem from="1659495949081" duration="781000" />
+      <workItem from="1659601355395" duration="3667000" />
+      <workItem from="1659664246650" duration="1903000" />
+      <workItem from="1659679395087" duration="2999000" />
+      <workItem from="1660012115318" duration="1363000" />
+      <workItem from="1660186334695" duration="3163000" />
+      <workItem from="1660205691237" duration="1211000" />
+      <workItem from="1660208660644" duration="1405000" />
+      <workItem from="1660266990001" duration="753000" />
+      <workItem from="1660267879795" duration="372000" />
+      <workItem from="1660269081619" duration="336000" />
+      <workItem from="1660274021879" duration="2860000" />
+      <workItem from="1660700313443" duration="4027000" />
+      <workItem from="1660725019875" duration="4300000" />
+      <workItem from="1660785944247" duration="10898000" />
+      <workItem from="1660871240062" duration="5795000" />
+      <workItem from="1661134121561" duration="5426000" />
+      <workItem from="1661216278026" duration="3851000" />
+      <workItem from="1661304889536" duration="2372000" />
+      <workItem from="1661389331221" duration="1294000" />
+      <workItem from="1661937814583" duration="690000" />
+      <workItem from="1661939794682" duration="339000" />
+      <workItem from="1663553226690" duration="1132000" />
+      <workItem from="1663556615132" duration="707000" />
+      <workItem from="1663809261680" duration="2586000" />
+      <workItem from="1663833441063" duration="252000" />
+      <workItem from="1664155075709" duration="4832000" />
+      <workItem from="1664180347256" duration="1734000" />
+      <workItem from="1664328418543" duration="5307000" />
+      <workItem from="1664413792757" duration="14901000" />
+      <workItem from="1664501163260" duration="9516000" />
+      <workItem from="1665191099305" duration="16113000" />
+      <workItem from="1665277591839" duration="11320000" />
+      <workItem from="1665363174610" duration="10454000" />
+      <workItem from="1665450160633" duration="4751000" />
+      <workItem from="1665536090261" duration="3602000" />
+      <workItem from="1665565427588" duration="17000" />
+      <workItem from="1666077099616" duration="2232000" />
+      <workItem from="1666147268190" duration="16255000" />
+      <workItem from="1666228215810" duration="1769000" />
+      <workItem from="1666235772540" duration="1394000" />
+      <workItem from="1666245487272" duration="3861000" />
+      <workItem from="1666573241799" duration="26560000" />
+      <workItem from="1666610268127" duration="2460000" />
+      <workItem from="1666660563900" duration="3910000" />
+      <workItem from="1666664533659" duration="12578000" />
+      <workItem from="1666861664914" duration="3991000" />
+      <workItem from="1666918793701" duration="25177000" />
+      <workItem from="1667178037090" duration="20039000" />
+      <workItem from="1667207969689" duration="8461000" />
+      <workItem from="1667264069671" duration="21948000" />
+      <workItem from="1667352480996" duration="11138000" />
+      <workItem from="1667381758910" duration="1498000" />
+      <workItem from="1667436580728" duration="13862000" />
+      <workItem from="1667530810757" duration="10862000" />
+      <workItem from="1667556740465" duration="2000" />
+      <workItem from="1667783337970" duration="9682000" />
+      <workItem from="1667793919298" duration="217000" />
+      <workItem from="1667868885450" duration="26718000" />
+      <workItem from="1667957947214" duration="29454000" />
+      <workItem from="1668041648467" duration="21144000" />
+      <workItem from="1668077998109" duration="1446000" />
+      <workItem from="1668127966553" duration="23169000" />
+      <workItem from="1668162413831" duration="2265000" />
+      <workItem from="1668387385303" duration="18739000" />
+      <workItem from="1668474612411" duration="24709000" />
+      <workItem from="1668560644069" duration="26619000" />
+      <workItem from="1668595977613" duration="1631000" />
+      <workItem from="1668646502241" duration="14191000" />
+      <workItem from="1668672560261" duration="12150000" />
+      <workItem from="1668733876027" duration="25029000" />
+      <workItem from="1668820717599" duration="15636000" />
+      <workItem from="1669618314040" duration="1834000" />
+      <workItem from="1669769340383" duration="33337000" />
+      <workItem from="1669856067591" duration="27313000" />
+      <workItem from="1669942812588" duration="25178000" />
+      <workItem from="1670201937021" duration="20159000" />
+      <workItem from="1670232328803" duration="1505000" />
+      <workItem from="1670287913334" duration="23016000" />
+      <workItem from="1670374960838" duration="23399000" />
+      <workItem from="1670461188397" duration="25632000" />
+      <workItem from="1670547567079" duration="10243000" />
+      <workItem from="1670569479758" duration="6010000" />
+      <workItem from="1670806579657" duration="17045000" />
+      <workItem from="1670893012336" duration="16386000" />
+      <workItem from="1670979377591" duration="3802000" />
+      <workItem from="1671071646850" duration="4964000" />
+      <workItem from="1671152479515" duration="7747000" />
+      <workItem from="1671246072434" duration="59000" />
+      <workItem from="1671246385843" duration="5359000" />
+      <workItem from="1671260572065" duration="1310000" />
+      <workItem from="1672022338913" duration="3189000" />
+      <workItem from="1672107550568" duration="12290000" />
+      <workItem from="1672190027653" duration="18431000" />
+      <workItem from="1672276357811" duration="14510000" />
+      <workItem from="1672361478931" duration="8471000" />
+      <workItem from="1672707320093" duration="328000" />
+      <workItem from="1672707853805" duration="25544000" />
+      <workItem from="1672793076881" duration="21197000" />
+      <workItem from="1672880173276" duration="19515000" />
+      <workItem from="1672910488073" duration="1614000" />
+      <workItem from="1672969023001" duration="16753000" />
+      <workItem from="1672994704897" duration="4499000" />
+      <workItem from="1673226499456" duration="17571000" />
+      <workItem from="1673312159610" duration="5439000" />
+      <workItem from="1673398657267" duration="4148000" />
+      <workItem from="1673407565652" duration="3189000" />
+      <workItem from="1673465912073" duration="16445000" />
+      <workItem from="1673514425056" duration="2261000" />
+      <workItem from="1673570974038" duration="6483000" />
+      <workItem from="1673830202638" duration="6715000" />
+      <workItem from="1673920785509" duration="17645000" />
+      <workItem from="1674954053734" duration="9486000" />
+      <workItem from="1675040279729" duration="4191000" />
+      <workItem from="1675126344677" duration="4715000" />
+      <workItem from="1675213047885" duration="1809000" />
+      <workItem from="1675299692768" duration="5092000" />
+      <workItem from="1675385505324" duration="4470000" />
+      <workItem from="1675644992885" duration="17752000" />
+      <workItem from="1675730949042" duration="12125000" />
+      <workItem from="1675817864902" duration="7732000" />
+      <workItem from="1675904434592" duration="9724000" />
+      <workItem from="1675990917815" duration="9305000" />
+      <workItem from="1676249481099" duration="1808000" />
+      <workItem from="1676258206492" duration="3907000" />
+      <workItem from="1676336107959" duration="4802000" />
+      <workItem from="1676422657174" duration="19306000" />
+      <workItem from="1676508690848" duration="12652000" />
+      <workItem from="1676535742048" duration="2358000" />
+      <workItem from="1676597913860" duration="20892000" />
+      <workItem from="1676691308182" duration="1174000" />
+      <workItem from="1676692840899" duration="1752000" />
+      <workItem from="1676703587336" duration="1064000" />
+      <workItem from="1676854876076" duration="23362000" />
+      <workItem from="1676941645708" duration="11855000" />
+      <workItem from="1677027309968" duration="13992000" />
+      <workItem from="1677242650198" duration="1507000" />
+      <workItem from="1677459363570" duration="15907000" />
+      <workItem from="1677744656669" duration="43000" />
+      <workItem from="1677744762775" duration="56000" />
+      <workItem from="1677744882668" duration="120000" />
+      <workItem from="1677745067872" duration="2466000" />
+      <workItem from="1677804457681" duration="10719000" />
+      <workItem from="1680857351443" duration="2017000" />
+      <workItem from="1680859597541" duration="10485000" />
+      <workItem from="1681087084861" duration="1233000" />
+      <workItem from="1681095872611" duration="14221000" />
+      <workItem from="1681180285818" duration="14042000" />
+      <workItem from="1681267030374" duration="9318000" />
+      <workItem from="1681346879638" duration="6973000" />
+      <workItem from="1681898497460" duration="7115000" />
+      <workItem from="1682072608316" duration="8888000" />
+      <workItem from="1682305269967" duration="24000" />
+      <workItem from="1682576482182" duration="926000" />
+      <workItem from="1682647277441" duration="240000" />
+      <workItem from="1683532075562" duration="1026000" />
+      <workItem from="1683533197645" duration="2080000" />
+      <workItem from="1683595635450" duration="499000" />
+      <workItem from="1684222265079" duration="13088000" />
+      <workItem from="1684284987995" duration="12383000" />
+      <workItem from="1684373674451" duration="3945000" />
+      <workItem from="1684717694963" duration="6948000" />
+      <workItem from="1684897949618" duration="800000" />
+      <workItem from="1684998960389" duration="5613000" />
+      <workItem from="1685064547696" duration="1091000" />
+      <workItem from="1685324045462" duration="4695000" />
+      <workItem from="1685500622044" duration="94000" />
+      <workItem from="1685503823812" duration="1225000" />
+      <workItem from="1685584179811" duration="1117000" />
+      <workItem from="1685667174533" duration="1255000" />
+      <workItem from="1685954200671" duration="4478000" />
+      <workItem from="1686103928742" duration="1974000" />
+      <workItem from="1686551599260" duration="4423000" />
+      <workItem from="1686559328807" duration="10033000" />
+      <workItem from="1686638015557" duration="4494000" />
+      <workItem from="1686704163775" duration="2303000" />
+      <workItem from="1686793679890" duration="6229000" />
+      <workItem from="1687136769734" duration="1204000" />
+      <workItem from="1687827702126" duration="607000" />
+      <workItem from="1687835648609" duration="208000" />
+      <workItem from="1688286280451" duration="3424000" />
+      <workItem from="1689058769306" duration="2858000" />
+      <workItem from="1689211626323" duration="6860000" />
+      <workItem from="1689294957599" duration="1786000" />
+      <workItem from="1689555301503" duration="764000" />
+      <workItem from="1722478412338" duration="99000" />
+      <workItem from="1740707113948" duration="41000" />
+    </task>
+    <task id="LOCAL-00001" summary="1">
+      <created>1656570599621</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1656570599621</updated>
+    </task>
+    <task id="LOCAL-00002" summary="1">
+      <created>1656637992567</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1656637992567</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1">
+      <created>1660268247382</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1660268247383</updated>
+    </task>
+    <task id="LOCAL-00004" summary="1">
+      <created>1660872686767</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1660872686767</updated>
+    </task>
+    <task id="LOCAL-00005" summary="1">
+      <created>1666147713915</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1666147713915</updated>
+    </task>
+    <task id="LOCAL-00006" summary="1">
+      <created>1670575898890</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1670575898890</updated>
+    </task>
+    <task id="LOCAL-00007" summary="1">
+      <created>1677745703158</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1677745703158</updated>
+    </task>
+    <task id="LOCAL-00008" summary="登录接口，返回会员等级，vipInfoList缺少返回文字">
+      <created>1680921746652</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1680921746652</updated>
+    </task>
+    <task id="LOCAL-00009" summary="水印">
+      <created>1680923584077</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1680923584077</updated>
+    </task>
+    <task id="LOCAL-00010" summary="价格筛选，车辆分页，车辆列表排序">
+      <created>1681120536303</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681120536303</updated>
+    </task>
+    <task id="LOCAL-00011" summary="登录接口，返回会员等级，vipInfoList缺少返回文字">
+      <created>1681204772837</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1681204772837</updated>
+    </task>
+    <task id="LOCAL-00012" summary="价格筛选筛选漏掉区间数，添加vip会员等级offer数量">
+      <created>1681284321034</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1681284321034</updated>
+    </task>
+    <task id="LOCAL-00013" summary="价格筛选极端值没有生效，分页写死">
+      <created>1681355145143</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1681355145143</updated>
+    </task>
+    <task id="LOCAL-00014" summary="修改时间格式，添加详情字段保险介绍">
+      <created>1681905533521</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1681905533521</updated>
+    </task>
+    <task id="LOCAL-00015" summary="日期">
+      <created>1682128695449</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1682128695449</updated>
+    </task>
+    <task id="LOCAL-00016" summary="二手车新增保存和列表">
+      <created>1684234873569</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1684234873569</updated>
+    </task>
+    <task id="LOCAL-00017" summary="添加查询二手车详情接口，修改bug">
+      <created>1684316003119</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1684316003119</updated>
+    </task>
+    <task id="LOCAL-00018" summary="日期">
+      <created>1684316587779</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1684316587779</updated>
+    </task>
+    <task id="LOCAL-00019" summary="统一字段，判读参数">
+      <created>1684811780624</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1684811780624</updated>
+    </task>
+    <task id="LOCAL-00020" summary="日期">
+      <created>1685005553201</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1685005553201</updated>
+    </task>
+    <task id="LOCAL-00021" summary="日期">
+      <created>1685328203088</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1685328203088</updated>
+    </task>
+    <task id="LOCAL-00022" summary="日期">
+      <created>1686039932602</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1686039932602</updated>
+    </task>
+    <task id="LOCAL-00023" summary="日期">
+      <created>1686039959855</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1686039959855</updated>
+    </task>
+    <task id="LOCAL-00024" summary="日期">
+      <created>1686640104045</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1686640104045</updated>
+    </task>
+    <task id="LOCAL-00025" summary="日期">
+      <created>1689230732736</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1689230732736</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1" />
+    <MESSAGE value="水印" />
+    <MESSAGE value="价格筛选，车辆分页，车辆列表排序" />
+    <MESSAGE value="登录接口，返回会员等级，vipInfoList缺少返回文字" />
+    <MESSAGE value="价格筛选筛选漏掉区间数，添加vip会员等级offer数量" />
+    <MESSAGE value="价格筛选极端值没有生效，分页写死" />
+    <MESSAGE value="修改时间格式，添加详情字段保险介绍" />
+    <MESSAGE value="二手车新增保存和列表" />
+    <MESSAGE value="添加查询二手车详情接口，修改bug" />
+    <MESSAGE value="统一字段，判读参数" />
+    <MESSAGE value="日期" />
+    <option name="LAST_COMMIT_MESSAGE" value="日期" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/web/trunk/src/main/java/com/cheji/web/util/VinUtil.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="id" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

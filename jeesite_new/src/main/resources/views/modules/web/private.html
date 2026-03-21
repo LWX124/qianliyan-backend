@@ -1,0 +1,179 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+
+    <title>车己小工具</title>
+    <link
+            href="https://cdn.bootcss.com/twitter-bootstrap/3.1.0/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <style>
+        body { -webkit-text-size-adjust:100%!important; }
+    </style>
+</head>
+<body class="view">
+<form class="form-inline">
+    <div class="form-group">
+        <input type="text" class="form-control" id="phone" placeholder="请输入手机号">
+    </div>
+    <button type="button" class="btn btn-default" id="get_code">获取验证码</button>
+
+    <br>
+    <br>
+    <div class="form-group">
+        <input type="text" class="form-control" id="code" placeholder="请输入验证码">
+    </div>
+    <button type="button"  class="btn btn-default" id="login_button">登录</button>
+    <br>
+
+
+<br>
+<div class="form-group">
+    <input type="text" class="form-control" id="b_phone" placeholder="请输入用户号码">
+</div>
+    <br>
+    <br>
+<button type="button"  class="btn btn-default" id="login_on">登录通过</button>
+<button  type="button" class="btn btn-default" id="up_info">上架信息收录</button>
+<button type="button"  class="btn btn-default" id="up_list">上架c端</button>
+
+</form>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+<script>
+    $("#get_code").click(
+        function () {
+            var phone = $("#phone").val();
+            if (phone.length != 11) {
+                alert("请输入正确的手机号！")
+                return
+            }
+            $.ajax({
+                type: "POST",
+                url: "/jeesite/web/getCode",
+                data: {
+                    phone: phone,
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200) {
+                        alert("发送成功")
+                    } else {
+                        alert(data.msg + "")
+                    }
+                },
+            });
+        }
+    )
+
+    $("#login_button").click(function () {
+        var phone = $("#phone").val();
+        var code = $("#code").val();
+        if (code.length != 6) {
+            alert("请输入正确的验证码")
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/jeesite/web/login",
+            data: {
+                phone: phone,
+                code: code
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+                    $.cookie('login_auth', data.msg);
+                    console.log(data.msg)
+                    alert("登录成功，当前登陆凭证只保留三个小时")
+                } else {
+                    alert(data.msg + "")
+                }
+            },
+        });
+    })
+
+    $("#login_on").click(function () {
+        var phone = $("#b_phone").val();
+        if (phone.length != 11) {
+            alert("请输入正确的手机号！")
+            return
+        }
+        var auth=$.cookie('login_auth');
+        $.ajax({
+            type: "POST",
+            url: "/jeesite/web/ops",
+            data: {
+                phone: phone,
+                auth: auth,
+                type:1
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+                    alert(data.msg + "")
+                } else {
+                    alert(data.msg + "")
+                }
+            },
+        });
+
+    })
+    $("#up_info").click(function () {
+        var phone = $("#b_phone").val();
+        if (phone.length != 11) {
+            alert("请输入正确的手机号！")
+            return
+        }
+        var auth=$.cookie('login_auth');
+        $.ajax({
+            type: "POST",
+            url: "/jeesite/web/ops",
+            data: {
+                phone: phone,
+                auth: auth,
+                type:2
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+                    alert(data.msg + "")
+                } else {
+                    alert(data.msg + "")
+                }
+            },
+        });
+
+    })
+
+    $("#up_list").click(function () {
+        var phone = $("#b_phone").val();
+        if (phone.length != 11) {
+            alert("请输入正确的手机号！")
+            return
+        }
+        var auth=$.cookie('login_auth');
+        $.ajax({
+            type: "POST",
+            url: "/jeesite/web/ops",
+            data: {
+                phone: phone,
+                auth: auth,
+                type:3
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+                    alert(data.msg + "")
+                } else {
+                    alert(data.msg + "")
+                }
+            },
+        });
+
+    })
+</script>
+
+</html>
