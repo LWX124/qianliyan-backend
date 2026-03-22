@@ -80,7 +80,7 @@ services:
     container_name: amiba-web
     restart: always
     ports:
-      - "8081:8081"
+      - "8081:8083"
     depends_on:
       - mysql
       - redis
