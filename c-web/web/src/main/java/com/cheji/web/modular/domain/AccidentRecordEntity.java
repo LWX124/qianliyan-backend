@@ -128,6 +128,11 @@ public class AccidentRecordEntity extends Model<AccidentRecordEntity> {
 
     private String brand;
 
+    /**
+     * 来源标识，用于区分不同小程序
+     */
+    private String source;
+
     @TableField(exist = false)
     private String pbid;
 
@@ -140,6 +145,14 @@ public class AccidentRecordEntity extends Model<AccidentRecordEntity> {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getPbid() {
