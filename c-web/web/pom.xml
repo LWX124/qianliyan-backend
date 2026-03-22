@@ -319,6 +319,13 @@
             <version>3.0.18.RELEASE</version>
         </dependency>
 
+        <!-- 七牛云 SDK -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.13.1</version>
+        </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>org.apache.rocketmq</groupId>-->
         <!--            <artifactId>rocketmq-spring-boot-starter</artifactId>-->

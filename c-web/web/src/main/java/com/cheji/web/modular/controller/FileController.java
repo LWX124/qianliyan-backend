@@ -2,12 +2,15 @@ package com.cheji.web.modular.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cheji.web.pojo.TokenPojo;
-import com.obs.services.ObsClient;
-import com.obs.services.model.ObjectMetadata;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.Region;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.util.Auth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,13 +31,17 @@ public class FileController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    private static final String END_POINT = "obs.cn-southwest-2.myhuaweicloud.com";
-    private static final String AK = "IRRNEYTCG1WNG35ST0FP";
-    private static final String SK = "BMIU9nhzo9TSFu5SL09utdGP1xeXsWEFXGFoqa46";
-    private static final String BUCKET = "watermark-a33d";
-    private static final String DOMAIN = "https://watermark-a33d.obs.cn-southwest-2.myhuaweicloud.com/";
+    @Value("${qiniu.access-key}")
+    private String accessKey;
 
-    private static final ObsClient obsClient = new ObsClient(AK, SK, END_POINT);
+    @Value("${qiniu.secret-key}")
+    private String secretKey;
+
+    @Value("${qiniu.bucket}")
+    private String bucket;
+
+    @Value("${qiniu.domain}")
+    private String domain;
 
     // 最大文件大小：视频 200MB，图片 10MB
     private static final long MAX_VIDEO_SIZE = 200 * 1024 * 1024L;
@@ -82,15 +89,18 @@ public class FileController extends BaseController {
             return result;
         }
 
-        try (InputStream content = file.getInputStream()) {
-            String fileName = UUID.randomUUID().toString().replaceAll("-", "") + ext;
-            String objectKey = "img/" + fileName;
+        try (InputStream inputStream = file.getInputStream()) {
+            String fileName = "img/" + UUID.randomUUID().toString().replaceAll("-", "") + ext;
 
-            ObjectMetadata meta = new ObjectMetadata();
-            meta.setContentLength(file.getSize());
-            obsClient.putObject(BUCKET, objectKey, content, meta);
+            // 七牛云上传
+            Configuration cfg = new Configuration(Region.autoRegion());
+            UploadManager uploadManager = new UploadManager(cfg);
+            Auth auth = Auth.create(accessKey, secretKey);
+            String upToken = auth.uploadToken(bucket);
 
-            String url = DOMAIN + objectKey;
+            uploadManager.put(inputStream, fileName, upToken, null, null);
+
+            String url = domain + fileName;
 
             JSONObject data = new JSONObject();
             data.put("url", url);
@@ -101,7 +111,7 @@ public class FileController extends BaseController {
             result.put("data", data);
             return result;
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("文件上传失败", e);
             result.put("code", 500);
             result.put("msg", "上传失败：" + e.getMessage());
