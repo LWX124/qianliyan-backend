@@ -356,5 +356,29 @@ public class UserController extends BaseController {
         return result;
     }
 
+    @ApiOperation(value = "验证token")
+    @RequestMapping(value = "/checkToken", method = RequestMethod.GET)
+    public JSONObject checkToken(HttpServletRequest request) {
+        JSONObject result = new JSONObject();
+        TokenPojo currentLoginUser = getCurrentLoginUser(request);
+
+        if (currentLoginUser == null) {
+            result.put("code", 530);
+            result.put("msg", "用户未登录");
+            return result;
+        }
+
+        Integer id = currentLoginUser.getAppUserEntity().getId();
+        String name = currentLoginUser.getAppUserEntity().getName();
+
+        JSONObject data = new JSONObject();
+        data.put("userId", id);
+        data.put("name", name);
+
+        result.put("code", 200);
+        result.put("msg", "token有效");
+        result.put("data", data);
+        return result;
+    }
 
 }
