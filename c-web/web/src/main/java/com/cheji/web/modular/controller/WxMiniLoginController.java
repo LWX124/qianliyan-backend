@@ -56,8 +56,6 @@ public class WxMiniLoginController extends BaseController {
         }
 
         try {
-            // 使用小程序 appid 切换配置
-            wxMaService.switchoverTo("wxfbf28088488787ee");
             WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(code);
             String openid = session.getOpenid();
 
