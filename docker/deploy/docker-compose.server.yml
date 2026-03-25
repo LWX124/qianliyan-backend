@@ -19,6 +19,7 @@ services:
     image: redis:6-alpine
     container_name: amiba-redis
     restart: always
+    command: redis-server --requirepass fbf6bb7f7cdc
     ports:
       - "6379:6379"
     volumes:
@@ -85,8 +86,9 @@ services:
       - mysql
       - redis
     environment:
+      SWAGGER_ENABLE: "false"
       SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PASSWORD: ""
+      SPRING_REDIS_PASSWORD: fbf6bb7f7cdc
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cheji?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
@@ -149,7 +151,7 @@ services:
       - rocketmq-namesrv
     environment:
       SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PASSWORD: ""
+      SPRING_REDIS_PASSWORD: fbf6bb7f7cdc
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cheji?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
@@ -180,7 +182,7 @@ services:
         -Djdbc.username=root
         -Djdbc.password=root123
         -Dspring.redis.host=redis
-        -Dspring.redis.password=
+        -Dspring.redis.password=fbf6bb7f7cdc
       ROCKETMQ_NAMESRV_ADDR: rocketmq-namesrv:9876
     networks:
       - amiba-net

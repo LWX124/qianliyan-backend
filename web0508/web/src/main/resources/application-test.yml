@@ -32,15 +32,14 @@ spring:
     hikari:
       connection-test-query: SELECT 1 FROM DUAL
       connection-timeout: 30000
-      maximum-pool-size: 20
+      maximum-pool-size: 150
       max-lifetime: 1200000
-      minimum-idle: 20
+      minimum-idle: 30
   redis:
     host: 101.200.75.101
     port: 6379
     ssl: false
     database: 0
-    password: f8f3fa74daf542d2bdfb3e4edefec202
     timeout: 3000
     jedis:
       pool:
@@ -65,7 +64,7 @@ logging:
 
 wx:
   appid: wxfd263ff6e281f881
-  appsecret: f7c2caabfd2eea05f18fe9545f61d6a9
+  appsecret: 28bc585bd3118857554e0126e20e1abd
   pay:
     appId: wxfd263ff6e281f881
     mchId: 1487083832
@@ -75,13 +74,20 @@ wx:
 #    keyPath: # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
   miniapp:
     configs:
-      - appid: wxfbf28088488787ee
-        secret: 85890652cf6913e6d590952c4b89a224
+      - appid: wx5d88d6c7c216e1f3
+        secret: 28bc585bd3118857554e0126e20e1abd
         token: #微信小程序消息服务器配置的token
         aesKey: #微信小程序消息服务器配置的EncodingAESKey
         msgDataFormat: JSON
 
 #host: http://175.6.112.42:8081/
 host: http://101.200.75.101:8081
+
+# 七牛云对象存储
+qiniu:
+  access-key: WwdYMBDwGFuZ9aTGuNGl4h567B-3Yvnvk-Qo31rn
+  secret-key: L9RELO_lcsYQFjHz0aeEn4LWNV5sgxvCbtcTLz2x
+  bucket: paishigu
+  domain: http://tcb098rkh.hn-bkt.clouddn.com/
 
 bail: 1 #保证金比例
