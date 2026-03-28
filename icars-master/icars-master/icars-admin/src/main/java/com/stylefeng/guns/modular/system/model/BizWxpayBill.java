@@ -50,7 +50,6 @@ public class BizWxpayBill extends Model<BizWxpayBill> {
     @TableField(exist = false)
     private String openid;
 
-    @TableField(exist = false)
     private BigDecimal amount;
 
     public Integer getId() {
