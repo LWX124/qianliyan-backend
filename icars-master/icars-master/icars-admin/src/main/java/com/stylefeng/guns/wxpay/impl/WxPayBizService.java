@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.stylefeng.guns.config.properties.WxPayProperties;
+import com.stylefeng.guns.config.properties.WxPayV2RedPackProperties;
 import com.stylefeng.guns.mail.IMailService;
 import com.stylefeng.guns.modular.system.constant.BizAlipayBillStatus;
 import com.stylefeng.guns.modular.system.model.*;
@@ -27,6 +28,9 @@ public class WxPayBizService implements IWxPayBizService {
     private Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private WxPayProperties wxPayProperties;
+
+    @Autowired
+    private WxPayV2RedPackProperties redPackProperties;
 
     @Autowired
     IBizWxpayBillService bizWxpayBillService;
@@ -90,23 +94,22 @@ public class WxPayBizService implements IWxPayBizService {
         //根据小程序的unionid查询到公众号的openid
         BizWxUserGzh wxUserGzh = bizWxUserGzhService.selectOne(new EntityWrapper<BizWxUserGzh>().eq("unionid", bizWxUser.getUnionId()));
         String gzhOpenid = wxUserGzh.getOpenid();
-        MyConfig myConfig = new MyConfig(wxPayProperties.getAppid(), wxPayProperties.getMchid(), wxPayProperties.getKey(), wxPayProperties.getCertPath());
+        MyConfig myConfig = new MyConfig(redPackProperties.getGzhAppId(), redPackProperties.getMchId(), redPackProperties.getMchKey(), redPackProperties.getCertPath());
         WXPay wxpay = new WXPay(myConfig);
         Map<String, String> data = new HashMap<String, String>();
         data.put("act_name","提报事故领红包活动");
-        data.put("client_ip","47.109.195.116");
-//        data.put("client_ip","171.214.166.101");
+        data.put("client_ip", redPackProperties.getClientIp());
         data.put("mch_billno", accId);
-        data.put("mch_id", wxPayProperties.getMchid());
+        data.put("mch_id", redPackProperties.getMchId());
         data.put("nonce_str", partnerTradeNo);
         data.put("re_openid", gzhOpenid);
         data.put("remark","参与多多，红包多多");
-        data.put("send_name", "阿米巴千里眼拍事故");
+        data.put("send_name", redPackProperties.getSendName());
         data.put("total_amount",amount);
         data.put("total_num","1");
         data.put("wishing","感谢您参加提报事故，为城市做一份贡献");
-        data.put("wxappid", wxPayProperties.getAppid());
-        String sign = WXPayUtil.generateSignature(data, wxPayProperties.getKey(), WXPayConstants.SignType.MD5);
+        data.put("wxappid", redPackProperties.getGzhAppId());
+        String sign = WXPayUtil.generateSignature(data, redPackProperties.getMchKey(), WXPayConstants.SignType.MD5);
         data.put("sign", sign);
         log.info("付款到红包，请求：" + JSON.toJSONString(data));
         Map<String, String> resp = wxpay.qyWxRedBagPay(data);

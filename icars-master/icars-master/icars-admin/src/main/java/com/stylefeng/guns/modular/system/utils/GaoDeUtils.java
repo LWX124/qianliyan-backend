@@ -76,8 +76,11 @@ public class GaoDeUtils {
 
         int indexbegin = res.indexOf("<formatted_address>");
         int indexend = res.indexOf("</formatted_address>");
+        if (indexbegin < 0 || indexend < 0 || indexend <= indexbegin + 19) {
+            return "";
+        }
         // 截取指定index之间的数据
-        return res.substring(indexbegin + 25, indexend);
+        return res.substring(indexbegin + 19, indexend);
     }
 
 

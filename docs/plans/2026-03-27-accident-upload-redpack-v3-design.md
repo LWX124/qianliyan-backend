@@ -43,6 +43,8 @@ icars-admin (主服务)
 
 ### 1. 小程序端（qianliyan-minipro）
 
+源码位置：/Users/lwx/Workspace/waibao/qianliyan/qianliyan-minipro
+
 | 文件 | 变更内容 |
 |------|----------|
 | `config/index.js` | `baseUrl` 改为指向 icars-admin 服务地址 |

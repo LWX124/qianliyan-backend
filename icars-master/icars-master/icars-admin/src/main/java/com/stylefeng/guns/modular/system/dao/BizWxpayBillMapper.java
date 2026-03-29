@@ -46,4 +46,18 @@ public interface BizWxpayBillMapper extends BaseMapper<BizWxpayBill> {
     BizWxpayBill selectForRePay(@Param("accid") Integer accid);
 
     String getWxUnifiedOrderNo();
+
+    /**
+     * 查询指定 openid 的奖励明细（成功记录），分页
+     */
+    List<Map<String, Object>> selectRewardListByOpenid(
+        @Param("openid") String openid,
+        @Param("offset") int offset,
+        @Param("pageSize") int pageSize
+    );
+
+    /**
+     * 统计指定 openid 的累计奖励金额
+     */
+    BigDecimal sumRewardByOpenid(@Param("openid") String openid);
 }

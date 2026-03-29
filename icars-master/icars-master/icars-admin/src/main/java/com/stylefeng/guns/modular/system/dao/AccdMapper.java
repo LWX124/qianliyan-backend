@@ -79,4 +79,13 @@ public interface AccdMapper extends BaseMapper<Accident> {
      * @return 事故缩略图url
      */
     String findUrlByAccIdAndOpenId(@Param("openId") String openId, @Param("accId") Integer accId);
+
+    /**
+     * 查询指定 openid 的上传记录（含奖励金额），分页
+     */
+    List<Map<String, Object>> selectAccidentListByOpenid(
+        @Param("openid") String openid,
+        @Param("offset") int offset,
+        @Param("pageSize") int pageSize
+    );
 }

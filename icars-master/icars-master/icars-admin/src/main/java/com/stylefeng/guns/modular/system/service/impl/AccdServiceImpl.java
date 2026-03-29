@@ -128,10 +128,10 @@ public class AccdServiceImpl extends ServiceImpl<AccdMapper, Accident> implement
 //       List<BizWxUser> wxUsers = bizWxUserService.selectByOpenid("om2cE5lzjXOGVCGXpfvsRF_e3NW8");
         if (wxUsers == null || wxUsers.size() == 0) {
             BizWxUser bizWxUser = new BizWxUser();
-            bizWxUser.setOpenid(accidentVo.getOpenid());
+            bizWxUser.setOpenid(wxSession.getOpenId());
             bizWxUser.setType(1);
             bizWxUser.setCreateTime(new Date());
-            bizWxUserService.insert(wxUsers.get(0));
+            bizWxUserService.insert(bizWxUser);
         }
 //        String random = RandomStringUtils.randomAlphabetic(16);
 //        String fileName;
@@ -188,10 +188,10 @@ public class AccdServiceImpl extends ServiceImpl<AccdMapper, Accident> implement
 //       List<BizWxUser> wxUsers = bizWxUserService.selectByOpenid("om2cE5lzjXOGVCGXpfvsRF_e3NW8");
         if (wxUsers == null || wxUsers.size() == 0) {
             BizWxUser bizWxUser = new BizWxUser();
-            bizWxUser.setOpenid(accidentVo.getOpenid());
+            bizWxUser.setOpenid(wxSession.getOpenId());
             bizWxUser.setType(1);
             bizWxUser.setCreateTime(new Date());
-            bizWxUserService.insert(wxUsers.get(0));
+            bizWxUserService.insert(bizWxUser);
         }
         String random = RandomStringUtils.randomAlphabetic(16);
         String fileName;

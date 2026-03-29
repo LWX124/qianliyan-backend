@@ -74,6 +74,12 @@ public class AccidentController extends BaseController {
     @Resource
     private IBizWxpayBillService bizWxpayBillService;
 
+    @Resource
+    private com.stylefeng.guns.wxpay.WxPayV3TransferService wxPayV3TransferService;
+
+    @Resource
+    private IBizWxUserGzhService bizWxUserGzhService;
+
     @Value("wx.videoLocalPath")
     private static String videoLocalPath;
     @Value("wx.videoHost")
@@ -306,128 +312,48 @@ public class AccidentController extends BaseController {
 
         if (bizWxUser != null && accident != null) {
 
-            String uid = "10815568";
-            String apikey = "amiba500500";
-            long reqtick = Instant.now().getEpochSecond();
-            BigDecimal multiply = amount.multiply(new BigDecimal("100"));
-            String type = "1";
-            //获取当前时间戳
-            Map<String, String> data = new HashMap<String, String>();
-            data.put("uid", uid);
-            data.put("type", type);
-            data.put("orderid", String.valueOf(accdId));
-            data.put("money", String.valueOf(multiply));
-            data.put("reqtick", String.valueOf(reqtick));
-            data.put("openid", bizWxUser.getThirdOpenId());
-            data.put("apikey", apikey);
-            String sign = md5(uid + type + accdId + multiply + reqtick + bizWxUser.getThirdOpenId() + apikey);
-            //拼接地址
-            String url = "https://www.yaoyaola.net/exapi/SendRedPackToOpenid?" + "uid=" + uid + "&type=" + type + "&orderid=" + accdId + "&money=" + multiply + "&reqtick=" + reqtick + "&openid=" + bizWxUser.getThirdOpenId() + "&sign=" + sign + "&title=感谢参与提报事故" + "&sendname=阿米巴拍事故";
-            System.out.println(url);
-            String result1 = HttpUtils.sendHttpGet(url);
-            JSONObject resultJOSN = JSONObject.parseObject(result1);
-            System.out.println("摇摇啦：");
-            System.out.println(resultJOSN);
-            String errcode = resultJOSN.getString("errcode");
-            //自动派单逻辑已经扣了推送员费用
-            //扣除推送人员预存款信息费
-//                List<PushRecord> var1 = pushRecordService.selectList(new EntityWrapper<PushRecord>().eq("accid", accident.getId()));
-//                if (var1 != null && var1.size() > 0) {
-//                    for (PushRecord pr : var1) {
-//                        User user = userService.getByAccount(pr.getAccount());
-//                        if ("N".equals(user.getSfkf())) {
-//                            continue;
-//                        }
-//                        BizWxUser bizWxUser2 = bizWxUserService.selectOne(new EntityWrapper<BizWxUser>().eq("phone", user.getPhone()));
-//                        BizYckBalance bizYckBalance = null;
-//                        if (bizWxUser2 == null) {
-//                            bizYckBalance = bizYckBalanceService.selectOne(new EntityWrapper<BizYckBalance>().eq("account", user.getAccount()));
-//                        } else {
-//                            bizYckBalance = bizYckBalanceService.selectOne(new EntityWrapper<BizYckBalance>().eq("openid", bizWxUser2.getOpenid()));
-//                        }
-//                        if (bizYckBalance == null) {
-//                            BizYckBalance addVo = new BizYckBalance();
-//                            if (bizWxUser2 == null) {
-//                                addVo.setOpenid(user.getAccount());
-//                            } else {
-//                                addVo.setOpenid(bizWxUser2.getOpenid());
-//                            }
-//                            addVo.setAccount(user.getAccount());
-//                            addVo.setBalance(BigDecimal.ZERO);
-//                            addVo.setCreateTime(new Date());
-//                            addVo.setModifyTime(new Date());
-//                            //之前没有预存款账户记录。新增账户记录
-//                            bizYckBalanceService.insert(addVo);
-            // 如果要启动这段代码 需要考虑bizWxUser2为null的情况
-//                            bizYckBalance = bizYckBalanceService.selectOne(new EntityWrapper<BizYckBalance>().eq("openid", bizWxUser2.getOpenid()));
-//                            if (bizYckBalance == null) {
-//                                bizYckBalance = bizYckBalanceService.selectOne(new EntityWrapper<BizYckBalance>().eq("account", user.getAccount()));
-//                            }
-//                        }
-//                        //倍数
-//                        double multiple = 2;
-//                        Dict dict = dictService.selectOne(new EntityWrapper<Dict>().eq("name", "信息费倍数"));
-//                        try {
-//                            multiple = Double.parseDouble(dict.getCode());
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        //推送给开放平台理赔顾问或修理厂 收取的信息费
-//                        BigDecimal infoBackCount = amount.multiply(new BigDecimal(multiple));
-//                        //扣除金额大于0
-//                        if (infoBackCount.compareTo(BigDecimal.ZERO) == 1) {
-//                            //余额足够扣除
-//                            if (bizYckBalance != null) {
-            // 如果要启动这段代码 需要考虑bizWxUser2为null的情况
-//                                boolean flag = bizYckBalanceService.reduceBalance(infoBackCount, user.getAccount(), new Date());
-//                                boolean flag = bizYckBalanceService.reduceBalance(infoBackCount, bizWxUser2.getOpenid(), new Date());
-//                                if (flag) {
-//                                    if (infoBackCount.compareTo(BigDecimal.ZERO) == 1) {
-//                                        // 记录扣款明细
-//                                        BizYckCzmx bizYckCzmx = new BizYckCzmx();
-//                                        bizYckCzmx.setAmount(infoBackCount.negate());
-//                                        bizYckCzmx.setDetailType(BizYckCzmxStatus.EXPEND.getCode());
-            // 如果要启动这段代码 需要考虑bizWxUser2为null的情况
-//                                        bizYckCzmx.setOpenid(bizWxUser2.getOpenid());
-//                                        bizYckCzmx.setOperator(ShiroKit.getUser().getAccount());
-//                                        bizYckCzmx.setCreateTime(new Date());
-//                                        bizYckCzmx.setAccid(accdId);
-//                                        bizYckCzmxService.insert(bizYckCzmx);
-//                                    }
-//                                }
-//                            } else {
-//                                throw new GunsException(BizExceptionEnum.ACCID_BALANCE_REDUCE_LIMIT);
-//                            }
-//                        }
-//                    }
-//                }
+            // ========== 优先尝试V2公众号现金红包 ==========
+            boolean redPackAttempted = false;
+            boolean redPackResult = false;
+            if (StringUtils.isNotEmpty(bizWxUser.getUnionId())) {
+                BizWxUserGzh wxUserGzh = bizWxUserGzhService.selectOne(
+                        new EntityWrapper<BizWxUserGzh>().eq("unionid", bizWxUser.getUnionId()));
+                if (wxUserGzh != null && StringUtils.isNotEmpty(wxUserGzh.getOpenid())) {
+                    NumberFormat nf = NumberFormat.getInstance();
+                    nf.setGroupingUsed(false);
+                    String amountFenStr = nf.format(amount.multiply(new BigDecimal("100")).longValue());
+                    redPackAttempted = true;
+                    redPackResult = wxPayBizService.autoTrigger(
+                            accident.getOpenid(), accident.getId().intValue(), amountFenStr);
+                    if (redPackResult) {
+                        return SUCCESS_TIP;
+                    }
+                    // 红包失败，autoTrigger 内部已写入失败 bill，不再重复写入
+                }
+            }
 
-            //为信息上报人发放红包奖励
-//            NumberFormat nf = NumberFormat.getInstance();
-//            nf.setGroupingUsed(false);
-////                boolean triggerResult = alipayService.autoTrigger(bizWxUser.getAlipayAccount(), accident.getId().intValue());
-//            //发送事故红包奖励
-//            boolean triggerResult = wxPayBizService.autoTrigger(accident.getOpenid(), accident.getId().intValue(), nf.format(amount.multiply(new BigDecimal(100)).doubleValue()));
-//            //为推广父用户发放提成红包
-//            if (StringUtils.isNotEmpty(bizWxUser.getExtensionAccount())) {
-//                BizWxUser bizWxUser2 = bizWxUserService.selectBizWxUser(bizWxUser.getExtensionAccount());
-//                if (bizWxUser2 != null) {
-//                    double percent = 0.2;
-//                    Dict dict = dictService.selectOne(new EntityWrapper<Dict>().eq("name", "红包提成比例"));
-//                    try {
-//                        percent = Double.parseDouble(dict.getCode());
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                    double percentageAmount = amount.multiply(new BigDecimal(100)).multiply(new BigDecimal(percent)).doubleValue();
-//                    percentageAmount = percentageAmount >= 100 ? percentageAmount : 100;
-//                    wxPayBizService.autoTrigger(bizWxUser2.getOpenid(), accident.getId().intValue() * -1, nf.format(percentageAmount));
-//                }
-//            }
-            if (errcode.equals("0")) {
-                return SUCCESS_TIP;
-            } else {
-                return new ErrorTip(4001, "审核通过，支付失败");
+            // ========== Fallback: 微信商家转账V3直发 ==========
+            if (!redPackAttempted || !redPackResult) {
+                long amountFen = amount.multiply(new BigDecimal("100")).longValue();
+                boolean v3Result = wxPayV3TransferService.transferToUser(
+                        bizWxUser.getOpenid(), accdId, amountFen);
+
+                // V3转账需要自行写入账单记录（红包路径由autoTrigger内部写入）
+                if (!redPackAttempted) {
+                    BizWxpayBill bill = new BizWxpayBill();
+                    bill.setAccid(accdId);
+                    bill.setAmount(amount);
+                    bill.setPayTime(new Date());
+                    bill.setCreateTime(new Date());
+                    bill.setStatus(v3Result ? 0 : 1);
+                    bizWxpayBillService.add(bill);
+                }
+
+                if (v3Result) {
+                    return SUCCESS_TIP;
+                } else {
+                    return new ErrorTip(4001, "审核通过，支付失败");
+                }
             }
         }
         return new ErrorTip(4001, "审核通过，支付失败");

@@ -36,6 +36,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.stylefeng.guns.modular.system.dao.AccdMapper;
+import com.stylefeng.guns.modular.system.dao.BizWxpayBillMapper;
+
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -329,6 +332,88 @@ public class XcxController {
         apiResponseEntity.setData(url);
         return apiResponseEntity;
 
+    }
+
+    @Resource
+    private AccdMapper accdMapper;
+
+    @Resource
+    private BizWxpayBillMapper bizWxpayBillMapper;
+
+    /**
+     * 小程序 - 本人上传记录列表
+     */
+    @RequestMapping(value = "/api/v1/wx/accid/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getAccidList(@RequestParam String thirdSessionKey,
+                               @RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "10") int pageSize) {
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null || wxSession.getOpenId() == null || wxSession.getOpenId().isEmpty()) {
+            ApiResponseEntity resp = new ApiResponseEntity();
+            resp.setErrorCode(530);
+            resp.setErrorMsg("未登录");
+            return resp;
+        }
+        String openid = wxSession.getOpenId();
+        int offset = (page - 1) * pageSize;
+        List<Map<String, Object>> list = accdMapper.selectAccidentListByOpenid(openid, offset, pageSize);
+        Map<String, Object> data = new HashMap<>();
+        data.put("list", list);
+        data.put("total", list.size());
+        ApiResponseEntity resp = new ApiResponseEntity();
+        resp.setErrorCode(0);
+        resp.setData(data);
+        return resp;
+    }
+
+    /**
+     * 小程序 - 奖励明细列表
+     */
+    @RequestMapping(value = "/api/v1/wx/reward/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getRewardList(@RequestParam String thirdSessionKey,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "10") int pageSize) {
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null || wxSession.getOpenId() == null || wxSession.getOpenId().isEmpty()) {
+            ApiResponseEntity resp = new ApiResponseEntity();
+            resp.setErrorCode(530);
+            resp.setErrorMsg("未登录");
+            return resp;
+        }
+        String openid = wxSession.getOpenId();
+        int offset = (page - 1) * pageSize;
+        List<Map<String, Object>> list = bizWxpayBillMapper.selectRewardListByOpenid(openid, offset, pageSize);
+        Map<String, Object> data = new HashMap<>();
+        data.put("list", list);
+        ApiResponseEntity resp = new ApiResponseEntity();
+        resp.setErrorCode(0);
+        resp.setData(data);
+        return resp;
+    }
+
+    /**
+     * 小程序 - 奖励汇总
+     */
+    @RequestMapping(value = "/api/v1/wx/user/stats", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getUserStats(@RequestParam String thirdSessionKey) {
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null || wxSession.getOpenId() == null || wxSession.getOpenId().isEmpty()) {
+            ApiResponseEntity resp = new ApiResponseEntity();
+            resp.setErrorCode(530);
+            resp.setErrorMsg("未登录");
+            return resp;
+        }
+        String openid = wxSession.getOpenId();
+        BigDecimal totalReward = bizWxpayBillMapper.sumRewardByOpenid(openid);
+        Map<String, Object> data = new HashMap<>();
+        data.put("totalReward", totalReward);
+        ApiResponseEntity resp = new ApiResponseEntity();
+        resp.setErrorCode(0);
+        resp.setData(data);
+        return resp;
     }
 
 }

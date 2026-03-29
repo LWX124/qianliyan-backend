@@ -87,14 +87,30 @@
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="bizWxpayBill.id" keyColumn="id"  parameterType="com.stylefeng.guns.modular.system.model.BizWxpayBill" >
-		insert into biz_wxpay_bill(accid, status, pay_time, create_time)
+		insert into biz_wxpay_bill(accid, status, amount, pay_time, create_time)
 		values
-		(#{bizWxpayBill.accid},#{bizWxpayBill.status},#{bizWxpayBill.payTime},#{bizWxpayBill.createTime})
+		(#{bizWxpayBill.accid},#{bizWxpayBill.status},#{bizWxpayBill.amount},#{bizWxpayBill.payTime},#{bizWxpayBill.createTime})
 	</insert>
 
 
 
     <select id="getWxUnifiedOrderNo" resultType="java.lang.String">
         SELECT get_wx_out_trade_no() FROM dual
+    </select>
+
+    <select id="selectRewardListByOpenid" resultType="map">
+        SELECT b.id, b.amount, b.pay_time AS payTime, a.address AS accidentAddress
+        FROM biz_wxpay_bill b
+        JOIN biz_accident a ON a.id = b.accid
+        WHERE a.openid = #{openid} AND b.status = 0
+        ORDER BY b.pay_time DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="sumRewardByOpenid" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(b.amount), 0)
+        FROM biz_wxpay_bill b
+        JOIN biz_accident a ON a.id = b.accid
+        WHERE a.openid = #{openid} AND b.status = 0
     </select>
 </mapper>

@@ -24,7 +24,7 @@
     <sql id="Base_Column_List1">
         a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason,a.realness,
         a.checkTime, a.status, a.version, c.name, d.phone,d.blackList, v.total as totalAcc, v.exist, v.notexist,
-        n.amount, p.amount as backAmount
+        m.amount, p.amount as backAmount
     </sql>
 
     <sql id="Base_Column_List2">
@@ -83,7 +83,7 @@
 
     <select id="countAccidentRedPack" resultType="java.math.BigDecimal">
         select
-        sum(n.amount)
+        sum(m.amount)
         from biz_accident a
         left join biz_push_record b on a.id = b.accid
         left join sys_user c on c.account = b.account and c.status != 3
@@ -122,7 +122,7 @@
 
     <select id="countAccidentRedPackByGroup" resultType="map">
         select
-        n.amount as amount,count(a.id) as counts
+        m.amount as amount,count(a.id) as counts
         from biz_accident a
         left join biz_push_record b on a.id = b.accid
         left join sys_user c on c.account = b.account and c.status != 3
@@ -158,7 +158,7 @@
                 and b.accid is not null
             </if>
         </where>
-        group by n.amount
+        group by m.amount
     </select>
 
     <select id="selectAccidentForApi" resultType="map">
@@ -201,6 +201,16 @@
         values
         (#{accident.openid},#{accident.video},#{accident.lng},#{accident.lat},#{accident.createTime},#{accident.address},#{accident.status},#{accident.thumbnailFlag})
     </insert>
+
+    <select id="selectAccidentListByOpenid" resultType="map">
+        SELECT a.id, a.video, a.acc_img AS accImg, a.status, a.create_time AS createTime,
+               a.reason, b.amount AS rewardAmount
+        FROM biz_accident a
+        LEFT JOIN biz_wxpay_bill b ON b.accid = a.id AND b.status = 0
+        WHERE a.openid = #{openid}
+        ORDER BY a.create_time DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
 
 
 </mapper>

@@ -94,9 +94,55 @@ public class WxAuthController extends BaseController {
                 bizWxUser.setType(1);
                 bizWxUser.setCreateTime(new Date());
                 bizWxUserService.insert(bizWxUser);
+                var1 = bizWxUser;
+            } else {
+                var1 = bizWxUser1;
             }
         }
-        return rtnParam(0, ImmutableMap.of("sessionId", thirdSession));
+        // 如果已有用户但 unionId 为空，补写 unionId
+        if (var1 != null && StringUtils.isNotEmpty(unionId) && StringUtils.isEmpty(var1.getUnionId())) {
+            var1.setUnionId(unionId);
+            bizWxUserService.updateById(var1);
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("sessionId", thirdSession);
+        data.put("userId", var1 != null ? var1.getId() : 0);
+        data.put("headImg", var1 != null ? var1.getHeadImg() : "");
+        data.put("wxname", var1 != null ? var1.getWxname() : "");
+        return rtnParam(0, data);
+    }
+
+    /**
+     * 更新用户头像和昵称
+     */
+    @RequestMapping(value = "/api/v1/wx/user/updateProfile", method = RequestMethod.POST, produces = "application/json")
+    public Map<String, Object> updateProfile(@RequestBody Map<String, String> param) {
+        String thirdSessionKey = param.get("thirdSessionKey");
+        String headImg = param.get("headImg");
+        String wxname = param.get("wxname");
+        if (StringUtils.isEmpty(thirdSessionKey)) {
+            return rtnParam(530, "未登录");
+        }
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null) {
+            return rtnParam(530, "登录已过期");
+        }
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+        if (bizWxUser == null) {
+            return rtnParam(500, "用户不存在");
+        }
+        if (StringUtils.isNotEmpty(headImg)) {
+            bizWxUser.setHeadImg(headImg);
+        }
+        if (StringUtils.isNotEmpty(wxname)) {
+            bizWxUser.setWxname(wxname);
+        }
+        bizWxUserService.updateById(bizWxUser);
+        Map<String, Object> result = new HashMap<>();
+        result.put("userId", bizWxUser.getId());
+        result.put("headImg", bizWxUser.getHeadImg());
+        result.put("wxname", bizWxUser.getWxname());
+        return rtnParam(0, result);
     }
 
     @RequestMapping(value = "/api/v1/wx/testRedis", method = RequestMethod.GET, produces = "application/json")
