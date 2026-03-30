@@ -52,6 +52,18 @@ public class BizWxpayBill extends Model<BizWxpayBill> {
 
     private BigDecimal amount;
 
+    /**
+     * 微信返回的package信息，用于小程序调起确认收款
+     */
+    @TableField("package_info")
+    private String packageInfo;
+
+    /**
+     * 商户转账单号
+     */
+    @TableField("out_bill_no")
+    private String outBillNo;
+
     public Integer getId() {
         return id;
     }
@@ -106,6 +118,22 @@ public class BizWxpayBill extends Model<BizWxpayBill> {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getPackageInfo() {
+        return packageInfo;
+    }
+
+    public void setPackageInfo(String packageInfo) {
+        this.packageInfo = packageInfo;
+    }
+
+    public String getOutBillNo() {
+        return outBillNo;
+    }
+
+    public void setOutBillNo(String outBillNo) {
+        this.outBillNo = outBillNo;
     }
 
     @Override

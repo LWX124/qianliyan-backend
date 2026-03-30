@@ -12,6 +12,7 @@ import com.stylefeng.guns.modular.system.constant.ApiResponseEntity;
 import com.stylefeng.guns.modular.system.constant.RedisKey;
 import com.stylefeng.guns.modular.system.constant.SysActive;
 import com.stylefeng.guns.modular.system.constant.WxSession;
+import com.stylefeng.guns.config.properties.WxPayV3Properties;
 import com.stylefeng.guns.modular.system.model.BizClaim;
 import com.stylefeng.guns.modular.system.model.Notice;
 import com.stylefeng.guns.modular.system.model.XcxMaintenance;
@@ -339,6 +340,44 @@ public class XcxController {
 
     @Resource
     private BizWxpayBillMapper bizWxpayBillMapper;
+
+    @Resource
+    private WxPayV3Properties wxPayV3Properties;
+
+    /**
+     * 小程序 - 查询待确认收款的转账package_info
+     */
+    @RequestMapping(value = "/api/v1/wx/accid/transferPackage", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getTransferPackage(@RequestParam String thirdSessionKey,
+                                     @RequestParam Integer accid) {
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null || wxSession.getOpenId() == null || wxSession.getOpenId().isEmpty()) {
+            ApiResponseEntity resp = new ApiResponseEntity();
+            resp.setErrorCode(530);
+            resp.setErrorMsg("未登录");
+            return resp;
+        }
+        // 查询该事故对应的待确认账单
+        com.stylefeng.guns.modular.system.model.BizWxpayBill bill =
+                new com.stylefeng.guns.modular.system.model.BizWxpayBill().selectOne(
+                        new EntityWrapper<com.stylefeng.guns.modular.system.model.BizWxpayBill>()
+                                .eq("accid", accid).eq("status", 2));
+        if (bill == null || bill.getPackageInfo() == null) {
+            ApiResponseEntity resp = new ApiResponseEntity();
+            resp.setErrorCode(4001);
+            resp.setErrorMsg("未找到待确认的转账记录");
+            return resp;
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("mchId", wxPayV3Properties.getMchId());
+        data.put("appId", wxPayV3Properties.getAppId());
+        data.put("packageInfo", bill.getPackageInfo());
+        ApiResponseEntity resp = new ApiResponseEntity();
+        resp.setErrorCode(0);
+        resp.setData(data);
+        return resp;
+    }
 
     /**
      * 小程序 - 本人上传记录列表

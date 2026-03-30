@@ -59,12 +59,12 @@ public class WxPayV3TransferService {
      * @param openid    用户小程序openid
      * @param accid     事故ID
      * @param amountFen 金额，单位：分
-     * @return true=成功，false=失败
+     * @return TransferResult 包含 success、packageInfo、outBillNo
      */
-    public boolean transferToUser(String openid, Integer accid, long amountFen) {
+    public TransferResult transferToUser(String openid, Integer accid, long amountFen) {
         if (httpClient == null) {
             log.warn("V3商家转账未初始化，无法执行转账 accid={}", accid);
-            return false;
+            return TransferResult.fail();
         }
         try {
             long now = Instant.now().toEpochMilli();
@@ -76,7 +76,11 @@ public class WxPayV3TransferService {
                     "\"transfer_scene_id\":\"" + v3Properties.getTransferSceneId() + "\"," +
                     "\"openid\":\"" + openid + "\"," +
                     "\"transfer_amount\":" + amountFen + "," +
-                    "\"transfer_remark\":\"事故上报红包奖励\"" +
+                    "\"transfer_remark\":\"事故上报红包奖励\"," +
+                    "\"transfer_scene_report_infos\":[" +
+                    "{\"info_type\":\"活动名称\",\"info_content\":\"事故上报奖励\"}," +
+                    "{\"info_type\":\"奖励说明\",\"info_content\":\"事故上报红包奖励\"}" +
+                    "]" +
                     "}";
 
             HttpHeaders headers = new HttpHeaders();
@@ -95,12 +99,27 @@ public class WxPayV3TransferService {
                     .build();
 
             HttpResponse<JsonResponseBody> response = httpClient.execute(httpRequest, JsonResponseBody.class);
-            log.info("V3商家转账成功 accid={} outBillNo={} response={}",
-                    accid, outBillNo, response.getServiceResponse());
-            return true;
+            JsonResponseBody respBody = response.getServiceResponse();
+            String bodyStr = respBody != null ? respBody.toString() : "";
+            log.info("V3商家转账响应 accid={} outBillNo={} body={}", accid, outBillNo, bodyStr);
+
+            // 解析 package_info
+            String packageInfo = null;
+            if (bodyStr.contains("\"package_info\"")) {
+                int idx = bodyStr.indexOf("\"package_info\"");
+                int colon = bodyStr.indexOf(":", idx);
+                int quote1 = bodyStr.indexOf("\"", colon + 1);
+                int quote2 = bodyStr.indexOf("\"", quote1 + 1);
+                if (quote1 >= 0 && quote2 > quote1) {
+                    packageInfo = bodyStr.substring(quote1 + 1, quote2);
+                }
+            }
+
+            log.info("V3商家转账成功 accid={} outBillNo={} packageInfo={}", accid, outBillNo, packageInfo);
+            return TransferResult.ok(packageInfo, outBillNo);
         } catch (Exception e) {
             log.error("V3商家转账失败 accid={} openid={} error={}", accid, openid, e.getMessage(), e);
-            return false;
+            return TransferResult.fail();
         }
     }
 }

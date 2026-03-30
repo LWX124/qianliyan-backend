@@ -23,6 +23,7 @@ import com.stylefeng.guns.modular.system.utils.HttpUtils;
 import com.stylefeng.guns.modular.system.vo.AccidentVo;
 import com.stylefeng.guns.modular.system.warpper.AccdWarpper;
 import com.stylefeng.guns.wxpay.IWxPayBizService;
+import com.stylefeng.guns.wxpay.TransferResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -335,7 +336,7 @@ public class AccidentController extends BaseController {
             // ========== Fallback: 微信商家转账V3直发 ==========
             if (!redPackAttempted || !redPackResult) {
                 long amountFen = amount.multiply(new BigDecimal("100")).longValue();
-                boolean v3Result = wxPayV3TransferService.transferToUser(
+                TransferResult v3Result = wxPayV3TransferService.transferToUser(
                         bizWxUser.getOpenid(), accdId, amountFen);
 
                 // V3转账需要自行写入账单记录（红包路径由autoTrigger内部写入）
@@ -345,11 +346,17 @@ public class AccidentController extends BaseController {
                     bill.setAmount(amount);
                     bill.setPayTime(new Date());
                     bill.setCreateTime(new Date());
-                    bill.setStatus(v3Result ? 0 : 1);
+                    if (v3Result.isSuccess()) {
+                        bill.setStatus(2); // 待用户确认收款
+                        bill.setPackageInfo(v3Result.getPackageInfo());
+                        bill.setOutBillNo(v3Result.getOutBillNo());
+                    } else {
+                        bill.setStatus(1); // 转账失败
+                    }
                     bizWxpayBillService.add(bill);
                 }
 
-                if (v3Result) {
+                if (v3Result.isSuccess()) {
                     return SUCCESS_TIP;
                 } else {
                     return new ErrorTip(4001, "审核通过，支付失败");

@@ -204,9 +204,10 @@
 
     <select id="selectAccidentListByOpenid" resultType="map">
         SELECT a.id, a.video, a.acc_img AS accImg, a.status, a.create_time AS createTime,
-               a.reason, b.amount AS rewardAmount
+               a.reason, b.amount AS rewardAmount, b.package_info AS packageInfo,
+               b.status AS billStatus
         FROM biz_accident a
-        LEFT JOIN biz_wxpay_bill b ON b.accid = a.id AND b.status = 0
+        LEFT JOIN biz_wxpay_bill b ON b.accid = a.id AND b.status IN (0, 2)
         WHERE a.openid = #{openid}
         ORDER BY a.create_time DESC
         LIMIT #{pageSize} OFFSET #{offset}
