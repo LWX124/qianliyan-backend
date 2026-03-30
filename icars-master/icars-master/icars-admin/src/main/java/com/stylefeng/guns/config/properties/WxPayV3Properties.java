@@ -22,6 +22,8 @@ public class WxPayV3Properties {
     private String publicKeyPath;
     /** 微信支付公钥ID */
     private String publicKeyId;
+    /** 转账场景ID */
+    private String transferSceneId;
 
     public String getAppId() { return appId; }
     public void setAppId(String appId) { this.appId = appId; }
@@ -39,4 +41,6 @@ public class WxPayV3Properties {
     public void setPublicKeyPath(String publicKeyPath) { this.publicKeyPath = publicKeyPath; }
     public String getPublicKeyId() { return publicKeyId; }
     public void setPublicKeyId(String publicKeyId) { this.publicKeyId = publicKeyId; }
+    public String getTransferSceneId() { return transferSceneId; }
+    public void setTransferSceneId(String transferSceneId) { this.transferSceneId = transferSceneId; }
 }
