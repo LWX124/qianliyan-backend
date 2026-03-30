@@ -380,6 +380,39 @@ public class XcxController {
     }
 
     /**
+     * 小程序 - 用户确认收款后更新账单状态
+     */
+    @RequestMapping(value = "/api/v1/wx/accid/confirmTransfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Object confirmTransfer(@RequestParam String thirdSessionKey,
+                                  @RequestParam Integer accid) {
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null || wxSession.getOpenId() == null || wxSession.getOpenId().isEmpty()) {
+            ApiResponseEntity resp = new ApiResponseEntity();
+            resp.setErrorCode(530);
+            resp.setErrorMsg("未登录");
+            return resp;
+        }
+        com.stylefeng.guns.modular.system.model.BizWxpayBill bill =
+                new com.stylefeng.guns.modular.system.model.BizWxpayBill().selectOne(
+                        new EntityWrapper<com.stylefeng.guns.modular.system.model.BizWxpayBill>()
+                                .eq("accid", accid).eq("status", 2));
+        if (bill == null) {
+            ApiResponseEntity resp = new ApiResponseEntity();
+            resp.setErrorCode(4001);
+            resp.setErrorMsg("未找到待确认的转账记录");
+            return resp;
+        }
+        bill.setStatus(0); // 0: 支付成功（用户已确认）
+        bill.setPayTime(new java.util.Date());
+        bill.updateById();
+        ApiResponseEntity resp = new ApiResponseEntity();
+        resp.setErrorCode(0);
+        resp.setErrorMsg("确认成功");
+        return resp;
+    }
+
+    /**
      * 小程序 - 本人上传记录列表
      */
     @RequestMapping(value = "/api/v1/wx/accid/list", method = RequestMethod.GET)

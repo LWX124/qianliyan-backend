@@ -98,10 +98,30 @@ public class WxPayV3TransferService {
                     .body(requestBody)
                     .build();
 
+            log.info("V3商家转账请求 accid={} outBillNo={}", accid, outBillNo);
             HttpResponse<JsonResponseBody> response = httpClient.execute(httpRequest, JsonResponseBody.class);
+
+            // 优先从 serviceResponse 获取，fallback 到 rawBody
+            String bodyStr = "";
             JsonResponseBody respBody = response.getServiceResponse();
-            String bodyStr = respBody != null ? respBody.toString() : "";
+            if (respBody != null && respBody.getBody() != null && !respBody.getBody().isEmpty()) {
+                bodyStr = respBody.getBody();
+            } else {
+                // SDK 某些版本 serviceResponse 为空，从原始 body 获取
+                com.wechat.pay.java.core.http.ResponseBody rawBody = response.getBody();
+                if (rawBody instanceof JsonResponseBody) {
+                    String raw = ((JsonResponseBody) rawBody).getBody();
+                    if (raw != null && !raw.isEmpty()) {
+                        bodyStr = raw;
+                    }
+                }
+            }
             log.info("V3商家转账响应 accid={} outBillNo={} body={}", accid, outBillNo, bodyStr);
+
+            if (bodyStr.isEmpty()) {
+                log.error("V3商家转账响应体为空 accid={}", accid);
+                return TransferResult.fail();
+            }
 
             // 解析 package_info
             String packageInfo = null;

@@ -87,9 +87,9 @@
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="bizWxpayBill.id" keyColumn="id"  parameterType="com.stylefeng.guns.modular.system.model.BizWxpayBill" >
-		insert into biz_wxpay_bill(accid, status, amount, pay_time, create_time)
+		insert into biz_wxpay_bill(accid, status, amount, pay_time, create_time, package_info, out_bill_no)
 		values
-		(#{bizWxpayBill.accid},#{bizWxpayBill.status},#{bizWxpayBill.amount},#{bizWxpayBill.payTime},#{bizWxpayBill.createTime})
+		(#{bizWxpayBill.accid},#{bizWxpayBill.status},#{bizWxpayBill.amount},#{bizWxpayBill.payTime},#{bizWxpayBill.createTime},#{bizWxpayBill.packageInfo},#{bizWxpayBill.outBillNo})
 	</insert>
 
 

@@ -23,7 +23,7 @@
     </sql>
     <sql id="Base_Column_List1">
         a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason,a.realness,
-        a.checkTime, a.status, a.version, c.name, d.phone,d.blackList, v.total as totalAcc, v.exist, v.notexist,
+        a.checkTime, a.status, a.version, c.name, d.phone, d.wxname, d.blackList, v.total as totalAcc, v.exist, v.notexist,
         m.amount, p.amount as backAmount
     </sql>
 
@@ -56,7 +56,7 @@
         left join biz_yck_czmx p on a.id = p.accid
         <where>
             <if test="openid != null and openid != ''">
-                and (a.openid = #{openid} or d.phone = #{openid})
+                and (a.openid = #{openid} or d.phone = #{openid} or d.wxname like CONCAT('%',#{openid},'%'))
             </if>
             <if test="name != null and name != ''">
                 and c.name like CONCAT('%',#{name},'%')
@@ -203,13 +203,14 @@
     </insert>
 
     <select id="selectAccidentListByOpenid" resultType="map">
-        SELECT a.id, a.video, a.acc_img AS accImg, a.status, a.create_time AS createTime,
-               a.reason, b.amount AS rewardAmount, b.package_info AS packageInfo,
+        SELECT a.id, a.video, a.accImg, a.status, a.createTime,
+               a.reason, a.thumbnail_url AS thumbnailUrl,
+               b.amount AS rewardAmount, b.package_info AS packageInfo,
                b.status AS billStatus
         FROM biz_accident a
         LEFT JOIN biz_wxpay_bill b ON b.accid = a.id AND b.status IN (0, 2)
         WHERE a.openid = #{openid}
-        ORDER BY a.create_time DESC
+        ORDER BY a.createTime DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 

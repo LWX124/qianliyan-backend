@@ -23,6 +23,7 @@ MgrAccd.initColumn = function () {
         },
         {title: '上报人ID', field: 'openid', visible: false, align: 'center', valign: 'middle', sortable: true},
         {title: '上报人电话', field: 'phone', width: '100', visible: true, align: 'center', valign: 'middle', sortable: true},
+        {title: '上报人昵称', field: 'wxname', width: '100', visible: true, align: 'center', valign: 'middle', sortable: true},
         {title: '视频', field: 'video', align: 'center', valign: 'middle',formatter: aFormatter, sortable: false},
         {title: '定位地图', field: 'mapUrl', align: 'center', valign: 'middle',formatter: urlFormatter, sortable: false},
         {title: '上报总数', field: 'totalAcc', align: 'center', valign: 'middle',  sortable: true},
