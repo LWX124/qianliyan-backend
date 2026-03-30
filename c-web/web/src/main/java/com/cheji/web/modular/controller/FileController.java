@@ -49,6 +49,9 @@ public class FileController extends BaseController {
     @Resource
     private AppUploadRecordService appUploadRecordService;
 
+    // 私有空间下载链接有效期（秒）：1小时
+    private static final long DOWNLOAD_EXPIRE_SECONDS = 3600;
+
     // 最大文件大小：视频 200MB，图片 10MB
     private static final long MAX_VIDEO_SIZE = 200 * 1024 * 1024L;
     private static final long MAX_IMAGE_SIZE = 10 * 1024 * 1024L;
@@ -127,10 +130,14 @@ public class FileController extends BaseController {
             record.setCreateTime(new Date());
             appUploadRecordService.insert(record);
 
+            // 返回签名后的私有下载链接
+            String signedUrl = auth.privateDownloadUrl(url, DOWNLOAD_EXPIRE_SECONDS);
+            String signedThumbnailUrl = auth.privateDownloadUrl(thumbnailUrl, DOWNLOAD_EXPIRE_SECONDS);
+
             JSONObject data = new JSONObject();
             data.put("id", record.getId());
-            data.put("url", url);
-            data.put("thumbnailUrl", thumbnailUrl);
+            data.put("url", signedUrl);
+            data.put("thumbnailUrl", signedThumbnailUrl);
             data.put("fileName", originalFilename);
             data.put("fileType", isVideo ? "video" : "image");
             data.put("fileSize", file.getSize());
@@ -166,6 +173,17 @@ public class FileController extends BaseController {
         Integer userId = currentLoginUser.getAppUserEntity().getId();
         List<AppUploadRecordEntity> records = appUploadRecordService.listByUserId(userId, page, pageSize);
         int total = appUploadRecordService.countByUserId(userId);
+
+        // 对私有空间的URL进行签名
+        Auth auth = Auth.create(accessKey, secretKey);
+        for (AppUploadRecordEntity record : records) {
+            if (record.getFileUrl() != null) {
+                record.setFileUrl(auth.privateDownloadUrl(record.getFileUrl(), DOWNLOAD_EXPIRE_SECONDS));
+            }
+            if (record.getThumbnailUrl() != null) {
+                record.setThumbnailUrl(auth.privateDownloadUrl(record.getThumbnailUrl(), DOWNLOAD_EXPIRE_SECONDS));
+            }
+        }
 
         JSONObject data = new JSONObject();
         data.put("list", records);
