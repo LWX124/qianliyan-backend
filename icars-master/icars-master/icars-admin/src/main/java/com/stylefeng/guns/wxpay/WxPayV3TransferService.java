@@ -1,6 +1,5 @@
 package com.stylefeng.guns.wxpay;
 
-import com.alibaba.fastjson.JSONObject;
 import com.stylefeng.guns.config.properties.WxPayV3Properties;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.RSAPublicKeyConfig;
@@ -71,20 +70,21 @@ public class WxPayV3TransferService {
             long now = Instant.now().toEpochMilli();
             String outBillNo = "accid" + accid + "t" + now;
 
-            JSONObject body = new JSONObject();
-            body.put("appid", v3Properties.getAppId());
-            body.put("out_bill_no", outBillNo);
-            body.put("transfer_scene_id", v3Properties.getTransferSceneId());
-            body.put("openid", openid);
-            body.put("transfer_amount", amountFen);
-            body.put("transfer_remark", "事故上报红包奖励");
+            String jsonBody = "{" +
+                    "\"appid\":\"" + v3Properties.getAppId() + "\"," +
+                    "\"out_bill_no\":\"" + outBillNo + "\"," +
+                    "\"transfer_scene_id\":\"" + v3Properties.getTransferSceneId() + "\"," +
+                    "\"openid\":\"" + openid + "\"," +
+                    "\"transfer_amount\":" + amountFen + "," +
+                    "\"transfer_remark\":\"事故上报红包奖励\"" +
+                    "}";
 
             HttpHeaders headers = new HttpHeaders();
             headers.addHeader("Accept", "application/json");
             headers.addHeader("Content-Type", "application/json");
 
             JsonRequestBody requestBody = new JsonRequestBody.Builder()
-                    .body(body.toJSONString())
+                    .body(jsonBody)
                     .build();
 
             HttpRequest httpRequest = new HttpRequest.Builder()
