@@ -19,6 +19,7 @@ import com.stylefeng.guns.modular.system.constant.BizWxUserBlackListStatus;
 import com.stylefeng.guns.modular.system.constant.dictmap.AccdDict;
 import com.stylefeng.guns.modular.system.model.*;
 import com.stylefeng.guns.modular.system.service.*;
+import com.stylefeng.guns.modular.system.service.impl.WxSubscribeMessageService;
 import com.stylefeng.guns.modular.system.utils.HttpUtils;
 import com.stylefeng.guns.modular.system.vo.AccidentVo;
 import com.stylefeng.guns.modular.system.warpper.AccdWarpper;
@@ -80,6 +81,9 @@ public class AccidentController extends BaseController {
 
     @Resource
     private IBizWxUserGzhService bizWxUserGzhService;
+
+    @Resource
+    private WxSubscribeMessageService wxSubscribeMessageService;
 
     @Value("wx.videoLocalPath")
     private static String videoLocalPath;
@@ -327,6 +331,7 @@ public class AccidentController extends BaseController {
                     redPackResult = wxPayBizService.autoTrigger(
                             accident.getOpenid(), accident.getId().intValue(), amountFenStr);
                     if (redPackResult) {
+                        wxSubscribeMessageService.sendApprovalNotice(accident.getOpenid(), amount, bizWxUser.getWxname());
                         return SUCCESS_TIP;
                     }
                     // 红包失败，autoTrigger 内部已写入失败 bill，不再重复写入
@@ -357,6 +362,7 @@ public class AccidentController extends BaseController {
                 }
 
                 if (v3Result.isSuccess()) {
+                    wxSubscribeMessageService.sendApprovalNotice(bizWxUser.getOpenid(), amount, bizWxUser.getWxname());
                     return SUCCESS_TIP;
                 } else {
                     return new ErrorTip(4001, "审核通过，支付失败");

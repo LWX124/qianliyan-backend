@@ -8,7 +8,7 @@ package com.stylefeng.guns.modular.system.constant;
  */
 public enum AccdStatus {
 
-    INIT(1, "未审核"), CHECK_SUCCESS(2, "审核通过"), CHECK_FAIL(3, "审核未通过");
+    INIT(1, "未审核"), CHECK_SUCCESS(2, "审核通过"), CHECK_FAIL(3, "审核未通过"), REWARD_CLAIMED(4, "奖励已领取");
 
     int code;
     String message;

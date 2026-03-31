@@ -17,6 +17,27 @@ public class WxAuthProperties {
 	//文件网络访问路径
 	private String videoHost;
 
+	private Subscribe subscribe = new Subscribe();
+
+	public static class Subscribe {
+		private String templateId;
+
+		public String getTemplateId() {
+			return templateId;
+		}
+
+		public void setTemplateId(String templateId) {
+			this.templateId = templateId;
+		}
+	}
+
+	public Subscribe getSubscribe() {
+		return subscribe;
+	}
+
+	public void setSubscribe(Subscribe subscribe) {
+		this.subscribe = subscribe;
+	}
 
 	public String getAppId() {
 		return appId;

@@ -406,6 +406,13 @@ public class XcxController {
         bill.setStatus(0); // 0: 支付成功（用户已确认）
         bill.setPayTime(new java.util.Date());
         bill.updateById();
+        // 更新事故状态：2(审核通过) -> 4(奖励已领取)
+        com.stylefeng.guns.modular.system.model.Accident accident =
+                new com.stylefeng.guns.modular.system.model.Accident().selectById(accid);
+        if (accident != null && accident.getStatus() == 2) {
+            accident.setStatus(4);
+            accident.updateById();
+        }
         ApiResponseEntity resp = new ApiResponseEntity();
         resp.setErrorCode(0);
         resp.setErrorMsg("确认成功");

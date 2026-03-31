@@ -190,6 +190,34 @@ public class WxService {
     }
 
     /**
+     * 获取小程序 access_token（带 Redis 缓存）
+     */
+    public String getXcxAccessToken() {
+        String cacheKey = "WX_XCX_ACCESS_TOKEN";
+        String cached = jedisUtil.get(cacheKey);
+        if (StringUtils.isNotEmpty(cached)) {
+            return cached;
+        }
+        String url = "https://api.weixin.qq.com/cgi-bin/token";
+        String param = "grant_type=client_credential&appid=" + wxAuthProperties.getAppId()
+                + "&secret=" + wxAuthProperties.getSecret();
+        String res = HttpRequest.sendGet(url, param);
+        log.info("getXcxAccessToken response: {}", res);
+        if (StringUtils.isEmpty(res)) {
+            log.error("获取小程序access_token失败，响应为空");
+            return null;
+        }
+        JSONObject json = JSONObject.parseObject(res);
+        String accessToken = json.getString("access_token");
+        if (StringUtils.isEmpty(accessToken)) {
+            log.error("获取小程序access_token失败: {}", res);
+            return null;
+        }
+        jedisUtil.set(cacheKey, accessToken, 7000);
+        return accessToken;
+    }
+
+    /**
      * 发送微信code获取tokan
      *
      * @param appId
