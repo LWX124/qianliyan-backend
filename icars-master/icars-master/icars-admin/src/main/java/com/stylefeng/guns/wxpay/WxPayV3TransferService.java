@@ -101,24 +101,21 @@ public class WxPayV3TransferService {
             log.info("V3商家转账请求 accid={} outBillNo={}", accid, outBillNo);
             HttpResponse<JsonResponseBody> response = httpClient.execute(httpRequest, JsonResponseBody.class);
 
-            // 优先从 serviceResponse 获取，fallback 到 rawBody
+            // 从 response.getBody() 获取原始响应体
+            // 注意：response.getServiceResponse() 是 Gson 反序列化的结果，
+            // 由于 JsonResponseBody 只有 body 字段，而微信响应中无此字段，
+            // getServiceResponse().getBody() 会返回 null，不能使用
             String bodyStr = "";
-            JsonResponseBody respBody = response.getServiceResponse();
-            if (respBody != null && respBody.getBody() != null && !respBody.getBody().isEmpty()) {
-                bodyStr = respBody.getBody();
-            } else {
-                // SDK 某些版本 serviceResponse 为空，从原始 body 获取
-                com.wechat.pay.java.core.http.ResponseBody rawBody = response.getBody();
-                if (rawBody instanceof JsonResponseBody) {
-                    String raw = ((JsonResponseBody) rawBody).getBody();
-                    if (raw != null && !raw.isEmpty()) {
-                        bodyStr = raw;
-                    }
+            com.wechat.pay.java.core.http.ResponseBody rawBody = response.getBody();
+            if (rawBody instanceof JsonResponseBody) {
+                String raw = ((JsonResponseBody) rawBody).getBody();
+                if (raw != null && !raw.isEmpty()) {
+                    bodyStr = raw;
                 }
             }
             log.info("V3商家转账响应 accid={} outBillNo={} body={}", accid, outBillNo, bodyStr);
 
-            if (bodyStr.isEmpty()) {
+            if (bodyStr.isEmpty() || "{}".equals(bodyStr.trim())) {
                 log.error("V3商家转账响应体为空 accid={}", accid);
                 return TransferResult.fail();
             }
@@ -133,6 +130,11 @@ public class WxPayV3TransferService {
                 if (quote1 >= 0 && quote2 > quote1) {
                     packageInfo = bodyStr.substring(quote1 + 1, quote2);
                 }
+            }
+
+            if (packageInfo == null || packageInfo.isEmpty()) {
+                log.error("V3商家转账响应缺少package_info accid={} body={}", accid, bodyStr);
+                return TransferResult.fail();
             }
 
             log.info("V3商家转账成功 accid={} outBillNo={} packageInfo={}", accid, outBillNo, packageInfo);
