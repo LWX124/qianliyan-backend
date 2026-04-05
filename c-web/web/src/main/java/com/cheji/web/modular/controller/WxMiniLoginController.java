@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import com.cheji.web.constant.SourceEnum;
 
 /**
  * 微信小程序登录控制器
@@ -42,6 +44,12 @@ public class WxMiniLoginController extends BaseController {
     @Resource
     private AppUserMapper appUserMapper;
 
+    @Resource
+    private Map<String, String> sourceToAppIdMap;
+
+    @Resource
+    private Map<String, WxMaService> sourceToWxMaServiceMap;
+
     @ApiOperation("微信小程序登录")
     @PostMapping("/wxMiniLogin")
     public JSONObject wxMiniLogin(@RequestBody JSONObject in) {
@@ -55,8 +63,31 @@ public class WxMiniLoginController extends BaseController {
             return result;
         }
 
+        // 校验 source
+        if (StringUtils.isEmpty(source) || !SourceEnum.isValid(source)) {
+            result.put("code", 401);
+            result.put("msg", "无效的来源标识");
+            return result;
+        }
+
+        // 根据 source 获取对应的 appId
+        String appId = sourceToAppIdMap.get(source);
+        if (StringUtils.isEmpty(appId)) {
+            result.put("code", 401);
+            result.put("msg", "未配置该来源的微信应用");
+            return result;
+        }
+
+        // 获取该 source 对应的独立 WxMaService 实例（线程安全）
+        WxMaService maService = sourceToWxMaServiceMap.get(source);
+        if (maService == null) {
+            result.put("code", 401);
+            result.put("msg", "未配置该来源的微信应用");
+            return result;
+        }
+
         try {
-            WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(code);
+            WxMaJscode2SessionResult session = maService.getUserService().getSessionInfo(code);
             String openid = session.getOpenid();
 
             if (StringUtils.isEmpty(openid)) {
@@ -65,16 +96,31 @@ public class WxMiniLoginController extends BaseController {
                 return result;
             }
 
-            // 根据 openid 查找用户
+            // 根据 openid + source 查找用户（确保多源用户隔离）
             AppUserEntity param = new AppUserEntity();
             param.setWxOpenId(openid);
+            param.setSource(source);
             AppUserEntity appUserEntity = appUserMapper.selectOne(param);
+
+            if (appUserEntity == null) {
+                // 兼容存量：查找 openid 相同但 source 为空的未迁移用户
+                AppUserEntity legacyParam = new AppUserEntity();
+                legacyParam.setWxOpenId(openid);
+                AppUserEntity legacyUser = appUserMapper.selectOne(legacyParam);
+                if (legacyUser != null && StringUtils.isEmpty(legacyUser.getSource())) {
+                    // 存量用户补填 source
+                    legacyUser.setSource(source);
+                    appUserMapper.updateById(legacyUser);
+                    appUserEntity = legacyUser;
+                }
+            }
 
             if (appUserEntity == null) {
                 // 自动注册新用户
                 appUserEntity = new AppUserEntity();
                 appUserEntity.setWxOpenId(openid);
                 appUserEntity.setCreatTime(new Date());
+                appUserEntity.setSource(source);
                 Random random = new Random();
                 appUserEntity.setName("微信用户" + ((int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000));
                 appUserMapper.insert(appUserEntity);
@@ -85,6 +131,7 @@ public class WxMiniLoginController extends BaseController {
             TokenPojo tokenPojo = new TokenPojo();
             tokenPojo.setUnionId(null);
             tokenPojo.setAppUserEntity(appUserEntity);
+            tokenPojo.setSource(source);
 
             // 踢掉旧登录
             String oldToken = stringRedisTemplate.opsForValue().get(RedisConstant.USER_ID_TOKEN + appUserEntity.getId());
@@ -114,12 +161,12 @@ public class WxMiniLoginController extends BaseController {
             return result;
 
         } catch (WxErrorException e) {
-            logger.error("小程序登录失败", e);
+            logger.error("小程序登录失败, source={}", source, e);
             result.put("code", 500);
             result.put("msg", "登录失败：" + e.getMessage());
             return result;
         } catch (Exception e) {
-            logger.error("小程序登录异常", e);
+            logger.error("小程序登录异常, source={}", source, e);
             result.put("code", 500);
             result.put("msg", "登录异常：" + e.getMessage());
             return result;

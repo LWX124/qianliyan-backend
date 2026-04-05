@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cheji.web.context.SourceContext;
 import com.cheji.web.modular.domain.AppAuctionEntity;
 import com.cheji.web.modular.dto.AuctionCarListDto;
 import com.cheji.web.modular.dto.UsedCarVo;
@@ -67,6 +68,9 @@ public class AppAuctionContrlloer extends BaseController {
     @Autowired
     private WxMaService wxMaService;
 
+    @Resource
+    private Map<String, WxMaService> sourceToWxMaServiceMap;
+
 
     /**
      * 获取小程序token
@@ -78,7 +82,14 @@ public class AppAuctionContrlloer extends BaseController {
     public JSONObject getMinAppToken() {
         String accessToken = "";
         try {
-            accessToken = wxMaService.getAccessToken();
+            // 根据当前请求的 source 获取对应的 WxMaService
+            String source = SourceContext.getSource();
+            WxMaService maService = (source != null) ? sourceToWxMaServiceMap.get(source) : null;
+            if (maService == null) {
+                // 兜底：使用默认的共享 service
+                maService = wxMaService;
+            }
+            accessToken = maService.getAccessToken();
         } catch (WxErrorException e) {
             throw new RuntimeException(e);
         }

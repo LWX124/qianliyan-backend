@@ -37,6 +37,8 @@ public class BaseController {
         tokenPojo.setUnionId(null);
         tokenPojo.setAppUserEntity(appUser);
 
+        String source = result.getString("source");
+        tokenPojo.setSource(source);
 
         //刷新用户token有效期
         stringRedisTemplate.expire(RedisConstant.USER_TOKEN + thirdsessionkey, 60 * 60 * 24 * 30, TimeUnit.SECONDS);

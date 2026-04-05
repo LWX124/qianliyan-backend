@@ -40,6 +40,11 @@ public class WxMaProperties {
          * 消息格式，XML或者JSON
          */
         private String msgDataFormat;
+
+        /**
+         * 对应的小程序来源标识
+         */
+        private String source;
     }
 
 }

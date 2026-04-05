@@ -72,6 +72,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="responsible_person", attrName="responsiblePerson", label="负责人员", isQuery=false),
 		@Column(name="position", attrName="position", label="职位", isQuery=false),
 		@Column(name="up_id", attrName="upId", label="上架关联店铺", isQuery=false),
+		@Column(name="source", attrName="source", label="小程序来源标识"),
 	},
 		// 联合查询出外键编码的名称数据（attrName="this"，指定this代表，当前实体）
 		joinTable = {
@@ -149,6 +150,7 @@ public class AppBUser extends DataEntity<AppBUser> {
 	//合作保险
 	private String insurance;
 	private String upId;
+	private String source;		// 小程序来源标识
 
 	public String getUpId() {
 		return upId;
@@ -156,6 +158,14 @@ public class AppBUser extends DataEntity<AppBUser> {
 
 	public void setUpId(String upId) {
 		this.upId = upId;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	private String responsiblePerson;
