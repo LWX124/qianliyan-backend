@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.cheji.web.constant.RedisConstant;
 import com.cheji.web.constant.UserConstant;
 import com.cheji.web.modular.domain.AppUserEntity;
-import com.cheji.web.context.SourceContext;
 import com.cheji.web.pojo.TokenPojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +39,6 @@ public class BaseController {
 
         String source = result.getString("source");
         tokenPojo.setSource(source);
-        if (source != null) {
-            SourceContext.setSource(source);
-        }
 
         //刷新用户token有效期
         stringRedisTemplate.expire(RedisConstant.USER_TOKEN + thirdsessionkey, 60 * 60 * 24 * 30, TimeUnit.SECONDS);

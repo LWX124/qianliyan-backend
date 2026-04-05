@@ -47,6 +47,9 @@ public class WxMiniLoginController extends BaseController {
     @Resource
     private Map<String, String> sourceToAppIdMap;
 
+    @Resource
+    private Map<String, WxMaService> sourceToWxMaServiceMap;
+
     @ApiOperation("微信小程序登录")
     @PostMapping("/wxMiniLogin")
     public JSONObject wxMiniLogin(@RequestBody JSONObject in) {
@@ -75,9 +78,16 @@ public class WxMiniLoginController extends BaseController {
             return result;
         }
 
+        // 获取该 source 对应的独立 WxMaService 实例（线程安全）
+        WxMaService maService = sourceToWxMaServiceMap.get(source);
+        if (maService == null) {
+            result.put("code", 401);
+            result.put("msg", "未配置该来源的微信应用");
+            return result;
+        }
+
         try {
-            // 切换到对应小程序的配置（switchoverTo 内部使用 ThreadLocal，线程安全）
-            WxMaJscode2SessionResult session = wxMaService.switchoverTo(appId).getUserService().getSessionInfo(code);
+            WxMaJscode2SessionResult session = maService.getUserService().getSessionInfo(code);
             String openid = session.getOpenid();
 
             if (StringUtils.isEmpty(openid)) {
@@ -86,10 +96,24 @@ public class WxMiniLoginController extends BaseController {
                 return result;
             }
 
-            // 根据 openid 查找用户
+            // 根据 openid + source 查找用户（确保多源用户隔离）
             AppUserEntity param = new AppUserEntity();
             param.setWxOpenId(openid);
+            param.setSource(source);
             AppUserEntity appUserEntity = appUserMapper.selectOne(param);
+
+            if (appUserEntity == null) {
+                // 兼容存量：查找 openid 相同但 source 为空的未迁移用户
+                AppUserEntity legacyParam = new AppUserEntity();
+                legacyParam.setWxOpenId(openid);
+                AppUserEntity legacyUser = appUserMapper.selectOne(legacyParam);
+                if (legacyUser != null && StringUtils.isEmpty(legacyUser.getSource())) {
+                    // 存量用户补填 source
+                    legacyUser.setSource(source);
+                    appUserMapper.updateById(legacyUser);
+                    appUserEntity = legacyUser;
+                }
+            }
 
             if (appUserEntity == null) {
                 // 自动注册新用户
@@ -100,10 +124,6 @@ public class WxMiniLoginController extends BaseController {
                 Random random = new Random();
                 appUserEntity.setName("微信用户" + ((int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000));
                 appUserMapper.insert(appUserEntity);
-            } else if (StringUtils.isEmpty(appUserEntity.getSource())) {
-                // 存量用户补填 source
-                appUserEntity.setSource(source);
-                appUserMapper.updateById(appUserEntity);
             }
 
             // 生成 token

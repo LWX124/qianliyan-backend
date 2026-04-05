@@ -23,7 +23,10 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -82,19 +85,58 @@ public class WxMaConfiguration {
     }
 
     @Bean
-    public java.util.Map<String, String> sourceToAppIdMap() {
+    public Map<String, String> sourceToAppIdMap() {
         List<WxMaProperties.Config> configs = this.properties.getConfigs();
         if (configs == null) {
-            return java.util.Collections.emptyMap();
+            return Collections.emptyMap();
         }
-        java.util.Map<String, String> map = new java.util.HashMap<>();
+        Map<String, String> map = new HashMap<>();
         for (WxMaProperties.Config config : configs) {
             if (config.getSource() != null) {
                 map.put(config.getSource(), config.getAppid());
             }
         }
         log.info("sourceToAppIdMap 初始化完成: {}", map);
-        return map;
+        return Collections.unmodifiableMap(map);
+    }
+
+    /**
+     * 每个 source 对应一个独立的 WxMaService 实例，避免 switchoverTo 的线程安全问题
+     */
+    @Bean
+    public Map<String, WxMaService> sourceToWxMaServiceMap() {
+        List<WxMaProperties.Config> configs = this.properties.getConfigs();
+        if (configs == null) {
+            return Collections.emptyMap();
+        }
+        Map<String, WxMaService> map = new HashMap<>();
+        for (WxMaProperties.Config a : configs) {
+            if (a.getSource() == null) {
+                continue;
+            }
+            WxMaService service = new WxMaServiceImpl();
+            GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+            poolConfig.setMaxIdle(jedisPoolConfig.getMaxIdle());
+            poolConfig.setMaxTotal(jedisPoolConfig.getMaxIdle());
+            poolConfig.setMaxWaitMillis(jedisPoolConfig.getMaxWaitMillis());
+            poolConfig.setMinIdle(jedisPoolConfig.getMinIdle());
+
+            JedisPool jedisPool = new JedisPool(poolConfig, redisStandaloneConfiguration.getHostName(),
+                    redisStandaloneConfiguration.getPort(), Protocol.DEFAULT_TIMEOUT, jedisConf.getPassword(), false);
+
+            WxMaDefaultConfigImpl config = new WxMaRedisConfigImpl(jedisPool);
+            config.setAppid(a.getAppid());
+            config.setSecret(a.getSecret());
+            config.setToken(a.getToken());
+            config.setAesKey(a.getAesKey());
+            config.setMsgDataFormat(a.getMsgDataFormat());
+
+            service.setMultiConfigs(Collections.singletonMap(a.getAppid(), config));
+            service.switchover(a.getAppid());
+            map.put(a.getSource(), service);
+            log.info("为 source={} 创建独立 WxMaService, appId={}", a.getSource(), a.getAppid());
+        }
+        return Collections.unmodifiableMap(map);
     }
 
     @Bean

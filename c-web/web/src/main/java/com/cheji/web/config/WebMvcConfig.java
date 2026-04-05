@@ -13,7 +13,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SourceInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(
+                        // 小程序登录（从 body 读取 source）
                         "/user/wxMiniLogin",
+                        // 非小程序登录/注册接口（无 X-Source）
+                        "/user/loginForPass",
+                        "/user/loginForCode",
+                        "/user/getRegisterCode",
+                        "/user/getLoginCode",
+                        "/user/register",
+                        "/user/wxAccessToken",
+                        "/user/forgetUpdatePass",
+                        "/user/bindPhone",
+                        // 微信支付回调（微信服务器发起，无 X-Source）
+                        "/auction/wxPay/payLogNotify",
+                        "/auction/wxPay/bailLogNotify",
+                        "/auction/wxPay/onePriceNotify",
+                        // 基础设施
                         "/actuator/**",
                         "/swagger-ui.html",
                         "/swagger-resources/**",
