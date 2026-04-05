@@ -76,9 +76,8 @@ public class WxMiniLoginController extends BaseController {
         }
 
         try {
-            // 切换到对应小程序的配置
-            wxMaService.switchoverTo(appId);
-            WxMaJscode2SessionResult session = wxMaService.getUserService().getSessionInfo(code);
+            // 切换到对应小程序的配置（switchoverTo 内部使用 ThreadLocal，线程安全）
+            WxMaJscode2SessionResult session = wxMaService.switchoverTo(appId).getUserService().getSessionInfo(code);
             String openid = session.getOpenid();
 
             if (StringUtils.isEmpty(openid)) {
@@ -101,6 +100,10 @@ public class WxMiniLoginController extends BaseController {
                 Random random = new Random();
                 appUserEntity.setName("微信用户" + ((int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000));
                 appUserMapper.insert(appUserEntity);
+            } else if (StringUtils.isEmpty(appUserEntity.getSource())) {
+                // 存量用户补填 source
+                appUserEntity.setSource(source);
+                appUserMapper.updateById(appUserEntity);
             }
 
             // 生成 token

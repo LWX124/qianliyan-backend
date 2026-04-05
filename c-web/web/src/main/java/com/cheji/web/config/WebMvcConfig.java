@@ -12,6 +12,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SourceInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/wxMiniLogin");
+                .excludePathPatterns(
+                        "/user/wxMiniLogin",
+                        "/actuator/**",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/v2/api-docs",
+                        "/webjars/**",
+                        "/error"
+                );
     }
 }
