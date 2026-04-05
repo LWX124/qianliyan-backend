@@ -36,6 +36,8 @@ public class AppUserEntity extends Model<AppUserEntity> {
 
     private Integer isInner;
 
+    private String source;
+
 
     @Override
     public String toString() {
@@ -57,6 +59,7 @@ public class AppUserEntity extends Model<AppUserEntity> {
                 ", huanxinPassword='" + huanxinPassword + '\'' +
                 ", balance=" + balance +
                 ", vipLv=" + vipLv +
+                ", source='" + source + '\'' +
                 '}';
     }
 
@@ -66,6 +69,14 @@ public class AppUserEntity extends Model<AppUserEntity> {
 
     public void setIsInner(Integer isInner) {
         this.isInner = isInner;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getAuthentication() {
