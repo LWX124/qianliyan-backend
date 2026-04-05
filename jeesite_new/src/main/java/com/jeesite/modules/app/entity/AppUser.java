@@ -37,6 +37,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="wx_open_id", attrName="wxOpenId", label="微信openId", isInsert=false, isQuery=false),
 		@Column(name="vip_lv", attrName="vipLv", label="vip等级", isInsert=false, isQuery=false),
 		@Column(name="is_inner", attrName="isInner", label="是否内部人员，1是 2否", isInsert=false),
+		@Column(name="source", attrName="source", label="小程序来源标识"),
 	}, orderBy="a.id DESC"
 )
 public class AppUser extends DataEntity<AppUser> {
@@ -57,6 +58,7 @@ public class AppUser extends DataEntity<AppUser> {
 	private String wxOpenId;
 	private String vipLv;//vip等级
 	private Integer isInner;//是否内部人员，1是 2否
+	private String source;		// 小程序来源标识
 
 	public String getVipLv() {
 		return vipLv;
@@ -72,6 +74,14 @@ public class AppUser extends DataEntity<AppUser> {
 
 	public void setIsInner(Integer isInner) {
 		this.isInner = isInner;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	public Integer getBalck() {
