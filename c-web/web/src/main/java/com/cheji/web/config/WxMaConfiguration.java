@@ -82,6 +82,22 @@ public class WxMaConfiguration {
     }
 
     @Bean
+    public java.util.Map<String, String> sourceToAppIdMap() {
+        List<WxMaProperties.Config> configs = this.properties.getConfigs();
+        if (configs == null) {
+            return java.util.Collections.emptyMap();
+        }
+        java.util.Map<String, String> map = new java.util.HashMap<>();
+        for (WxMaProperties.Config config : configs) {
+            if (config.getSource() != null) {
+                map.put(config.getSource(), config.getAppid());
+            }
+        }
+        log.info("sourceToAppIdMap 初始化完成: {}", map);
+        return map;
+    }
+
+    @Bean
     public WxMaMessageRouter wxMaMessageRouter(WxMaService wxMaService) {
         final WxMaMessageRouter router = new WxMaMessageRouter(wxMaService);
         router.rule().handler(logHandler).next().rule().async(false).content("订阅消息").handler(subscribeMsgHandler).end().rule().async(false).content("文本").handler(textHandler).end().rule().async(false).content("图片").handler(picHandler).end().rule().async(false).content("二维码").handler(qrcodeHandler).end();
