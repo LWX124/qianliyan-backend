@@ -9,6 +9,7 @@ public class TokenPojo {
     private String unionId;
 
     private AppUserEntity appUserEntity;
+    private String source;
 
     @Override
     public String toString() {
@@ -16,6 +17,7 @@ public class TokenPojo {
                 "thirdSessionKey='" + thirdSessionKey + '\'' +
                 ", unionId='" + unionId + '\'' +
                 ", appUserEntity=" + appUserEntity +
+                ", source='" + source + '\'' +
                 '}';
     }
 
@@ -41,5 +43,13 @@ public class TokenPojo {
 
     public void setAppUserEntity(AppUserEntity appUserEntity) {
         this.appUserEntity = appUserEntity;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }
