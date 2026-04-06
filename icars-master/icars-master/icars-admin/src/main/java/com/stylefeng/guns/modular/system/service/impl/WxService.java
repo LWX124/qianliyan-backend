@@ -193,24 +193,34 @@ public class WxService {
      * 获取小程序 access_token（带 Redis 缓存）
      */
     public String getXcxAccessToken() {
-        String cacheKey = "WX_XCX_ACCESS_TOKEN";
+        return getXcxAccessTokenBySource(null);
+    }
+
+    /**
+     * 根据 source 获取对应小程序的 access_token（带 Redis 缓存）
+     * source 为 null 时使用默认配置
+     */
+    public String getXcxAccessTokenBySource(String source) {
+        String appId = wxAuthProperties.getAppIdBySource(source);
+        String secret = wxAuthProperties.getSecretBySource(source);
+        String cacheKey = "WX_XCX_ACCESS_TOKEN" + (source != null ? ":" + source : "");
         String cached = jedisUtil.get(cacheKey);
         if (StringUtils.isNotEmpty(cached)) {
             return cached;
         }
         String url = "https://api.weixin.qq.com/cgi-bin/token";
-        String param = "grant_type=client_credential&appid=" + wxAuthProperties.getAppId()
-                + "&secret=" + wxAuthProperties.getSecret();
+        String param = "grant_type=client_credential&appid=" + appId
+                + "&secret=" + secret;
         String res = HttpRequest.sendGet(url, param);
-        log.info("getXcxAccessToken response: {}", res);
+        log.info("getXcxAccessTokenBySource source={}, response: {}", source, res);
         if (StringUtils.isEmpty(res)) {
-            log.error("获取小程序access_token失败，响应为空");
+            log.error("获取小程序access_token失败，响应为空, source={}", source);
             return null;
         }
         JSONObject json = JSONObject.parseObject(res);
         String accessToken = json.getString("access_token");
         if (StringUtils.isEmpty(accessToken)) {
-            log.error("获取小程序access_token失败: {}", res);
+            log.error("获取小程序access_token失败: {}, source={}", res, source);
             return null;
         }
         jedisUtil.set(cacheKey, accessToken, 7000);

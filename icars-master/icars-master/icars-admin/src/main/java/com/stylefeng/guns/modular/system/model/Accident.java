@@ -143,6 +143,11 @@ public class Accident extends Model<Accident> {
     @TableField(exist = false)
     private Integer blackList;
 
+    /**
+     * 来源标识（SSP等，标识来自哪个小程序）
+     */
+    private String source;
+
 
     /**
      * 版本（乐观锁保留字段）
@@ -394,5 +399,13 @@ public class Accident extends Model<Accident> {
 
     public void setRealArrTime(String realArrTime) {
         this.realArrTime = realArrTime;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

@@ -48,6 +48,11 @@ public class AccidentVo implements Serializable {
 
     private String url;
 
+    /**
+     * 来源标识（SSP等，标识来自哪个小程序）
+     */
+    private String source;
+
     public String getUrl() {
         return url;
     }
@@ -134,5 +139,13 @@ public class AccidentVo implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

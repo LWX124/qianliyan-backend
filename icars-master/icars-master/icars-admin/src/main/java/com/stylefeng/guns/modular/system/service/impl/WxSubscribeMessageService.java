@@ -23,16 +23,27 @@ public class WxSubscribeMessageService {
     @Resource
     private WxAuthProperties wxAuthProperties;
 
+    /**
+     * 发送审核通过通知（兼容旧调用，使用默认 source）
+     */
     public void sendApprovalNotice(String openid, BigDecimal amount, String nickname) {
-        String templateId = wxAuthProperties.getSubscribe().getTemplateId();
+        sendApprovalNotice(openid, amount, nickname, null);
+    }
+
+    /**
+     * 发送审核通过通知（多源版本）
+     * @param source 小程序来源标识，null 时使用默认配置
+     */
+    public void sendApprovalNotice(String openid, BigDecimal amount, String nickname, String source) {
+        String templateId = wxAuthProperties.getTemplateIdBySource(source);
         if (StringUtils.isEmpty(templateId)) {
-            log.warn("订阅消息模板ID未配置，跳过发送");
+            log.warn("订阅消息模板ID未配置，跳过发送, source={}", source);
             return;
         }
         try {
-            String accessToken = wxService.getXcxAccessToken();
+            String accessToken = wxService.getXcxAccessTokenBySource(source);
             if (StringUtils.isEmpty(accessToken)) {
-                log.error("获取access_token失败，无法发送订阅消息");
+                log.error("获取access_token失败，无法发送订阅消息, source={}", source);
                 return;
             }
             String url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=" + accessToken;

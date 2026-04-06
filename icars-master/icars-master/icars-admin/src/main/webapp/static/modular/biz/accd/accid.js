@@ -22,15 +22,16 @@ MgrAccd.initColumn = function () {
             }
         },
         {title: '上报人ID', field: 'openid', visible: false, align: 'center', valign: 'middle', sortable: true},
-        {title: '上报人电话', field: 'phone', width: '100', visible: true, align: 'center', valign: 'middle', sortable: true},
-        {title: '上报人昵称', field: 'wxname', width: '100', visible: true, align: 'center', valign: 'middle', sortable: true},
+        {title: '上报人电话', field: 'phone', width: '120', visible: true, align: 'center', valign: 'middle', sortable: true},
+        {title: '上报人昵称', field: 'wxname', width: '120', visible: true, align: 'center', valign: 'middle', sortable: true},
+        {title: '来源', field: 'source', width: '80', visible: true, align: 'center', valign: 'middle', sortable: true},
         {title: '视频', field: 'video', align: 'center', valign: 'middle',formatter: aFormatter, sortable: false},
         {title: '定位地图', field: 'mapUrl', align: 'center', valign: 'middle',formatter: urlFormatter, sortable: false},
         {title: '上报总数', field: 'totalAcc', align: 'center', valign: 'middle',  sortable: true},
         {title: '有效数', field: 'exist', align: 'center', valign: 'middle',  sortable: true},
         {title: '无效数', field: 'notexist', align: 'center', valign: 'middle',  sortable: true},
-        {title: '地址', field: 'address', align: 'center', valign: 'middle', width: '300', sortable: true},
-        {title: '是否有效', field: 'realness', align: 'center', valign: 'middle', width: '100', cellStyle:{css:{"color": "red"}},sortable: true},
+        {title: '地址', field: 'address', align: 'center', valign: 'middle', width: '200', sortable: true},
+        {title: '是否有效', field: 'realness', align: 'center', valign: 'middle', width: '80', cellStyle:{css:{"color": "red"}},sortable: true},
         {title: '经度', field: 'lng', visible: false, align: 'center', valign: 'middle', sortable: true},
         {title: '纬度', field: 'lat', visible: false, align: 'center', valign: 'middle', sortable: true},
         {title: '推送人', field: 'name', align: 'center', valign: 'middle', sortable: true},
@@ -40,9 +41,9 @@ MgrAccd.initColumn = function () {
         {title: 'status', field: 'status', visible: false, align: 'center', valign: 'middle'},
         {title: 'blackList', field: 'blackList', visible: false, align: 'center', valign: 'middle'},
         {title: '状态', field: 'statusName', align: 'center', valign: 'middle', sortable: true},
-        {title: '审核原因', field: 'reason', visible: true, align: 'center', valign: 'middle'},
-        {title: '红包金额', field: 'amount', visible: true, align: 'center', valign: 'middle'},
-        {title: '收取金额', field: 'backAmount', visible: true, align: 'center', valign: 'middle'},];
+        {title: '审核原因', field: 'reason', visible: true, align: 'center', valign: 'middle', width: '150'},
+        {title: '红包金额', field: 'amount', visible: true, align: 'center', valign: 'middle', width: '80'},
+        {title: '收取金额', field: 'backAmount', visible: true, align: 'center', valign: 'middle', width: '80'},];
     return columns;
 };
 
@@ -202,10 +203,10 @@ MgrAccd.checkFailReason = function () {
  */
 MgrAccd.checkSuccessChoose = function () {
     if (this.check()){
-        // if(this.seItem.status != 1){
-        //     Feng.error("只能审核未审核事故!");
-        //     return;
-        // }
+        if(this.seItem.status != 1){
+            Feng.error("只能审核未审核事故!");
+            return;
+        }
         var index = layer.open({
             type: 2,
             title: '选择奖励金额',
@@ -346,6 +347,7 @@ $(function () {
     var defaultColunms = MgrAccd.initColumn();
     var table = new BSTable("managerAccdTable", "/accid/list", defaultColunms);
     table.setPaginationType("server");
+    table.height = undefined; // 不限制表格高度，允许内容完整显示
     table.setRowStyle(function (row, index) {
         var style = {};
         if(row.blackList != 0){

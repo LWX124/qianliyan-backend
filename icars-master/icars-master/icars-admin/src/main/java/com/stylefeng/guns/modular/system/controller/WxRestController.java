@@ -162,7 +162,7 @@ public class WxRestController extends BaseController {
             @ApiImplicitParam(name = "address", value = "上报地址名称", required = true, dataType = "String")
     })
     @RequestMapping(value = "/api/v1/wx/accid/add", method = RequestMethod.POST, produces = "application/json")
-    public ApiResponseEntity add(@RequestParam(required = true, value = "file") MultipartFile file, @Valid AccidentVo accidentVo, @RequestParam String thirdSessionKey, @RequestParam Integer isImage, BindingResult result) {
+    public ApiResponseEntity add(@RequestParam(required = true, value = "file") MultipartFile file, @Valid AccidentVo accidentVo, @RequestParam String thirdSessionKey, @RequestParam Integer isImage, @RequestParam(required = false) String source, BindingResult result) {
         Map<String, Object> resultMap = new HashMap<>();
         ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
         if (null == file) {
@@ -177,6 +177,23 @@ public class WxRestController extends BaseController {
             apiResponseEntity.setErrorCode(5001);
             apiResponseEntity.setErrorMsg("微信session无效或为空");
             return apiResponseEntity;
+        }
+        // 检查用户是否已授权手机号
+        BizWxUser wxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+        if (wxUser == null || StringUtils.isEmpty(wxUser.getPhone())) {
+            apiResponseEntity.setErrorCode(5003);
+            apiResponseEntity.setErrorMsg("请先授权手机号后再上报");
+            return apiResponseEntity;
+        }
+        // 检查用户是否在黑名单中
+        if (wxUser.getBlackList() != null && wxUser.getBlackList() == 1) {
+            apiResponseEntity.setErrorCode(5004);
+            apiResponseEntity.setErrorMsg("您的账号已被限制上报");
+            return apiResponseEntity;
+        }
+        // 设置来源标识
+        if (StringUtils.isNotEmpty(source)) {
+            accidentVo.setSource(source);
         }
         try {
             Integer accid = accdService.add(file, accidentVo, thirdSessionKey, isImage);
@@ -348,7 +365,7 @@ public class WxRestController extends BaseController {
             @ApiImplicitParam(name = "openid", value = "openid", required = true, dataType = "String"),
     })
     @RequestMapping(value = "/api/v1/wx/accid/newAdd", method = RequestMethod.POST, produces = "application/json")
-    public ApiResponseEntity newAdd(@Valid @RequestBody AccidentVo accidentVo, @RequestParam String thirdSessionKey, BindingResult result) {
+    public ApiResponseEntity newAdd(@Valid @RequestBody AccidentVo accidentVo, @RequestParam String thirdSessionKey, @RequestParam(required = false) String source, BindingResult result) {
         Map<String, Object> resultMap = new HashMap<>();
         ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
         if (result.hasErrors()) {
@@ -359,6 +376,23 @@ public class WxRestController extends BaseController {
             apiResponseEntity.setErrorCode(5001);
             apiResponseEntity.setErrorMsg("微信session无效或为空");
             return apiResponseEntity;
+        }
+        // 检查用户是否已授权手机号
+        BizWxUser wxUserCheck = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+        if (wxUserCheck == null || StringUtils.isEmpty(wxUserCheck.getPhone())) {
+            apiResponseEntity.setErrorCode(5003);
+            apiResponseEntity.setErrorMsg("请先授权手机号后再上报");
+            return apiResponseEntity;
+        }
+        // 检查用户是否在黑名单中
+        if (wxUserCheck.getBlackList() != null && wxUserCheck.getBlackList() == 1) {
+            apiResponseEntity.setErrorCode(5004);
+            apiResponseEntity.setErrorMsg("您的账号已被限制上报");
+            return apiResponseEntity;
+        }
+        // 设置来源标识（优先使用参数传入的source，否则用body中的）
+        if (StringUtils.isNotEmpty(source)) {
+            accidentVo.setSource(source);
         }
         try {
             Integer accid = accdService.newAdd(accidentVo, thirdSessionKey);

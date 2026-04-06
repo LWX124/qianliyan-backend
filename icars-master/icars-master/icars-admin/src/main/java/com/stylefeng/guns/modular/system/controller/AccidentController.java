@@ -306,16 +306,22 @@ public class AccidentController extends BaseController {
         if (ToolUtil.isEmpty(accdId) || amount == null) {
             throw new GunsException(BizExceptionEnum.REQUEST_NULL);
         }
-        //修改事故状态
-        this.accdService.setStatus(accdId, AccdStatus.CHECK_SUCCESS.getCode(), reason);
-        Accident accident = accdService.selectById(accdId);
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid());
-        BizWxpayBill bizWxpayBill = bizWxpayBillService.selectOneByAccid(accdId);
-        if (bizWxpayBill != null) {
+        // 先检查是否已发过红包（防止重复操作）
+        BizWxpayBill existBill = bizWxpayBillService.selectOneByAccid(accdId);
+        if (existBill != null) {
             return new ErrorTip(500, "操作失败，该事故已发送过红包，请勿重复操作！");
         }
+        //修改事故状态，必须检查返回值
+        int effectRows = this.accdService.setStatus(accdId, AccdStatus.CHECK_SUCCESS.getCode(), reason);
+        if (effectRows == 0) {
+            return new ErrorTip(500, "操作失败，只允许审核未审核状态的事故！");
+        }
+        Accident accident = accdService.selectById(accdId);
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid());
 
         if (bizWxUser != null && accident != null) {
+            // 获取事故来源标识，用于多源通知
+            String source = accident.getSource();
 
             // ========== 优先尝试V2公众号现金红包 ==========
             boolean redPackAttempted = false;
@@ -331,7 +337,7 @@ public class AccidentController extends BaseController {
                     redPackResult = wxPayBizService.autoTrigger(
                             accident.getOpenid(), accident.getId().intValue(), amountFenStr);
                     if (redPackResult) {
-                        wxSubscribeMessageService.sendApprovalNotice(accident.getOpenid(), amount, bizWxUser.getWxname());
+                        wxSubscribeMessageService.sendApprovalNotice(accident.getOpenid(), amount, bizWxUser.getWxname(), source);
                         return SUCCESS_TIP;
                     }
                     // 红包失败，autoTrigger 内部已写入失败 bill，不再重复写入
@@ -362,7 +368,7 @@ public class AccidentController extends BaseController {
                 }
 
                 if (v3Result.isSuccess()) {
-                    wxSubscribeMessageService.sendApprovalNotice(bizWxUser.getOpenid(), amount, bizWxUser.getWxname());
+                    wxSubscribeMessageService.sendApprovalNotice(bizWxUser.getOpenid(), amount, bizWxUser.getWxname(), source);
                     return SUCCESS_TIP;
                 } else {
                     return new ErrorTip(4001, "审核通过，支付失败");

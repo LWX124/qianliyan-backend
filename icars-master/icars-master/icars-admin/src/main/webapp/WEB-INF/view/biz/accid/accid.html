@@ -93,6 +93,20 @@
 	<img id="imgTag" src=""  alt=""  />
 </div>
 
+<style>
+    /* 覆盖全局td不换行样式，允许表格内容完整显示 */
+    #managerAccdTable td {
+        white-space: normal !important;
+        word-break: break-all !important;
+        text-overflow: clip !important;
+        overflow: visible !important;
+    }
+    #managerAccdTable .th-inner {
+        white-space: normal !important;
+        text-overflow: clip !important;
+        overflow: visible !important;
+    }
+</style>
 <script src="${ctxPath}/static/modular/biz/accd/accid.js"></script>
 <script>
     laydate.render({

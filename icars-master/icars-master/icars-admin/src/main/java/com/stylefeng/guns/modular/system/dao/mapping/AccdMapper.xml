@@ -22,7 +22,7 @@
         checkTime, status,version
     </sql>
     <sql id="Base_Column_List1">
-        a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason,a.realness,
+        a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason,a.realness, a.source,
         a.checkTime, a.status, a.version, c.name, d.phone, d.wxname, d.blackList, v.total as totalAcc, v.exist, v.notexist,
         m.amount, p.amount as backAmount
     </sql>
@@ -185,21 +185,19 @@
 
 
     <update id="setStatus">
-		update biz_accident set status = #{status},checkId = #{checkId},checkTime = #{checkTime},reason = #{reason} where id =
-		#{accdId} and status = 1
+		update biz_accident set status = #{status},checkId = #{checkId},checkTime = #{checkTime},reason = #{reason}
+		<if test="status == 2">
+			,realness = 0
+		</if>
+		where id = #{accdId} and status = 1
 	</update>
-    <update id="setStatus">
-        update biz_accident set status = #{status},checkId = #{checkId},checkTime = #{checkTime},reason = #{reason}
-        where id =
-        #{accdId} and status = 1
-    </update>
 
     <!-- 新增事故上报 -->
     <insert id="insertAccid" useGeneratedKeys="true" keyProperty="accident.id" keyColumn="id"
             parameterType="com.stylefeng.guns.modular.system.model.Accident">
-        insert into biz_accident(openid, video, lng, lat, createTime, address, status,thumbnail_flag)
+        insert into biz_accident(openid, video, lng, lat, createTime, address, status, thumbnail_flag, source)
         values
-        (#{accident.openid},#{accident.video},#{accident.lng},#{accident.lat},#{accident.createTime},#{accident.address},#{accident.status},#{accident.thumbnailFlag})
+        (#{accident.openid},#{accident.video},#{accident.lng},#{accident.lat},#{accident.createTime},#{accident.address},#{accident.status},#{accident.thumbnailFlag},#{accident.source})
     </insert>
 
     <select id="selectAccidentListByOpenid" resultType="map">
