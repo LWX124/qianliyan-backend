@@ -17,11 +17,16 @@ public class SourceInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String source = request.getHeader(SOURCE_HEADER);
-        if (source == null || !SourceEnum.isValid(source)) {
-            logger.warn("请求缺少有效的 X-Source header, source={}, uri={}", source, request.getRequestURI());
+        if (source == null || source.isEmpty()) {
+            // 兼容模式：小程序端未传 X-Source 时放行，不设置 SourceContext
+            logger.debug("请求未携带 X-Source header, uri={}, 放行", request.getRequestURI());
+            return true;
+        }
+        if (!SourceEnum.isValid(source)) {
+            logger.warn("请求携带无效的 X-Source header, source={}, uri={}", source, request.getRequestURI());
             response.setStatus(400);
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write("{\"code\":400,\"msg\":\"缺少有效的来源标识\"}");
+            response.getWriter().write("{\"code\":400,\"msg\":\"无效的来源标识\"}");
             return false;
         }
         SourceContext.setSource(source);
