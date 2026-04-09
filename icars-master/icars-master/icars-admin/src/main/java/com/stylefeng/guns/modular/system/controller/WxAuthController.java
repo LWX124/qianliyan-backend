@@ -198,6 +198,64 @@ public class WxAuthController extends BaseController {
         return rtnParam(50021, null);
     }
 
+    /**
+     * 微信新版 getPhoneNumber（基于 code 换取手机号）
+     * 小程序端调用 wx.getPhoneNumber 获取 code，传给后端
+     * 后端用 code + access_token 调微信接口获取手机号并绑定
+     */
+    @ApiOperation(value = "绑定手机号", notes = "使用微信 getPhoneNumber 返回的 code 换取手机号并绑定")
+    @RequestMapping(value = "/api/v1/wx/user/bindPhone", method = RequestMethod.POST, produces = "application/json")
+    public Map<String, Object> bindPhone(@RequestParam("thirdSessionKey") String thirdSessionKey,
+                                         @RequestParam("code") String code) {
+        try {
+            // 1. 根据 thirdSessionKey 获取用户 session
+            WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+            if (wxSession == null) {
+                return rtnParam(401, "登录已过期，请重新登录");
+            }
+            String openId = wxSession.getOpenId();
+
+            // 2. 获取小程序 access_token
+            String accessToken = wxService.getXcxAccessToken();
+            if (StringUtils.isEmpty(accessToken)) {
+                log.error("bindPhone 获取 access_token 失败, openId={}", openId);
+                return rtnParam(500, "系统错误，请重试");
+            }
+
+            // 3. 调微信接口用 code 换取手机号
+            String url = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=" + accessToken;
+            JSONObject reqBody = new JSONObject();
+            reqBody.put("code", code);
+            String res = com.stylefeng.guns.core.util.HttpRequest.sendPost(url, reqBody.toJSONString());
+            log.info("bindPhone 微信返回: openId={}, res={}", openId, res);
+
+            if (StringUtils.isEmpty(res)) {
+                return rtnParam(500, "获取手机号失败，请重试");
+            }
+            JSONObject resJson = JSONObject.parseObject(res);
+            int errcode = resJson.getIntValue("errcode");
+            if (errcode != 0) {
+                log.error("bindPhone 微信返回错误: errcode={}, errmsg={}", errcode, resJson.getString("errmsg"));
+                return rtnParam(500, "获取手机号失败: " + resJson.getString("errmsg"));
+            }
+
+            JSONObject phoneInfo = resJson.getJSONObject("phone_info");
+            String phoneNumber = phoneInfo != null ? phoneInfo.getString("phoneNumber") : null;
+            if (StringUtils.isEmpty(phoneNumber)) {
+                return rtnParam(500, "未获取到手机号");
+            }
+
+            // 4. 绑定手机号到 biz_wx_user
+            bizWxUserService.setPhone(openId, phoneNumber);
+            log.info("bindPhone 绑定成功: openId={}, phone={}", openId, phoneNumber);
+
+            return rtnParam(0, "绑定成功");
+        } catch (Exception e) {
+            log.error("bindPhone 异常", e);
+            return rtnParam(500, "系统错误，请重试");
+        }
+    }
+
     @RequestMapping(value = "/api/v1/wx/verify", method = RequestMethod.GET)
     @ResponseBody
     public void verify(@RequestParam(value = "signature", required = false) String signature,

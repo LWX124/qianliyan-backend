@@ -359,6 +359,46 @@ $(function () {
     MgrAccd.table = table.init();
     MgrAccd.queryRedPackSum(MgrAccd.formParams());
 
+    // 每次 bootstrap-table 渲染表体后，用 JS 直接写 inline style 覆盖
+    function applyScrollFix() {
+        var tableEl = document.getElementById('managerAccdTable');
+        if (!tableEl) return;
+
+        // 让 ibox-content 可横向滚动
+        var iboxContent = tableEl.closest('.ibox-content');
+        if (iboxContent) {
+            iboxContent.style.overflowX = 'auto';
+            iboxContent.style.overflowY = 'visible';
+        }
+
+        // fixed-table-body 横向可滚动
+        var fixedBody = tableEl.closest('.fixed-table-body');
+        if (fixedBody) {
+            fixedBody.style.overflowX = 'auto';
+            fixedBody.style.overflowY = 'visible';
+        }
+
+        // fixed-table-container 不截断
+        var fixedContainer = tableEl.closest('.fixed-table-container');
+        if (fixedContainer) {
+            fixedContainer.style.overflowX = 'auto';
+            fixedContainer.style.overflowY = 'visible';
+        }
+
+        // 表格本身：最小宽度撑开，自动布局让各列按内容分配
+        tableEl.style.minWidth = '1800px';
+        tableEl.style.width = 'auto';
+        tableEl.style.tableLayout = 'auto';
+    }
+
+    // 初始渲染后执行
+    setTimeout(applyScrollFix, 500);
+
+    // 每次数据加载完毕后再执行（翻页/搜索/刷新都会触发）
+    $('#managerAccdTable').on('post-body.bs.table', function () {
+        applyScrollFix();
+    });
+
 
     $("button[name='refresh']").click(function(){
         MgrAccd.search()

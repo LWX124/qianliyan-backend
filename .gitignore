@@ -40,3 +40,4 @@ jeesite4-src/
 .project
 .classpath
 .settings/
+.gstack/
