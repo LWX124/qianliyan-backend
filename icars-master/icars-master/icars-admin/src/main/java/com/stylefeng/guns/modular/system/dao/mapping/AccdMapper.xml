@@ -204,7 +204,7 @@
         SELECT a.id, a.video, a.accImg, a.status, a.createTime,
                a.reason, a.thumbnail_url AS thumbnailUrl,
                b.amount AS rewardAmount, b.package_info AS packageInfo,
-               b.status AS billStatus
+               b.status AS billStatus, b.create_time AS billCreateTime
         FROM biz_accident a
         LEFT JOIN biz_wxpay_bill b ON b.accid = a.id AND b.status IN (0, 2)
         WHERE a.openid = #{openid}
