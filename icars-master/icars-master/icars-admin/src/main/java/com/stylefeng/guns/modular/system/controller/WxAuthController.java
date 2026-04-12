@@ -24,8 +24,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -33,6 +36,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 微信用户认证相关
@@ -51,6 +55,12 @@ public class WxAuthController extends BaseController {
 
     @Resource
     private IBizWxUserGzhService bizWxUserGzhService;
+
+    @Value("${spring.system.headimgHost:}")
+    private String headimgHost;
+
+    @Value("${spring.system.file-upload-path:}")
+    private String fileUploadPath;
 
     private final static String token = "AshesToken";
 
@@ -143,6 +153,58 @@ public class WxAuthController extends BaseController {
         result.put("headImg", bizWxUser.getHeadImg());
         result.put("wxname", bizWxUser.getWxname());
         return rtnParam(0, result);
+    }
+
+    /**
+     * 上传头像到本地服务器（不走七牛云）
+     */
+    @RequestMapping(value = "/api/v1/wx/user/uploadAvatar", method = RequestMethod.POST, produces = "application/json")
+    public Map<String, Object> uploadAvatar(@RequestParam("file") MultipartFile file,
+                                            @RequestParam("thirdSessionKey") String thirdSessionKey) {
+        if (StringUtils.isEmpty(thirdSessionKey)) {
+            return rtnParam(530, "未登录");
+        }
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null) {
+            return rtnParam(530, "登录已过期");
+        }
+        if (file == null || file.isEmpty()) {
+            return rtnParam(500, "文件不能为空");
+        }
+        try {
+            String originalFilename = file.getOriginalFilename();
+            String ext = ".jpg";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                ext = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
+            }
+            String fileName = UUID.randomUUID().toString().replaceAll("-", "") + ext;
+
+            // 确保目录存在
+            File dir = new File(fileUploadPath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            file.transferTo(new File(fileUploadPath + fileName));
+
+            String url = (headimgHost == null ? "" : headimgHost) + fileName;
+
+            // 自动更新用户头像
+            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+            if (bizWxUser != null) {
+                bizWxUser.setHeadImg(url);
+                bizWxUserService.updateById(bizWxUser);
+            }
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("url", url);
+            data.put("userId", bizWxUser != null ? bizWxUser.getId() : 0);
+            data.put("headImg", url);
+            data.put("wxname", bizWxUser != null ? bizWxUser.getWxname() : "");
+            return rtnParam(0, data);
+        } catch (Exception e) {
+            log.error("上传头像异常", e);
+            return rtnParam(500, "上传失败");
+        }
     }
 
     @RequestMapping(value = "/api/v1/wx/testRedis", method = RequestMethod.GET, produces = "application/json")

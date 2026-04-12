@@ -89,6 +89,6 @@ qiniu:
   access-key: WwdYMBDwGFuZ9aTGuNGl4h567B-3Yvnvk-Qo31rn
   secret-key: L9RELO_lcsYQFjHz0aeEn4LWNV5sgxvCbtcTLz2x
   bucket: paishigu
-  domain: http://tcb098rkh.hn-bkt.clouddn.com/
+  domain: https://cdn.meisaizhixing.cn/
 
 bail: 1 #保证金比例
