@@ -13,7 +13,7 @@ var MgrAccd = {
  */
 MgrAccd.initColumn = function () {
     var columns = [
-        {field: 'selectItem', radio: true},
+        {field: 'selectItem', radio: true, width: 36},
         {title: 'id', field: 'id', visible: false, align: 'center', valign: 'middle'},
         {title: '序号',field: '',align: 'center',formatter: function (value, row, index) {
                 var pageSize = MgrAccd.table.btInstance.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
@@ -30,6 +30,8 @@ MgrAccd.initColumn = function () {
         {title: '上报总数', field: 'totalAcc', align: 'center', valign: 'middle',  sortable: true},
         {title: '有效数', field: 'exist', align: 'center', valign: 'middle',  sortable: true},
         {title: '无效数', field: 'notexist', align: 'center', valign: 'middle',  sortable: true},
+        {title: '分享次数', field: 'shareCount', align: 'center', valign: 'middle', sortable: true},
+        {title: '被打开次数', field: 'shareOpenCount', align: 'center', valign: 'middle', sortable: true},
         {title: '地址', field: 'address', align: 'center', valign: 'middle', width: '200', sortable: true},
         {title: '是否有效', field: 'realness', align: 'center', valign: 'middle', width: '80', cellStyle:{css:{"color": "red"}},sortable: true},
         {title: '经度', field: 'lng', visible: false, align: 'center', valign: 'middle', sortable: true},
@@ -330,8 +332,30 @@ function aFormatter(value, row, index) {
 }
 function urlFormatter(value, row, index) {
     return [
-        '<a href="'+value+'" target="view_window">点击查看地图</a>'
+        '<a href="'+value+'" target="view_window">查看</a>',
+        ' | ',
+        '<a href="javascript:void(0);" data-lat="'+row.lat+'" data-lng="'+row.lng+'" data-addr="'+(row.address || '').replace(/"/g,'&quot;')+'" onclick="copyShareLink(this)">复制分享链接</a>'
     ].join("")
+}
+
+function copyShareLink(el) {
+    var lat = el.getAttribute('data-lat');
+    var lng = el.getAttribute('data-lng');
+    var addr = el.getAttribute('data-addr');
+    var url = 'https://apis.map.qq.com/uri/v1/marker?marker=coord:' + lat + ',' + lng + ';title:事故位置;addr:' + encodeURIComponent(addr) + '&referer=myapp';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() {
+            Feng.success("地图链接已复制，可粘贴到微信分享");
+        });
+    } else {
+        var textarea = document.createElement('textarea');
+        textarea.value = url;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        Feng.success("地图链接已复制，可粘贴到微信分享");
+    }
 }
 MgrAccd.queryRedPackSum = function (queryData){
     var ajax = new $ax(Feng.ctxPath + "/accid/redpack/sum", function (data) {

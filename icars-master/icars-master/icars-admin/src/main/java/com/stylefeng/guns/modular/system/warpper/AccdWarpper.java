@@ -23,6 +23,31 @@ public class AccdWarpper extends BaseControllerWarpper {
         map.put("statusName", ConstantFactory.me().getAccdStatusName((Integer) map.get("status")));
         map.put("realness", map.get("realness") == null ? "未知" : getRealnessName((Integer)(map.get("realness"))));
         map.put("mapUrl","https://apis.map.qq.com/uri/v1/geocoder?coord="+map.get("lat")+","+map.get("lng")+"&coord_type=1&refere=myapp&coord_type=1");
+        // 来源标识映射为可读名称
+        Object sourceObj = map.get("source");
+        map.put("source", getSourceName(sourceObj != null ? sourceObj.toString() : null));
+        // 视频URL通过代理接口中转（解决CDN SSL证书问题）
+        Object videoObj = map.get("video");
+        if (videoObj != null) {
+            String videoUrl = videoObj.toString();
+            if (videoUrl.startsWith("https://cdn.meisaizhixing.cn/")) {
+                try {
+                    map.put("video", "/wx-admin/accid/media/proxy?url=" + java.net.URLEncoder.encode(videoUrl, "UTF-8"));
+                } catch (Exception e) {
+                    // 编码失败保留原URL
+                }
+            }
+        }
+    }
+
+    private String getSourceName(String source) {
+        if (source == null || source.isEmpty()) {
+            return "一起拍事故"; // 默认来源（历史数据无source字段）
+        }
+        switch (source.toUpperCase()) {
+            case "SSP": return "一起拍事故";
+            default: return source;
+        }
     }
 
     private String getRealnessName(Integer realness){

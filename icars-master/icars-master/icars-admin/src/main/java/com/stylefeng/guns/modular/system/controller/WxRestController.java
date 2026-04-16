@@ -162,7 +162,7 @@ public class WxRestController extends BaseController {
             @ApiImplicitParam(name = "address", value = "上报地址名称", required = true, dataType = "String")
     })
     @RequestMapping(value = "/api/v1/wx/accid/add", method = RequestMethod.POST, produces = "application/json")
-    public ApiResponseEntity add(@RequestParam(required = true, value = "file") MultipartFile file, @Valid AccidentVo accidentVo, @RequestParam String thirdSessionKey, @RequestParam Integer isImage, @RequestParam(required = false) String source, BindingResult result) {
+    public ApiResponseEntity add(@RequestParam(required = true, value = "file") MultipartFile file, @Valid AccidentVo accidentVo, @RequestParam String thirdSessionKey, @RequestParam Integer isImage, @RequestParam(required = false) String source, BindingResult result, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
         ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
         if (null == file) {
@@ -191,7 +191,10 @@ public class WxRestController extends BaseController {
             apiResponseEntity.setErrorMsg("您的账号已被限制上报");
             return apiResponseEntity;
         }
-        // 设置来源标识
+        // 设置来源标识（优先query参数，其次X-Source header）
+        if (StringUtils.isEmpty(source)) {
+            source = request.getHeader("X-Source");
+        }
         if (StringUtils.isNotEmpty(source)) {
             accidentVo.setSource(source);
         }
@@ -365,7 +368,7 @@ public class WxRestController extends BaseController {
             @ApiImplicitParam(name = "openid", value = "openid", required = true, dataType = "String"),
     })
     @RequestMapping(value = "/api/v1/wx/accid/newAdd", method = RequestMethod.POST, produces = "application/json")
-    public ApiResponseEntity newAdd(@Valid @RequestBody AccidentVo accidentVo, @RequestParam String thirdSessionKey, @RequestParam(required = false) String source, BindingResult result) {
+    public ApiResponseEntity newAdd(@Valid @RequestBody AccidentVo accidentVo, @RequestParam String thirdSessionKey, @RequestParam(required = false) String source, BindingResult result, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
         ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
         if (result.hasErrors()) {
@@ -390,7 +393,10 @@ public class WxRestController extends BaseController {
             apiResponseEntity.setErrorMsg("您的账号已被限制上报");
             return apiResponseEntity;
         }
-        // 设置来源标识（优先使用参数传入的source，否则用body中的）
+        // 设置来源标识（优先query参数，其次X-Source header，最后body中的）
+        if (StringUtils.isEmpty(source)) {
+            source = request.getHeader("X-Source");
+        }
         if (StringUtils.isNotEmpty(source)) {
             accidentVo.setSource(source);
         }
@@ -3057,6 +3063,58 @@ public class WxRestController extends BaseController {
             apiResponseEntity.setErrorCode(50003);
             apiResponseEntity.setErrorMsg("没有查询到信息");
         }
+        return apiResponseEntity;
+    }
+
+    /**
+     * 记录用户分享动作（乐观计数）
+     */
+    @PostMapping("/api/v1/wx/share/record")
+    public ApiResponseEntity recordShare(@RequestParam String thirdSessionKey) {
+        ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
+        if (StringUtils.isEmpty(thirdSessionKey)) {
+            apiResponseEntity.setErrorCode(1001);
+            apiResponseEntity.setErrorMsg("请求参数错误");
+            return apiResponseEntity;
+        }
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null) {
+            apiResponseEntity.setErrorCode(5001);
+            apiResponseEntity.setErrorMsg("微信session无效或为空");
+            return apiResponseEntity;
+        }
+        bizWxUserService.incrementShareCount(wxSession.getOpenId());
+        apiResponseEntity.setErrorCode(0);
+        return apiResponseEntity;
+    }
+
+    /**
+     * 记录分享被他人打开（精确计数）
+     */
+    @PostMapping("/api/v1/wx/share/open")
+    public ApiResponseEntity recordShareOpen(@RequestParam String thirdSessionKey,
+                                             @RequestParam(required = false) String fromUserId) {
+        ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
+        if (StringUtils.isBlank(fromUserId)) {
+            apiResponseEntity.setErrorCode(0);
+            return apiResponseEntity;
+        }
+        WxSession wxSession = wxService.getWxSession(thirdSessionKey);
+        if (wxSession == null) {
+            apiResponseEntity.setErrorCode(5001);
+            apiResponseEntity.setErrorMsg("微信session无效或为空");
+            return apiResponseEntity;
+        }
+        try {
+            Integer shareUserId = Integer.parseInt(fromUserId);
+            BizWxUser shareUser = bizWxUserService.selectById(shareUserId);
+            if (shareUser != null && !shareUser.getOpenid().equals(wxSession.getOpenId())) {
+                bizWxUserService.incrementShareOpenCount(shareUser.getOpenid());
+            }
+        } catch (NumberFormatException e) {
+            // fromUserId格式无效，静默忽略
+        }
+        apiResponseEntity.setErrorCode(0);
         return apiResponseEntity;
     }
 }

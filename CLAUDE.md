@@ -56,6 +56,11 @@ ssh root@114.215.211.119 "docker stop amiba-icars-admin && docker rm amiba-icars
 ssh root@114.215.211.119 "docker logs -f amiba-icars-admin"
 ```
 
+### ⛔ 部署铁律（最高优先级）
+- **严禁修改代码后直接推送远端部署！**必须等待用户明确确认后才能执行任何部署操作（包括 scp、deploy 脚本、docker 重启等）
+- 修改代码 → 展示改动 → **等用户说"部署"/"deploy"** → 才执行部署
+- 违反此规则 = 严重事故
+
 ### 注意事项
 - 容器启动较慢（约 2-3 分钟），耐心等待
 - 每次部署前会自动备份旧 jar（文件名加时间戳）

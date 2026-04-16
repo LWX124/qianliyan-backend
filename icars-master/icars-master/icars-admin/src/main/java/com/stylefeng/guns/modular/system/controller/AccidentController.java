@@ -458,4 +458,63 @@ public class AccidentController extends BaseController {
         }
         return new ErrorTip(500, "操作失败，未找到该用户");
     }
+
+    /**
+     * 视频/图片代理接口 - 解决CDN域名SSL证书问题导致浏览器无法直接加载
+     */
+    @RequestMapping("/media/proxy")
+    @Permission
+    public void mediaProxy(@RequestParam String url, javax.servlet.http.HttpServletResponse response) {
+        if (StringUtils.isEmpty(url) || !url.startsWith("https://cdn.meisaizhixing.cn/")) {
+            response.setStatus(403);
+            return;
+        }
+        try {
+            // 创建信任所有证书的 SSL 上下文（仅用于本连接，不影响全局）
+            javax.net.ssl.SSLContext sslContext = javax.net.ssl.SSLContext.getInstance("TLS");
+            sslContext.init(null, new javax.net.ssl.TrustManager[]{
+                new javax.net.ssl.X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() { return new java.security.cert.X509Certificate[0]; }
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
+                }
+            }, new java.security.SecureRandom());
+
+            java.net.URL mediaUrl = new java.net.URL(url);
+            javax.net.ssl.HttpsURLConnection conn = (javax.net.ssl.HttpsURLConnection) mediaUrl.openConnection();
+            conn.setSSLSocketFactory(sslContext.getSocketFactory());
+            conn.setHostnameVerifier((hostname, session) -> true);
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(30000);
+            conn.setRequestMethod("GET");
+
+            int status = conn.getResponseCode();
+            if (status != 200) {
+                response.setStatus(status);
+                return;
+            }
+
+            String contentType = conn.getContentType();
+            if (contentType != null) {
+                response.setContentType(contentType);
+            }
+            long contentLength = conn.getContentLengthLong();
+            if (contentLength > 0) {
+                response.setContentLengthLong(contentLength);
+            }
+
+            // 流式转发
+            try (java.io.InputStream in = conn.getInputStream();
+                 java.io.OutputStream out = response.getOutputStream()) {
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                }
+                out.flush();
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+    }
 }

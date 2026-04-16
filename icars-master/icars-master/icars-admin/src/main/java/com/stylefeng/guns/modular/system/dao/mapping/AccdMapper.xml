@@ -23,7 +23,7 @@
     </sql>
     <sql id="Base_Column_List1">
         a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason,a.realness, a.source,
-        a.checkTime, a.status, a.version, c.name, d.phone, d.wxname, d.blackList, v.total as totalAcc, v.exist, v.notexist,
+        a.checkTime, a.status, a.version, c.name, d.phone, d.wxname, d.blackList, d.share_count as shareCount, d.share_open_count as shareOpenCount, v.total as totalAcc, v.exist, v.notexist,
         m.amount, p.amount as backAmount
     </sql>
 

@@ -61,4 +61,14 @@ public class BizWxUserServiceImpl extends ServiceImpl<BizWxUserMapper, BizWxUser
     public void saveOpenId(String thirdOpenid, String openid) {
         baseMapper.setThirdOpenid(thirdOpenid,openid);
     }
+
+    @Override
+    public int incrementShareCount(String openid) {
+        return this.baseMapper.incrementShareCount(openid);
+    }
+
+    @Override
+    public int incrementShareOpenCount(String openid) {
+        return this.baseMapper.incrementShareOpenCount(openid);
+    }
 }

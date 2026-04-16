@@ -77,6 +77,19 @@ public class BizWxUser extends Model<BizWxUser> {
      * 保留字段
      */
     private Integer version;
+
+    /**
+     * 分享发起次数（乐观计数）
+     */
+    @TableField("share_count")
+    private Integer shareCount;
+
+    /**
+     * 分享被他人打开次数（精确计数）
+     */
+    @TableField("share_open_count")
+    private Integer shareOpenCount;
+
     /**
      * 用户类型  0 -> 普通用户  1 -> 内部员工
      */
@@ -133,6 +146,8 @@ public class BizWxUser extends Model<BizWxUser> {
                 ", bindAccount='" + bindAccount + '\'' +
                 ", createTime=" + createTime +
                 ", version=" + version +
+                ", shareCount=" + shareCount +
+                ", shareOpenCount=" + shareOpenCount +
                 ", userType=" + userType +
                 ", account='" + account + '\'' +
                 ", bankcard='" + bankcard + '\'' +
@@ -309,6 +324,22 @@ public class BizWxUser extends Model<BizWxUser> {
 
     public void setBankUserName(String bankUserName) {
         this.bankUserName = bankUserName;
+    }
+
+    public Integer getShareCount() {
+        return shareCount;
+    }
+
+    public void setShareCount(Integer shareCount) {
+        this.shareCount = shareCount;
+    }
+
+    public Integer getShareOpenCount() {
+        return shareOpenCount;
+    }
+
+    public void setShareOpenCount(Integer shareOpenCount) {
+        this.shareOpenCount = shareOpenCount;
     }
 
     @Override

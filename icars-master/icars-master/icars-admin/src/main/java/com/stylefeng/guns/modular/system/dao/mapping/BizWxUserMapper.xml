@@ -60,4 +60,12 @@
         </where>
     </select>
 
+    <update id="incrementShareCount">
+        update biz_wx_user set share_count = share_count + 1 where openid = #{openid}
+    </update>
+
+    <update id="incrementShareOpenCount">
+        update biz_wx_user set share_open_count = share_open_count + 1 where openid = #{openid}
+    </update>
+
 </mapper>

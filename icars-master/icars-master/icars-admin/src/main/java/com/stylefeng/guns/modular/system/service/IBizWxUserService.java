@@ -27,4 +27,8 @@ public interface IBizWxUserService extends IService<BizWxUser> {
     List<BizWxUser> selectFansPage(@Param("page") Page<BizWxUser> page, @Param("bizWxUser") BizWxUser bizWxUser);
 
     void saveOpenId(String thirdOpenid, String openid);
+
+    int incrementShareCount(String openid);
+
+    int incrementShareOpenCount(String openid);
 }

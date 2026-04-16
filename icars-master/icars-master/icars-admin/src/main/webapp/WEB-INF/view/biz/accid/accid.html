@@ -97,6 +97,10 @@
     /* 兜底 CSS，主要靠 accid.js 里的 applyScrollFix() 写 inline style */
     .ibox-content { overflow-x: auto; }
     #managerAccdTable td, #managerAccdTable th { white-space: nowrap !important; }
+    /* 强制约束 radio 选择列宽度 */
+    #managerAccdTable .bs-checkbox { width: 36px !important; max-width: 36px !important; min-width: 36px !important; }
+    #managerAccdTable th.bs-checkbox, #managerAccdTable td.bs-checkbox { width: 36px !important; max-width: 36px !important; padding: 0 4px !important; }
+    #managerAccdTable th:first-child, #managerAccdTable td:first-child { width: 36px !important; max-width: 36px !important; min-width: 36px !important; padding: 0 4px !important; }
 </style>
 <script src="${ctxPath}/static/modular/biz/accd/accid.js"></script>
 <script>

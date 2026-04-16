@@ -36,4 +36,8 @@ public interface BizWxUserMapper extends BaseMapper<BizWxUser> {
     BizWxUser selectBizWxUser(@Param("openid") String openid);
 
     List<BizWxUser> selectFansPage(@Param("page") Page<BizWxUser> page, @Param("bizWxUser") BizWxUser bizWxUser);
+
+    int incrementShareCount(@Param("openid") String openid);
+
+    int incrementShareOpenCount(@Param("openid") String openid);
 }
