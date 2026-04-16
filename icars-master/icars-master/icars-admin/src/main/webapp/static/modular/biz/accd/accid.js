@@ -15,7 +15,7 @@ MgrAccd.initColumn = function () {
     var columns = [
         {field: 'selectItem', radio: true, width: 36},
         {title: 'id', field: 'id', visible: false, align: 'center', valign: 'middle'},
-        {title: '序号',field: '',align: 'center',formatter: function (value, row, index) {
+        {title: '序号',field: '', width: 60, align: 'center',formatter: function (value, row, index) {
                 var pageSize = MgrAccd.table.btInstance.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
                 var pageNumber = MgrAccd.table.btInstance.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
                  return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号

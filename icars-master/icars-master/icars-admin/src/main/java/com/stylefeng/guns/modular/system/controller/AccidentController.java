@@ -463,7 +463,6 @@ public class AccidentController extends BaseController {
      * 视频/图片代理接口 - 解决CDN域名SSL证书问题导致浏览器无法直接加载
      */
     @RequestMapping("/media/proxy")
-    @Permission
     public void mediaProxy(@RequestParam String url, javax.servlet.http.HttpServletResponse response) {
         if (StringUtils.isEmpty(url) || !url.startsWith("https://cdn.meisaizhixing.cn/")) {
             response.setStatus(403);

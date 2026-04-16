@@ -26,16 +26,13 @@ public class AccdWarpper extends BaseControllerWarpper {
         // 来源标识映射为可读名称
         Object sourceObj = map.get("source");
         map.put("source", getSourceName(sourceObj != null ? sourceObj.toString() : null));
-        // 视频URL通过代理接口中转（解决CDN SSL证书问题）
+        // 视频URL通过Nginx反代中转（解决CDN域名SSL证书问题）
+        // Nginx配置: location /qiniu/ { proxy_pass http://cdn.meisaizhixing.cn/; }
         Object videoObj = map.get("video");
         if (videoObj != null) {
             String videoUrl = videoObj.toString();
             if (videoUrl.startsWith("https://cdn.meisaizhixing.cn/")) {
-                try {
-                    map.put("video", "/wx-admin/accid/media/proxy?url=" + java.net.URLEncoder.encode(videoUrl, "UTF-8"));
-                } catch (Exception e) {
-                    // 编码失败保留原URL
-                }
+                map.put("video", "/qiniu/" + videoUrl.substring("https://cdn.meisaizhixing.cn/".length()));
             }
         }
     }

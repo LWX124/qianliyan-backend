@@ -47,6 +47,8 @@ RedPayChoose.checkSuccess = function () {
                 return;
             }
             Feng.success("操作成功!");
+            // 审核操作后自动停止语音播报
+            try { window.parent.document.getElementById('alarm').pause(); } catch(e) {}
             RedPayChoose.close();
             window.parent.MgrAccd.table.refresh();
         }, function (data) {
