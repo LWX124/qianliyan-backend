@@ -17,7 +17,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -35,6 +40,53 @@ public class FileUploadController extends BaseController {
 
     @Value("${qiniu.domain}")
     private String domain;
+
+    private static final Set<String> ALLOWED_EXTENSIONS = new HashSet<>(
+            Arrays.asList(".mp4", ".mov", ".avi", ".jpg", ".jpeg", ".png", ".gif", ".webp", ".heic")
+    );
+
+    @RequestMapping(value = "/file/uptoken", method = RequestMethod.GET, produces = "application/json")
+    public ApiResponseEntity getUploadToken(HttpServletRequest request) {
+        ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
+        try {
+            String ext = request.getParameter("ext");
+            if (ext == null || ext.isEmpty()) {
+                ext = ".mp4";
+            }
+            if (!ext.startsWith(".")) {
+                ext = "." + ext;
+            }
+            ext = ext.toLowerCase();
+
+            if (!ALLOWED_EXTENSIONS.contains(ext)) {
+                apiResponseEntity.setErrorCode(1004);
+                apiResponseEntity.setErrorMsg("不支持的文件类型: " + ext);
+                return apiResponseEntity;
+            }
+
+            String key = "img/" + UUID.randomUUID().toString().replaceAll("-", "") + ext;
+
+            Auth auth = Auth.create(accessKey, secretKey);
+            String upToken = auth.uploadToken(bucket, key, 3600, null);
+
+            String publicUrl = domain + key;
+            String signedUrl = auth.privateDownloadUrl(publicUrl, 3600L * 24 * 365 * 10);
+
+            Map<String, String> result = new HashMap<>();
+            result.put("token", upToken);
+            result.put("key", key);
+            result.put("url", signedUrl);
+
+            apiResponseEntity.setData(result);
+            apiResponseEntity.setErrorCode(0);
+            apiResponseEntity.setErrorMsg("");
+        } catch (Exception e) {
+            log.error("获取七牛上传凭证异常", e);
+            apiResponseEntity.setErrorCode(1003);
+            apiResponseEntity.setErrorMsg("获取上传凭证失败");
+        }
+        return apiResponseEntity;
+    }
 
     @RequestMapping(value = "/file/uploadfile", method = RequestMethod.POST, produces = "application/json")
     public ApiResponseEntity uploadFile(HttpServletRequest request) {
