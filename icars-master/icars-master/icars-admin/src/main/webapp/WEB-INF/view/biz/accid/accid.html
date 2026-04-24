@@ -101,8 +101,11 @@
     #managerAccdTable .bs-checkbox { width: 36px !important; max-width: 36px !important; min-width: 36px !important; }
     #managerAccdTable th.bs-checkbox, #managerAccdTable td.bs-checkbox { width: 36px !important; max-width: 36px !important; padding: 0 4px !important; }
     #managerAccdTable th:first-child, #managerAccdTable td:first-child { width: 36px !important; max-width: 36px !important; min-width: 36px !important; padding: 0 4px !important; }
+    /* 新记录高亮 */
+    #managerAccdTable tr.new-record { background-color: #fff3cd !important; }
+    #managerAccdTable tr.new-record td:first-child { border-left: 4px solid #ff9800; }
 </style>
-<script src="${ctxPath}/static/modular/biz/accd/accid.js"></script>
+<script src="${ctxPath}/static/modular/biz/accd/accid.js?v=20260424"></script>
 <script>
     laydate.render({
         elem: '#createStartTime',

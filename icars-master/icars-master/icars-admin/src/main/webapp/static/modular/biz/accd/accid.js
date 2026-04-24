@@ -383,33 +383,69 @@ $(function () {
     MgrAccd.table = table.init();
     MgrAccd.queryRedPackSum(MgrAccd.formParams());
 
+    // ===== 新记录自动刷新 & 高亮 =====
+    var initialMaxId = 0;
+    var polledLatestId = 0;
+    var isFirstLoad = true;
+
+    // 每次表格渲染后：记录初始 maxId + 高亮新记录
+    $('#managerAccdTable').on('post-body.bs.table', function () {
+        var data = $('#managerAccdTable').bootstrapTable('getData');
+        if (isFirstLoad && data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].id > initialMaxId) initialMaxId = data[i].id;
+            }
+            polledLatestId = initialMaxId;
+            isFirstLoad = false;
+        }
+        // 高亮新记录：ID > initialMaxId 且 status == 1（未审核）
+        var $rows = $('#managerAccdTable tbody tr');
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].id > initialMaxId && data[i].status == 1) {
+                $($rows[i]).addClass('new-record');
+            } else {
+                $($rows[i]).removeClass('new-record');
+            }
+        }
+        applyScrollFix();
+    });
+
+    // 轮询检测新记录（每 15 秒），用现有 list 接口取第一条
+    setInterval(function () {
+        $.post(Feng.ctxPath + "/accid/list", {limit: 1, offset: 0}, function (data) {
+            if (data && data.rows && data.rows.length > 0) {
+                var latestId = data.rows[0].id;
+                if (latestId > polledLatestId && polledLatestId > 0) {
+                    polledLatestId = latestId;
+                    MgrAccd.table.refresh();
+                }
+            }
+        });
+    }, 15000);
+
     // 每次 bootstrap-table 渲染表体后，用 JS 直接写 inline style 覆盖
     function applyScrollFix() {
         var tableEl = document.getElementById('managerAccdTable');
         if (!tableEl) return;
 
-        // 让 ibox-content 可横向滚动
         var iboxContent = tableEl.closest('.ibox-content');
         if (iboxContent) {
             iboxContent.style.overflowX = 'auto';
             iboxContent.style.overflowY = 'visible';
         }
 
-        // fixed-table-body 横向可滚动
         var fixedBody = tableEl.closest('.fixed-table-body');
         if (fixedBody) {
             fixedBody.style.overflowX = 'auto';
             fixedBody.style.overflowY = 'visible';
         }
 
-        // fixed-table-container 不截断
         var fixedContainer = tableEl.closest('.fixed-table-container');
         if (fixedContainer) {
             fixedContainer.style.overflowX = 'auto';
             fixedContainer.style.overflowY = 'visible';
         }
 
-        // 表格本身：最小宽度撑开，自动布局让各列按内容分配
         tableEl.style.minWidth = '1800px';
         tableEl.style.width = 'auto';
         tableEl.style.tableLayout = 'auto';
@@ -417,12 +453,6 @@ $(function () {
 
     // 初始渲染后执行
     setTimeout(applyScrollFix, 500);
-
-    // 每次数据加载完毕后再执行（翻页/搜索/刷新都会触发）
-    $('#managerAccdTable').on('post-body.bs.table', function () {
-        applyScrollFix();
-    });
-
 
     $("button[name='refresh']").click(function(){
         MgrAccd.search()
