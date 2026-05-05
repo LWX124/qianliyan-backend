@@ -185,7 +185,20 @@ public class WxPayV3TransferService {
                 int colon = bodyStr.indexOf(":", idx);
                 int comma = bodyStr.indexOf(",", colon);
                 if (comma == -1) comma = bodyStr.indexOf("}", colon);
-                String amountStr = bodyStr.substring(colon + 1, comma).trim();
+
+                // 边界检查
+                if (colon == -1 || comma == -1 || comma <= colon) {
+                    log.error("查询商户余额响应格式异常 body={}", bodyStr);
+                    return -1;
+                }
+
+                // 提取并清理数字字符串
+                String amountStr = bodyStr.substring(colon + 1, comma).trim().replaceAll("[^0-9-]", "");
+                if (amountStr.isEmpty()) {
+                    log.error("查询商户余额响应金额为空 body={}", bodyStr);
+                    return -1;
+                }
+
                 long balance = Long.parseLong(amountStr);
                 log.info("查询商户余额成功 balance={} 分", balance);
                 return balance;
