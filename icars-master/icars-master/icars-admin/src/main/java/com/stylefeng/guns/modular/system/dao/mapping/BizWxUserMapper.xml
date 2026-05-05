@@ -25,7 +25,7 @@
 
     <!-- 联合查询结果列 -->
     <sql id="Combine_Column_List">
-        a.id, a.openid,a.unionid,a.third_openid as thirdOpenid, a.type, a.alipay_account as alipayAccount, a.extensionAccount, a.bindAccount,a.headImg, a.wxname,a.phone, a.createTime, a.version,b.bankcard,b.bankUserName, b.bankName, b.bankSecondName, b.idcard, (CASE WHEN b.id is null THEN 0 WHEN b.status = 4 THEN 3 WHEN b.status = 5 THEN 2 ELSE 1 END) as userType, b.account
+        a.id, a.openid,a.unionid,a.third_openid as thirdOpenid, a.type, a.alipay_account as alipayAccount, a.extensionAccount, a.bindAccount,a.headImg, a.wxname,a.phone, a.createTime, a.version, a.source,b.bankcard,b.bankUserName, b.bankName, b.bankSecondName, b.idcard, (CASE WHEN b.id is null THEN 0 WHEN b.status = 4 THEN 3 WHEN b.status = 5 THEN 2 ELSE 1 END) as userType, b.account
     </sql>
 
     <update id="setAlipay">
@@ -47,6 +47,9 @@
         left join sys_user b on a.phone = b.phone and a.phone is not null and a.phone != '' and b.status != 3
         where
         a.openid = #{openid}
+        <if test="source != null and source != ''">
+            AND a.source = #{source}
+        </if>
     </select>
 
     <select id="selectFansPage" resultType="com.stylefeng.guns.modular.system.model.BizWxUser">

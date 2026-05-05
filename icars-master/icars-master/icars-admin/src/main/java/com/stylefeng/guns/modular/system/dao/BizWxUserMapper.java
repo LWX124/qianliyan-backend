@@ -33,7 +33,7 @@ public interface BizWxUserMapper extends BaseMapper<BizWxUser> {
     /**
      * 查询用户信息
      */
-    BizWxUser selectBizWxUser(@Param("openid") String openid);
+    BizWxUser selectBizWxUser(@Param("openid") String openid, @Param("source") String source);
 
     List<BizWxUser> selectFansPage(@Param("page") Page<BizWxUser> page, @Param("bizWxUser") BizWxUser bizWxUser);
 
