@@ -75,9 +75,11 @@ public class WxAuthController extends BaseController {
     @ApiOperation(value = "获取sessionId", notes = "小用户允许登录后，使用code 换取 session_key api，将 code 换成 openid 和 session_key")
     @ApiImplicitParam(name = "code", value = "用户登录回调内容会带上 ", required = true, dataType = "String")
     @RequestMapping(value = "/api/v1/wx/getSession", method = RequestMethod.GET, produces = "application/json")
-    public Map<String, Object> createWxSession(@RequestParam(required = true, value = "code") String wxCode) {
+    public Map<String, Object> createWxSession(@RequestParam(required = true, value = "code") String wxCode,
+                                                @RequestParam(required = false, value = "source") String source) {
+        log.info("/api/v1/wx/getSession source={}", source);
         long createSeconds = System.currentTimeMillis() / 1000;
-        Map<String, Object> wxSessionMap = wxService.createWxSession(wxCode);
+        Map<String, Object> wxSessionMap = wxService.createWxSession(wxCode, source);
 
         if (null == wxSessionMap) {
             return rtnParam(50010, null);
@@ -93,16 +95,17 @@ public class WxAuthController extends BaseController {
         if (StringUtils.isEmpty(wxOpenId)) {
             log.error("/api/v1/wx/getSession ### wxOpenId={};wxSessionKey={}", wxOpenId, wxSessionKey);
         }
-        String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, expires, createSeconds, unionId);
+        String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, expires, createSeconds, unionId, source);
         BizWxUser var1 = wxService.getWxSession(thirdSession).getBizWxUser();
         if (var1 == null) {
             //缓存内用户信息不在，查找数据库
-            BizWxUser bizWxUser1 = bizWxUserService.selectBizWxUser(wxOpenId);
+            BizWxUser bizWxUser1 = bizWxUserService.selectBizWxUser(wxOpenId, source);
             if (bizWxUser1 == null) {
                 BizWxUser bizWxUser = new BizWxUser();
                 bizWxUser.setOpenid(wxOpenId);
                 bizWxUser.setUnionId(unionId);
                 bizWxUser.setType(1);
+                bizWxUser.setSource(source);
                 bizWxUser.setCreateTime(new Date());
                 bizWxUserService.insert(bizWxUser);
                 var1 = bizWxUser;
