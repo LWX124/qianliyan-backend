@@ -144,4 +144,58 @@ public class WxPayV3TransferService {
             return TransferResult.fail();
         }
     }
+
+    /**
+     * 查询商户账户余额
+     * @return 余额（单位：分），查询失败返回 -1
+     */
+    public long queryMerchantBalance() {
+        if (httpClient == null) {
+            log.warn("V3商家转账未初始化，无法查询余额");
+            return -1;
+        }
+        try {
+            String url = "https://api.mch.weixin.qq.com/v3/merchant/fund/balance/BASIC";
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.addHeader("Accept", "application/json");
+
+            HttpRequest request = new HttpRequest.Builder()
+                .httpMethod(HttpMethod.GET)
+                .url(url)
+                .headers(headers)
+                .build();
+
+            log.info("查询商户余额请求");
+            HttpResponse<JsonResponseBody> response = httpClient.execute(request, JsonResponseBody.class);
+
+            String bodyStr = "";
+            com.wechat.pay.java.core.http.ResponseBody rawBody = response.getBody();
+            if (rawBody instanceof JsonResponseBody) {
+                String raw = ((JsonResponseBody) rawBody).getBody();
+                if (raw != null && !raw.isEmpty()) {
+                    bodyStr = raw;
+                }
+            }
+            log.info("查询商户余额响应 body={}", bodyStr);
+
+            // 解析 available_amount 字段
+            if (bodyStr.contains("\"available_amount\"")) {
+                int idx = bodyStr.indexOf("\"available_amount\"");
+                int colon = bodyStr.indexOf(":", idx);
+                int comma = bodyStr.indexOf(",", colon);
+                if (comma == -1) comma = bodyStr.indexOf("}", colon);
+                String amountStr = bodyStr.substring(colon + 1, comma).trim();
+                long balance = Long.parseLong(amountStr);
+                log.info("查询商户余额成功 balance={} 分", balance);
+                return balance;
+            }
+
+            log.error("查询商户余额响应缺少 available_amount 字段 body={}", bodyStr);
+            return -1;
+        } catch (Exception e) {
+            log.error("查询商户余额失败 error={}", e.getMessage(), e);
+            return -1;
+        }
+    }
 }
