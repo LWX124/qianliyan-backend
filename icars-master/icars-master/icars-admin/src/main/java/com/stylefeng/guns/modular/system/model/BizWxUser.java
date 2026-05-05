@@ -79,6 +79,11 @@ public class BizWxUser extends Model<BizWxUser> {
     private Integer version;
 
     /**
+     * 小程序来源标识（SSP、TTP 等）
+     */
+    private String source;
+
+    /**
      * 分享发起次数（乐观计数）
      */
     @TableField("share_count")
@@ -146,6 +151,7 @@ public class BizWxUser extends Model<BizWxUser> {
                 ", bindAccount='" + bindAccount + '\'' +
                 ", createTime=" + createTime +
                 ", version=" + version +
+                ", source='" + source + '\'' +
                 ", shareCount=" + shareCount +
                 ", shareOpenCount=" + shareOpenCount +
                 ", userType=" + userType +
@@ -268,6 +274,14 @@ public class BizWxUser extends Model<BizWxUser> {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public Integer getUserType() {
