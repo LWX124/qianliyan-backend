@@ -58,6 +58,18 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="form-group">
+									<label class="col-sm-2 control-label" style="height: 34px;line-height: 34px;">微信支付余额</label>
+									<div class="col-sm-10">
+										<input class="form-control" id="balanceDiv" name="balanceDiv" type="text" readonly="readonly"
+											style="margin-left: -213px;border: none;text-align: left;background-color: rgb(255, 255, 255);color: #1890ff;"
+											value="查询中...">
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="hidden-xs" id="mgrAccdTableToolbar" role="group">
 							@if(shiro.hasPermission("/accid/checkSuccess")){
 							<#button name="审核通过" icon="fa-check-circle" clickFun="MgrAccd.checkSuccessChoose()"/>
