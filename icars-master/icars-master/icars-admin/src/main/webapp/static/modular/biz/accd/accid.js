@@ -366,6 +366,22 @@ MgrAccd.queryRedPackSum = function (queryData){
     ajax.start();
 }
 
+/**
+ * 查询微信支付余额
+ */
+MgrAccd.queryBalance = function () {
+    var ajax = new $ax(Feng.ctxPath + "/accid/balance", function (data) {
+        if (data.balanceStr) {
+            $('#balanceDiv').val(data.balanceStr);
+        } else {
+            $('#balanceDiv').val("查询失败");
+        }
+    }, function (data) {
+        $('#balanceDiv').val("查询失败");
+    });
+    ajax.start();
+}
+
 
 $(function () {
     var defaultColunms = MgrAccd.initColumn();
