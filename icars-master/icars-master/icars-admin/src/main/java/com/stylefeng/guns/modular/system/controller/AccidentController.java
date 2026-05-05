@@ -341,7 +341,7 @@ public class AccidentController extends BaseController {
             return new ErrorTip(500, "操作失败，只允许审核未审核状态的事故！");
         }
         Accident accident = accdService.selectById(accdId);
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid());
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid(), null);
 
         if (bizWxUser != null && accident != null) {
             // 获取事故来源标识，用于多源通知

@@ -90,7 +90,7 @@ public class WxPayBizService implements IWxPayBizService {
     @Transactional
     public Map<String, String> wxPayRedBag(String accId, String openid, String amount, String partnerTradeNo) throws Exception {
         //查询到公众号openid
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(openid);
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(openid, null);
         //根据小程序的unionid查询到公众号的openid
         BizWxUserGzh wxUserGzh = bizWxUserGzhService.selectOne(new EntityWrapper<BizWxUserGzh>().eq("unionid", bizWxUser.getUnionId()));
         String gzhOpenid = wxUserGzh.getOpenid();

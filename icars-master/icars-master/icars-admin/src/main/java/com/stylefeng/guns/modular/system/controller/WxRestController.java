@@ -179,7 +179,7 @@ public class WxRestController extends BaseController {
             return apiResponseEntity;
         }
         // 检查用户是否已授权手机号
-        BizWxUser wxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+        BizWxUser wxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
         if (wxUser == null || StringUtils.isEmpty(wxUser.getPhone())) {
             apiResponseEntity.setErrorCode(5003);
             apiResponseEntity.setErrorMsg("请先授权手机号后再上报");
@@ -381,7 +381,7 @@ public class WxRestController extends BaseController {
             return apiResponseEntity;
         }
         // 检查用户是否已授权手机号
-        BizWxUser wxUserCheck = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+        BizWxUser wxUserCheck = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
         if (wxUserCheck == null || StringUtils.isEmpty(wxUserCheck.getPhone())) {
             apiResponseEntity.setErrorCode(5003);
             apiResponseEntity.setErrorMsg("请先授权手机号后再上报");
@@ -499,7 +499,7 @@ public class WxRestController extends BaseController {
         }
         WxSession wxSession = wxService.getWxSession(thirdSessionKey);
         if (wxSession != null) {
-            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
             if (bizWxUser == null) {
                 apiResponseEntity.setErrorCode(1002);
                 apiResponseEntity.setErrorMsg("无用户信息");
@@ -599,7 +599,7 @@ public class WxRestController extends BaseController {
 
         if (wxSession.getBizWxUser() == null) {
             log.error("如果从缓存里拿到的wxUser为null 从数据库获取 wxSession={}", wxSession);
-            BizWxUser bizWxUser1 = this.bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+            BizWxUser bizWxUser1 = this.bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
             wxSession.setBizWxUser(bizWxUser1);
         }
         bizWxUser.setId(wxSession.getBizWxUser().getId());
@@ -640,7 +640,7 @@ public class WxRestController extends BaseController {
 
         if (wxSession.getBizWxUser() == null) {
             log.error("如果从缓存里拿到的wxUser为null 从数据库获取 wxSession={}", wxSession);
-            BizWxUser bizWxUser1 = this.bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+            BizWxUser bizWxUser1 = this.bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
             wxSession.setBizWxUser(bizWxUser1);
         }
         bizWxUser.setId(wxSession.getBizWxUser().getId());
@@ -694,7 +694,7 @@ public class WxRestController extends BaseController {
         WxSession wxSession = wxService.getWxSession(thirdSessionKey);
 
         if (wxSession != null) {
-            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
             if (bizWxUser == null) {
                 apiResponseEntity.setErrorCode(1002);
                 apiResponseEntity.setErrorMsg("无用户信息");

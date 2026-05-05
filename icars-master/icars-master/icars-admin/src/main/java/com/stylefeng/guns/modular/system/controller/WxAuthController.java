@@ -141,7 +141,7 @@ public class WxAuthController extends BaseController {
         if (wxSession == null) {
             return rtnParam(530, "登录已过期");
         }
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
         if (bizWxUser == null) {
             return rtnParam(500, "用户不存在");
         }
@@ -193,7 +193,7 @@ public class WxAuthController extends BaseController {
             String url = (headimgHost == null ? "" : headimgHost) + fileName;
 
             // 自动更新用户头像
-            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId());
+            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
             if (bizWxUser != null) {
                 bizWxUser.setHeadImg(url);
                 bizWxUserService.updateById(bizWxUser);

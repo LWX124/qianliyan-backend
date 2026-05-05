@@ -2601,7 +2601,7 @@ public class AppRestController extends BaseController {
         //修改事故状态
         this.accdService.setStatus(accdId, AccdStatus.CHECK_SUCCESS.getCode(), reason);
         Accident accident = accdService.selectById(accdId);
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid());
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid(), null);
         BizWxpayBill bizWxpayBill = bizWxpayBillService.selectOneByAccid(accdId);
         if (bizWxpayBill != null) {
             apiResponseEntity.setErrorCode(500);

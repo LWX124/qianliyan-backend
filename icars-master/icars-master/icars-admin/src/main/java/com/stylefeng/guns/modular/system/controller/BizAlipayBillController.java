@@ -110,7 +110,7 @@ public class BizAlipayBillController extends BaseController {
         }
         Accident accident = accdService.selectById(accdId);
         if(accident != null && accident.getStatus() == 2){
-            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid());
+            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid(), null);
             if(bizWxUser != null){
                 if(StringUtils.isNotEmpty(bizWxUser.getAlipayAccount())){
                     boolean triggerResult = alipayService.autoTrigger(bizWxUser.getAlipayAccount(), accident.getId().intValue());
