@@ -19,6 +19,8 @@ public class WxSession {
 
     private User user;
 
+    private String source;
+
     public String getOpenId() {
         return openId;
     }
@@ -67,7 +69,15 @@ public class WxSession {
         this.user = user;
     }
 
-    public WxSession(String openId, String wxSessionKey, long expires, long createSeconds, BizWxUser bizWxUser ,User user,String unionId) {
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public WxSession(String openId, String wxSessionKey, long expires, long createSeconds, BizWxUser bizWxUser, User user, String unionId, String source) {
         this.openId = openId;
         this.wxSessionKey = wxSessionKey;
         this.expires = expires;
@@ -75,6 +85,7 @@ public class WxSession {
         this.unionId = unionId;
         this.bizWxUser = bizWxUser;
         this.user = user;
+        this.source = source;
     }
 
     @Override
