@@ -307,6 +307,21 @@ public class AccidentController extends BaseController {
         if (ToolUtil.isEmpty(accdId) || amount == null) {
             throw new GunsException(BizExceptionEnum.REQUEST_NULL);
         }
+
+        // ========== 校验余额是否充足 ==========
+        long balanceFen = wxPayV3TransferService.queryMerchantBalance();
+        if (balanceFen < 0) {
+            return new ErrorTip(500, "余额查询失败，无法完成审核，请稍后重试");
+        }
+        BigDecimal balanceYuan = new BigDecimal(balanceFen)
+            .divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal requiredAmount = amount.multiply(new BigDecimal("2"));
+        if (balanceYuan.compareTo(requiredAmount) < 0) {
+            return new ErrorTip(500, "微信支付余额不足！当前余额：" + balanceYuan.toPlainString() +
+                " 元，需要：" + requiredAmount.toPlainString() + " 元，请及时充值");
+        }
+        // ========== 余额校验结束 ==========
+
         // 先检查是否已发过红包（防止重复操作）
         BizWxpayBill existBill = bizWxpayBillService.selectOneByAccid(accdId);
         if (existBill != null) {
