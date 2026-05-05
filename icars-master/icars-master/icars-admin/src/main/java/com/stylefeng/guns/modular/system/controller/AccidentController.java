@@ -310,17 +310,24 @@ public class AccidentController extends BaseController {
         }
 
         // ========== 校验余额是否充足 ==========
+        // 要求余额 >= 红包金额 × 2，提供安全缓冲以应对：
+        // 1. 并发审核导致的余额快速消耗
+        // 2. 微信支付可能的手续费或其他扣款
+        // 3. 避免余额刚好够用时因微小差异导致支付失败
         long balanceFen = wxPayV3TransferService.queryMerchantBalance();
         if (balanceFen < 0) {
+            System.err.println("余额查询失败，accdId=" + accdId + "，阻止审核操作");
             return new ErrorTip(500, "余额查询失败，无法完成审核，请稍后重试");
         }
         BigDecimal balanceYuan = new BigDecimal(balanceFen)
             .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
         BigDecimal requiredAmount = amount.multiply(new BigDecimal("2"));
         if (balanceYuan.compareTo(requiredAmount) < 0) {
+            System.err.println("余额不足，accdId=" + accdId + "，当前余额=" + balanceYuan + "元，需要=" + requiredAmount + "元");
             return new ErrorTip(500, "微信支付余额不足！当前余额：" + balanceYuan.toPlainString() +
                 " 元，需要：" + requiredAmount.toPlainString() + " 元，请及时充值");
         }
+        System.out.println("余额校验通过，accdId=" + accdId + "，当前余额=" + balanceYuan + "元，红包金额=" + amount + "元");
         // ========== 余额校验结束 ==========
 
         // 先检查是否已发过红包（防止重复操作）
