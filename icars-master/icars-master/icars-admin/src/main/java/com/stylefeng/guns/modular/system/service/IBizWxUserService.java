@@ -22,7 +22,7 @@ public interface IBizWxUserService extends IService<BizWxUser> {
     int setPhone(String openid,String phone);
     List<BizWxUser> selectByOpenid(String openid);
 
-    BizWxUser selectBizWxUser(String openid);
+    BizWxUser selectBizWxUser(String openid, String source);
 
     List<BizWxUser> selectFansPage(@Param("page") Page<BizWxUser> page, @Param("bizWxUser") BizWxUser bizWxUser);
 

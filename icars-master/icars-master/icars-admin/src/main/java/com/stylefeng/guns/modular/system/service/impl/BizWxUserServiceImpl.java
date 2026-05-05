@@ -48,8 +48,8 @@ public class BizWxUserServiceImpl extends ServiceImpl<BizWxUserMapper, BizWxUser
     }
 
     @Override
-    public BizWxUser selectBizWxUser(String openid) {
-        return this.baseMapper.selectBizWxUser(openid);
+    public BizWxUser selectBizWxUser(String openid, String source) {
+        return this.baseMapper.selectBizWxUser(openid, source);
     }
 
     @Override
