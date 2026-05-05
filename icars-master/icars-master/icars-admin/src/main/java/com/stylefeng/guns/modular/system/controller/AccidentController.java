@@ -340,6 +340,22 @@ public class AccidentController extends BaseController {
             // 获取事故来源标识，用于多源通知
             String source = accident.getSource();
 
+            // ========== 支付前再次校验余额（防止竞态条件） ==========
+            long balanceFenBeforePay = wxPayV3TransferService.queryMerchantBalance();
+            if (balanceFenBeforePay < 0) {
+                // 余额查询失败，但状态已改，记录日志并继续尝试支付
+                System.err.println("支付前余额查询失败，accdId=" + accdId + "，继续尝试支付");
+            } else {
+                BigDecimal balanceYuanBeforePay = new BigDecimal(balanceFenBeforePay)
+                    .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+                if (balanceYuanBeforePay.compareTo(amount) < 0) {
+                    // 余额不足，状态已改但无法支付，返回特殊错误码
+                    return new ErrorTip(4002, "审核通过，但余额不足无法支付！当前余额：" +
+                        balanceYuanBeforePay.toPlainString() + " 元，需要：" + amount.toPlainString() + " 元");
+                }
+            }
+            // ========== 余额二次校验结束 ==========
+
             // ========== 优先尝试V2公众号现金红包 ==========
             boolean redPackAttempted = false;
             boolean redPackResult = false;
