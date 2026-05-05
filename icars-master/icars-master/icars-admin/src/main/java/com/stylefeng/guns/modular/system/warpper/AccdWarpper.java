@@ -43,6 +43,7 @@ public class AccdWarpper extends BaseControllerWarpper {
         }
         switch (source.toUpperCase()) {
             case "SSP": return "一起拍事故";
+            case "TTP": return "天天拍";
             default: return source;
         }
     }
