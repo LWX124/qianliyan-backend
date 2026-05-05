@@ -76,13 +76,13 @@ public class WxService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Map<String, Object> createWxSession(String wxCode) {
+    public Map<String, Object> createWxSession(String wxCode, String source) {
         StringBuffer sb = new StringBuffer();
-        sb.append("appid=").append(wxAuthProperties.getAppId());
-        sb.append("&secret=").append(wxAuthProperties.getSecret());
+        sb.append("appid=").append(wxAuthProperties.getAppIdBySource(source));
+        sb.append("&secret=").append(wxAuthProperties.getSecretBySource(source));
         sb.append("&js_code=").append(wxCode);
         sb.append("&grant_type=").append(wxAuthProperties.getGrantType());
-        log.info("HTTP GET:");
+        log.info("HTTP GET: source={}", source);
         log.info("URL = " + wxAuthProperties.getSessionHost() + ", param : " + sb.toString());
         String res = HttpRequest.sendGet(wxAuthProperties.getSessionHost(), sb.toString());
         log.info("RESPONSE =" + res);
@@ -107,6 +107,7 @@ public class WxService {
         String unionId = jsonObject.getString("unionId");
         Long expires = jsonObject.getLong("expires");
         Long createSeconds = jsonObject.getLong("createSeconds");
+        String source = jsonObject.getString("source");
         JSONObject bizWxUser = jsonObject.getJSONObject("bizWxUser");
         JSONObject userJson = jsonObject.getJSONObject("user");
 
@@ -118,7 +119,7 @@ public class WxService {
         if (userJson != null) {
             user = JSON.toJavaObject(userJson, User.class);
         }
-        WxSession wxSession = new WxSession(openId, wxSessionKey, expires, createSeconds, bizWxUserBean, user, unionId);
+        WxSession wxSession = new WxSession(openId, wxSessionKey, expires, createSeconds, bizWxUserBean, user, unionId, source);
         if (wxSession != null) {
             wxSession.setCreateSeconds(System.currentTimeMillis() / 1000);
 //            if ((System.currentTimeMillis() / 1000) <= (wxSession.getExpires() + wxSession.getCreateSeconds())){
@@ -138,11 +139,11 @@ public class WxService {
      * @param unionId
      * @return
      */
-    public String create3rdSession(String wxOpenId, String wxSessionKey, Long expires, Long createSeconds, String unionId) {
+    public String create3rdSession(String wxOpenId, String wxSessionKey, Long expires, Long createSeconds, String unionId, String source) {
         String thirdSessionKey = RandomStringUtils.randomAlphanumeric(64);
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxOpenId);
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxOpenId, source);
         if (bizWxUser == null) {
-            log.error("创建小程序登录信息 bizWxUser==null wxOpenId={}", wxOpenId);
+            log.error("创建小程序登录信息 bizWxUser==null wxOpenId={}, source={}", wxOpenId, source);
         }
         User user = null;
         if (bizWxUser != null && StringUtils.isNotEmpty(bizWxUser.getPhone())) {
@@ -152,7 +153,7 @@ public class WxService {
         if (user == null) {
             log.error("缓存微信openId和session_key user为null   wxOpenId={}", wxOpenId);
         }
-        String s = JSONObject.toJSONString(new WxSession(wxOpenId, wxSessionKey, expires, createSeconds, bizWxUser, user, unionId));
+        String s = JSONObject.toJSONString(new WxSession(wxOpenId, wxSessionKey, expires, createSeconds, bizWxUser, user, unionId, source));
         jedisUtil.set("XCX_LOGIN_" + thirdSessionKey, s, 60 * 60);
         return thirdSessionKey;
     }
@@ -371,7 +372,7 @@ public class WxService {
     }
 
     public WxMyMessageVo getMyMessage(String openId) {
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(openId);
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(openId, null);
         Integer id = bizWxUser.getId()+1000;
         WxMyMessageVo wxMyMessageVo = new WxMyMessageVo();
         wxMyMessageVo.setUserIdNumber(id);
