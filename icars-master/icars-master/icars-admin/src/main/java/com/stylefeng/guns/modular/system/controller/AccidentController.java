@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
@@ -314,7 +315,7 @@ public class AccidentController extends BaseController {
             return new ErrorTip(500, "余额查询失败，无法完成审核，请稍后重试");
         }
         BigDecimal balanceYuan = new BigDecimal(balanceFen)
-            .divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_UP);
+            .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
         BigDecimal requiredAmount = amount.multiply(new BigDecimal("2"));
         if (balanceYuan.compareTo(requiredAmount) < 0) {
             return new ErrorTip(500, "微信支付余额不足！当前余额：" + balanceYuan.toPlainString() +
@@ -425,7 +426,7 @@ public class AccidentController extends BaseController {
             return new ErrorTip(500, "余额查询失败");
         }
         BigDecimal balanceYuan = new BigDecimal(balanceFen)
-            .divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_UP);
+            .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
         Map<String, Object> result = new HashMap<>();
         result.put("balance", balanceYuan);
         result.put("balanceStr", balanceYuan.toPlainString() + " 元");
