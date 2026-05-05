@@ -263,6 +263,7 @@ MgrAccd.search = function () {
     MgrAccd.table.refresh({query: queryData});
 
     MgrAccd.queryRedPackSum(queryData);
+    MgrAccd.queryBalance(); // 搜索时刷新余额
 }
 
 /**
@@ -398,6 +399,7 @@ $(function () {
     table.setQueryParams(MgrAccd.formParams());
     MgrAccd.table = table.init();
     MgrAccd.queryRedPackSum(MgrAccd.formParams());
+    MgrAccd.queryBalance(); // 页面加载时查询余额
 
     // ===== 新记录自动刷新 & 高亮 =====
     var initialMaxId = 0;
