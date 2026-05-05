@@ -398,6 +398,25 @@ public class AccidentController extends BaseController {
     }
 
     /**
+     * 查询微信支付余额
+     */
+    @RequestMapping("/balance")
+    @Permission
+    @ResponseBody
+    public Object queryBalance() {
+        long balanceFen = wxPayV3TransferService.queryMerchantBalance();
+        if (balanceFen < 0) {
+            return new ErrorTip(500, "余额查询失败");
+        }
+        BigDecimal balanceYuan = new BigDecimal(balanceFen)
+            .divide(new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_UP);
+        Map<String, Object> result = new HashMap<>();
+        result.put("balance", balanceYuan);
+        result.put("balanceStr", balanceYuan.toPlainString() + " 元");
+        return result;
+    }
+
+    /**
      * 推送事故信息
      */
     @RequestMapping("/push")
