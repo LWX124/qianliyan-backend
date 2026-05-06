@@ -61,11 +61,14 @@
 						<div class="col-sm-12">
 							<div class="row">
 								<div class="form-group">
-									<label class="col-sm-2 control-label" style="height: 34px;line-height: 34px;">微信支付余额</label>
-									<div class="col-sm-10">
+									<label class="col-sm-2 control-label" style="height: 34px;line-height: 34px;">预估余额</label>
+									<div class="col-sm-8">
 										<input class="form-control" id="balanceDiv" name="balanceDiv" type="text" readonly="readonly"
 											style="margin-left: -213px;border: none;text-align: left;background-color: rgb(255, 255, 255);color: #1890ff;"
 											value="查询中...">
+									</div>
+									<div class="col-sm-2" style="padding-top: 4px;">
+										<button type="button" class="btn btn-default btn-sm" onclick="MgrAccd.editThreshold()">修改阈值</button>
 									</div>
 								</div>
 							</div>
@@ -85,6 +88,9 @@
 							@}
 							<#button name="黑名单更改" icon="fa-user-times" clickFun="MgrAccd.addBlackList()" space="true"/>
 							<#button name="停止通知播报" icon="fa-bell-slash-o" clickFun="MgrAccd.stop()" space="true"/>
+							@if(shiro.hasPermission("/accid/retryTransfer")){
+							<#button name="重新发送奖励" icon="fa-repeat" clickFun="MgrAccd.retryTransfer()" space="true"/>
+							@}
 						</div>
 						<#table id="managerAccdTable" />
 					</div>
@@ -117,7 +123,7 @@
     #managerAccdTable tr.new-record { background-color: #fff3cd !important; }
     #managerAccdTable tr.new-record td:first-child { border-left: 4px solid #ff9800; }
 </style>
-<script src="${ctxPath}/static/modular/biz/accd/accid.js?v=20260505"></script>
+<script src="${ctxPath}/static/modular/biz/accd/accid.js?v=20260507"></script>
 <script>
     laydate.render({
         elem: '#createStartTime',

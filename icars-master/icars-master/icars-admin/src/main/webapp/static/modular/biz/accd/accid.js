@@ -45,7 +45,18 @@ MgrAccd.initColumn = function () {
         {title: '状态', field: 'statusName', align: 'center', valign: 'middle', sortable: true},
         {title: '审核原因', field: 'reason', visible: true, align: 'center', valign: 'middle', width: '150'},
         {title: '红包金额', field: 'amount', visible: true, align: 'center', valign: 'middle', width: '80'},
-        {title: '收取金额', field: 'backAmount', visible: true, align: 'center', valign: 'middle', width: '80'},];
+        {title: '收取金额', field: 'backAmount', visible: true, align: 'center', valign: 'middle', width: '80'},
+        {title: '转账状态', field: 'transferStatusName', visible: true, align: 'center', valign: 'middle', width: '90',
+            cellStyle: function(value, row, index) {
+                if (value === '转账失败' || value === '余额不足') {
+                    return {css: {color: 'red', 'font-weight': 'bold'}};
+                }
+                if (value === '已领取') {
+                    return {css: {color: 'green'}};
+                }
+                return {};
+            }
+        },];
     return columns;
 };
 
@@ -372,15 +383,70 @@ MgrAccd.queryRedPackSum = function (queryData){
  */
 MgrAccd.queryBalance = function () {
     var ajax = new $ax(Feng.ctxPath + "/accid/balance", function (data) {
-        if (data.balanceStr) {
-            $('#balanceDiv').val(data.balanceStr);
+        if (data.hasSnapshot === false) {
+            $('#balanceDiv').val("暂无余额数据，等待每日自动获取").css('color', '#999');
+        } else if (data.isAlert) {
+            $('#balanceDiv').val(data.balanceStr).css({'color': 'red', 'font-weight': 'bold'});
         } else {
-            $('#balanceDiv').val("查询失败");
+            $('#balanceDiv').val(data.balanceStr).css({'color': '#1890ff', 'font-weight': 'normal'});
         }
     }, function (data) {
-        $('#balanceDiv').val("查询失败");
+        $('#balanceDiv').val("余额查询失败").css('color', '#999');
     });
     ajax.start();
+}
+
+MgrAccd.editThreshold = function () {
+    layer.prompt({
+        title: '设置报警阈值（单位：元）',
+        formType: 0,
+        value: ''
+    }, function (value, index) {
+        var threshold = parseFloat(value);
+        if (isNaN(threshold) || threshold <= 0) {
+            Feng.error("请输入有效的金额");
+            return;
+        }
+        var ajax = new $ax(Feng.ctxPath + "/accid/balance/threshold", function (data) {
+            Feng.success("阈值设置成功");
+            layer.close(index);
+            MgrAccd.queryBalance();
+        }, function (data) {
+            Feng.error("设置失败");
+        });
+        ajax.set("threshold", threshold);
+        ajax.start();
+    });
+}
+
+MgrAccd.retryTransfer = function () {
+    if (this.check()) {
+        var status = this.seItem.status;
+        if (status != 5) {
+            Feng.error("只能重发转账失败的记录！");
+            return;
+        }
+        var accdId = this.seItem.id;
+        var amount = this.seItem.amount || '';
+        layer.confirm('确认重新发送 ' + amount + ' 元奖励？', {
+            btn: ['确认', '取消']
+        }, function (index) {
+            layer.close(index);
+            var ajax = new $ax(Feng.ctxPath + "/accid/retryTransfer", function (data) {
+                if (data.code == 500) {
+                    Feng.error(data.message);
+                } else {
+                    Feng.success("奖励重发成功！");
+                }
+                MgrAccd.table.refresh();
+                MgrAccd.queryBalance();
+            }, function (data) {
+                Feng.error("操作失败：" + data.responseJSON.message);
+            });
+            ajax.set("accdId", accdId);
+            ajax.start();
+        });
+    }
 }
 
 
@@ -393,6 +459,8 @@ $(function () {
         var style = {};
         if(row.blackList != 0){
             style={css:{'background-color':'red'}};
+        } else if (row.status == 5) {
+            style={css:{'background-color':'#ffe0e0'}};
         }
         return style;
     });
