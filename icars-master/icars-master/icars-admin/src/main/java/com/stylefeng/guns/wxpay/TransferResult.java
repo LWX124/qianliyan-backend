@@ -8,10 +8,20 @@ public class TransferResult {
     private boolean success;
     private String packageInfo;
     private String outBillNo;
+    private String failCode;
+    private String failMessage;
 
     public static TransferResult fail() {
         TransferResult r = new TransferResult();
         r.success = false;
+        return r;
+    }
+
+    public static TransferResult fail(String failCode, String failMessage) {
+        TransferResult r = new TransferResult();
+        r.success = false;
+        r.failCode = failCode;
+        r.failMessage = failMessage;
         return r;
     }
 
@@ -33,5 +43,17 @@ public class TransferResult {
 
     public String getOutBillNo() {
         return outBillNo;
+    }
+
+    public String getFailCode() {
+        return failCode;
+    }
+
+    public String getFailMessage() {
+        return failMessage;
+    }
+
+    public boolean isNoEnough() {
+        return "NOTENOUGH".equals(failCode);
     }
 }
