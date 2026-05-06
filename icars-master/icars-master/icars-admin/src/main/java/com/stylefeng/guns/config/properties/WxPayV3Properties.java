@@ -24,6 +24,8 @@ public class WxPayV3Properties {
     private String publicKeyId;
     /** 转账场景ID */
     private String transferSceneId;
+    /** 转账回调通知URL */
+    private String notifyUrl;
 
     public String getAppId() { return appId; }
     public void setAppId(String appId) { this.appId = appId; }
@@ -43,4 +45,6 @@ public class WxPayV3Properties {
     public void setPublicKeyId(String publicKeyId) { this.publicKeyId = publicKeyId; }
     public String getTransferSceneId() { return transferSceneId; }
     public void setTransferSceneId(String transferSceneId) { this.transferSceneId = transferSceneId; }
+    public String getNotifyUrl() { return notifyUrl; }
+    public void setNotifyUrl(String notifyUrl) { this.notifyUrl = notifyUrl; }
 }
