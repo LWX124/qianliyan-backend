@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 /**
  * <p>
@@ -38,4 +39,8 @@ public interface IBizWxpayBillService extends IService<BizWxpayBill> {
     String getWxUnifiedOrderNo();
 
     Map<String, String> unifiedOrder(Map<String, String> reqData) throws Exception;
+
+    Map<String, Object> sumDeductedSinceSnapshot(Date snapshotTime);
+
+    BizWxpayBill selectByOutBillNo(String outBillNo);
 }

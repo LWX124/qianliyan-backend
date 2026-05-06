@@ -64,6 +64,15 @@ public class BizWxpayBill extends Model<BizWxpayBill> {
     @TableField("out_bill_no")
     private String outBillNo;
 
+    @TableField("transfer_status")
+    private Integer transferStatus;
+
+    @TableField("fail_reason")
+    private String failReason;
+
+    @TableField("transfer_time")
+    private Date transferTime;
+
     public Integer getId() {
         return id;
     }
@@ -134,6 +143,30 @@ public class BizWxpayBill extends Model<BizWxpayBill> {
 
     public void setOutBillNo(String outBillNo) {
         this.outBillNo = outBillNo;
+    }
+
+    public Integer getTransferStatus() {
+        return transferStatus;
+    }
+
+    public void setTransferStatus(Integer transferStatus) {
+        this.transferStatus = transferStatus;
+    }
+
+    public String getFailReason() {
+        return failReason;
+    }
+
+    public void setFailReason(String failReason) {
+        this.failReason = failReason;
+    }
+
+    public Date getTransferTime() {
+        return transferTime;
+    }
+
+    public void setTransferTime(Date transferTime) {
+        this.transferTime = transferTime;
     }
 
     @Override

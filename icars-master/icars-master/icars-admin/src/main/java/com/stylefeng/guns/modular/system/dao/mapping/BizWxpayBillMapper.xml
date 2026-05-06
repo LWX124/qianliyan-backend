@@ -86,12 +86,24 @@
         ORDER BY a.pay_time desc
     </select>
 
-    <insert id="add" useGeneratedKeys="true" keyProperty="bizWxpayBill.id" keyColumn="id"  parameterType="com.stylefeng.guns.modular.system.model.BizWxpayBill" >
-		insert into biz_wxpay_bill(accid, status, amount, pay_time, create_time, package_info, out_bill_no)
-		values
-		(#{bizWxpayBill.accid},#{bizWxpayBill.status},#{bizWxpayBill.amount},#{bizWxpayBill.payTime},#{bizWxpayBill.createTime},#{bizWxpayBill.packageInfo},#{bizWxpayBill.outBillNo})
-	</insert>
+    <insert id="add" useGeneratedKeys="true" keyProperty="bizWxpayBill.id" keyColumn="id"
+            parameterType="com.stylefeng.guns.modular.system.model.BizWxpayBill">
+        insert into biz_wxpay_bill(accid, status, amount, pay_time, create_time, package_info, out_bill_no, transfer_status, fail_reason, transfer_time)
+        values (#{bizWxpayBill.accid},#{bizWxpayBill.status},#{bizWxpayBill.amount},
+                #{bizWxpayBill.payTime},#{bizWxpayBill.createTime},#{bizWxpayBill.packageInfo},#{bizWxpayBill.outBillNo},
+                #{bizWxpayBill.transferStatus},#{bizWxpayBill.failReason},#{bizWxpayBill.transferTime})
+    </insert>
 
+    <select id="sumDeductedSinceSnapshot" resultType="java.util.Map">
+        SELECT IFNULL(COUNT(*), 0) AS deductedCount, IFNULL(SUM(amount), 0) AS deductedAmount
+        FROM biz_wxpay_bill
+        WHERE create_time &gt; #{snapshotTime}
+        AND transfer_status IN (1, 2)
+    </select>
+
+    <select id="selectByOutBillNo" resultMap="BaseResultMap">
+        SELECT * FROM biz_wxpay_bill WHERE out_bill_no = #{outBillNo} LIMIT 1
+    </select>
 
 
     <select id="getWxUnifiedOrderNo" resultType="java.lang.String">

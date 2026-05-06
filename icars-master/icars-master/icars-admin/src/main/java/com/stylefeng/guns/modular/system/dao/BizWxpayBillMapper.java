@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -60,4 +61,14 @@ public interface BizWxpayBillMapper extends BaseMapper<BizWxpayBill> {
      * 统计指定 openid 的累计奖励金额
      */
     BigDecimal sumRewardByOpenid(@Param("openid") String openid);
+
+    /**
+     * 统计快照时间之后的已扣款记录数和金额
+     */
+    Map<String, Object> sumDeductedSinceSnapshot(@Param("snapshotTime") Date snapshotTime);
+
+    /**
+     * 根据商户转账单号查询记录
+     */
+    BizWxpayBill selectByOutBillNo(@Param("outBillNo") String outBillNo);
 }

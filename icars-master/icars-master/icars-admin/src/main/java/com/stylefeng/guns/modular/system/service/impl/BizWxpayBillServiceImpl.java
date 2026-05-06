@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -97,5 +98,15 @@ public class BizWxpayBillServiceImpl extends ServiceImpl<BizWxpayBillMapper, Biz
     public Map<String, String> unifiedOrder(Map<String, String> reqData) throws Exception {
         Map<String, String> res = wxPayBizService.unifiedOrder(reqData);
         return res;
+    }
+
+    @Override
+    public Map<String, Object> sumDeductedSinceSnapshot(Date snapshotTime) {
+        return this.baseMapper.sumDeductedSinceSnapshot(snapshotTime);
+    }
+
+    @Override
+    public BizWxpayBill selectByOutBillNo(String outBillNo) {
+        return this.baseMapper.selectByOutBillNo(outBillNo);
     }
 }
