@@ -171,6 +171,15 @@ public class AccdServiceImpl extends ServiceImpl<AccdMapper, Accident> implement
         System.out.println("设置redis：" + getAccidentRedisKey);
     }
 
+    @Override
+    public void updateStatus(Integer accid, Integer status) {
+        Accident accident = this.selectById(accid);
+        if (accident != null) {
+            accident.setStatus(status);
+            this.updateById(accident);
+        }
+    }
+
 
     @Override
     public List<Map<String, Object>> selectAccident(DataScope dataScope, String openid, String createStartTime, String createEndTime, String checkStartTime, String checkEndTime, String name) {

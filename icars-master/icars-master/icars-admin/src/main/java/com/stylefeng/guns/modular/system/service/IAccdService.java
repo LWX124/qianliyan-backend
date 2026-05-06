@@ -136,4 +136,9 @@ public interface IAccdService extends IService<Accident> {
 
     void addRedis();
 
+    /**
+     * 无条件更新事故状态
+     */
+    void updateStatus(Integer accid, Integer status);
+
 }
