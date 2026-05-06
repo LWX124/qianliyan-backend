@@ -24,7 +24,15 @@
     <sql id="Base_Column_List1">
         a.id, a.openid, a.video, a.lng, a.lat, a.createTime, a.checkId, a.address, a.reason,a.realness, a.source,
         a.checkTime, a.status, a.version, c.name, d.phone, d.wxname, d.blackList, d.share_count as shareCount, d.share_open_count as shareOpenCount, v.total as totalAcc, v.exist, v.notexist,
-        m.amount, p.amount as backAmount
+        m.amount, p.amount as backAmount,
+        CASE m.transfer_status
+            WHEN 0 THEN '未发起'
+            WHEN 1 THEN '待确认'
+            WHEN 2 THEN '已领取'
+            WHEN 3 THEN '转账失败'
+            WHEN 4 THEN '余额不足'
+            ELSE ''
+        END AS transferStatusName
     </sql>
 
     <sql id="Base_Column_List2">
