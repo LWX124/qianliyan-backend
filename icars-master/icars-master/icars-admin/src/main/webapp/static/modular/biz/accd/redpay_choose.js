@@ -43,14 +43,30 @@ RedPayChoose.checkSuccess = function () {
         var ajax = new $ax(Feng.ctxPath + "/accid/checkSuccess", function (data) {
             if(data.code == 500){
                 Feng.error(data.message + "!");
-                MgrAccd.table.refresh();
+                window.parent.MgrAccd.table.refresh();
                 return;
             }
-            Feng.success("操作成功!");
+            if (data.code == 4001 || data.code == 4002) {
+                // 审核通过但转账失败
+                Feng.error(data.message);
+                try { window.parent.document.getElementById('alarm').pause(); } catch(e) {}
+                RedPayChoose.close();
+                window.parent.MgrAccd.table.refresh();
+                window.parent.MgrAccd.queryBalance();
+                return;
+            }
+            // 成功
+            if (data.isAlert) {
+                var balanceYuan = (data.estimatedBalance / 100).toFixed(2);
+                Feng.info("操作成功！预估余额已低于报警阈值（剩余 " + balanceYuan + " 元），请及时充值");
+            } else {
+                Feng.success("操作成功!");
+            }
             // 审核操作后自动停止语音播报
             try { window.parent.document.getElementById('alarm').pause(); } catch(e) {}
             RedPayChoose.close();
             window.parent.MgrAccd.table.refresh();
+            window.parent.MgrAccd.queryBalance();
         }, function (data) {
             Feng.error("操作失败!" + data.responseJSON.message + "!");
         });
