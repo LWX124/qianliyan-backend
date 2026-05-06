@@ -20,7 +20,6 @@ import com.stylefeng.guns.modular.system.constant.dictmap.AccdDict;
 import com.stylefeng.guns.modular.system.model.*;
 import com.stylefeng.guns.modular.system.service.*;
 import com.stylefeng.guns.modular.system.service.impl.WxSubscribeMessageService;
-import com.stylefeng.guns.modular.system.utils.HttpUtils;
 import com.stylefeng.guns.modular.system.vo.AccidentVo;
 import com.stylefeng.guns.modular.system.warpper.AccdWarpper;
 import com.stylefeng.guns.wxpay.IWxPayBizService;
@@ -86,6 +85,9 @@ public class AccidentController extends BaseController {
 
     @Resource
     private WxSubscribeMessageService wxSubscribeMessageService;
+
+    @Resource
+    private IBizBalanceSnapshotService bizBalanceSnapshotService;
 
     @Value("wx.videoLocalPath")
     private static String videoLocalPath;
@@ -304,118 +306,166 @@ public class AccidentController extends BaseController {
     @BussinessLog(value = "审核事故通过", key = "accdId", dict = AccdDict.class)
     @Permission({Const.ADMIN_NAME, Const.SUB_ADMIN_NAME})
     @ResponseBody
-    public Tip checkSuccess(@RequestParam Integer accdId, @RequestParam BigDecimal amount, @RequestParam(required = false) String reason) throws Exception {
+    public Object checkSuccess(@RequestParam Integer accdId, @RequestParam BigDecimal amount, @RequestParam(required = false) String reason) {
         if (ToolUtil.isEmpty(accdId) || amount == null) {
             throw new GunsException(BizExceptionEnum.REQUEST_NULL);
         }
 
-        // ========== 校验余额是否充足 ==========
-        // 要求余额 >= 红包金额 × 2，提供安全缓冲以应对：
-        // 1. 并发审核导致的余额快速消耗
-        // 2. 微信支付可能的手续费或其他扣款
-        // 3. 避免余额刚好够用时因微小差异导致支付失败
-        long balanceFen = wxPayV3TransferService.queryMerchantBalance();
-        if (balanceFen < 0) {
-            System.err.println("余额查询失败，accdId=" + accdId + "，阻止审核操作");
-            return new ErrorTip(500, "余额查询失败，无法完成审核，请稍后重试");
-        }
-        BigDecimal balanceYuan = new BigDecimal(balanceFen)
-            .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-        BigDecimal requiredAmount = amount.multiply(new BigDecimal("2"));
-        if (balanceYuan.compareTo(requiredAmount) < 0) {
-            System.err.println("余额不足，accdId=" + accdId + "，当前余额=" + balanceYuan + "元，需要=" + requiredAmount + "元");
-            return new ErrorTip(500, "微信支付余额不足！当前余额：" + balanceYuan.toPlainString() +
-                " 元，需要：" + requiredAmount.toPlainString() + " 元，请及时充值");
-        }
-        System.out.println("余额校验通过，accdId=" + accdId + "，当前余额=" + balanceYuan + "元，红包金额=" + amount + "元");
-        // ========== 余额校验结束 ==========
+        // 1. 计算预估余额（仅用于提醒，不阻断）
+        Map<String, Object> balanceInfo = bizBalanceSnapshotService.getEstimatedBalance();
+        boolean hasSnapshot = (boolean) balanceInfo.getOrDefault("hasSnapshot", false);
+        boolean isAlert = (boolean) balanceInfo.getOrDefault("isAlert", false);
+        long estimatedBalance = hasSnapshot ? ((Number) balanceInfo.get("estimatedBalance")).longValue() : -1;
+        long alertThreshold = hasSnapshot ? ((Number) balanceInfo.get("alertThreshold")).longValue() : 0;
 
-        // 先检查是否已发过红包（防止重复操作）
+        // 2. 重复检查
         BizWxpayBill existBill = bizWxpayBillService.selectOneByAccid(accdId);
         if (existBill != null) {
-            return new ErrorTip(500, "操作失败，该事故已发送过红包，请勿重复操作！");
+            return new ErrorTip(500, "该事故已发送过红包，请勿重复操作");
         }
-        //修改事故状态，必须检查返回值
-        int effectRows = this.accdService.setStatus(accdId, AccdStatus.CHECK_SUCCESS.getCode(), reason);
-        if (effectRows == 0) {
-            return new ErrorTip(500, "操作失败，只允许审核未审核状态的事故！");
-        }
+
+        // 3. 获取事故记录和用户信息
         Accident accident = accdService.selectById(accdId);
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(accident.getOpenid(), null);
+        if (accident == null) {
+            return new ErrorTip(500, "事故记录不存在");
+        }
+        String openid = accident.getOpenid();
 
-        if (bizWxUser != null && accident != null) {
-            // 获取事故来源标识，用于多源通知
-            String source = accident.getSource();
+        // 4. 更新事故状态为审核通过
+        int effectRows = accdService.setStatus(accdId, AccdStatus.CHECK_SUCCESS.getCode(), reason);
+        if (effectRows == 0) {
+            return new ErrorTip(500, "审核状态更新失败，请确认当前状态是否为未审核");
+        }
 
-            // ========== 支付前再次校验余额（防止竞态条件） ==========
-            long balanceFenBeforePay = wxPayV3TransferService.queryMerchantBalance();
-            if (balanceFenBeforePay < 0) {
-                // 余额查询失败，但状态已改，记录日志并继续尝试支付
-                System.err.println("支付前余额查询失败，accdId=" + accdId + "，继续尝试支付");
-            } else {
-                BigDecimal balanceYuanBeforePay = new BigDecimal(balanceFenBeforePay)
-                    .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-                if (balanceYuanBeforePay.compareTo(amount) < 0) {
-                    // 余额不足，状态已改但无法支付，返回特殊错误码
-                    return new ErrorTip(4002, "审核通过，但余额不足无法支付！当前余额：" +
-                        balanceYuanBeforePay.toPlainString() + " 元，需要：" + amount.toPlainString() + " 元");
-                }
-            }
-            // ========== 余额二次校验结束 ==========
+        long amountFen = amount.multiply(new BigDecimal("100")).longValue();
 
-            // ========== 优先尝试V2公众号现金红包 ==========
-            boolean redPackAttempted = false;
-            boolean redPackResult = false;
-            if (StringUtils.isNotEmpty(bizWxUser.getUnionId())) {
-                BizWxUserGzh wxUserGzh = bizWxUserGzhService.selectOne(
-                        new EntityWrapper<BizWxUserGzh>().eq("unionid", bizWxUser.getUnionId()));
-                if (wxUserGzh != null && StringUtils.isNotEmpty(wxUserGzh.getOpenid())) {
-                    NumberFormat nf = NumberFormat.getInstance();
-                    nf.setGroupingUsed(false);
-                    String amountFenStr = nf.format(amount.multiply(new BigDecimal("100")).longValue());
-                    redPackAttempted = true;
-                    redPackResult = wxPayBizService.autoTrigger(
-                            accident.getOpenid(), accident.getId().intValue(), amountFenStr);
-                    if (redPackResult) {
-                        wxSubscribeMessageService.sendApprovalNotice(accident.getOpenid(), amount, bizWxUser.getWxname(), source);
-                        return SUCCESS_TIP;
-                    }
-                    // 红包失败，autoTrigger 内部已写入失败 bill，不再重复写入
-                }
-            }
+        // 获取事故来源标识
+        String source = accident.getSource();
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(openid, null);
 
-            // ========== Fallback: 微信商家转账V3直发 ==========
-            if (!redPackAttempted || !redPackResult) {
-                long amountFen = amount.multiply(new BigDecimal("100")).longValue();
-                TransferResult v3Result = wxPayV3TransferService.transferToUser(
-                        bizWxUser.getOpenid(), accdId, amountFen);
-
-                // V3转账需要自行写入账单记录（红包路径由autoTrigger内部写入）
-                if (!redPackAttempted) {
-                    BizWxpayBill bill = new BizWxpayBill();
-                    bill.setAccid(accdId);
-                    bill.setAmount(amount);
-                    bill.setPayTime(new Date());
-                    bill.setCreateTime(new Date());
-                    if (v3Result.isSuccess()) {
-                        bill.setStatus(2); // 待用户确认收款
-                        bill.setPackageInfo(v3Result.getPackageInfo());
-                        bill.setOutBillNo(v3Result.getOutBillNo());
-                    } else {
-                        bill.setStatus(1); // 转账失败
-                    }
-                    bizWxpayBillService.add(bill);
-                }
-
-                if (v3Result.isSuccess()) {
-                    wxSubscribeMessageService.sendApprovalNotice(bizWxUser.getOpenid(), amount, bizWxUser.getWxname(), source);
-                    return SUCCESS_TIP;
-                } else {
-                    return new ErrorTip(4001, "审核通过，支付失败");
+        // 5. 尝试 V2 公众号红包
+        boolean redPackAttempted = false;
+        if (bizWxUser != null && StringUtils.isNotEmpty(bizWxUser.getUnionId())) {
+            BizWxUserGzh wxUserGzh = bizWxUserGzhService.selectOne(
+                    new EntityWrapper<BizWxUserGzh>().eq("unionid", bizWxUser.getUnionId()));
+            if (wxUserGzh != null && StringUtils.isNotEmpty(wxUserGzh.getOpenid())) {
+                NumberFormat nf = NumberFormat.getInstance();
+                nf.setGroupingUsed(false);
+                String amountFenStr = nf.format(amountFen);
+                redPackAttempted = true;
+                boolean v2Success = wxPayBizService.autoTrigger(openid, accdId, amountFenStr);
+                if (v2Success) {
+                    wxSubscribeMessageService.sendApprovalNotice(openid, amount, bizWxUser != null ? bizWxUser.getWxname() : null, source);
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("code", 200);
+                    result.put("message", "操作成功");
+                    result.put("transferSuccess", true);
+                    result.put("isAlert", isAlert);
+                    result.put("estimatedBalance", estimatedBalance);
+                    result.put("alertThreshold", alertThreshold);
+                    return result;
                 }
             }
         }
-        return new ErrorTip(4001, "审核通过，支付失败");
+
+        // 6. V3 转账
+        TransferResult v3Result = wxPayV3TransferService.transferToUser(openid, accdId, amountFen);
+
+        // 7. 创建账单记录（仅 V3 路径，V2 路径由 autoTrigger 内部写入）
+        if (!redPackAttempted) {
+            BizWxpayBill bill = new BizWxpayBill();
+            bill.setAccid(accdId);
+            bill.setAmount(amount);
+            bill.setCreateTime(new Date());
+            bill.setTransferTime(new Date());
+
+            if (v3Result.isSuccess()) {
+                bill.setStatus(2);
+                bill.setTransferStatus(1);
+                bill.setPackageInfo(v3Result.getPackageInfo());
+                bill.setOutBillNo(v3Result.getOutBillNo());
+                bill.setPayTime(new Date());
+            } else {
+                bill.setStatus(1);
+                bill.setTransferStatus(v3Result.isNoEnough() ? 4 : 3);
+                bill.setFailReason(v3Result.getFailMessage());
+            }
+            bizWxpayBillService.add(bill);
+        }
+
+        // 8. 处理结果
+        Map<String, Object> result = new HashMap<>();
+        result.put("isAlert", isAlert);
+        result.put("estimatedBalance", estimatedBalance);
+        result.put("alertThreshold", alertThreshold);
+
+        if (v3Result.isSuccess()) {
+            wxSubscribeMessageService.sendApprovalNotice(openid, amount, bizWxUser != null ? bizWxUser.getWxname() : null, source);
+            result.put("code", 200);
+            result.put("message", "操作成功");
+            result.put("transferSuccess", true);
+            return result;
+        } else {
+            // 转账失败，更新事故状态为转账失败
+            accdService.updateStatus(accdId, AccdStatus.TRANSFER_FAILED.getCode());
+            int errorCode = v3Result.isNoEnough() ? 4002 : 4001;
+            result.put("code", errorCode);
+            result.put("message", "审核已通过，但转账失败：" + v3Result.getFailMessage());
+            result.put("transferSuccess", false);
+            result.put("failReason", v3Result.getFailMessage());
+            return result;
+        }
+    }
+
+    /**
+     * 重新发送奖励（转账失败的记录）
+     */
+    @RequestMapping("/retryTransfer")
+    @BussinessLog(value = "重新发送奖励", key = "accdId", dict = AccdDict.class)
+    @Permission({Const.ADMIN_NAME, Const.SUB_ADMIN_NAME})
+    @ResponseBody
+    public Object retryTransfer(@RequestParam Integer accdId) {
+        // 1. 校验事故状态
+        Accident accident = accdService.selectById(accdId);
+        if (accident == null) {
+            return new ErrorTip(500, "事故记录不存在");
+        }
+        if (accident.getStatus() != AccdStatus.TRANSFER_FAILED.getCode()) {
+            return new ErrorTip(500, "只能重发转账失败的记录");
+        }
+
+        // 2. 查询已有账单
+        BizWxpayBill bill = bizWxpayBillService.selectOneByAccid(accdId);
+        if (bill == null || bill.getAmount() == null) {
+            return new ErrorTip(500, "找不到该事故的账单记录");
+        }
+
+        String openid = accident.getOpenid();
+        long amountFen = bill.getAmount().multiply(new BigDecimal("100")).longValue();
+
+        // 3. 发起 V3 转账
+        TransferResult v3Result = wxPayV3TransferService.transferToUser(openid, accdId, amountFen);
+
+        // 4. 更新账单和事故状态
+        bill.setTransferTime(new Date());
+        if (v3Result.isSuccess()) {
+            bill.setStatus(2);
+            bill.setTransferStatus(1);
+            bill.setPackageInfo(v3Result.getPackageInfo());
+            bill.setOutBillNo(v3Result.getOutBillNo());
+            bill.setPayTime(new Date());
+            bill.setFailReason(null);
+            bill.updateById();
+            accdService.updateStatus(accdId, AccdStatus.CHECK_SUCCESS.getCode());
+
+            wxSubscribeMessageService.sendApprovalNotice(openid, accdId, bill.getAmount().toPlainString(), "奖励重发成功");
+            return SUCCESS_TIP;
+        } else {
+            bill.setTransferStatus(v3Result.isNoEnough() ? 4 : 3);
+            bill.setFailReason(v3Result.getFailMessage());
+            bill.updateById();
+            return new ErrorTip(500, "重发失败：" + v3Result.getFailMessage());
+        }
     }
 
     public static String md5(String input) throws Exception {
@@ -438,22 +488,23 @@ public class AccidentController extends BaseController {
     }
 
     /**
-     * 查询微信支付余额
+     * 查询预估余额
      */
-    @RequestMapping(value = "/balance", method = RequestMethod.GET)
-    @Permission
+    @RequestMapping(value = "/balance", method = RequestMethod.POST)
     @ResponseBody
     public Object queryBalance() {
-        long balanceFen = wxPayV3TransferService.queryMerchantBalance();
-        if (balanceFen < 0) {
-            return new ErrorTip(500, "余额查询失败");
-        }
-        BigDecimal balanceYuan = new BigDecimal(balanceFen)
-            .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-        Map<String, Object> result = new HashMap<>();
-        result.put("balance", balanceYuan);
-        result.put("balanceStr", balanceYuan.toPlainString() + " 元");
-        return result;
+        return bizBalanceSnapshotService.getEstimatedBalance();
+    }
+
+    /**
+     * 修改报警阈值
+     */
+    @RequestMapping(value = "/balance/threshold", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateThreshold(@RequestParam BigDecimal threshold) {
+        long thresholdFen = threshold.multiply(new BigDecimal("100")).longValue();
+        bizBalanceSnapshotService.updateThreshold(thresholdFen);
+        return SUCCESS_TIP;
     }
 
     /**
