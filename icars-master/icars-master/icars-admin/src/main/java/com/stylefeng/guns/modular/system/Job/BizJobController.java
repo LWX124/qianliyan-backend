@@ -10,7 +10,9 @@ import com.stylefeng.guns.modular.system.constant.RedisKey;
 import com.stylefeng.guns.modular.system.constant.SysActive;
 import com.stylefeng.guns.modular.system.model.Dept;
 import com.stylefeng.guns.modular.system.model.User;
+import com.stylefeng.guns.modular.system.model.BizBalanceSnapshot;
 import com.stylefeng.guns.modular.system.service.*;
+import com.stylefeng.guns.wxpay.WxPayV3TransferService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 单机定时任务控制中心
@@ -50,6 +55,12 @@ public class BizJobController {
 
     @Resource
     private HuanXinUtil huanXinUtil;
+
+    @Resource
+    private IBizBalanceSnapshotService bizBalanceSnapshotService;
+
+    @Resource
+    private WxPayV3TransferService wxPayV3TransferService;
 
     //@Scheduled(cron = "0 0 3 * * ?")//每天凌晨3点
     //@Scheduled(cron = "0 0/1 * * * ?")//每隔一分钟
@@ -134,6 +145,50 @@ public class BizJobController {
         jedisUtil.set(RedisKey.HUANXIN_FRIEND_LIST_4S, resultList4S.toJSONString());
 
         log.info("初始化环信好友----结束");
+    }
+
+    /**
+     * 每天 10:30 获取前日资金账单日终余额
+     */
+    @Scheduled(cron = "0 30 10 * * ?")
+    public void balanceSnapshotJob() {
+        if (!sysProperties.getActive().equals(SysActive.PRO)) {
+            return;
+        }
+        log.info("余额快照定时任务开始");
+        try {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            String billDate = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+
+            // 检查是否已存在
+            BizBalanceSnapshot latest = bizBalanceSnapshotService.getLatestSnapshot();
+            if (latest != null) {
+                String latestDate = new SimpleDateFormat("yyyy-MM-dd").format(latest.getBillDate());
+                if (billDate.equals(latestDate)) {
+                    log.info("余额快照已存在 billDate={}", billDate);
+                    return;
+                }
+            }
+
+            long balanceFen = wxPayV3TransferService.downloadFundFlowBill(billDate);
+            if (balanceFen < 0) {
+                log.error("余额快照获取失败 billDate={}", billDate);
+                return;
+            }
+
+            BizBalanceSnapshot snapshot = new BizBalanceSnapshot();
+            snapshot.setBalance(balanceFen);
+            snapshot.setBillDate(cal.getTime());
+            snapshot.setAlertThreshold(latest != null ? latest.getAlertThreshold() : 50000L);
+            snapshot.setCreateTime(new Date());
+            bizBalanceSnapshotService.insert(snapshot);
+
+            log.info("余额快照保存成功 billDate={} balance={} 分", billDate, balanceFen);
+        } catch (Exception e) {
+            log.error("余额快照定时任务失败", e);
+        }
+        log.info("余额快照定时任务结束");
     }
 
 
