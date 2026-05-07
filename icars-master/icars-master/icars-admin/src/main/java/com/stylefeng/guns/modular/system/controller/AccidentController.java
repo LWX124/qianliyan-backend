@@ -371,8 +371,8 @@ public class AccidentController extends BaseController {
         // 6. V3 转账
         TransferResult v3Result = wxPayV3TransferService.transferToUser(openid, accdId, amountFen);
 
-        // 7. 创建账单记录（仅 V3 路径，V2 路径由 autoTrigger 内部写入）
-        if (!redPackAttempted) {
+        // 7. 创建账单记录（V3 路径。V2 成功已 return，到这里说明 V2 未尝试或 V2 失败）
+        {
             BizWxpayBill bill = new BizWxpayBill();
             bill.setAccid(accdId);
             bill.setAmount(amount);
@@ -458,7 +458,8 @@ public class AccidentController extends BaseController {
             bill.updateById();
             accdService.updateStatus(accdId, AccdStatus.CHECK_SUCCESS.getCode());
 
-            wxSubscribeMessageService.sendApprovalNotice(openid, accdId, bill.getAmount().toPlainString(), "奖励重发成功");
+            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(openid, null);
+            wxSubscribeMessageService.sendApprovalNotice(openid, bill.getAmount(), bizWxUser != null ? bizWxUser.getWxname() : null, accident.getSource());
             return SUCCESS_TIP;
         } else {
             bill.setTransferStatus(v3Result.isNoEnough() ? 4 : 3);

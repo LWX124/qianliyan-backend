@@ -38,11 +38,13 @@ public class BizBalanceSnapshotServiceImpl extends ServiceImpl<BizBalanceSnapsho
 
         Map<String, Object> deducted = bizWxpayBillService.sumDeductedSinceSnapshot(snapshot.getCreateTime());
         long deductedCount = ((Number) deducted.get("deductedCount")).longValue();
-        long deductedAmount = ((Number) deducted.get("deductedAmount")).longValue();
-        long estimatedBalance = snapshot.getBalance() - deductedAmount;
+        // SUM(amount) returns yuan (BigDecimal), convert to fen for calculation with snapshot balance
+        BigDecimal deductedAmountYuan = new BigDecimal(deducted.get("deductedAmount").toString());
+        long deductedAmountFen = deductedAmountYuan.multiply(new BigDecimal("100")).longValue();
+        long estimatedBalance = snapshot.getBalance() - deductedAmountFen;
 
         BigDecimal balanceYuan = new BigDecimal(estimatedBalance).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-        BigDecimal deductedYuan = new BigDecimal(deductedAmount).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+        BigDecimal deductedYuan = deductedAmountYuan.setScale(2, RoundingMode.HALF_UP);
         BigDecimal thresholdYuan = new BigDecimal(snapshot.getAlertThreshold()).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
         String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(snapshot.getBillDate());
 
@@ -65,7 +67,7 @@ public class BizBalanceSnapshotServiceImpl extends ServiceImpl<BizBalanceSnapsho
         result.put("isAlert", isAlert);
         result.put("snapshotDate", dateStr);
         result.put("deductedCount", deductedCount);
-        result.put("deductedAmount", deductedAmount);
+        result.put("deductedAmount", deductedAmountFen);
         return result;
     }
 
