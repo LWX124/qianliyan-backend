@@ -279,7 +279,7 @@ public class XcxController {
         Long expires = 60 * 60L;
         ApiResponseEntity apiResponseEntity = new ApiResponseEntity();
 
-        String rdSession = wxService.create3rdSession(opendId, wxSessionKey, expires, createSeconds, unionId);
+        String rdSession = wxService.create3rdSession(opendId, wxSessionKey, expires, createSeconds, unionId, null);
         apiResponseEntity.setErrorCode(0);
         apiResponseEntity.setData(rdSession);
         return apiResponseEntity;

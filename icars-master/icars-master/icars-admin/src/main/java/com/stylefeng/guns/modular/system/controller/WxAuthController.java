@@ -77,6 +77,10 @@ public class WxAuthController extends BaseController {
     @RequestMapping(value = "/api/v1/wx/getSession", method = RequestMethod.GET, produces = "application/json")
     public Map<String, Object> createWxSession(@RequestParam(required = true, value = "code") String wxCode,
                                                 @RequestParam(required = false, value = "source") String source) {
+        // 未传 source 时默认为 SSP（拍事故小程序），兼容老版本客户端
+        if (StringUtils.isEmpty(source)) {
+            source = "SSP";
+        }
         log.info("/api/v1/wx/getSession source={}", source);
         long createSeconds = System.currentTimeMillis() / 1000;
         Map<String, Object> wxSessionMap = wxService.createWxSession(wxCode, source);
@@ -141,7 +145,7 @@ public class WxAuthController extends BaseController {
         if (wxSession == null) {
             return rtnParam(530, "登录已过期");
         }
-        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
+        BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), wxSession.getSource());
         if (bizWxUser == null) {
             return rtnParam(500, "用户不存在");
         }
@@ -193,7 +197,7 @@ public class WxAuthController extends BaseController {
             String url = (headimgHost == null ? "" : headimgHost) + fileName;
 
             // 自动更新用户头像
-            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
+            BizWxUser bizWxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), wxSession.getSource());
             if (bizWxUser != null) {
                 bizWxUser.setHeadImg(url);
                 bizWxUserService.updateById(bizWxUser);
@@ -281,8 +285,8 @@ public class WxAuthController extends BaseController {
             }
             String openId = wxSession.getOpenId();
 
-            // 2. 获取小程序 access_token
-            String accessToken = wxService.getXcxAccessToken();
+            // 2. 获取小程序 access_token（按 source 路由到对应小程序）
+            String accessToken = wxService.getXcxAccessTokenBySource(wxSession.getSource());
             if (StringUtils.isEmpty(accessToken)) {
                 log.error("bindPhone 获取 access_token 失败, openId={}", openId);
                 return rtnParam(500, "系统错误，请重试");
