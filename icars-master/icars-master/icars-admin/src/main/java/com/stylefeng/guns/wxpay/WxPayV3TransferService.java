@@ -30,26 +30,39 @@ public class WxPayV3TransferService {
 
     @PostConstruct
     public void init() {
+        System.out.println("========== WxPayV3TransferService.init() 开始 ==========");
         String apiV3Key = v3Properties.getApiV3Key();
+        System.out.println("apiV3Key: " + (apiV3Key != null ? apiV3Key.length() + "位" : "null"));
+
         if (apiV3Key == null || apiV3Key.contains("待填") || apiV3Key.length() != 32) {
+            System.out.println("V3商家转账配置不完整，跳过初始化");
             log.error("V3商家转账配置不完整(apiV3Key未配置或长度不对, len={}), 跳过初始化", apiV3Key == null ? "null" : String.valueOf(apiV3Key.length()));
             return;
         }
+
         try {
+            System.out.println("开始构建RSAPublicKeyConfig...");
             Config config = new RSAPublicKeyConfig.Builder()
                     .merchantId(v3Properties.getMchId())
                     .privateKeyFromPath(v3Properties.getPrivateKeyPath())
                     .publicKeyFromPath(v3Properties.getPublicKeyPath())
                     .publicKeyId(v3Properties.getPublicKeyId())
                     .merchantSerialNumber(v3Properties.getCertSerialNo())
-                    .apiV3Key(apiV3Key)
                     .build();
+            System.out.println("RSAPublicKeyConfig构建成功");
+
+            System.out.println("开始构建httpClient...");
             httpClient = new DefaultHttpClientBuilder()
                     .credential(config.createCredential())
                     .validator(config.createValidator())
                     .build();
+            System.out.println("httpClient构建成功");
+
             log.error("V3新版商家转账初始化成功, mchId={}", v3Properties.getMchId());
+            System.out.println("========== WxPayV3TransferService.init() 成功 ==========");
         } catch (Throwable t) {
+            System.out.println("初始化失败: " + t.getClass().getName() + ": " + t.getMessage());
+            t.printStackTrace();
             log.error("V3商家转账初始化失败", t);
         }
     }
@@ -189,12 +202,15 @@ public class WxPayV3TransferService {
      * @return 日终余额（分），失败返回 -1
      */
     public long downloadFundFlowBill(String billDate) {
+        System.out.println("========== downloadFundFlowBill 开始 billDate=" + billDate + " ==========");
         if (httpClient == null) {
+            System.out.println("httpClient为null，无法下载资金账单");
             log.error("V3商家转账未初始化，无法下载资金账单");
             return -1;
         }
         try {
-            String url = "https://api.mch.weixin.qq.com/v3/bill/fundflowbill?bill_date=" + billDate + "&bill_type=BASIC&account_type=BASIC";
+            String url = "https://api.mch.weixin.qq.com/v3/bill/fundflowbill?bill_date=" + billDate + "&account_type=OPERATION";
+            System.out.println("请求URL: " + url);
 
             HttpHeaders headers = new HttpHeaders();
             headers.addHeader("Accept", "application/json");
@@ -205,8 +221,20 @@ public class WxPayV3TransferService {
                 .headers(headers)
                 .build();
 
-            log.info("下载资金账单请求 billDate={}", billDate);
-            HttpResponse<JsonResponseBody> response = httpClient.execute(request, JsonResponseBody.class);
+            System.out.println("开始执行HTTP请求...");
+            log.info("下载资金账单请求 billDate={} url={}", billDate, url);
+            HttpResponse<JsonResponseBody> response = null;
+            try {
+                response = httpClient.execute(request, JsonResponseBody.class);
+                log.info("HTTP请求执行成功 billDate={}", billDate);
+            } catch (com.wechat.pay.java.core.exception.ServiceException se) {
+                log.error("HTTP请求失败(ServiceException) billDate={} httpStatusCode={} errorCode={} errorMessage={} responseBody={}",
+                    billDate, se.getHttpStatusCode(), se.getErrorCode(), se.getErrorMessage(), se.getResponseBody(), se);
+                throw se;
+            } catch (Exception ex) {
+                log.error("HTTP请求执行失败 billDate={} type={} message={}", billDate, ex.getClass().getName(), ex.getMessage(), ex);
+                throw ex;
+            }
 
             String bodyStr = "";
             com.wechat.pay.java.core.http.ResponseBody rawBody = response.getBody();
@@ -278,10 +306,12 @@ public class WxPayV3TransferService {
             log.info("资金账单解析成功 billDate={} balance={} 分", billDate, balanceFen);
             return balanceFen;
         } catch (com.wechat.pay.java.core.exception.ServiceException se) {
-            log.error("下载资金账单失败 billDate={} error={}", billDate, se.getMessage());
+            log.error("下载资金账单失败 ServiceException billDate={} httpStatusCode={} errorCode={} errorMessage={}",
+                billDate, se.getHttpStatusCode(), se.getErrorCode(), se.getErrorMessage(), se);
             return -1;
         } catch (Exception e) {
-            log.error("下载资金账单失败 billDate={}", billDate, e);
+            log.error("下载资金账单失败 Exception billDate={} type={} message={}",
+                billDate, e.getClass().getName(), e.getMessage(), e);
             return -1;
         }
     }

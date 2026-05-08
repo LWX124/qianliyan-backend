@@ -164,6 +164,7 @@ public class ShiroConfig {
         hashMap.put("/kaptcha", "anon");
         hashMap.put("/api/**", "anon");
         hashMap.put("/file/**", "anon");
+        hashMap.put("/test/**", "anon");
         hashMap.put("/**", "user");
         shiroFilter.setFilterChainDefinitionMap(hashMap);
         return shiroFilter;

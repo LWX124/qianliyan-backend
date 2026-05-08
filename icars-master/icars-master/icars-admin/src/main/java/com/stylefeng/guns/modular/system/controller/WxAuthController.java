@@ -76,20 +76,29 @@ public class WxAuthController extends BaseController {
     @ApiImplicitParam(name = "code", value = "用户登录回调内容会带上 ", required = true, dataType = "String")
     @RequestMapping(value = "/api/v1/wx/getSession", method = RequestMethod.GET, produces = "application/json")
     public Map<String, Object> createWxSession(@RequestParam(required = true, value = "code") String wxCode,
-                                                @RequestParam(required = false, value = "source") String source) {
-        // 未传 source 时默认为 SSP（拍事故小程序），兼容老版本客户端
+                                                @RequestParam(required = false, value = "source") String source,
+                                                @RequestHeader(required = false, value = "X-Source") String headerSource) {
+        log.error("========== /api/v1/wx/getSession 方法被调用 ==========");
+        log.error("参数: code={}, source={}, headerSource={}", wxCode, source, headerSource);
+        // 优先使用 URL 参数的 source，其次使用 Header 的 X-Source，最后默认为 SSP
+        if (StringUtils.isEmpty(source)) {
+            source = headerSource;
+        }
         if (StringUtils.isEmpty(source)) {
             source = "SSP";
         }
-        log.info("/api/v1/wx/getSession source={}", source);
+        log.error("/api/v1/wx/getSession 最终source={}", source);
         long createSeconds = System.currentTimeMillis() / 1000;
         Map<String, Object> wxSessionMap = wxService.createWxSession(wxCode, source);
 
         if (null == wxSessionMap) {
+            log.error("/api/v1/wx/getSession wxSessionMap is null, source={}", source);
             return rtnParam(50010, null);
         }
         //获取异常
         if (wxSessionMap.containsKey("errcode")) {
+            log.error("/api/v1/wx/getSession 微信API返回错误, source={}, errcode={}, errmsg={}",
+                source, wxSessionMap.get("errcode"), wxSessionMap.get("errmsg"));
             return rtnParam(50020, null);
         }
         String wxOpenId = (String) wxSessionMap.get("openid");
