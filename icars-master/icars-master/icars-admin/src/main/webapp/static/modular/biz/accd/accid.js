@@ -572,34 +572,43 @@ $(function () {
     var sourceNameMap = {SSP: '一起拍事故', TTP: '天天拍'};
     function getSourceLabel(code) { return sourceNameMap[code] || code; }
 
-    function renderSourceTabs() {
+    var cachedSources = null;
+
+    function buildTabHtml(data) {
+        var total = 0;
+        for (var i = 0; i < data.length; i++) total += parseInt(data[i].count);
+        var html = '<div class="src-tab' + (!MgrAccd.currentSource ? ' active' : '') + '" data-source="" style="padding:9px 18px;cursor:pointer;border-radius:4px 4px 0 0;font-size:13px;margin-bottom:-2px;'
+            + (!MgrAccd.currentSource ? 'border:2px solid #1ab394;border-bottom:2px solid white;background:white;font-weight:bold;color:#1ab394;' : 'border:2px solid transparent;border-bottom:2px solid #e8e8e8;background:#f5f5f5;color:#666;')
+            + '">全部 <span style="background:' + (!MgrAccd.currentSource ? '#1ab394;color:white' : '#e0e0e0;color:#666') + ';border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;">' + total + '</span></div>';
+        for (var i = 0; i < data.length; i++) {
+            var s = data[i].source, c = data[i].count;
+            var isActive = MgrAccd.currentSource === s;
+            html += '<div class="src-tab' + (isActive ? ' active' : '') + '" data-source="' + s + '" style="padding:9px 18px;cursor:pointer;border-radius:4px 4px 0 0;font-size:13px;margin-bottom:-2px;'
+                + (isActive ? 'border:2px solid #1ab394;border-bottom:2px solid white;background:white;font-weight:bold;color:#1ab394;' : 'border:2px solid transparent;border-bottom:2px solid #e8e8e8;background:#f5f5f5;color:#666;')
+                + '">' + getSourceLabel(s) + ' <span style="background:' + (isActive ? '#1ab394;color:white' : '#e0e0e0;color:#666') + ';border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;">' + c + '</span></div>';
+        }
+        return html;
+    }
+
+    function renderSourceTabs(skipFetch) {
+        if (skipFetch && cachedSources) {
+            $('#sourceTabs').html(buildTabHtml(cachedSources));
+            return;
+        }
         $.get(Feng.ctxPath + "/accid/sources", function (data) {
-            var $tabs = $('#sourceTabs');
-            var total = 0;
-            for (var i = 0; i < data.length; i++) total += parseInt(data[i].count);
-
-            var html = '<div class="src-tab' + (!MgrAccd.currentSource ? ' active' : '') + '" data-source="" style="padding:9px 18px;cursor:pointer;border-radius:4px 4px 0 0;font-size:13px;margin-bottom:-2px;'
-                + (!MgrAccd.currentSource ? 'border:2px solid #1ab394;border-bottom:2px solid white;background:white;font-weight:bold;color:#1ab394;' : 'border:2px solid transparent;border-bottom:2px solid #e8e8e8;background:#f5f5f5;color:#666;')
-                + '">全部 <span style="background:' + (!MgrAccd.currentSource ? '#1ab394;color:white' : '#e0e0e0;color:#666') + ';border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;">' + total + '</span></div>';
-
-            for (var i = 0; i < data.length; i++) {
-                var s = data[i].source;
-                var c = data[i].count;
-                var isActive = MgrAccd.currentSource === s;
-                html += '<div class="src-tab' + (isActive ? ' active' : '') + '" data-source="' + s + '" style="padding:9px 18px;cursor:pointer;border-radius:4px 4px 0 0;font-size:13px;margin-bottom:-2px;'
-                    + (isActive ? 'border:2px solid #1ab394;border-bottom:2px solid white;background:white;font-weight:bold;color:#1ab394;' : 'border:2px solid transparent;border-bottom:2px solid #e8e8e8;background:#f5f5f5;color:#666;')
-                    + '">' + getSourceLabel(s) + ' <span style="background:' + (isActive ? '#1ab394;color:white' : '#e0e0e0;color:#666') + ';border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;">' + c + '</span></div>';
-            }
-            $tabs.html(html);
-
-            $tabs.off('click', '.src-tab').on('click', '.src-tab', function () {
-                var source = $(this).data('source');
-                MgrAccd.currentSource = source || null;
-                renderSourceTabs();
-                MgrAccd.search();
-            });
+            cachedSources = data;
+            $('#sourceTabs').html(buildTabHtml(data));
         });
     }
+
+    $('#sourceTabs').on('click', '.src-tab', function () {
+        var source = $(this).data('source');
+        MgrAccd.currentSource = source || null;
+        renderSourceTabs(true);
+        MgrAccd.table.btInstance.bootstrapTable('selectPage', 1);
+        MgrAccd.search();
+    });
+
     renderSourceTabs();
 
 });
