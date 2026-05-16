@@ -92,6 +92,7 @@
 							<#button name="重新发送奖励" icon="fa-repeat" clickFun="MgrAccd.retryTransfer()" space="true"/>
 							@}
 						</div>
+						<div id="sourceTabs" style="padding:8px 0 0;border-bottom:2px solid #e8e8e8;display:flex;align-items:flex-end;gap:0;margin-bottom:0;"></div>
 						<#table id="managerAccdTable" />
 					</div>
 				</div>
@@ -107,8 +108,8 @@
 	</video>
 </div>
 
-<div id="imgDiv" style="display: none">
-	<img id="imgTag" src=""  alt=""  />
+<div id="imgDiv" style="display: none; overflow-y: auto; height: 100%; padding: 10px;">
+	<img id="imgTag" src=""  alt="" style="max-width: 100%; max-height: 100%; display: block; margin: auto;" />
 </div>
 
 <style>
@@ -123,7 +124,7 @@
     #managerAccdTable tr.new-record { background-color: #fff3cd !important; }
     #managerAccdTable tr.new-record td:first-child { border-left: 4px solid #ff9800; }
 </style>
-<script src="${ctxPath}/static/modular/biz/accd/accid.js?v=20260507"></script>
+<script src="${ctxPath}/static/modular/biz/accd/accid.js?v=20260517"></script>
 <script>
     laydate.render({
         elem: '#createStartTime',

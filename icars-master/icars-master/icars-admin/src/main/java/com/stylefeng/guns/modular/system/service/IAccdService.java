@@ -55,6 +55,18 @@ public interface IAccdService extends IService<Accident> {
                                              @Param("checkStatus") Integer checkStatus, @Param("pushStatus") Integer pushStatus, @Param("orderByField") String orderByField, @Param("isAsc") boolean isAsc, @Param("name") String name);
 
     /**
+     * 根据条件查询事故列表  分页（带来源过滤）
+     */
+    List<Map<String, Object>> selectAccident(@Param("page") Page<Accident> page, @Param("dataScope") DataScope dataScope, @Param("openid") String openid, @Param("createStartTime") String createStartTime,
+                                             @Param("createEndTime") String createEndTime, @Param("checkStartTime") String checkStartTime, @Param("checkStartTime") String checkEndTime,
+                                             @Param("checkStatus") Integer checkStatus, @Param("pushStatus") Integer pushStatus, @Param("orderByField") String orderByField, @Param("isAsc") boolean isAsc, @Param("name") String name, @Param("source") String source);
+
+    /**
+     * 查询所有来源及数量
+     */
+    List<Map<String, Object>> selectAccidentSources();
+
+    /**
      * 根据条件查询事故列表  分页 api
      */
     List<Map<String, Object>> selectAccidentForApi(@Param("page") Page<Accident> page, @Param("dataScope") DataScope dataScope, @Param("openid") String openid, @Param("createStartTime") String createStartTime, @Param("createEndTime") String createEndTime, @Param("checkStartTime") String checkStartTime, @Param("checkStartTime") String checkEndTime, @Param("orderByField") String orderByField, @Param("isAsc") boolean isAsc);

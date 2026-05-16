@@ -36,6 +36,7 @@
             </li>
 
             @for(title in titles){
+            @if(title.name == '系统管理'){
             @if(tool.isEmpty(title.children)){
             <li>
                 <a class="J_menuItem" href="${ctxPath}${title.url}" name="tabMenuItem">
@@ -52,6 +53,7 @@
                 </a>
                 <ul class="nav nav-second-level">
                     @for(subTitle in title.children){
+                    @if(subTitle.name == '事故上报'){
                     @if(tool.isEmpty(subTitle.children)){
                     <li>
                         <a class="J_menuItem" href="${ctxPath}${subTitle.url}" name="tabMenuItem">${subTitle.name}</a>
@@ -69,8 +71,10 @@
                     </li>
                     @}
                     @}
+                    @}
                 </ul>
             </li>
+            @}
             @}
             @}
 

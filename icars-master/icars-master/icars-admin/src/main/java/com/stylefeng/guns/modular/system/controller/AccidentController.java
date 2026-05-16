@@ -142,11 +142,20 @@ public class AccidentController extends BaseController {
     @Permission
     @ResponseBody
     public Object list(@RequestParam(required = false) String openid, @RequestParam(required = false) String createStartTime, @RequestParam(required = false) String createEndTime, @RequestParam(required = false) String checkStartTime,
-                       @RequestParam(required = false) String checkEndTime, @RequestParam(required = false) Integer checkStatus, @RequestParam(required = false) Integer pushStatus, @RequestParam(required = false) String name) {
+                       @RequestParam(required = false) String checkEndTime, @RequestParam(required = false) Integer checkStatus, @RequestParam(required = false) Integer pushStatus, @RequestParam(required = false) String name, @RequestParam(required = false) String source) {
         Page<Accident> page = new PageFactory<Accident>().defaultPage();
-        List<Map<String, Object>> accds = accdService.selectAccident(page, null, openid, createStartTime, createEndTime, checkStartTime, checkEndTime, checkStatus, pushStatus, page.getOrderByField(), page.isAsc(), name);
+        List<Map<String, Object>> accds = accdService.selectAccident(page, null, openid, createStartTime, createEndTime, checkStartTime, checkEndTime, checkStatus, pushStatus, page.getOrderByField(), page.isAsc(), name, source);
         page.setRecords((List<Accident>) new AccdWarpper(accds).warp());
         return super.packForBT(page);
+    }
+
+    /**
+     * 查询事故来源列表（Tab用）
+     */
+    @RequestMapping("/sources")
+    @ResponseBody
+    public Object sources() {
+        return accdService.selectAccidentSources();
     }
 
     /**

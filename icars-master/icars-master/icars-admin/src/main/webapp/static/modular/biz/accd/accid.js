@@ -6,6 +6,7 @@ var MgrAccd = {
     seItem: null,		//选中的条目
     table: null,
     layerIndex: -1,
+    currentSource: null, // 当前选中的来源Tab，null表示全部
 };
 
 /**
@@ -271,6 +272,9 @@ MgrAccd.search = function () {
 
     queryData['checkStatus'] = $("#checkStatus").val();
     queryData['pushStatus'] = $("#pushStatus").val();
+    if (MgrAccd.currentSource) {
+        queryData['source'] = MgrAccd.currentSource;
+    }
     MgrAccd.table.refresh({query: queryData});
 
     MgrAccd.queryRedPackSum(queryData);
@@ -303,6 +307,9 @@ MgrAccd.formParams = function() {
         queryData['checkStartTime'] = checkTimeRange.split('~')[0];
         queryData['checkEndTime'] = checkTimeRange.split('~')[1];
     }
+    if (MgrAccd.currentSource) {
+        queryData['source'] = MgrAccd.currentSource;
+    }
     return queryData;
 }
 
@@ -318,15 +325,32 @@ function showVideo(val){
 }
 
 function showImage(val){
-    $('#imgTag').attr("src",val);
-    layer.open({
-        type: 1,
-        title: false,
-        shadeClose: true,
-        area: ['1120px', '750px'],
-        offset: 'auto',
-        content: $('#imgDiv')
-    });
+    var urls = val.split(',');
+    if (urls.length === 1) {
+        $('#imgTag').attr("src", val);
+        layer.open({
+            type: 1,
+            title: false,
+            shadeClose: true,
+            area: ['1120px', '750px'],
+            offset: 'auto',
+            content: $('#imgDiv')
+        });
+    } else {
+        var html = '<div style="padding:10px;overflow-y:auto;height:100%;">';
+        for (var i = 0; i < urls.length; i++) {
+            html += '<img src="' + urls[i].trim() + '" style="max-width:100%;margin-bottom:10px;display:block;" />';
+        }
+        html += '</div>';
+        layer.open({
+            type: 1,
+            title: false,
+            shadeClose: true,
+            area: ['1120px', '750px'],
+            offset: 'auto',
+            content: html
+        });
+    }
 }
 
 
@@ -543,6 +567,40 @@ $(function () {
     $("button[name='refresh']").click(function(){
         MgrAccd.search()
     })
+
+    // ===== 来源 Tab 页签 =====
+    var sourceNameMap = {SSP: '一起拍事故', TTP: '天天拍'};
+    function getSourceLabel(code) { return sourceNameMap[code] || code; }
+
+    function renderSourceTabs() {
+        $.get(Feng.ctxPath + "/accid/sources", function (data) {
+            var $tabs = $('#sourceTabs');
+            var total = 0;
+            for (var i = 0; i < data.length; i++) total += parseInt(data[i].count);
+
+            var html = '<div class="src-tab' + (!MgrAccd.currentSource ? ' active' : '') + '" data-source="" style="padding:9px 18px;cursor:pointer;border-radius:4px 4px 0 0;font-size:13px;margin-bottom:-2px;'
+                + (!MgrAccd.currentSource ? 'border:2px solid #1ab394;border-bottom:2px solid white;background:white;font-weight:bold;color:#1ab394;' : 'border:2px solid transparent;border-bottom:2px solid #e8e8e8;background:#f5f5f5;color:#666;')
+                + '">全部 <span style="background:' + (!MgrAccd.currentSource ? '#1ab394;color:white' : '#e0e0e0;color:#666') + ';border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;">' + total + '</span></div>';
+
+            for (var i = 0; i < data.length; i++) {
+                var s = data[i].source;
+                var c = data[i].count;
+                var isActive = MgrAccd.currentSource === s;
+                html += '<div class="src-tab' + (isActive ? ' active' : '') + '" data-source="' + s + '" style="padding:9px 18px;cursor:pointer;border-radius:4px 4px 0 0;font-size:13px;margin-bottom:-2px;'
+                    + (isActive ? 'border:2px solid #1ab394;border-bottom:2px solid white;background:white;font-weight:bold;color:#1ab394;' : 'border:2px solid transparent;border-bottom:2px solid #e8e8e8;background:#f5f5f5;color:#666;')
+                    + '">' + getSourceLabel(s) + ' <span style="background:' + (isActive ? '#1ab394;color:white' : '#e0e0e0;color:#666') + ';border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;">' + c + '</span></div>';
+            }
+            $tabs.html(html);
+
+            $tabs.off('click', '.src-tab').on('click', '.src-tab', function () {
+                var source = $(this).data('source');
+                MgrAccd.currentSource = source || null;
+                renderSourceTabs();
+                MgrAccd.search();
+            });
+        });
+    }
+    renderSourceTabs();
 
 });
 

@@ -103,6 +103,17 @@ public class AccdServiceImpl extends ServiceImpl<AccdMapper, Accident> implement
     }
 
     @Override
+    public List<Map<String, Object>> selectAccident(Page<Accident> page, DataScope dataScope, String openid, String createStartTime, String createEndTime, String checkStartTime,
+                                                    String checkEndTime, Integer checkStatus, Integer pushStatus, String orderByField, boolean isAsc, String name, String source) {
+        return this.baseMapper.selectAccident(page, dataScope, openid, createStartTime, createEndTime, checkStartTime, checkEndTime, checkStatus, pushStatus, orderByField, isAsc, name, source);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectAccidentSources() {
+        return this.baseMapper.selectAccidentSources();
+    }
+
+    @Override
     public List<Map<String, Object>> selectAccidentForApi(Page<Accident> page, DataScope dataScope, String openid, String createStartTime, String createEndTime, String checkStartTime, String checkEndTime, String orderByField, boolean isAsc) {
         return this.baseMapper.selectAccidentForApi(page, dataScope, openid, createStartTime, createEndTime, checkStartTime, checkEndTime, orderByField, isAsc);
     }

@@ -85,8 +85,25 @@
             <if test="pushStatus == 1">
                 and b.accid is not null
             </if>
+            <if test="source != null and source != ''">
+                <choose>
+                    <when test="source == 'SSP'">
+                        and (a.source = 'SSP' or a.source is null or a.source = '')
+                    </when>
+                    <otherwise>
+                        and a.source = #{source}
+                    </otherwise>
+                </choose>
+            </if>
         </where>
         ORDER BY a.status ,a.createTime desc
+    </select>
+
+    <select id="selectAccidentSources" resultType="map">
+        select IFNULL(NULLIF(a.source,''),'SSP') as source, count(*) as count
+        from biz_accident a
+        group by IFNULL(NULLIF(a.source,''),'SSP')
+        order by count desc
     </select>
 
     <select id="countAccidentRedPack" resultType="java.math.BigDecimal">
