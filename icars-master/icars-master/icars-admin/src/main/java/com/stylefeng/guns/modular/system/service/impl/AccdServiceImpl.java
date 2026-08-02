@@ -159,10 +159,13 @@ public class AccdServiceImpl extends ServiceImpl<AccdMapper, Accident> implement
 //        FileCopyUtils.copy(file.getBytes(), newfile);
 //        videoUrl = videoHost.concat(fileName);
         String gdAddress = null;
-        try {
-            gdAddress = GaoDeUtils.getGDAddress(accidentVo.getLat().toString(), accidentVo.getLng().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        // 无定位（小程序定位失败时 lng/lat 为空）时跳过逆地址解析，否则会 NPE
+        if (accidentVo.getLat() != null && accidentVo.getLng() != null) {
+            try {
+                gdAddress = GaoDeUtils.getGDAddress(accidentVo.getLat().toString(), accidentVo.getLng().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         accidentVo.setOpenid(wxSession.getOpenId());
         accidentVo.setStatus(1);

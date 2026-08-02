@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -127,6 +128,18 @@ public class WxRestController extends BaseController {
     @Autowired
     private IBizYckCzmxService bizYckCzmxService;
 
+    /**
+     * 上报前是否校验手机号已授权。
+     *
+     * 应急开关：小程序端曾因缓存 key 不一致（index.js 写 phoneBound，
+     * 上传页读 phoneBound_{source}）导致已授权用户被反复要求授权，
+     * 而微信对同一用户短时间重复调用 getPhoneNumber 会失败，进而阻塞上传。
+     * 小程序修复发版有周期，故提供此开关先放开校验恢复上传。
+     * 小程序修复上线后应改回 true。
+     */
+    @Value("${biz.phone-check.enabled:true}")
+    private boolean phoneCheckEnabled;
+
     @Autowired
     private IBizWxPayRecordService bizWxPayRecordService;
 
@@ -178,15 +191,18 @@ public class WxRestController extends BaseController {
             apiResponseEntity.setErrorMsg("微信session无效或为空");
             return apiResponseEntity;
         }
-        // 检查用户是否已授权手机号
+        // 检查用户是否已授权手机号（可通过 biz.phone-check.enabled=false 应急放开）
         BizWxUser wxUser = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
-        if (wxUser == null || StringUtils.isEmpty(wxUser.getPhone())) {
+        if (phoneCheckEnabled && (wxUser == null || StringUtils.isEmpty(wxUser.getPhone()))) {
             apiResponseEntity.setErrorCode(5003);
             apiResponseEntity.setErrorMsg("请先授权手机号后再上报");
             return apiResponseEntity;
         }
-        // 检查用户是否在黑名单中
-        if (wxUser.getBlackList() != null && wxUser.getBlackList() == 1) {
+        if (!phoneCheckEnabled && (wxUser == null || StringUtils.isEmpty(wxUser.getPhone()))) {
+            log.warn("手机号校验已关闭，未授权手机号用户上报: openId={}", wxSession.getOpenId());
+        }
+        // 检查用户是否在黑名单中（wxUser 可能为 null，需判空）
+        if (wxUser != null && wxUser.getBlackList() != null && wxUser.getBlackList() == 1) {
             apiResponseEntity.setErrorCode(5004);
             apiResponseEntity.setErrorMsg("您的账号已被限制上报");
             return apiResponseEntity;
@@ -220,6 +236,13 @@ public class WxRestController extends BaseController {
 
         List<PushRecord> records = new ArrayList<>();
         List<String> accounts = new ArrayList<>();
+        // 无定位时无法就近派单，上报已落库，直接返回成功，避免 NPE
+        if (accidentVo.getLat() == null || accidentVo.getLng() == null) {
+            log.warn("上报无定位信息，跳过就近派单: accId={}", accidentVo.getId());
+            apiResponseEntity.setErrorCode(0);
+            apiResponseEntity.setErrorMsg("成功");
+            return apiResponseEntity;
+        }
         User closestUser = appService.getClosestUser(accidentVo.getLat().doubleValue(), accidentVo.getLng().doubleValue());
         if (closestUser == null || closestUser.getDeptid() == null || closestUser.getDeptid() == 0) {
             apiResponseEntity.setErrorCode(1004);
@@ -380,15 +403,18 @@ public class WxRestController extends BaseController {
             apiResponseEntity.setErrorMsg("微信session无效或为空");
             return apiResponseEntity;
         }
-        // 检查用户是否已授权手机号
+        // 检查用户是否已授权手机号（可通过 biz.phone-check.enabled=false 应急放开）
         BizWxUser wxUserCheck = bizWxUserService.selectBizWxUser(wxSession.getOpenId(), null);
-        if (wxUserCheck == null || StringUtils.isEmpty(wxUserCheck.getPhone())) {
+        if (phoneCheckEnabled && (wxUserCheck == null || StringUtils.isEmpty(wxUserCheck.getPhone()))) {
             apiResponseEntity.setErrorCode(5003);
             apiResponseEntity.setErrorMsg("请先授权手机号后再上报");
             return apiResponseEntity;
         }
-        // 检查用户是否在黑名单中
-        if (wxUserCheck.getBlackList() != null && wxUserCheck.getBlackList() == 1) {
+        if (!phoneCheckEnabled && (wxUserCheck == null || StringUtils.isEmpty(wxUserCheck.getPhone()))) {
+            log.warn("手机号校验已关闭，未授权手机号用户上报: openId={}", wxSession.getOpenId());
+        }
+        // 检查用户是否在黑名单中（wxUserCheck 可能为 null，需判空）
+        if (wxUserCheck != null && wxUserCheck.getBlackList() != null && wxUserCheck.getBlackList() == 1) {
             apiResponseEntity.setErrorCode(5004);
             apiResponseEntity.setErrorMsg("您的账号已被限制上报");
             return apiResponseEntity;
@@ -423,6 +449,14 @@ public class WxRestController extends BaseController {
         accdService.addRedis();
         List<PushRecord> records = new ArrayList<>();
         List<String> accounts = new ArrayList<>();
+        // 无定位（小程序定位失败时 lng/lat 为空）时无法就近派单，
+        // 上报已落库，直接返回成功，避免 NPE 导致整个上报失败。
+        if (accidentVo.getLat() == null || accidentVo.getLng() == null) {
+            log.warn("上报无定位信息，跳过就近派单: accId={}", accidentVo.getId());
+            apiResponseEntity.setErrorCode(0);
+            apiResponseEntity.setErrorMsg("成功");
+            return apiResponseEntity;
+        }
         User closestUser = appService.getClosestUser(accidentVo.getLat().doubleValue(), accidentVo.getLng().doubleValue());
         if (closestUser == null || closestUser.getDeptid() == null || closestUser.getDeptid() == 0) {
             apiResponseEntity.setErrorCode(0);

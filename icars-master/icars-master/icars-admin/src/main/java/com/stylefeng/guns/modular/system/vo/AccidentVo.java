@@ -101,6 +101,36 @@ public class AccidentVo implements Serializable {
         this.lat = lat;
     }
 
+    /**
+     * 兼容小程序在定位失败时传空串的情况。
+     *
+     * 小程序 data 中 longitude/latitude 初始值为 ''，定位失败也会重置为 ''，
+     * 上报时会以 {"lng":"","lat":""} 提交。BigDecimal 无法反序列化空串，
+     * Jackson 会抛 HttpMessageNotReadableException，请求在进入方法体前就失败，
+     * 小程序侧表现为「网络异常」。这里把空串按 null 处理，使无定位也能上报。
+     *
+     * 注：Jackson 会优先选用 String 参数的 setter 来处理 JSON 字符串值，
+     * 数字值仍走上面的 BigDecimal setter。
+     */
+    public void setLng(String lng) {
+        this.lng = parseDecimal(lng);
+    }
+
+    public void setLat(String lat) {
+        this.lat = parseDecimal(lat);
+    }
+
+    private static BigDecimal parseDecimal(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            return new BigDecimal(value.trim());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
